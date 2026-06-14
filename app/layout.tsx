@@ -100,17 +100,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} min-h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CLIENT_ENV.ADSENSE_PUBLISHER_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="font-sans bg-slate-50 text-slate-900 selection:bg-blue-500 selection:text-white">
-        <Providers>
-          {children}
-
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CLIENT_ENV.ADSENSE_PUBLISHER_ID}`}
-            crossOrigin="anonymous"
-            strategy="beforeInteractive"
-          />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
