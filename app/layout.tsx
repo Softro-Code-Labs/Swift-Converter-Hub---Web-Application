@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   },
   description:
     'Securely convert and compress images, graphics, and office documents instantly right inside your browser. No cloud uploads. 100% private client-side processing.',
+  other: {
+    'google-adsense-account': CLIENT_ENV.ADSENSE_PUBLISHER_ID || '',
+  },
   keywords: [
     'file converter',
     'image converter',
@@ -105,7 +108,7 @@ export default function RootLayout({
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CLIENT_ENV.ADSENSE_PUBLISHER_ID}`}
             crossOrigin="anonymous"
-            strategy="afterInteractive"
+            strategy="beforeInteractive"
           />
         </Providers>
       </body>
