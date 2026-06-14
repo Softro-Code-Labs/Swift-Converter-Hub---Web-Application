@@ -14,14 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      {/* CORE GLOBAL FIXED HEADER */}
-      <Navbar />
-
-      {/* DYNAMIC WORKSPACE CONTAINER VIEWPORT */}
       {children}
-
-      {/* PREMIUM TRUST-FOCUSED FOOTER */}
-      <Footer />
       <Toaster position="top-center" />
     </NextThemesProvider>
   );

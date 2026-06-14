@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Providers } from './providers';
 import Script from 'next/script';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import './globals.css';
-
 import { CLIENT_ENV } from '@/config/env.client';
 
 // 1. FONT CONFIGURATIONS
@@ -29,14 +30,15 @@ export const viewport: Viewport = {
 
 // 3. SEO METADATA CONFIGURATION
 export const metadata: Metadata = {
+  metadataBase: new URL('https://swiftconverterhub.com'),
   title: {
     default: 'Swift Converter Hub | Free Online Local File Converters',
     template: '%s | Swift Converter Hub',
   },
   description:
-    'Securely convert and compress images, graphics, and office documents instantly right inside your browser. No cloud uploads. 100% private client-side processing.',
+    'Securely convert images, audio, video and documents instantly in your browser. No uploads. 100% private.',
   other: {
-    'google-adsense-account': CLIENT_ENV.ADSENSE_PUBLISHER_ID || '',
+    'google-adsense-account': CLIENT_ENV.ADSENSE_PUBLISHER_ID ?? '',
   },
   keywords: [
     'file converter',
@@ -44,6 +46,9 @@ export const metadata: Metadata = {
     'local file conversion',
     'secure file converter',
     'client side converter',
+    'free image converter',
+    'browser based converter',
+    'privacy file converter',
   ],
   authors: [{ name: 'SwiftConverterHub Team' }],
   creator: 'Swift Converter Hub',
@@ -63,9 +68,18 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Swift Converter Hub Platform Cover Banner',
+        alt: 'Swift Converter Hub',
       },
     ],
+  },
+
+  // TWITTER METADATA FOR RICH LINK PREVIEWS
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Swift Converter Hub | Free Online File Converters',
+    description:
+      'Convert images and files instantly in your browser. 100% private.',
+    images: ['/og-image.jpg'],
   },
 
   // FAVICON AND APPLE TOUCH ICON CONFIGURATION FOR BROWSER TABS AND MOBILE DEVICES
@@ -91,25 +105,36 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const adsenseId = CLIENT_ENV.ADSENSE_PUBLISHER_ID;
+  const hasAdsense =
+    typeof adsenseId === 'string' && adsenseId.startsWith('ca-pub-');
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} min-h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <Script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CLIENT_ENV.ADSENSE_PUBLISHER_ID}`}
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-      </head>
-      <body className="font-sans bg-slate-50 text-slate-900 selection:bg-blue-500 selection:text-white">
-        <Providers>{children}</Providers>
+      <body className="font-sans bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-500 selection:text-white">
+        <Providers>
+          <Navbar />
+          <div className="flex flex-col min-h-screen">{children}</div>
+          <Footer />
+        </Providers>
+
+        {/* Adsense Script */}
+        {hasAdsense && (
+          <Script
+            id="adsense-script"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );
