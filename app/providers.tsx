@@ -1,0 +1,28 @@
+'use client';
+
+import * as React from 'react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { Toaster } from 'react-hot-toast';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {/* CORE GLOBAL FIXED HEADER */}
+      <Navbar />
+
+      {/* DYNAMIC WORKSPACE CONTAINER VIEWPORT */}
+      {children}
+
+      {/* PREMIUM TRUST-FOCUSED FOOTER */}
+      <Footer />
+      <Toaster position="top-center" />
+    </NextThemesProvider>
+  );
+}
