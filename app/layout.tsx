@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Providers } from './providers';
+import { ADSENSE } from '@/lib/adsense';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Script from 'next/script';
 import './globals.css';
-import { CLIENT_ENV } from '@/config/env.client';
 
 // 1. FONT CONFIGURATIONS
 const geistSans = Geist({
@@ -27,7 +28,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-// 3. SEO METADATA CONFIGURATION
+// 3. SEO & METADATA CONFIGURATION
 export const metadata: Metadata = {
   metadataBase: new URL('https://swiftconverterhub.com'),
   title: {
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   description:
     'Securely convert images, audio, video and documents instantly in your browser. No uploads. 100% private.',
   other: {
-    'google-adsense-account': CLIENT_ENV.ADSENSE_PUBLISHER_ID ?? '',
+    'google-adsense-account': ADSENSE.PUBLISHER_ID,
   },
   keywords: [
     'file converter',
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
   creator: 'Swift Converter Hub',
   publisher: 'Swift Converter Hub',
 
-  // OPEN GRAPH METADATA FOR RICH LINK PREVIEWS ON SOCIAL MEDIA AND MESSAGING PLATFORMS
+  // Open Graph metadata for rich link previews across social and messaging platforms
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
     ],
   },
 
-  // TWITTER METADATA FOR RICH LINK PREVIEWS
+  // Twitter card definitions for optimized media card rendering profiles
   twitter: {
     card: 'summary_large_image',
     title: 'Swift Converter Hub | Free Online File Converters',
@@ -81,14 +82,14 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
 
-  // FAVICON AND APPLE TOUCH ICON CONFIGURATION FOR BROWSER TABS AND MOBILE DEVICES
+  // Asset configuration paths for app icons, tab shortcut graphics, and Apple touch variants
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
 
-  // TELLS SEARCH ENGINES TO INDEX ALL PAGES AND FOLLOW ALL LINKS, WITH SPECIAL INSTRUCTIONS FOR GOOGLE BOT TO ALLOW UNLIMITED PREVIEWS AND SNIPPETS
+  // Explicit robot routing controls instructing search engines to index views and evaluate paths
   robots: {
     index: true,
     follow: true,
@@ -102,15 +103,12 @@ export const metadata: Metadata = {
   },
 };
 
+// 4. CORE PLATFORM ROOT LAYOUT
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const adsenseId = CLIENT_ENV.ADSENSE_PUBLISHER_ID;
-  const hasAdsense =
-    typeof adsenseId === 'string' && adsenseId.startsWith('ca-pub-');
-
   return (
     <html
       lang="en"
@@ -124,14 +122,14 @@ export default function RootLayout({
           <Footer />
         </Providers>
 
-        {/* Adsense Script */}
-        {hasAdsense && (
-          <script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
-            crossOrigin="anonymous"
-          />
-        )}
+        {/* ── AD-DELIVERY ENGINE INJECTION ──────────────────────────────────────────────── */}
+        <Script
+          id="adsense-init"
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE.PUBLISHER_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

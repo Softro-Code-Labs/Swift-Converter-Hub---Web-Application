@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import toast from 'react-hot-toast';
 import { IMAGE_FORMATS, ImageFormat } from '../config/formats';
+import { SERVER_ENV } from '@/config/env.server';
 
 // ─── Complete ImageMagick WASM Format Map ─────────────────────────────────────
 
@@ -151,7 +152,7 @@ const RESIZE_ON_WRITE: Partial<Record<MagickFormat, { w: number; h: number }>> =
   };
 
 // ─── Development Checks ─────────────────────────────────────────────────────
-if (process.env.NODE_ENV === 'development') {
+if (SERVER_ENV.NODE_ENV === 'development') {
   IMAGE_FORMATS.forEach((f) => {
     if (!FORMAT_MAP[f.extension]) {
       console.warn(
