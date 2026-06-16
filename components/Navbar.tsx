@@ -17,6 +17,7 @@ import {
   Type,
   Info,
   ArrowRight,
+  Mail,
 } from 'lucide-react';
 
 const STUDIOS = [
@@ -199,6 +200,7 @@ export default function Navbar() {
               )}
             </div>
 
+            {/* About & Contact */}
             <Link
               href="/about"
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
@@ -210,6 +212,19 @@ export default function Navbar() {
             >
               <Info className="w-3.5 h-3.5" />
               About
+            </Link>
+
+            <Link
+              href="/contact"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
+                ${
+                  pathname === '/contact'
+                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                }`}
+            >
+              <Mail className="w-3.5 h-3.5" />
+              Contact
             </Link>
 
             <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1" />
@@ -276,7 +291,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* About */}
+            {/* About & Contact */}
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
               <Link
                 href="/about"
@@ -291,6 +306,21 @@ export default function Navbar() {
                   <Info className="w-4 h-4" />
                 </div>
                 <span className="text-xs font-bold">About</span>
+              </Link>
+
+              <Link
+                href="/contact"
+                className={`flex items-center gap-3 p-3 rounded-xl border transition-all
+                  ${
+                    pathname === '/contact'
+                      ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400'
+                      : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-600 dark:text-slate-400'
+                  }`}
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <span className="text-xs font-bold">Contact</span>
               </Link>
             </div>
           </div>
