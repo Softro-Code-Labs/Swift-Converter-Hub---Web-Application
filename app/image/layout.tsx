@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { ADSENSE } from '@/lib/adsense';
-import { SERVER_ENV } from '@/config/env.server';
 
 // ─── Ad slot components ───────────────────────────────────────────────────────
 
@@ -157,7 +156,7 @@ export default function ImageSectionLayout({
         // @ts-ignore
         unfilled.forEach(() => window.adsbygoogle.push({}));
       } catch (err) {
-        if (SERVER_ENV.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === 'development') {
           console.warn('[AdSense] Push failed:', err);
         }
       }
