@@ -4,6 +4,7 @@ export interface ImageFormat {
   mimeType: string;
   description: string;
   aliases?: string[];
+  sourceOnly?: boolean;
 }
 
 export interface ConversionRoute {
@@ -214,6 +215,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     mimeType: 'image/heic',
     description: 'High Efficiency Image Format',
     aliases: ['heic'],
+    sourceOnly: true,
   },
   {
     label: 'HEIF',
@@ -221,6 +223,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     mimeType: 'image/heif',
     description: 'High Efficiency Image Format',
     aliases: ['heif'],
+    sourceOnly: true,
   },
 
   // ── Bitmap ────────────────────────────────────────────────────────────────
@@ -990,7 +993,9 @@ export const getFormatByExtension = (ext: string): ImageFormat | undefined =>
   );
 
 export const getTargetFormats = (sourceExtension: string): ImageFormat[] =>
-  IMAGE_FORMATS.filter((f) => f.extension !== sourceExtension.toLowerCase());
+  IMAGE_FORMATS.filter(
+    (f) => f.extension !== sourceExtension.toLowerCase() && !f.sourceOnly,
+  );
 
 export const isAcceptedByFormat = (
   fileExt: string,

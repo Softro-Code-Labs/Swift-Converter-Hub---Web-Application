@@ -26,7 +26,7 @@ const STUDIOS = [
     href: '/image',
     icon: ImageIcon,
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
-    desc: 'Convert WebP, PNG, JPEG and 70+ formats.',
+    desc: 'Convert WebP, PNG, JPEG and 120+ formats.',
   },
   {
     name: 'Audio Studio',

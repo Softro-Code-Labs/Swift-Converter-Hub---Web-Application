@@ -18,7 +18,7 @@ const STUDIOS = [
     icon: ImageIcon,
     label: 'Image Studio',
     href: '/image',
-    desc: 'Convert, compress and edit WebP, PNG, JPEG, HEIC and 70+ formats.',
+    desc: 'Convert, compress and edit WebP, PNG, JPEG, HEIC and 120+ formats.',
     accent: 'blue',
     tools: ['Format Convert', 'Batch Convert', 'Crop & Resize', 'Compress'],
   },
@@ -127,7 +127,7 @@ const TRUST = [
 ];
 
 const STATS = [
-  { value: '70+', label: 'Image formats' },
+  { value: '120+', label: 'Image formats' },
   { value: '100%', label: 'Browser-side' },
   { value: '0', label: 'Server uploads' },
   { value: '6', label: 'Studio tools' },

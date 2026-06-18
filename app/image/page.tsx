@@ -22,6 +22,7 @@ import {
   Lock,
   Zap,
   Globe,
+  AlertTriangle,
 } from 'lucide-react';
 import { IMAGE_FORMATS } from '@/features/image/converter/config/formats';
 
@@ -33,7 +34,7 @@ const IMAGE_SERVICES = [
     href: '/image',
     icon: RefreshCw,
     label: 'Format Converter',
-    desc: 'Convert between 70+ image formats instantly.',
+    desc: 'Convert between 120+ image formats instantly.',
     badge: 'Live',
     live: true,
   },
@@ -510,6 +511,20 @@ export default function ImageHubPage() {
                 ? `Convert ${sourceFormat.toUpperCase()} → ${targetFormat.toUpperCase()}`
                 : 'Select both formats to continue'}
             </button>
+
+            {/* HEIC/HEIF warning */}
+            {targetFormat === 'heic' || targetFormat === 'heif' ? (
+              <div className="flex items-start mt-4 gap-2 px-3 py-2.5 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl text-xs text-amber-700 dark:text-amber-400">
+                <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                <span>
+                  HEIC/HEIF can be <strong>read and converted</strong> to any
+                  format. Saving <em>to</em> HEIC is not supported in browsers —
+                  use
+                  <strong> WebP</strong> or <strong>AVIF</strong> for the same
+                  file-size benefit.
+                </span>
+              </div>
+            ) : null}
           </div>
 
           {/* Format grid inside card */}

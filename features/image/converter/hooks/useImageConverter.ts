@@ -4,6 +4,12 @@ import {
   MagickColor,
   MagickFormat,
 } from '@imagemagick/magick-wasm';
+import {
+  isHeicSource,
+  decodeHeic,
+  toStandaloneBuffer,
+  detectActualFormat,
+} from './useHeicConverter';
 import { FileItem } from '@/features/image/converter/types/converter';
 import { formatBytes } from '../../utils/formatBytes';
 import { saveAs } from 'file-saver';
@@ -239,27 +245,85 @@ export const useImageConverter = (
     item: FileItem,
   ): Promise<{ url: string; size: string }> => {
     const arrayBuffer = await item.file.arrayBuffer();
-    const uint8Array = new Uint8Array(arrayBuffer);
-
+    const uint8Array = new Uint8Array(arrayBuffer.slice(0));
     const target = item.targetFormat ?? selectedTarget;
-    const magickFormat = getMagickFormat(target);
+    const targetExt = target.extension.toLowerCase();
+    const sourceExt = item.file.name.split('.').pop()?.toLowerCase() ?? '';
 
+    // ── Detect real format from magic bytes ───────────────────────────────────
+    const actualFormat = detectActualFormat(uint8Array);
+
+    // ── Case 1: Real HEIC/HEIF source → decode with heic2any ─────────────────
+    if (isHeicSource(sourceExt) && actualFormat === 'heic') {
+      if (['jpg', 'jpeg'].includes(targetExt)) {
+        const decoded = await decodeHeic(uint8Array, 'JPEG', 0.92);
+        const blob = new Blob([toStandaloneBuffer(decoded)], {
+          type: 'image/jpeg',
+        });
+        return { url: URL.createObjectURL(blob), size: formatBytes(blob.size) };
+      }
+
+      if (targetExt === 'png') {
+        const decoded = await decodeHeic(uint8Array, 'PNG', 1);
+        const blob = new Blob([toStandaloneBuffer(decoded)], {
+          type: 'image/png',
+        });
+        return { url: URL.createObjectURL(blob), size: formatBytes(blob.size) };
+      }
+
+      // Any other target: HEIC → PNG → ImageMagick
+      const decodedPng = await decodeHeic(uint8Array, 'PNG', 1);
+      const magickFormat = getMagickFormat(target);
+
+      return new Promise((resolve, reject) => {
+        try {
+          ImageMagick.read(decodedPng, (image) => {
+            const resizeTo = RESIZE_ON_WRITE[magickFormat];
+            if (resizeTo) image.resize(resizeTo.w, resizeTo.h);
+            if (magickFormat === MagickFormat.Pdf)
+              image.backgroundColor = new MagickColor(255, 255, 255, 255);
+
+            image.write(magickFormat, (outputBytes) => {
+              const blob = new Blob(
+                [toStandaloneBuffer(new Uint8Array(outputBytes))],
+                {
+                  type: target.mimeType,
+                },
+              );
+              resolve({
+                url: URL.createObjectURL(blob),
+                size: formatBytes(blob.size),
+              });
+            });
+          });
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    // ── Case 2: .heic extension but actually a different format ───────────────
+    // (e.g. someone renamed a WebP/PNG/JPEG to .heic)
+    // Let ImageMagick handle it — it reads by magic bytes, not extension
+    // Falls through to Case 3 below
+
+    // ── Case 3: standard ImageMagick conversion ───────────────────────────────
+    const magickFormat = getMagickFormat(target);
     return new Promise((resolve, reject) => {
       try {
         ImageMagick.read(uint8Array, (image) => {
-          // Hard resize for formats with dimension requirements
           const resizeTo = RESIZE_ON_WRITE[magickFormat];
           if (resizeTo) image.resize(resizeTo.w, resizeTo.h);
-
-          // PDF doesn't support transparency — fill with white
-          if (magickFormat === MagickFormat.Pdf) {
+          if (magickFormat === MagickFormat.Pdf)
             image.backgroundColor = new MagickColor(255, 255, 255, 255);
-          }
 
           image.write(magickFormat, (outputBytes) => {
-            const blob = new Blob([new Uint8Array(outputBytes)], {
-              type: target.mimeType,
-            });
+            const blob = new Blob(
+              [toStandaloneBuffer(new Uint8Array(outputBytes))],
+              {
+                type: target.mimeType,
+              },
+            );
             resolve({
               url: URL.createObjectURL(blob),
               size: formatBytes(blob.size),
@@ -332,10 +396,12 @@ export const useImageConverter = (
   const downloadSingle = (item: FileItem) => {
     if (!item.convertedUrl) return;
     const target = item.targetFormat ?? selectedTarget;
+    // Use actualExt if the conversion produced a different format (HEIC → WebP fallback)
+    const ext = (item as any).actualExt ?? target.extension;
     const name = item.file.name.substring(0, item.file.name.lastIndexOf('.'));
     const link = document.createElement('a');
     link.href = item.convertedUrl;
-    link.download = `${name}_converted.${target.extension}`;
+    link.download = `${name}_converted.${ext}`;
     link.click();
   };
 
