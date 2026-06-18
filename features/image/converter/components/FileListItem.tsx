@@ -6,7 +6,7 @@ import {
   Download,
   Trash2,
 } from 'lucide-react';
-import { FileItem } from '@/features/image/types/converter';
+import { FileItem } from '@/features/image/converter/types/converter';
 import { formatBytes } from '../../utils/formatBytes';
 
 interface FileListItemProps {

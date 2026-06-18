@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import {
   IMAGE_FORMATS,
   ALL_CONVERSION_PAIRS,
-} from '@/features/image/config/formats';
+} from '@/features/image/converter/config/formats';
 
 const BASE_URL = 'https://swiftconverterhub.com';
 

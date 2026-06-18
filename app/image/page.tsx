@@ -23,7 +23,7 @@ import {
   Zap,
   Globe,
 } from 'lucide-react';
-import { IMAGE_FORMATS } from '@/features/image/config/formats';
+import { IMAGE_FORMATS } from '@/features/image/converter/config/formats';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -43,8 +43,8 @@ const IMAGE_SERVICES = [
     icon: Crop,
     label: 'Crop & Resize',
     desc: 'Crop to any ratio or exact pixel dimensions.',
-    badge: 'Soon',
-    live: false,
+    badge: 'Live',
+    live: true,
   },
   {
     id: 'compress',

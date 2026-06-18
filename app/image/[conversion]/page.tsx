@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Shield, Zap, Globe, Package } from 'lucide-react';
 import Link from 'next/link';
-import BaseImageConverter from '@/features/image/components/BaseImageConverter';
-import ConverterStepper from '@/features/image/components/shared/ConverterStepper';
-import ConverterMarketingZone from '@/features/image/components/shared/ConverterMarketingZone';
+import BaseImageConverter from '@/features/image/converter/components';
+import ConverterStepper from '@/features/image/converter/shared/ConverterStepper';
+import ConverterMarketingZone from '@/features/image/converter/shared/ConverterMarketingZone';
 import {
   getFormatByExtension,
   getConversionRoute,
   ALL_CONVERSION_PAIRS,
-} from '@/features/image/config/formats';
+} from '@/features/image/converter/config/formats';
 
 interface PageProps {
   params: Promise<{ conversion: string }>;

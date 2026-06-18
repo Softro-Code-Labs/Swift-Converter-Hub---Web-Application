@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FileItem } from '@/features/image/types/converter';
-import { isAcceptedByFormat } from '@/features/image/config/formats';
+import { FileItem } from '@/features/image/converter/types/converter';
+import { isAcceptedByFormat } from '@/features/image/converter/config/formats';
 import toast from 'react-hot-toast';
 
 export const useFileQueue = (sourceExtension: string) => {

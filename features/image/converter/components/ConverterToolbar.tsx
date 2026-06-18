@@ -1,5 +1,5 @@
 import { Download, Trash2, Wand2, Loader2, Archive } from 'lucide-react';
-import { FileItem } from '@/features/image/types/converter';
+import { FileItem } from '@/features/image/converter/types/converter';
 
 interface ConverterToolbarProps {
   files: FileItem[];

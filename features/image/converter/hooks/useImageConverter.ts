@@ -4,8 +4,8 @@ import {
   MagickColor,
   MagickFormat,
 } from '@imagemagick/magick-wasm';
-import { FileItem } from '@/features/image/types/converter';
-import { formatBytes } from '../utils/formatBytes';
+import { FileItem } from '@/features/image/converter/types/converter';
+import { formatBytes } from '../../utils/formatBytes';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import toast from 'react-hot-toast';
@@ -18,128 +18,169 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   jpg: MagickFormat.Jpg,
   jpeg: MagickFormat.Jpeg,
   jfif: MagickFormat.Jpeg,
+  jpe: MagickFormat.Jpe,
+  jps: MagickFormat.Jps,
+  pjpeg: MagickFormat.Pjpeg,
   png: MagickFormat.Png,
   webp: MagickFormat.WebP,
   gif: MagickFormat.Gif,
   avif: MagickFormat.Avif,
   jxl: MagickFormat.Jxl,
+  mng: MagickFormat.Mng,
+  jng: MagickFormat.Jng,
+  qoi: MagickFormat.Qoi,
 
-  // ── Icon & System ──────────────────────────────────────────────────────────
-  ico: MagickFormat.Ico,
-  cur: MagickFormat.Cur,
+  // ── JPEG 2000 ──────────────────────────────────────────────────────────────
+  jp2: MagickFormat.Jp2,
+  jpg2: MagickFormat.Jp2,
+  jpc: MagickFormat.Jpc,
+  j2k: MagickFormat.J2k,
+  j2c: MagickFormat.J2c,
+  jpm: MagickFormat.Jpm,
 
-  // ── Print & Professional ───────────────────────────────────────────────────
-  tiff: MagickFormat.Tiff,
-  tif: MagickFormat.Tiff,
-  pdf: MagickFormat.Pdf,
-  eps: MagickFormat.Eps,
-  eps2: MagickFormat.Eps2,
-  eps3: MagickFormat.Eps3,
-  epsf: MagickFormat.Epsf,
-  epsi: MagickFormat.Epsi,
-  ps: MagickFormat.Ps,
-  ps2: MagickFormat.Ps2,
-  ps3: MagickFormat.Ps3,
-  ai: MagickFormat.Ai,
-  fax: MagickFormat.Fax,
-  g3: MagickFormat.G3,
-  g4: MagickFormat.G4,
+  // ── PNG Variants ───────────────────────────────────────────────────────────
+  png8: MagickFormat.Png8,
+  png24: MagickFormat.Png24,
+  png32: MagickFormat.Png32,
+  png48: MagickFormat.Png48,
+  png64: MagickFormat.Png64,
+  png00: MagickFormat.Png00,
 
-  // ── Bitmap Formats ─────────────────────────────────────────────────────────
+  // ── HEIF / HEIC ───────────────────────────────────────────────────────────
+  heic: MagickFormat.Heic,
+  heif: MagickFormat.Heif,
+
+  // ── Bitmap ────────────────────────────────────────────────────────────────
   bmp: MagickFormat.Bmp,
   bmp2: MagickFormat.Bmp2,
   bmp3: MagickFormat.Bmp3,
   tga: MagickFormat.Tga,
   pcx: MagickFormat.Pcx,
-  pict: MagickFormat.Pict,
+  dcx: MagickFormat.Dcx,
+  wbmp: MagickFormat.Wbmp,
+  xbm: MagickFormat.Xbm,
+  xpm: MagickFormat.Xpm,
+  otb: MagickFormat.Otb,
+  farbfeld: MagickFormat.Farbfeld,
+  avs: MagickFormat.Avs,
+  cip: MagickFormat.Cip,
+  sgi: MagickFormat.Sgi,
+  sun: MagickFormat.Sun,
+  ras: MagickFormat.Ras,
+  wpg: MagickFormat.Wpg,
+  picon: MagickFormat.Picon,
+  art: MagickFormat.Art,
+  aai: MagickFormat.Aai,
+  viff: MagickFormat.Viff,
+  hrz: MagickFormat.Hrz,
+  vicar: MagickFormat.Vicar,
+
+  // ── Photoshop / Layered ───────────────────────────────────────────────────
   psd: MagickFormat.Psd,
   psb: MagickFormat.Psb,
-  xcf: MagickFormat.Xcf,
-  dds: MagickFormat.Dds,
 
-  // ── Portable/Unix Formats ──────────────────────────────────────────────────
+  // ── Tagged Image ─────────────────────────────────────────────────────────
+  tiff: MagickFormat.Tiff,
+  tiff64: MagickFormat.Tiff64,
+  tif: MagickFormat.Tif,
+  ptif: MagickFormat.Ptif,
+
+  // ── Portable Bitmap / Pixmap / Anymap ─────────────────────────────────────
   pbm: MagickFormat.Pbm,
   pgm: MagickFormat.Pgm,
   ppm: MagickFormat.Ppm,
   pnm: MagickFormat.Pnm,
   pam: MagickFormat.Pam,
   pfm: MagickFormat.Pfm,
-  xbm: MagickFormat.Xbm,
-  xpm: MagickFormat.Xpm,
+  phm: MagickFormat.Phm,
 
-  // ── HDR / Scientific ───────────────────────────────────────────────────────
+  // ── Vector / PostScript ───────────────────────────────────────────────────
+  svg: MagickFormat.Svg,
+  svgz: MagickFormat.Svgz,
+  ai: MagickFormat.Ai,
+  eps: MagickFormat.Eps,
+  eps2: MagickFormat.Eps2,
+  eps3: MagickFormat.Eps3,
+  epsf: MagickFormat.Epsf,
+  epsi: MagickFormat.Epsi,
+  epi: MagickFormat.Epi,
+  ept: MagickFormat.Ept,
+  ps: MagickFormat.Ps,
+  ps2: MagickFormat.Ps2,
+  ps3: MagickFormat.Ps3,
+
+  // ── Document ──────────────────────────────────────────────────────────────
+  pdf: MagickFormat.Pdf,
+  epdf: MagickFormat.Epdf,
+  pict: MagickFormat.Pict,
+  pcl: MagickFormat.Pcl,
+
+  // ── HDR / Scientific ──────────────────────────────────────────────────────
+  exr: MagickFormat.Exr,
   hdr: MagickFormat.Hdr,
   rgbe: MagickFormat.Hdr,
-  exr: MagickFormat.Exr,
   dpx: MagickFormat.Dpx,
   cin: MagickFormat.Cin,
   fits: MagickFormat.Fits,
   fts: MagickFormat.Fts,
+  fl32: MagickFormat.Fl32,
 
-  // ── Mobile / Embedded ──────────────────────────────────────────────────────
-  heic: MagickFormat.Heic,
-  heif: MagickFormat.Heif,
-  wbmp: MagickFormat.Wbmp,
+  // ── Fax / Compression ─────────────────────────────────────────────────────
+  fax: MagickFormat.Fax,
+  g3: MagickFormat.G3,
+  g4: MagickFormat.G4,
+  group4: MagickFormat.Group4,
+  cals: MagickFormat.Cals,
 
-  // ── Raw Camera Formats (read via delegates) ────────────────────────────────
-  crw: MagickFormat.Crw,
-  cr2: MagickFormat.Cr2,
-  nef: MagickFormat.Nef,
-  orf: MagickFormat.Orf,
-  arw: MagickFormat.Arw,
-  dng: MagickFormat.Dng,
-  mrw: MagickFormat.Mrw,
-  raf: MagickFormat.Raf,
-  rw2: MagickFormat.Rw2,
-  pef: MagickFormat.Pef,
-  srw: MagickFormat.Srw,
-  x3f: MagickFormat.X3f,
+  // ── Game / DirectX ────────────────────────────────────────────────────────
+  dds: MagickFormat.Dds,
 
-  // ── Raw Data / Special ─────────────────────────────────────────────────────
-  gray: MagickFormat.Gray,
-  graya: MagickFormat.Graya,
+  // ── Raw Color Spaces ──────────────────────────────────────────────────────
   rgb: MagickFormat.Rgb,
   rgba: MagickFormat.Rgba,
   rgbo: MagickFormat.Rgbo,
+  rgb565: MagickFormat.Rgb565,
+  gray: MagickFormat.Gray,
+  graya: MagickFormat.Graya,
   cmyk: MagickFormat.Cmyk,
   cmyka: MagickFormat.Cmyka,
+  yuv: MagickFormat.Yuv,
+  ycbcr: MagickFormat.Ycbcr,
+  ycbcra: MagickFormat.Ycbcra,
+  uyvy: MagickFormat.Uyvy,
   mono: MagickFormat.Mono,
 
-  // ── Lossless / Specialty Web ───────────────────────────────────────────────
-  mng: MagickFormat.Mng,
-  jng: MagickFormat.Jng,
-  png8: MagickFormat.Png8,
-  png24: MagickFormat.Png24,
-  png32: MagickFormat.Png32,
-  png48: MagickFormat.Png48,
-  png64: MagickFormat.Png64,
-
-  // ── JPEG variants ──────────────────────────────────────────────────────────
-  jpg2: MagickFormat.Jp2,
-  jp2: MagickFormat.Jp2,
-  jpc: MagickFormat.Jpc,
-  j2k: MagickFormat.J2k,
-  j2c: MagickFormat.J2c,
-
-  // ── Vector ─────────────────────────────────────────────────────────────────
-  svg: MagickFormat.Svg,
-  svgz: MagickFormat.Svgz,
-  mvg: MagickFormat.Mvg,
-
-  // ── Medical ────────────────────────────────────────────────────────────────
-  dcm: MagickFormat.Dcm,
-  vicar: MagickFormat.Vicar,
-
-  // ── Legacy / Archive ───────────────────────────────────────────────────────
-  sgi: MagickFormat.Sgi,
-  sun: MagickFormat.Sun,
-  ras: MagickFormat.Ras,
-  viff: MagickFormat.Viff,
-  miff: MagickFormat.Miff,
+  // ── Icon & System ─────────────────────────────────────────────────────────
+  ico: MagickFormat.Ico,
   palm: MagickFormat.Palm,
+  plam: MagickFormat.Palm,
   pdb: MagickFormat.Pdb,
-  tim: MagickFormat.Tim,
-  hrz: MagickFormat.Hrz,
+  pcd: MagickFormat.Pcd,
+  pcds: MagickFormat.Pcds,
+
+  // ── Braille / Accessibility ───────────────────────────────────────────────
+  brf: MagickFormat.Brf,
+  ubrl: MagickFormat.Ubrl,
+  ubrl6: MagickFormat.Ubrl6,
+  uil: MagickFormat.Uil,
+  isobrl: MagickFormat.Isobrl,
+  isobrl6: MagickFormat.Isobrl6,
+
+  // ── Text / Metadata Output ────────────────────────────────────────────────
+  txt: MagickFormat.Txt,
+  ftxt: MagickFormat.Ftxt,
+  info: MagickFormat.Info,
+  json: MagickFormat.Json,
+  yaml: MagickFormat.Yaml,
+  shtml: MagickFormat.Shtml,
+
+  // ── Magick Internal ───────────────────────────────────────────────────────
+  miff: MagickFormat.Miff,
+  mpc: MagickFormat.Mpc,
+  mat: MagickFormat.Mat,
+  sf3: MagickFormat.Sf3,
+  mtv: MagickFormat.Mtv,
+  sparsecolor: MagickFormat.SparseColor,
 };
 
 // ─── Formats needing special handling on write ────────────────────────────────
@@ -151,6 +192,7 @@ const RESIZE_ON_WRITE: Partial<Record<MagickFormat, { w: number; h: number }>> =
   };
 
 // ─── Development Checks ─────────────────────────────────────────────────────
+
 if (process.env.NODE_ENV === 'development') {
   IMAGE_FORMATS.forEach((f) => {
     if (!FORMAT_MAP[f.extension]) {
