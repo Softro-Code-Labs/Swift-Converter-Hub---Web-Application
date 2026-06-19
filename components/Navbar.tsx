@@ -97,7 +97,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-15 items-center justify-between gap-4 py-3">
-          {/* ── Logo ────────────────────────────────────────────────────── */}
+          {/* -- Logo ------------------------------------------------------ */}
           <Link
             href="/"
             className="flex items-center gap-2.5 shrink-0 group focus:outline-none"
@@ -120,7 +120,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* ── Desktop nav ─────────────────────────────────────────────── */}
+          {/* -- Desktop nav ----------------------------------------------- */}
           <div className="hidden md:flex items-center gap-1">
             {/* Studios dropdown */}
             <div className="relative" ref={dropRef}>
@@ -231,7 +231,7 @@ export default function Navbar() {
             <ThemeToggle />
           </div>
 
-          {/* ── Mobile controls ─────────────────────────────────────────── */}
+          {/* -- Mobile controls ------------------------------------------- */}
           <div className="flex md:hidden items-center gap-2">
             <ThemeToggle />
             <button
@@ -250,7 +250,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── Mobile menu ─────────────────────────────────────────────────── */}
+      {/* -- Mobile menu --------------------------------------------------- */}
       {mobileOpen && (
         <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 max-h-[calc(100vh-60px)] overflow-y-auto">
           <div className="px-4 py-4 space-y-4">

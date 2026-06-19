@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { IMAGE_FORMATS } from '@/features/image/converter/config/formats';
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// --- Constants ----------------------------------------------------------------
 
 const IMAGE_SERVICES = [
   {
@@ -139,7 +139,7 @@ const TRUST_BADGES = [
   { icon: ShieldCheck, label: '100% free', desc: 'No account, no limits' },
 ];
 
-// ─── Searchable Dropdown ──────────────────────────────────────────────────────
+// --- Searchable Dropdown ------------------------------------------------------
 
 interface DropdownProps {
   label: string;
@@ -321,7 +321,7 @@ function SearchableDropdown({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function ImageHubPage() {
   const router = useRouter();
@@ -357,7 +357,7 @@ export default function ImageHubPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
-      {/* ── Hero Banner ──────────────────────────────────────────────────── */}
+      {/* -- Hero Banner ---------------------------------------------------- */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
           {/* Breadcrumb */}
@@ -422,9 +422,9 @@ export default function ImageHubPage() {
         </div>
       </div>
 
-      {/* ── Main Content ─────────────────────────────────────────────────── */}
+      {/* -- Main Content --------------------------------------------------- */}
       <div className="max-w-5xl mx-auto px-4 py-10 space-y-12">
-        {/* ── Converter card ────────────────────────────────────────────── */}
+        {/* -- Converter card ---------------------------------------------- */}
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
           {/* Card header */}
           <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
@@ -569,7 +569,7 @@ export default function ImageHubPage() {
           </div>
         </div>
 
-        {/* ── Popular conversions ───────────────────────────────────────── */}
+        {/* -- Popular conversions ----------------------------------------- */}
         <div className="space-y-4">
           <h2 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
             <span className="w-1 h-3 rounded-full bg-blue-500 inline-block" />
@@ -598,7 +598,7 @@ export default function ImageHubPage() {
           </div>
         </div>
 
-        {/* ── Services ─────────────────────────────────────────────────── */}
+        {/* -- Services --------------------------------------------------- */}
         <div className="space-y-4">
           <h2 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
             <span className="w-1 h-3 rounded-full bg-purple-500 inline-block" />

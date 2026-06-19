@@ -73,7 +73,7 @@ const TRUST_BADGES = [
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      {/* -- Hero ------------------------------------------------------------ */}
       <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
           {/* Breadcrumb */}
@@ -122,7 +122,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Three pillars ─────────────────────────────────────────────────── */}
+      {/* -- Three pillars --------------------------------------------------- */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {PILLARS.map(({ icon: Icon, label, desc, color }) => (
@@ -146,7 +146,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── How it works ──────────────────────────────────────────────────── */}
+      {/* -- How it works ---------------------------------------------------- */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
           {/* Header */}
@@ -196,7 +196,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Technical detail ──────────────────────────────────────────────── */}
+      {/* -- Technical detail ------------------------------------------------ */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
         <div className="bg-slate-900 dark:bg-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
           <h2 className="text-base font-bold text-white">
@@ -228,7 +228,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── CTA + modules ─────────────────────────────────────────────────── */}
+      {/* -- CTA + modules --------------------------------------------------- */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="space-y-6">
           <div className="text-center space-y-2">

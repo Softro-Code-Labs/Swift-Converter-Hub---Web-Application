@@ -27,7 +27,7 @@ export default function ConverterMarketingZone({
 
   return (
     <div className="space-y-10">
-      {/* ── Feature grid ──────────────────────────────────────────────────── */}
+      {/* -- Feature grid ---------------------------------------------------- */}
       <section>
         <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
           <span className="w-1 h-4 rounded-full bg-emerald-500 inline-block" />
@@ -57,7 +57,7 @@ export default function ConverterMarketingZone({
         </div>
       </section>
 
-      {/* ── FAQ ───────────────────────────────────────────────────────────── */}
+      {/* -- FAQ ------------------------------------------------------------- */}
       <section>
         <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
           <span className="w-1 h-4 rounded-full bg-purple-500 inline-block" />

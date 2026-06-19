@@ -157,7 +157,7 @@ export default function TermsPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* ── Header ──────────────────────────────────────────────────────── */}
+      {/* -- Header -------------------------------------------------------- */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <Link
@@ -197,7 +197,7 @@ export default function TermsPage() {
         </div>
       </div>
 
-      {/* ── Sections ────────────────────────────────────────────────────── */}
+      {/* -- Sections ------------------------------------------------------ */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-4">
         {SECTIONS.map(({ id, icon: Icon, title, color, content }) => (
           <div
@@ -226,7 +226,7 @@ export default function TermsPage() {
         ))}
       </div>
 
-      {/* ── Footer ──────────────────────────────────────────────────────── */}
+      {/* -- Footer -------------------------------------------------------- */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
           <p className="text-xs text-slate-400 dark:text-slate-500">

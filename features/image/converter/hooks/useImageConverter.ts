@@ -17,10 +17,10 @@ import JSZip from 'jszip';
 import toast from 'react-hot-toast';
 import { IMAGE_FORMATS, ImageFormat } from '../config/formats';
 
-// ─── Complete ImageMagick WASM Format Map ─────────────────────────────────────
+// --- Complete ImageMagick WASM Format Map -------------------------------------
 
 const FORMAT_MAP: Record<string, MagickFormat> = {
-  // ── Web & Photo ────────────────────────────────────────────────────────────
+  // -- Web & Photo ------------------------------------------------------------
   jpg: MagickFormat.Jpg,
   jpeg: MagickFormat.Jpeg,
   jfif: MagickFormat.Jpeg,
@@ -36,7 +36,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   jng: MagickFormat.Jng,
   qoi: MagickFormat.Qoi,
 
-  // ── JPEG 2000 ──────────────────────────────────────────────────────────────
+  // -- JPEG 2000 --------------------------------------------------------------
   jp2: MagickFormat.Jp2,
   jpg2: MagickFormat.Jp2,
   jpc: MagickFormat.Jpc,
@@ -44,7 +44,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   j2c: MagickFormat.J2c,
   jpm: MagickFormat.Jpm,
 
-  // ── PNG Variants ───────────────────────────────────────────────────────────
+  // -- PNG Variants -----------------------------------------------------------
   png8: MagickFormat.Png8,
   png24: MagickFormat.Png24,
   png32: MagickFormat.Png32,
@@ -52,11 +52,11 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   png64: MagickFormat.Png64,
   png00: MagickFormat.Png00,
 
-  // ── HEIF / HEIC ───────────────────────────────────────────────────────────
+  // -- HEIF / HEIC -----------------------------------------------------------
   heic: MagickFormat.Heic,
   heif: MagickFormat.Heif,
 
-  // ── Bitmap ────────────────────────────────────────────────────────────────
+  // -- Bitmap ----------------------------------------------------------------
   bmp: MagickFormat.Bmp,
   bmp2: MagickFormat.Bmp2,
   bmp3: MagickFormat.Bmp3,
@@ -81,17 +81,17 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   hrz: MagickFormat.Hrz,
   vicar: MagickFormat.Vicar,
 
-  // ── Photoshop / Layered ───────────────────────────────────────────────────
+  // -- Photoshop / Layered ---------------------------------------------------
   psd: MagickFormat.Psd,
   psb: MagickFormat.Psb,
 
-  // ── Tagged Image ─────────────────────────────────────────────────────────
+  // -- Tagged Image ---------------------------------------------------------
   tiff: MagickFormat.Tiff,
   tiff64: MagickFormat.Tiff64,
   tif: MagickFormat.Tif,
   ptif: MagickFormat.Ptif,
 
-  // ── Portable Bitmap / Pixmap / Anymap ─────────────────────────────────────
+  // -- Portable Bitmap / Pixmap / Anymap -------------------------------------
   pbm: MagickFormat.Pbm,
   pgm: MagickFormat.Pgm,
   ppm: MagickFormat.Ppm,
@@ -100,7 +100,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   pfm: MagickFormat.Pfm,
   phm: MagickFormat.Phm,
 
-  // ── Vector / PostScript ───────────────────────────────────────────────────
+  // -- Vector / PostScript ---------------------------------------------------
   svg: MagickFormat.Svg,
   svgz: MagickFormat.Svgz,
   ai: MagickFormat.Ai,
@@ -115,13 +115,13 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   ps2: MagickFormat.Ps2,
   ps3: MagickFormat.Ps3,
 
-  // ── Document ──────────────────────────────────────────────────────────────
+  // -- Document --------------------------------------------------------------
   pdf: MagickFormat.Pdf,
   epdf: MagickFormat.Epdf,
   pict: MagickFormat.Pict,
   pcl: MagickFormat.Pcl,
 
-  // ── HDR / Scientific ──────────────────────────────────────────────────────
+  // -- HDR / Scientific ------------------------------------------------------
   exr: MagickFormat.Exr,
   hdr: MagickFormat.Hdr,
   rgbe: MagickFormat.Hdr,
@@ -131,17 +131,17 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   fts: MagickFormat.Fts,
   fl32: MagickFormat.Fl32,
 
-  // ── Fax / Compression ─────────────────────────────────────────────────────
+  // -- Fax / Compression -----------------------------------------------------
   fax: MagickFormat.Fax,
   g3: MagickFormat.G3,
   g4: MagickFormat.G4,
   group4: MagickFormat.Group4,
   cals: MagickFormat.Cals,
 
-  // ── Game / DirectX ────────────────────────────────────────────────────────
+  // -- Game / DirectX --------------------------------------------------------
   dds: MagickFormat.Dds,
 
-  // ── Raw Color Spaces ──────────────────────────────────────────────────────
+  // -- Raw Color Spaces ------------------------------------------------------
   rgb: MagickFormat.Rgb,
   rgba: MagickFormat.Rgba,
   rgbo: MagickFormat.Rgbo,
@@ -156,7 +156,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   uyvy: MagickFormat.Uyvy,
   mono: MagickFormat.Mono,
 
-  // ── Icon & System ─────────────────────────────────────────────────────────
+  // -- Icon & System ---------------------------------------------------------
   ico: MagickFormat.Ico,
   palm: MagickFormat.Palm,
   plam: MagickFormat.Palm,
@@ -164,7 +164,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   pcd: MagickFormat.Pcd,
   pcds: MagickFormat.Pcds,
 
-  // ── Braille / Accessibility ───────────────────────────────────────────────
+  // -- Braille / Accessibility -----------------------------------------------
   brf: MagickFormat.Brf,
   ubrl: MagickFormat.Ubrl,
   ubrl6: MagickFormat.Ubrl6,
@@ -172,7 +172,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   isobrl: MagickFormat.Isobrl,
   isobrl6: MagickFormat.Isobrl6,
 
-  // ── Text / Metadata Output ────────────────────────────────────────────────
+  // -- Text / Metadata Output ------------------------------------------------
   txt: MagickFormat.Txt,
   ftxt: MagickFormat.Ftxt,
   info: MagickFormat.Info,
@@ -180,7 +180,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   yaml: MagickFormat.Yaml,
   shtml: MagickFormat.Shtml,
 
-  // ── Magick Internal ───────────────────────────────────────────────────────
+  // -- Magick Internal -------------------------------------------------------
   miff: MagickFormat.Miff,
   mpc: MagickFormat.Mpc,
   mat: MagickFormat.Mat,
@@ -189,7 +189,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   sparsecolor: MagickFormat.SparseColor,
 };
 
-// ─── Formats needing special handling on write ────────────────────────────────
+// --- Formats needing special handling on write --------------------------------
 
 const RESIZE_ON_WRITE: Partial<Record<MagickFormat, { w: number; h: number }>> =
   {
@@ -197,7 +197,7 @@ const RESIZE_ON_WRITE: Partial<Record<MagickFormat, { w: number; h: number }>> =
     [MagickFormat.Wbmp]: { w: 96, h: 96 },
   };
 
-// ─── Development Checks ─────────────────────────────────────────────────────
+// --- Development Checks -----------------------------------------------------
 
 if (process.env.NODE_ENV === 'development') {
   IMAGE_FORMATS.forEach((f) => {
@@ -219,7 +219,7 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// --- Hook ---------------------------------------------------------------------
 
 export const useImageConverter = (
   files: FileItem[],
@@ -250,10 +250,10 @@ export const useImageConverter = (
     const targetExt = target.extension.toLowerCase();
     const sourceExt = item.file.name.split('.').pop()?.toLowerCase() ?? '';
 
-    // ── Detect real format from magic bytes ───────────────────────────────────
+    // -- Detect real format from magic bytes -----------------------------------
     const actualFormat = detectActualFormat(uint8Array);
 
-    // ── Case 1: Real HEIC/HEIF source → decode with heic2any ─────────────────
+    // -- Case 1: Real HEIC/HEIF source → decode with heic2any -----------------
     if (isHeicSource(sourceExt) && actualFormat === 'heic') {
       if (['jpg', 'jpeg'].includes(targetExt)) {
         const decoded = await decodeHeic(uint8Array, 'JPEG', 0.92);
@@ -302,12 +302,12 @@ export const useImageConverter = (
       });
     }
 
-    // ── Case 2: .heic extension but actually a different format ───────────────
+    // -- Case 2: .heic extension but actually a different format ---------------
     // (e.g. someone renamed a WebP/PNG/JPEG to .heic)
     // Let ImageMagick handle it — it reads by magic bytes, not extension
     // Falls through to Case 3 below
 
-    // ── Case 3: standard ImageMagick conversion ───────────────────────────────
+    // -- Case 3: standard ImageMagick conversion -------------------------------
     const magickFormat = getMagickFormat(target);
     return new Promise((resolve, reject) => {
       try {
@@ -396,7 +396,6 @@ export const useImageConverter = (
   const downloadSingle = (item: FileItem) => {
     if (!item.convertedUrl) return;
     const target = item.targetFormat ?? selectedTarget;
-    // Use actualExt if the conversion produced a different format (HEIC → WebP fallback)
     const ext = (item as any).actualExt ?? target.extension;
     const name = item.file.name.substring(0, item.file.name.lastIndexOf('.'));
     const link = document.createElement('a');

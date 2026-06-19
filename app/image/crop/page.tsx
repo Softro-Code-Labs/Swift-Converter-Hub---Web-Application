@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { ArrowLeft, Crop, Shield, Zap, Monitor } from 'lucide-react';
+import { Crop, Shield, Zap, Monitor } from 'lucide-react';
 import Link from 'next/link';
-import CropTool from '@/features/image/crop/components/CropTool';
+import CropTool from '@/features/image/crop/components';
 
 export const metadata: Metadata = {
   title: 'Image Crop & Resize — Free Online Tool',
@@ -43,7 +43,7 @@ const FEATURES = [
 export default function CropPage() {
   return (
     <div className="space-y-0">
-      {/* ── Header ──────────────────────────────────────────────────────── */}
+      {/* -- Header -------------------------------------------------------- */}
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
           <Link
@@ -114,12 +114,12 @@ export default function CropPage() {
         </div>
       </div>
 
-      {/* ── Tool ────────────────────────────────────────────────────────── */}
+      {/* -- Tool ---------------------------------------------------------- */}
       <div className="px-6 py-6">
         <CropTool />
       </div>
 
-      {/* ── How it works ────────────────────────────────────────────────── */}
+      {/* -- How it works ---------------------------------------------------- */}
       <div className="px-6 pb-8 border-t border-slate-100 dark:border-slate-800 pt-6">
         <h2 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
           <span className="w-1 h-4 rounded-full bg-blue-500 inline-block" />

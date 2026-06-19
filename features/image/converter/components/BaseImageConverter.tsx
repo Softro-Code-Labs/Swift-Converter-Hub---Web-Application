@@ -56,7 +56,7 @@ export default function BaseImageConverter({
 
   return (
     <div className="space-y-4">
-      {/* ── Engine status bar ──────────────────────────────────────────── */}
+      {/* -- Engine status bar -------------------------------------------- */}
       <div
         className={`flex items-center justify-between px-4 py-2.5 rounded-xl border text-xs font-semibold transition-all
         ${
@@ -85,7 +85,7 @@ export default function BaseImageConverter({
         )}
       </div>
 
-      {/* ── Progress summary — shown when files exist ──────────────────── */}
+      {/* -- Progress summary — shown when files exist -------------------- */}
       {files.length > 0 && (
         <div className="grid grid-cols-3 gap-2">
           {[
@@ -121,7 +121,7 @@ export default function BaseImageConverter({
         </div>
       )}
 
-      {/* ── Drop zone ─────────────────────────────────────────────────── */}
+      {/* -- Drop zone --------------------------------------------------- */}
       {files.length < 20 && (
         <DropZone
           isMagickLoaded={isMagickLoaded}
@@ -130,7 +130,7 @@ export default function BaseImageConverter({
         />
       )}
 
-      {/* ── File list ─────────────────────────────────────────────────── */}
+      {/* -- File list --------------------------------------------------- */}
       {files.length > 0 && (
         <div className="space-y-2 max-h-[440px] overflow-y-auto -mr-1 pr-1">
           {files.map((item) => (
@@ -145,7 +145,7 @@ export default function BaseImageConverter({
         </div>
       )}
 
-      {/* ── Toolbar ───────────────────────────────────────────────────── */}
+      {/* -- Toolbar ----------------------------------------------------- */}
       {files.length > 0 && (
         <ConverterToolbar
           files={files}

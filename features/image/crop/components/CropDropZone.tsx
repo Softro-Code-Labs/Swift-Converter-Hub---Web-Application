@@ -1,19 +1,13 @@
 import React, { useRef, useCallback } from 'react';
 import { UploadCloud, ImageIcon } from 'lucide-react';
+import { SUPPORTED_CROP_FORMATS } from '../types/crop';
 
-interface DropZoneProps {
+interface CropDropZoneProps {
   isMagickLoaded: boolean;
-  onFiles: (files: FileList) => void;
-  currentCount?: number;
+  onFile: (file: File) => void;
 }
 
-const MAX_FILES = 20;
-
-export const DropZone = ({
-  isMagickLoaded,
-  onFiles,
-  currentCount = 0,
-}: DropZoneProps) => {
+export const CropDropZone = ({ isMagickLoaded, onFile }: CropDropZoneProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
 
@@ -23,7 +17,6 @@ export const DropZone = ({
   }, []);
 
   const onDragLeave = useCallback((e: React.DragEvent) => {
-    // Only clear drag if leaving the zone itself, not a child element
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
       setIsDragging(false);
     }
@@ -33,12 +26,20 @@ export const DropZone = ({
     (e: React.DragEvent) => {
       e.preventDefault();
       setIsDragging(false);
-      if (e.dataTransfer.files) onFiles(e.dataTransfer.files);
+      const f = e.dataTransfer.files?.[0];
+      if (f) onFile(f);
     },
-    [onFiles],
+    [onFile],
   );
 
-  const remaining = MAX_FILES - currentCount;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const f = e.target.files?.[0];
+      if (f) onFile(f);
+      e.target.value = '';
+    },
+    [onFile],
+  );
 
   return (
     <div
@@ -48,7 +49,7 @@ export const DropZone = ({
       onClick={() => isMagickLoaded && inputRef.current?.click()}
       role="button"
       tabIndex={isMagickLoaded ? 0 : -1}
-      aria-label="Upload image files"
+      aria-label="Upload image file"
       onKeyDown={(e) =>
         e.key === 'Enter' && isMagickLoaded && inputRef.current?.click()
       }
@@ -64,15 +65,14 @@ export const DropZone = ({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*, image/x-icon"
-        multiple
-        disabled={!isMagickLoaded}
+        // Single file only — no `multiple`
+        accept="image/jpeg,image/png,image/webp,image/gif,image/bmp,image/tiff,image/x-tga,image/vnd.adobe.photoshop,image/svg+xml"
         className="hidden"
-        onChange={(e) => e.target.files && onFiles(e.target.files)}
+        disabled={!isMagickLoaded}
+        onChange={handleChange}
       />
 
-      <div className="flex flex-col items-center justify-center gap-3 px-6 py-10">
-        {/* Icon */}
+      <div className="flex flex-col items-center justify-center gap-3 px-6 py-12 text-center">
         <div
           className={`flex h-14 w-14 items-center justify-center rounded-2xl transition-colors
           ${
@@ -88,38 +88,35 @@ export const DropZone = ({
           )}
         </div>
 
-        {/* Text */}
-        <div className="text-center space-y-1">
+        <div className="space-y-1">
           {isDragging ? (
             <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
-              Drop files to upload
+              Drop image here
             </p>
           ) : (
             <>
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                Drag & drop files here, or{' '}
+                Drag & drop an image, or{' '}
                 <span className="text-blue-600 dark:text-blue-400 font-bold underline underline-offset-2">
                   browse
                 </span>
               </p>
               <p className="text-xs text-slate-400 dark:text-slate-500">
-                {currentCount > 0
-                  ? `${currentCount} added · ${remaining} more allowed`
-                  : `Up to ${MAX_FILES} images at once`}
+                One image at a time
               </p>
             </>
           )}
         </div>
 
-        {/* Accepted formats hint */}
+        {/* Supported format pills */}
         {!isDragging && (
-          <div className="flex items-center gap-1.5 flex-wrap justify-center">
-            {['JPG', 'PNG', 'WebP', 'HEIC', 'GIF', 'SVG'].map((fmt) => (
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            {SUPPORTED_CROP_FORMATS.map((fmt) => (
               <span
                 key={fmt}
                 className="text-[10px] font-bold text-slate-400 dark:text-slate-600 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md"
               >
-                {fmt}
+                {fmt.toUpperCase()}
               </span>
             ))}
             <span className="text-[10px] text-slate-400 dark:text-slate-600">
@@ -129,27 +126,23 @@ export const DropZone = ({
         )}
       </div>
 
-      {/* Engine not ready overlay */}
+      {/* Engine loading overlay */}
       {!isMagickLoaded && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/40 dark:bg-slate-950/40 backdrop-blur-[2px] rounded-2xl transition-all duration-300">
-          <div className="flex flex-col items-center gap-2.5 px-4 py-3 rounded-xl bg-white/80 dark:bg-slate-900/80 shadow-sm border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-md animate-in fade-in-0 zoom-in-95 duration-200">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/40 dark:bg-slate-950/40 backdrop-blur-[2px] rounded-2xl">
+          <div className="flex flex-col items-center gap-2.5 px-4 py-3 rounded-xl bg-white/80 dark:bg-slate-900/80 shadow-sm border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-md">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
               <p className="text-xs font-bold text-slate-600 dark:text-slate-400 tracking-wide">
-                Initializing Core Engine
+                Initializing engine
               </p>
             </div>
-
-            {/* Animated Progress Bar */}
             <div className="w-24 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
               <div className="absolute top-0 bottom-0 left-0 bg-blue-500 rounded-full w-1/2 animate-[loading_1s_ease-in-out_infinite]" />
             </div>
           </div>
-
-          {/* Inline CSS Animation keyframe definition since this runs in a pure server/component module */}
           <style jsx global>{`
             @keyframes loading {
               0% {

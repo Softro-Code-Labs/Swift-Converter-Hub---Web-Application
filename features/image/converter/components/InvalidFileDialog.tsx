@@ -22,7 +22,7 @@ export const InvalidFileDialog = ({
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="p-0 max-w-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden">
-        {/* ── Header ──────────────────────────────────────────────────── */}
+        {/* -- Header ---------------------------------------------------- */}
         <div className="relative px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-800">
           {/* Close button */}
           <button
@@ -48,7 +48,7 @@ export const InvalidFileDialog = ({
           </div>
         </div>
 
-        {/* ── File details ────────────────────────────────────────────── */}
+        {/* -- File details ---------------------------------------------- */}
         <div className="px-6 py-4 space-y-3">
           <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/40 rounded-xl">
             <FileX className="w-5 h-5 text-red-400 shrink-0" />
@@ -73,7 +73,7 @@ export const InvalidFileDialog = ({
           </div>
         </div>
 
-        {/* ── Actions ─────────────────────────────────────────────────── */}
+        {/* -- Actions --------------------------------------------------- */}
         <div className="px-6 pb-6 flex flex-col gap-2">
           <button
             onClick={() => onOpenChange(false)}

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { ADSENSE } from '@/lib/adsense';
 
-// ─── Ad slot components ───────────────────────────────────────────────────────
+// --- Ad slot components -------------------------------------------------------
 
 function AdLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -130,7 +130,7 @@ function BottomAnchor() {
   );
 }
 
-// ─── Layout ───────────────────────────────────────────────────────────────────
+// --- Layout -------------------------------------------------------------------
 
 export default function ImageSectionLayout({
   children,

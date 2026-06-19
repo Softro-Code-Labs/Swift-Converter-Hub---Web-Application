@@ -136,7 +136,7 @@ const STATS = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      {/* -- Hero ------------------------------------------------------------ */}
       <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
           {/* Badge */}
@@ -200,7 +200,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Trust strip ───────────────────────────────────────────────────── */}
+      {/* -- Trust strip ----------------------------------------------------- */}
       <section className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10">
@@ -223,7 +223,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Studios ───────────────────────────────────────────────────────── */}
+      {/* -- Studios --------------------------------------------------------- */}
       <section
         id="studios"
         className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14"
@@ -288,7 +288,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Bottom CTA ────────────────────────────────────────────────────── */}
+      {/* -- Bottom CTA ------------------------------------------------------ */}
       <section className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center space-y-4">
           <h2 className="text-xl font-black text-slate-900 dark:text-white">

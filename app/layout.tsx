@@ -226,7 +226,7 @@ export default function RootLayout({
           <Footer />
         </Providers>
 
-        {/* ── AD-DELIVERY ENGINE INJECTION ──────────────────────────────────────────────── */}
+        {/* -- AD-DELIVERY ENGINE INJECTION ------------------------------------------------ */}
         <script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE.PUBLISHER_ID}`}

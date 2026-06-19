@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   CheckCircle,
   XCircle,
@@ -5,6 +6,7 @@ import {
   Clock,
   Download,
   Trash2,
+  Image,
 } from 'lucide-react';
 import { FileItem } from '@/features/image/converter/types/converter';
 import { formatBytes } from '../../utils/formatBytes';
@@ -47,18 +49,26 @@ export const FileListItem = ({
 }: FileListItemProps) => {
   const cfg = STATUS_CONFIG[item.status];
 
+  // Error state
+  const [hasError, setHasError] = useState(false);
+
   return (
     <div
       className={`border rounded-xl p-3 flex items-center gap-3 transition-all duration-300 ${cfg.border} ${cfg.bg} ${cfg.ring}`}
     >
-      {/* ── Thumbnail ──────────────────────────────────────────────────── */}
+      {/* -- Thumbnail ---------------------------------------------------- */}
       <div className="h-11 w-11 shrink-0 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 relative flex items-center justify-center">
         {item.previewUrl ? (
-          <img
-            src={item.previewUrl}
-            alt=""
-            className="h-full w-full object-cover"
-          />
+          !hasError ? (
+            <img
+              src={item.previewUrl}
+              alt=""
+              className="h-full w-full object-cover"
+              onError={() => setHasError(true)}
+            />
+          ) : (
+            <Image className="w-5 h-5 text-slate-400 dark:text-slate-500 stroke-[1.5]" />
+          )
         ) : item.status === 'success' ? (
           <CheckCircle className="w-5 h-5 text-emerald-500" />
         ) : item.status === 'error' ? (
@@ -75,7 +85,7 @@ export const FileListItem = ({
         )}
       </div>
 
-      {/* ── File info ──────────────────────────────────────────────────── */}
+      {/* -- File info ---------------------------------------------------- */}
       <div className="flex-1 min-w-0">
         <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
           {item.file.name}
@@ -97,7 +107,7 @@ export const FileListItem = ({
         </div>
       </div>
 
-      {/* ── Status + actions ───────────────────────────────────────────── */}
+      {/* -- Status + actions --------------------------------------------- */}
       <div className="shrink-0 flex items-center gap-1.5">
         {item.status === 'idle' && (
           <span className="flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg">

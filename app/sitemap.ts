@@ -6,7 +6,7 @@ import {
 
 const BASE_URL = 'https://swiftconverterhub.com';
 
-// ─── Priority tiers ───────────────────────────────────────────────────────────
+// --- Priority tiers -----------------------------------------------------------
 // 1.0  — Homepage and hub pages (highest value, crawled most often)
 // 0.9  — High-traffic conversion routes (jpg-to-png, heic-to-jpg etc.)
 // 0.8  — Medium-traffic conversion routes
@@ -85,7 +85,7 @@ const MEDIUM_TRAFFIC_PAIRS = new Set([
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  // ── Static pages ────────────────────────────────────────────────────────────
+  // -- Static pages ------------------------------------------------------------
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
@@ -149,7 +149,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // ── Image conversion routes ─────────────────────────────────────────────────
+  // -- Image conversion routes -------------------------------------------------
   const conversionRoutes: MetadataRoute.Sitemap = ALL_CONVERSION_PAIRS.map(
     ({ source, target }) => {
       const key = `${source}-to-${target}`;
@@ -165,7 +165,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   );
 
-  // ── Format hub pages ────────────────────────────────────────────────────────
+  // -- Format hub pages --------------------------------------------------------
   // Each format gets its own hub page e.g. /image/formats/jpg
   // that lists all conversions available for that format — great for SEO
   const formatHubPages: MetadataRoute.Sitemap = IMAGE_FORMATS.map((format) => ({
