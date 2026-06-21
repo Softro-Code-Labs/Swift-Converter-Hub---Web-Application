@@ -18,10 +18,13 @@ interface PageProps {
   params: Promise<{ conversion: string }>;
 }
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
-  return ALL_CONVERSION_PAIRS.map(({ source, target }) => ({
-    conversion: `${source}-to-${target}`,
-  }));
+  // return ALL_CONVERSION_PAIRS.map(({ source, target }) => ({
+  //   conversion: `${source}-to-${target}`,
+  // }));
+  return [];
 }
 
 export async function generateMetadata({
