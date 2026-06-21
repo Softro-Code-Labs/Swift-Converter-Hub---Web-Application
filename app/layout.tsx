@@ -40,6 +40,29 @@ export const metadata: Metadata = {
     'google-adsense-account': ADSENSE.PUBLISHER_ID,
   },
   keywords: [
+    'swift converter hub',
+    'swift image converter',
+    'swift video converter',
+    'swift audio converter',
+    'swift document converter',
+    'swift file converter',
+    'swift file converter free',
+    'swift file converter online',
+    'swift file converter no upload',
+    'swift file converter no server',
+
+    // general platform
+    'converter hub',
+    'image converter',
+    'video converter',
+    'audio converter',
+    'document converter',
+    'file converter',
+    'file converter free',
+    'file converter online',
+    'file converter no upload',
+    'file converter no server',
+
     // core platform
     'client side file converter',
     'browser based converter',
@@ -55,7 +78,7 @@ export const metadata: Metadata = {
     'free online file converter',
     'fast local conversion utility',
     'wasm file converter',
-    'ffmpeg web assembly tool',
+    'web assembly tool',
     'open source browser converter',
     'gdpr compliant file converter',
     'convert files securely',
@@ -226,7 +249,7 @@ export default function RootLayout({
           <Footer />
         </Providers>
 
-        {/* ── AD-DELIVERY ENGINE INJECTION ──────────────────────────────────────────────── */}
+        {/* -- AD-DELIVERY ENGINE INJECTION ------------------------------------------------ */}
         <script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE.PUBLISHER_ID}`}

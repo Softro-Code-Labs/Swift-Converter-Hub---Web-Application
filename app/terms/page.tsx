@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -10,10 +11,25 @@ import {
   RefreshCw,
 } from 'lucide-react';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Terms of Service',
   description:
-    'Terms of Service for Swift Converter Hub — a free, browser-based file conversion toolkit.',
+    'Review the Terms of Service for Swift Converter Hub, including usage guidelines, intellectual property rights, and liability limitations for our free file conversion toolkit.',
+  keywords: [
+    'swift converter hub terms of service',
+    'image converter terms of use',
+    'free online tool terms',
+    'image converter liability policy',
+    'browser tool usage agreement',
+  ],
+  alternates: { canonical: 'https://swiftconverterhub.com/terms' },
+  openGraph: {
+    title: 'Terms of Service - Privacy-First File Convertors',
+    description:
+      'Usage guidelines and liability terms for our free image tools.',
+    url: 'https://swiftconverterhub.com/terms',
+    type: 'website',
+  },
 };
 
 const SECTIONS = [
@@ -88,7 +104,8 @@ const SECTIONS = [
         The design, code, and branding of Swift Converter Hub are our property.
         You may not copy, scrape, or redistribute our application code for
         commercial purposes. Our tools use open-source libraries (including
-        ImageMagick and FFmpeg) which are governed by their respective licenses.
+        professional audio/video and image processing engines) which are
+        governed by their respective licenses.
       </p>
     ),
   },
@@ -157,7 +174,7 @@ export default function TermsPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* ── Header ──────────────────────────────────────────────────────── */}
+      {/* -- Header -------------------------------------------------------- */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <Link
@@ -184,7 +201,7 @@ export default function TermsPage() {
 
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
             These terms govern your use of Swift Converter Hub. They're written
-            in plain language — no legal jargon. If you have questions, reach
+            in plain language - no legal jargon. If you have questions, reach
             out at{' '}
             <a
               href="mailto:support@swiftconverterhub.com"
@@ -197,7 +214,7 @@ export default function TermsPage() {
         </div>
       </div>
 
-      {/* ── Sections ────────────────────────────────────────────────────── */}
+      {/* -- Sections ------------------------------------------------------ */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-4">
         {SECTIONS.map(({ id, icon: Icon, title, color, content }) => (
           <div
@@ -226,7 +243,7 @@ export default function TermsPage() {
         ))}
       </div>
 
-      {/* ── Footer ──────────────────────────────────────────────────────── */}
+      {/* -- Footer -------------------------------------------------------- */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
           <p className="text-xs text-slate-400 dark:text-slate-500">

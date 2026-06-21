@@ -65,7 +65,7 @@ export default function ContactForm() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* ── Back link ───────────────────────────────────────────────── */}
+        {/* -- Back link ------------------------------------------------- */}
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-8"
@@ -74,7 +74,7 @@ export default function ContactForm() {
           Back to home
         </Link>
 
-        {/* ── Header ──────────────────────────────────────────────────── */}
+        {/* -- Header ---------------------------------------------------- */}
         <div className="mb-8 space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-xs font-bold text-blue-700 dark:text-blue-400 mb-1">
             <Mail className="w-3 h-3" />
@@ -90,7 +90,7 @@ export default function ContactForm() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
-          {/* ── Left — contact form ─────────────────────────────────── */}
+          {/* -- Left - contact form ----------------------------------- */}
           <div className="space-y-5">
             {/* Success state */}
             {status === 'sent' ? (
@@ -221,7 +221,7 @@ export default function ContactForm() {
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder={
                           selectedTopicData?.id === 'bug'
-                            ? 'Describe the issue — what format were you converting, what happened, and what browser are you using?'
+                            ? 'Describe the issue - what format were you converting, what happened, and what browser are you using?'
                             : selectedTopicData?.id === 'feature'
                               ? "Describe the feature or improvement you'd like to see..."
                               : 'Write your message here...'
@@ -268,7 +268,7 @@ export default function ContactForm() {
             )}
           </div>
 
-          {/* ── Right — info sidebar ─────────────────────────────────── */}
+          {/* -- Right - info sidebar ----------------------------------- */}
           <div className="space-y-5">
             {/* Direct email */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-3">

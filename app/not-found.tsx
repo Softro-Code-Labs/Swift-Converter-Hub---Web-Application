@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <main className="min-h-[90vh] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-16 transition-colors duration-300">
       <div className="w-full max-w-2xl space-y-10 text-center">
-        {/* ── 404 number ────────────────────────────────────────────────── */}
+        {/* -- 404 number -------------------------------------------------- */}
         <div className="space-y-4">
           <div className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-xs font-bold text-red-600 dark:text-red-400 mb-2">
             <Search className="w-3 h-3" />
@@ -29,7 +29,7 @@ export default function NotFound() {
           </h1>
         </div>
 
-        {/* ── Message ───────────────────────────────────────────────────── */}
+        {/* -- Message ----------------------------------------------------- */}
         <div className="space-y-2 max-w-md mx-auto">
           <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             This page doesn't exist
@@ -41,7 +41,7 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* ── Quick actions ─────────────────────────────────────────────── */}
+        {/* -- Quick actions ----------------------------------------------- */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
@@ -59,7 +59,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        {/* ── Studio modules ────────────────────────────────────────────── */}
+        {/* -- Studio modules ---------------------------------------------- */}
         <LaboratoryModules title="Or jump into a tool" />
       </div>
     </main>

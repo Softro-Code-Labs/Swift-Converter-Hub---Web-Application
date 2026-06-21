@@ -2,17 +2,17 @@ import { MetadataRoute } from 'next';
 import {
   IMAGE_FORMATS,
   ALL_CONVERSION_PAIRS,
-} from '@/features/image/config/formats';
+} from '@/features/image/converter/config/formats';
 
 const BASE_URL = 'https://swiftconverterhub.com';
 
-// ─── Priority tiers ───────────────────────────────────────────────────────────
-// 1.0  — Homepage and hub pages (highest value, crawled most often)
-// 0.9  — High-traffic conversion routes (jpg-to-png, heic-to-jpg etc.)
-// 0.8  — Medium-traffic conversion routes
-// 0.7  — All other conversion routes
-// 0.6  — Studio landing pages
-// 0.5  — Static info pages
+// --- Priority tiers -----------------------------------------------------------
+// 1.0  - Homepage and hub pages (highest value, crawled most often)
+// 0.9  - High-traffic conversion routes (jpg-to-png, heic-to-jpg etc.)
+// 0.8  - Medium-traffic conversion routes
+// 0.7  - All other conversion routes
+// 0.6  - Studio landing pages
+// 0.5  - Static info pages
 
 // High-traffic routes that get explicit 1-day refresh
 const HIGH_TRAFFIC_PAIRS = new Set([
@@ -85,7 +85,8 @@ const MEDIUM_TRAFFIC_PAIRS = new Set([
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  // ── Static pages ────────────────────────────────────────────────────────────
+  // -- Static pages ------------------------------------------------------------
+
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
@@ -136,6 +137,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
+      url: `${BASE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
       url: `${BASE_URL}/privacy`,
       lastModified: now,
       changeFrequency: 'yearly',
@@ -149,7 +156,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // ── Image conversion routes ─────────────────────────────────────────────────
+  // -- Image conversion routes -------------------------------------------------
+
   const conversionRoutes: MetadataRoute.Sitemap = ALL_CONVERSION_PAIRS.map(
     ({ source, target }) => {
       const key = `${source}-to-${target}`;
@@ -165,9 +173,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   );
 
-  // ── Format hub pages ────────────────────────────────────────────────────────
-  // Each format gets its own hub page e.g. /image/formats/jpg
-  // that lists all conversions available for that format — great for SEO
+  // -- Format hub pages --------------------------------------------------------
+
   const formatHubPages: MetadataRoute.Sitemap = IMAGE_FORMATS.map((format) => ({
     url: `${BASE_URL}/image/formats/${format.extension}`,
     lastModified: now,
