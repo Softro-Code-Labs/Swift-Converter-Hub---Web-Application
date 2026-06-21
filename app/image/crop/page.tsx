@@ -1,20 +1,38 @@
 import { Metadata } from 'next';
-import { Crop, Shield, Zap, Monitor } from 'lucide-react';
 import Link from 'next/link';
+import { Crop, Shield, Zap, Monitor } from 'lucide-react';
 import CropTool from '@/features/image/crop/components';
+import {
+  StepList,
+  InfoCardGrid,
+  TechnicalNote,
+  FaqAccordion,
+} from '@/features/image/shared/components/page-sections';
 
 export const metadata: Metadata = {
-  title: 'Image Crop & Resize — Free Online Tool',
+  title: 'Image Crop & Resize',
   description:
-    'Crop and resize images to any dimension or aspect ratio. Works 100% in your browser — no uploads, no account required.',
+    'Crop and resize images to any dimension or aspect ratio with a visual drag editor. Works 100% in your browser - no uploads, no account required.',
   keywords: [
     'crop image online',
     'resize image free',
-    'image cropper',
-    'crop photo online',
-    'image resize tool',
+    'image cropper online',
+    'crop photo online tool',
+    'image resize tool free',
     'browser image crop',
+    'aspect ratio crop tool',
+    'resize photo to exact pixels',
+    'online photo cropper no upload',
+    'free crop and resize tool',
   ],
+  alternates: { canonical: 'https://swiftconverterhub.com/image/crop' },
+  openGraph: {
+    title: 'Image Crop & Resize - Free Online Tool',
+    description:
+      'Crop to any ratio or resize to exact pixel dimensions, processed locally.',
+    url: 'https://swiftconverterhub.com/image/crop',
+    type: 'website',
+  },
 };
 
 const FEATURES = [
@@ -31,7 +49,7 @@ const FEATURES = [
   {
     icon: Zap,
     label: 'Instant processing',
-    desc: 'Powered by ImageMagick WebAssembly',
+    desc: 'Powered by a professional WebAssembly engine',
   },
   {
     icon: Shield,
@@ -40,10 +58,40 @@ const FEATURES = [
   },
 ];
 
+const CROP_PRESETS = [
+  { title: 'Instagram Post', meta: '1:1 · 1080×1080px', desc: '' },
+  { title: 'Instagram Story', meta: '9:16 · 1080×1920px', desc: '' },
+  { title: 'YouTube Thumbnail', meta: '16:9 · 1280×720px', desc: '' },
+  { title: 'Profile Picture', meta: '1:1 · 512×512px', desc: '' },
+  { title: 'Twitter/X Post', meta: '16:9 · 1200×675px', desc: '' },
+  { title: 'Facebook Cover', meta: '205:78 · 820×312px', desc: '' },
+  { title: 'LinkedIn Banner', meta: '4:1 · 1584×396px', desc: '' },
+  { title: 'Print Photo (4×6)', meta: '3:2 · 1800×1200px', desc: '' },
+];
+
+const CROP_FAQS = [
+  {
+    q: 'Will cropping reduce my image quality?',
+    a: 'No. Cropping only removes pixels outside your selection - the remaining pixels are untouched. If you also resize to a smaller dimension, some detail is naturally lost, but this is unavoidable with any resizing tool, not specific to ours.',
+  },
+  {
+    q: 'Can I crop to an exact pixel size instead of a ratio?',
+    a: 'Yes. Use the X, Y, Width and Height number inputs in the sidebar to enter exact pixel values, or pick one of the Quick Size presets like 1920×1080.',
+  },
+  {
+    q: 'What happens to EXIF data when I crop an image?',
+    a: 'Cropping does not preserve EXIF metadata by default, since the image dimensions change. If you need to keep metadata, use the EXIF Metadata Viewer to record it beforehand.',
+  },
+  {
+    q: 'Is there a file size limit?',
+    a: "There's no hard limit, but very large images (50MB+) may process more slowly depending on your device's available memory, since everything happens in your browser rather than on a server.",
+  },
+];
+
 export default function CropPage() {
   return (
     <div className="space-y-0">
-      {/* -- Header -------------------------------------------------------- */}
+      {/* Header */}
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
           <Link
@@ -81,14 +129,13 @@ export default function CropPage() {
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
               Visually crop images with drag handles, lock aspect ratios, and
-              resize to any pixel dimension — all processed locally in your
+              resize to any pixel dimension - all processed locally in your
               browser.
             </p>
           </div>
 
-          {/* Feature pills — desktop */}
           <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label, desc }) => (
+            {FEATURES.map(({ icon: Icon, label }) => (
               <div
                 key={label}
                 className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
@@ -100,7 +147,6 @@ export default function CropPage() {
           </div>
         </div>
 
-        {/* Feature pills — mobile */}
         <div className="flex sm:hidden gap-2 mt-4 overflow-x-auto pb-1">
           {FEATURES.map(({ icon: Icon, label }) => (
             <div
@@ -114,51 +160,55 @@ export default function CropPage() {
         </div>
       </div>
 
-      {/* -- Tool ---------------------------------------------------------- */}
+      {/* Tool */}
       <div className="px-6 py-6">
         <CropTool />
       </div>
 
-      {/* -- How it works ---------------------------------------------------- */}
-      <div className="px-6 pb-8 border-t border-slate-100 dark:border-slate-800 pt-6">
-        <h2 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-          <span className="w-1 h-4 rounded-full bg-blue-500 inline-block" />
-          How it works
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            {
-              step: '01',
-              title: 'Upload your image',
-              desc: 'Drop any image file — PNG, JPG, WebP, HEIC and more.',
-            },
-            {
-              step: '02',
-              title: 'Crop or resize',
-              desc: 'Drag the crop handles, pick an aspect ratio, or enter exact pixel dimensions.',
-            },
-            {
-              step: '03',
-              title: 'Download the result',
-              desc: 'Choose your output format and download. Nothing is stored or uploaded.',
-            },
-          ].map(({ step, title, desc }) => (
-            <div key={step} className="flex items-start gap-3">
-              <span className="text-xs font-black text-slate-300 dark:text-slate-600 mt-0.5 shrink-0">
-                {step}
-              </span>
-              <div>
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {title}
-                </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-                  {desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Info */}
+      <StepList
+        title="How it works"
+        accentColor="bg-blue-500"
+        steps={[
+          {
+            step: '01',
+            title: 'Upload your image',
+            desc: 'Drop any image file - PNG, JPG, WebP, HEIC and more.',
+          },
+          {
+            step: '02',
+            title: 'Crop or resize',
+            desc: 'Drag the crop handles, pick an aspect ratio, or enter exact pixel dimensions.',
+          },
+          {
+            step: '03',
+            title: 'Download the result',
+            desc: 'Choose your output format and download. Nothing is stored or uploaded.',
+          },
+        ]}
+      />
+
+      <InfoCardGrid
+        title="Common crop sizes"
+        accentColor="bg-purple-500"
+        columns="grid-cols-2 sm:grid-cols-4"
+        cards={CROP_PRESETS}
+      />
+
+      <TechnicalNote
+        title="What happens when you crop"
+        accentColor="bg-emerald-500"
+        paragraphs={[
+          'Your image loads into browser memory and is decoded by a professional-grade image engine compiled to WebAssembly. When you drag the crop handles, the canvas overlay updates in real time without touching the underlying pixels. Only when you click "Apply" does the actual crop operation run - extracting the selected region at full resolution and re-encoding it in your chosen output format.',
+          'Resizing uses Lanczos resampling by default, which preserves edge sharpness better than simple bilinear scaling - the same algorithm used by professional desktop image editors.',
+        ]}
+      />
+
+      <FaqAccordion
+        title="Frequently asked questions"
+        accentColor="bg-blue-500"
+        items={CROP_FAQS}
+      />
     </div>
   );
 }

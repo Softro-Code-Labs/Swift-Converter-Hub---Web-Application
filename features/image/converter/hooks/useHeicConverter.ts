@@ -42,7 +42,7 @@ export const detectActualFormat = (bytes: Uint8Array): string => {
   )
     return 'webp';
 
-  // ISOBMFF — read ftyp brand at byte 8
+  // ISOBMFF - read ftyp brand at byte 8
   const brand = String.fromCharCode(bytes[8], bytes[9], bytes[10], bytes[11])
     .toLowerCase()
     .trim();

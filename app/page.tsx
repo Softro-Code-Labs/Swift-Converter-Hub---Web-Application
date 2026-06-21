@@ -158,7 +158,7 @@ export default function HomePage() {
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
               A complete file conversion toolkit that runs entirely in your
-              browser. Images, audio, video, documents, data — no uploads, no
+              browser. Images, audio, video, documents, data - no uploads, no
               accounts, no limits.
             </p>
           </div>

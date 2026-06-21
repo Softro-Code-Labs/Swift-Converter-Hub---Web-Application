@@ -14,7 +14,7 @@ export const useMagickEngine = () => {
         await initializeImageMagick(new Uint8Array(wasmBytes));
         setIsMagickLoaded(true);
       } catch (error) {
-        console.error('Failed to boot ImageMagick WASM:', error);
+        console.error('Failed to boot WASM engine:', error);
         toast.error('Image engine failed to initialize.');
       }
     };

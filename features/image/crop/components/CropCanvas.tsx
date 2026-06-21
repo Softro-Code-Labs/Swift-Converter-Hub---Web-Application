@@ -33,7 +33,7 @@ export const CropCanvas = ({
     type: string;
     startX: number;
     startY: number;
-    initCrop: CropRegion; // in NATURAL pixels
+    initCrop: CropRegion;
   } | null>(null);
 
   // Compute display scale whenever container or image changes
@@ -77,7 +77,6 @@ export const CropCanvas = ({
     const ratio = ASPECT_RATIOS[aspectRatio];
     if (!ratio) return { x, y, w, h };
     const newH = w / ratio;
-    // clamp so it doesn't go out of bounds
     const clampedH = Math.min(newH, displayH - y);
     return { x, y, w, h: clampedH };
   };
@@ -211,7 +210,6 @@ export const CropCanvas = ({
       style={{ width: '100%' }}
     >
       {/* Base image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
         alt="Crop preview"

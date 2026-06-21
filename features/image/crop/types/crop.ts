@@ -32,7 +32,14 @@ export interface ProcessedResult {
 }
 
 // Formats the crop tool can actually handle
-export const SUPPORTED_CROP_FORMATS = ['jpg', 'jpeg', 'png', 'webp'] as const;
+export const SUPPORTED_CROP_FORMATS = [
+  'jpg',
+  'jpeg',
+  'png',
+  'webp',
+  'bmp',
+  'avif',
+] as const;
 
 export type SupportedCropFormat = (typeof SUPPORTED_CROP_FORMATS)[number];
 

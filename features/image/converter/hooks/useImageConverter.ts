@@ -11,7 +11,7 @@ import {
   detectActualFormat,
 } from './useHeicConverter';
 import { FileItem } from '@/features/image/converter/types/converter';
-import { formatBytes } from '../../utils/formatBytes';
+import { formatBytes } from '../../shared/utils/bytes';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import toast from 'react-hot-toast';
@@ -304,7 +304,7 @@ export const useImageConverter = (
 
     // -- Case 2: .heic extension but actually a different format ---------------
     // (e.g. someone renamed a WebP/PNG/JPEG to .heic)
-    // Let ImageMagick handle it — it reads by magic bytes, not extension
+    // Let ImageMagick handle it - it reads by magic bytes, not extension
     // Falls through to Case 3 below
 
     // -- Case 3: standard ImageMagick conversion -------------------------------

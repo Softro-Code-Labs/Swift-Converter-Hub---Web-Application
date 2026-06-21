@@ -51,10 +51,10 @@ export const FAQS = [
   },
   {
     q: 'Can I use the tools offline?',
-    a: 'Yes — after the page loads, the WebAssembly engine is in your browser. You can disconnect from the internet and conversions will still work.',
+    a: 'Yes - after the page loads, the WebAssembly engine is in your browser. You can disconnect from the internet and conversions will still work.',
   },
   {
     q: 'Do you have an API?',
-    a: 'Not currently. All tools are browser-based. If you need programmatic access, consider ImageMagick directly for server-side workflows.',
+    a: 'Not currently. All tools are browser-based. If you need programmatic access, consider using command-line image utilities directly for server-side workflows.',
   },
 ];

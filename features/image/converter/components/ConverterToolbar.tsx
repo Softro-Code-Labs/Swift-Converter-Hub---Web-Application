@@ -27,7 +27,7 @@ export const ConverterToolbar = ({
 
   return (
     <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3">
-      {/* -- Progress bar — shown when converting ------------------------ */}
+      {/* -- Progress bar - shown when converting ------------------------ */}
       {isConvertingAll && (
         <div className="space-y-1">
           <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">

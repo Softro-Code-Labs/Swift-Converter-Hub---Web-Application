@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
 import { LaboratoryModules } from '@/components/LaboratoryModules';
 import {
   ArrowLeft,
@@ -9,19 +11,33 @@ import {
   Cpu,
   ServerOff,
 } from 'lucide-react';
-import Link from 'next/link';
 
-export const metadata = {
-  title: 'About — Privacy-First File Conversion',
+export const metadata: Metadata = {
+  title: 'About',
   description:
     'Learn how Swift Converter Hub uses WebAssembly to convert files entirely in your browser with zero uploads and 100% data privacy.',
+  keywords: [
+    'about swift converter hub',
+    'privacy first image converter',
+    'browser based image tools',
+    'webassembly image processing',
+    'no upload image converter',
+  ],
+  alternates: { canonical: 'https://swiftconverterhub.com/about' },
+  openGraph: {
+    title: 'About Swift Converter Hub - Privacy-First Local File Converters',
+    description:
+      'How we built a browser-based image toolkit that never uploads your files.',
+    url: 'https://swiftconverterhub.com/about',
+    type: 'website',
+  },
 };
 
 const PILLARS = [
   {
     icon: Shield,
     label: '100% Private',
-    desc: 'Your files are processed entirely inside your browser. Nothing is uploaded to any server — ever.',
+    desc: 'Your files are processed entirely inside your browser. Nothing is uploaded to any server - ever.',
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
   },
   {
@@ -45,7 +61,7 @@ const HOW_IT_WORKS = [
     icon: Cpu,
     step: '01',
     label: 'WebAssembly loads in your browser',
-    desc: 'When you open a tool, a compiled WebAssembly binary is loaded into your browser tab — the same binary that powers desktop software like ImageMagick.',
+    desc: 'When you open a tool, a compiled WebAssembly binary is loaded into your browser tab - the same binary that powers professional desktop-class design and editing software.',
   },
   {
     icon: Lock,
@@ -57,7 +73,7 @@ const HOW_IT_WORKS = [
     icon: ServerOff,
     step: '03',
     label: 'Processing happens locally',
-    desc: 'The WASM engine converts your file using your own CPU. Pull the ethernet cable mid-conversion — it will still finish.',
+    desc: 'The WASM engine converts your file using your own CPU. Pull the ethernet cable mid-conversion - it will still finish.',
   },
 ];
 
@@ -206,13 +222,13 @@ export default function AboutPage() {
             WebAssembly (WASM) is a binary instruction format that runs in your
             browser at near-native speed. It's the same technology that lets
             Figma, Google Earth and AutoCAD run in a browser tab. We use it to
-            run ImageMagick — the industry-standard image processing engine —
-            directly in your browser.
+            run a professional-grade image processing engine directly in your
+            browser.
           </p>
           <p className="text-sm text-slate-400 leading-relaxed">
             Because all computation happens locally, there is no server involved
             in the conversion process. We don't log your files, we don't store
-            your files, and we can't access your files — not because we promise
+            your files, and we can't access your files - not because we promise
             not to, but because the architecture makes it technically
             impossible.
           </p>
@@ -236,7 +252,7 @@ export default function AboutPage() {
               Ready to try it?
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Pick a tool and convert your first file in seconds — no setup
+              Pick a tool and convert your first file in seconds - no setup
               required.
             </p>
           </div>

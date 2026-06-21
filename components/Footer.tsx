@@ -106,7 +106,7 @@ export default function Footer() {
             </Link>
             <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
               A free, privacy-first file conversion toolkit. Everything runs in
-              your browser — nothing is ever uploaded.
+              your browser - nothing is ever uploaded.
             </p>
             {/* Trust badges */}
             <div className="space-y-1.5">

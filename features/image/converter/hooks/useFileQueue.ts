@@ -13,10 +13,9 @@ export const useFileQueue = (sourceExtension: string) => {
 
   const sourceLabel = sourceExtension.toUpperCase();
 
-  const handleFiles = (fileList: FileList | null) => {
-    if (!fileList) return;
-
-    if (files.length + fileList.length > 20) {
+  const handleFiles = (incoming: File[]) => {
+    if (!incoming || incoming.length === 0) return;
+    if (files.length + incoming.length > 20) {
       toast.error('Maximum 20 files allowed at once.');
       return;
     }
@@ -24,10 +23,8 @@ export const useFileQueue = (sourceExtension: string) => {
     const newItems: FileItem[] = [];
     let foundInvalid = false;
 
-    for (let i = 0; i < fileList.length; i++) {
-      const file = fileList[i];
+    for (const file of incoming) {
       const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
-
       if (!isAcceptedByFormat(ext, sourceExtension)) {
         if (!foundInvalid) {
           setInvalidFileDetails({
@@ -38,7 +35,6 @@ export const useFileQueue = (sourceExtension: string) => {
         }
         continue;
       }
-
       newItems.push({
         id: crypto.randomUUID(),
         file,

@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -9,10 +10,25 @@ import {
   CheckCircle,
 } from 'lucide-react';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'Swift Converter Hub processes all files locally in your browser. Nothing is ever uploaded. Read our privacy policy to learn more.',
+    'Swift Converter Hub processes all files locally in your browser. Read our full privacy policy on data handling, cookies, and why your files never touch our servers.',
+  keywords: [
+    'swift converter hub privacy policy',
+    'no upload image converter privacy',
+    'browser image processing privacy',
+    'image converter data policy',
+    'private photo converter online',
+  ],
+  alternates: { canonical: 'https://swiftconverterhub.com/privacy' },
+  openGraph: {
+    title: 'Privacy Policy - Privacy-First Local File Converters',
+    description:
+      'Your files never leave your browser. Read our full privacy policy.',
+    url: 'https://swiftconverterhub.com/privacy',
+    type: 'website',
+  },
 };
 
 const SECTIONS = [
@@ -29,8 +45,8 @@ const SECTIONS = [
           WebAssembly. Your files never leave your device.
         </p>
         <p className="mt-3">
-          We may collect basic anonymous analytics — page views, button clicks,
-          error rates — to understand how the tools are used and improve them.
+          We may collect basic anonymous analytics - page views, button clicks,
+          error rates - to understand how the tools are used and improve them.
           This data contains no personal information and cannot be linked to
           you.
         </p>
@@ -101,7 +117,7 @@ const SECTIONS = [
         <p>
           Because we never store your personal data or files, there is nothing
           to request deletion of. Our architecture makes data breaches involving
-          your files technically impossible — there is no database of your
+          your files technically impossible - there is no database of your
           content to breach.
         </p>
         <p className="mt-3">
@@ -170,7 +186,7 @@ export default function PrivacyPage() {
               </p>
               <p className="text-xs text-blue-700 dark:text-blue-400 mt-0.5 leading-relaxed">
                 All conversion happens locally in your browser using
-                WebAssembly. We have no servers that receive your files — this
+                WebAssembly. We have no servers that receive your files - this
                 is not a policy promise, it's an architectural fact.
               </p>
             </div>

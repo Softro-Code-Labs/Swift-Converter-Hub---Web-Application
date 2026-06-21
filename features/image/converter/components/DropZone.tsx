@@ -23,7 +23,6 @@ export const DropZone = ({
   }, []);
 
   const onDragLeave = useCallback((e: React.DragEvent) => {
-    // Only clear drag if leaving the zone itself, not a child element
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
       setIsDragging(false);
     }

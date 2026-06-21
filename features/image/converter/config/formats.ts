@@ -14,7 +14,7 @@ export interface ConversionRoute {
   description: string;
   keywords: string[];
   features: { icon: string; title: string; description: string }[];
-  faqs: { question: string; answer: string }[];
+  faqs: { q: string; a: string }[];
 }
 
 // ─── All Supported Formats ────────────────────────────────────────────────────
@@ -943,7 +943,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     label: 'MIFF',
     extension: 'miff',
     mimeType: 'image/x-miff',
-    description: 'ImageMagick native format',
+    description: 'Magick native format',
     aliases: ['miff'],
   },
   {
@@ -1220,7 +1220,7 @@ const DEFAULT_FEATURES = (source: string, target: string) => {
     return {
       icon: '💎',
       title: 'High Quality Output',
-      description: `Powered by ImageMagick WASM for accurate ${source} to ${target} conversion every time.`,
+      description: `Powered by a professional WASM engine for accurate ${source} to ${target} conversion every time.`,
     };
   };
 
@@ -1280,52 +1280,52 @@ const DEFAULT_FAQS = (source: string, target: string) => {
 
   const faqs = [
     {
-      question: `How do I convert ${source} to ${target}?`,
-      answer: `Upload your ${source} files by dragging them into the drop zone or clicking Browse. Select up to 20 files at once, then click Convert. Your files are processed locally in your browser and ready to download in seconds - no account or internet connection needed after the page loads.`,
+      q: `How do I convert ${source} to ${target}?`,
+      a: `Upload your ${source} files by dragging them into the drop zone or clicking Browse. Select up to 20 files at once, then click Convert. Your files are processed locally in your browser and ready to download in seconds - no account or internet connection needed after the page loads.`,
     },
     {
-      question: `Is it safe to convert my ${source} files here?`,
-      answer: `Yes, completely safe. Unlike most online converters that upload your files to a remote server, this tool runs entirely in your browser using WebAssembly. Your files never leave your device and are never stored, logged, or transmitted anywhere.`,
+      q: `Is it safe to convert my ${source} files here?`,
+      a: `Yes, completely safe. Unlike most online converters that upload your files to a remote server, this tool runs entirely in your browser using WebAssembly. Your files never leave your device and are never stored, logged, or transmitted anywhere.`,
     },
   ];
 
   // Quality-specific FAQ
   if (isLossless(tgt) && isCompressed(src)) {
     faqs.push({
-      question: `Will converting ${source} to ${target} improve quality?`,
-      answer: `Converting from ${source} to ${target} won't recover quality that was already lost during ${source} compression, but the output ${target} file will not introduce any new compression artifacts. From this point forward, editing and re-saving the ${target} file will preserve quality perfectly.`,
+      q: `Will converting ${source} to ${target} improve quality?`,
+      a: `Converting from ${source} to ${target} won't recover quality that was already lost during ${source} compression, but the output ${target} file will not introduce any new compression artifacts. From this point forward, editing and re-saving the ${target} file will preserve quality perfectly.`,
     });
   } else if (isCompressed(tgt) && isLossless(src)) {
     faqs.push({
-      question: `Will my image lose quality when converting ${source} to ${target}?`,
-      answer: `${target} uses lossy compression, so there will be some quality reduction compared to your original ${source} file. However, the compression is optimized to minimize visible differences. For web use the quality is typically excellent; for print or archival use, keep the original ${source} file.`,
+      q: `Will my image lose quality when converting ${source} to ${target}?`,
+      a: `${target} uses lossy compression, so there will be some quality reduction compared to your original ${source} file. However, the compression is optimized to minimize visible differences. For web use the quality is typically excellent; for print or archival use, keep the original ${source} file.`,
     });
   } else if (isVector(src)) {
     faqs.push({
-      question: `What resolution will the ${target} output be?`,
-      answer: `When converting from a vector format like ${source}, ImageMagick renders at the dimensions defined in the file. For best results, ensure your ${source} file has an explicit width and height set. You can also pre-scale the vector before converting if you need a specific pixel size.`,
+      q: `What resolution will the ${target} output be?`,
+      a: `When converting from a vector format like ${source}, the engine renders at the dimensions defined in the file. For best results, ensure your ${source} file has an explicit width and height set. You can also pre-scale the vector before converting if you need a specific pixel size.`,
     });
   } else if (isRaw(src)) {
     faqs.push({
-      question: `Does this support all ${source} camera files?`,
-      answer: `${source} support depends on the WebAssembly build of ImageMagick included in this tool. Most common ${source} variants are supported. If your file fails, try converting it first using your camera's software or a desktop RAW editor, then use the resulting TIFF or JPG here.`,
+      q: `Does this support all ${source} camera files?`,
+      a: `${source} support depends on the WebAssembly build of the image engine included in this tool. Most common ${source} variants are supported. If your file fails, try converting it first using your camera's software or a desktop RAW editor, then use the resulting TIFF or JPG here.`,
     });
   } else if (isDocument(tgt)) {
     faqs.push({
-      question: `What size will the ${target} output be?`,
-      answer: `The ${target} output preserves your image at its original pixel dimensions. For print use, the physical size depends on your printer's DPI setting. For best print results, ensure your source image is at least 300 DPI at the intended print size.`,
+      q: `What size will the ${target} output be?`,
+      a: `The ${target} output preserves your image at its original pixel dimensions. For print use, the physical size depends on your printer's DPI setting. For best print results, ensure your source image is at least 300 DPI at the intended print size.`,
     });
   } else {
     faqs.push({
-      question: `What is the difference between ${source} and ${target}?`,
-      answer: `${source} and ${target} are different image formats optimized for different use cases. The best choice depends on your specific needs - file size, quality requirements, transparency support, and where the image will be used.`,
+      q: `What is the difference between ${source} and ${target}?`,
+      a: `${source} and ${target} are different image formats optimized for different use cases. The best choice depends on your specific needs - file size, quality requirements, transparency support, and where the image will be used.`,
     });
   }
 
   // Batch FAQ always included
   faqs.push({
-    question: `Can I convert multiple ${source} files to ${target} at once?`,
-    answer: `Yes - you can upload up to 20 ${source} files at once. They all convert simultaneously and you can download them individually or as a single ZIP bundle.`,
+    q: `Can I convert multiple ${source} files to ${target} at once?`,
+    a: `Yes - you can upload up to 20 ${source} files at once. They all convert simultaneously and you can download them individually or as a single ZIP bundle.`,
   });
 
   return faqs;
@@ -1607,7 +1607,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
   'webp-to-png': {
     title: 'Convert WebP to PNG Online - Extract Lossless Images with Alpha',
     description:
-      'Convert WebP images to lossless PNG format with transparency channels intact. Fast browser processing via high-fidelity ImageMagick WASM.',
+      'Convert WebP images to lossless PNG format with transparency channels intact. Fast browser processing via high-fidelity WASM engine.',
     keywords: [
       'webp to png',
       'convert webp to png transparent',
@@ -1680,7 +1680,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'convert extension .tiff to .jpg',
       'high dynamic range tiff to jpeg',
       'uncompressed tif file to jpeg size reduction',
-      'imagemagick wasm tiff to jpg',
+      'wasm tiff to jpg',
       'secure master graphic file converter',
       'convert print ready tif to compressed jpeg',
     ],
@@ -1760,7 +1760,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'save print project psd to web ready transparent png',
       'free script file to render psd into clean png',
       'convert extension .psd to .png transparent layer',
-      'imagemagick wasm parsing engine psd to png profile',
+      'wasm parsing engine psd to png profile',
       'secure layered format to single transparency web graphic',
       'photoshop mockup file extractor to png asset',
       'render smart objects inside psd as individual png files',
@@ -1814,7 +1814,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'save windows standard executable icon layer as high transparency web png',
       'browser script reverse compiling binary icon matrices to standard transparent graphics',
       'convert extension .ico to .png layout resource pipeline',
-      'imagemagick web assembly runtime decoding proprietary microsoft icon packages',
+      'web assembly runtime decoding proprietary microsoft icon packages',
       'secure developer toolkit disassemble layout configuration ico matrices',
       'extract highest resolution bitmap from website favicon stream to local file system',
       'deconstruct desktop template asset to raw design component png structure',
@@ -1843,7 +1843,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'mass map collection processing converter tool asset extraction',
       'free browser application compile secure data format vector container',
       'convert extension .avif to .png lossless data asset optimization',
-      'imagemagick assembly container framework pipeline extraction',
+      'assembly container framework pipeline extraction',
       'secure visual infrastructure convert modern vector compression matrix',
       'render complex layout asset array raw image asset array structure',
       'unlimited free desktop level file handling automation package profiles',

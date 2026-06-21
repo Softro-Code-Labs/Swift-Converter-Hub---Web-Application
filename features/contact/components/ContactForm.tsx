@@ -90,7 +90,7 @@ export default function ContactForm() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
-          {/* -- Left — contact form ----------------------------------- */}
+          {/* -- Left - contact form ----------------------------------- */}
           <div className="space-y-5">
             {/* Success state */}
             {status === 'sent' ? (
@@ -221,7 +221,7 @@ export default function ContactForm() {
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder={
                           selectedTopicData?.id === 'bug'
-                            ? 'Describe the issue — what format were you converting, what happened, and what browser are you using?'
+                            ? 'Describe the issue - what format were you converting, what happened, and what browser are you using?'
                             : selectedTopicData?.id === 'feature'
                               ? "Describe the feature or improvement you'd like to see..."
                               : 'Write your message here...'
@@ -268,7 +268,7 @@ export default function ContactForm() {
             )}
           </div>
 
-          {/* -- Right — info sidebar ----------------------------------- */}
+          {/* -- Right - info sidebar ----------------------------------- */}
           <div className="space-y-5">
             {/* Direct email */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-3">

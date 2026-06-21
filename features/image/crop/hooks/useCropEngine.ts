@@ -5,7 +5,7 @@ import {
   MagickGeometry,
 } from '@imagemagick/magick-wasm';
 import { CropRegion, ResizeDimensions, ProcessedResult } from '../types/crop';
-import { formatBytes } from '../../utils/formatBytes';
+import { formatBytes } from '../../shared/utils/bytes';
 import toast from 'react-hot-toast';
 
 export const useCropEngine = () => {

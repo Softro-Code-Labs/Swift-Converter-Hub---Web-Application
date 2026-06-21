@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        // Main crawlers — full access to all conversion pages
+        // Main crawlers - full access to all conversion pages
         userAgent: [
           'Googlebot',
           'Bingbot',
@@ -30,7 +30,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/', '/admin/', '*.json$'],
       },
       {
-        // AI training crawlers — block entirely
+        // AI training crawlers - block entirely
         userAgent: [
           'GPTBot',
           'ChatGPT-User',
@@ -48,7 +48,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/'],
       },
       {
-        // SEO audit tools — allow but rate limit via crawl-delay
+        // SEO audit tools - allow but rate limit via crawl-delay
         userAgent: ['AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot'],
         allow: ['/'],
         disallow: ['/api/', '/_next/'],
