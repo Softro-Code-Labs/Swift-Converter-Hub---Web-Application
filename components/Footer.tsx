@@ -49,6 +49,7 @@ const POPULAR_LINKS = [
 const LEGAL_LINKS = [
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms of Use', href: '/terms' },
+  { label: 'Contact', href: '/contact' },
   { label: 'About', href: '/about' },
 ];
 
@@ -79,7 +80,7 @@ export default function Footer() {
   return (
     <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* ── Main grid ───────────────────────────────────────────────── */}
+        {/* -- Main grid ------------------------------------------------- */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 py-12 border-b border-slate-100 dark:border-slate-800">
           {/* Brand */}
           <div className="col-span-2 sm:col-span-1 space-y-4">
@@ -105,7 +106,7 @@ export default function Footer() {
             </Link>
             <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
               A free, privacy-first file conversion toolkit. Everything runs in
-              your browser — nothing is ever uploaded.
+              your browser - nothing is ever uploaded.
             </p>
             {/* Trust badges */}
             <div className="space-y-1.5">
@@ -182,7 +183,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ── Bottom bar ──────────────────────────────────────────────── */}
+        {/* -- Bottom bar ------------------------------------------------ */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-5 text-[11px] text-slate-400 dark:text-slate-500">
           <p>© {year} SwiftConverterHub · All rights reserved</p>
           <div className="flex items-center gap-1.5">

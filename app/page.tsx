@@ -18,7 +18,7 @@ const STUDIOS = [
     icon: ImageIcon,
     label: 'Image Studio',
     href: '/image',
-    desc: 'Convert, compress and edit WebP, PNG, JPEG, HEIC and 70+ formats.',
+    desc: 'Convert, compress and edit WebP, PNG, JPEG, HEIC and 120+ formats.',
     accent: 'blue',
     tools: ['Format Convert', 'Batch Convert', 'Crop & Resize', 'Compress'],
   },
@@ -127,7 +127,7 @@ const TRUST = [
 ];
 
 const STATS = [
-  { value: '70+', label: 'Image formats' },
+  { value: '120+', label: 'Image formats' },
   { value: '100%', label: 'Browser-side' },
   { value: '0', label: 'Server uploads' },
   { value: '6', label: 'Studio tools' },
@@ -136,7 +136,7 @@ const STATS = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      {/* -- Hero ------------------------------------------------------------ */}
       <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
           {/* Badge */}
@@ -158,7 +158,7 @@ export default function HomePage() {
             </h1>
             <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
               A complete file conversion toolkit that runs entirely in your
-              browser. Images, audio, video, documents, data — no uploads, no
+              browser. Images, audio, video, documents, data - no uploads, no
               accounts, no limits.
             </p>
           </div>
@@ -200,7 +200,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Trust strip ───────────────────────────────────────────────────── */}
+      {/* -- Trust strip ----------------------------------------------------- */}
       <section className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10">
@@ -223,7 +223,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Studios ───────────────────────────────────────────────────────── */}
+      {/* -- Studios --------------------------------------------------------- */}
       <section
         id="studios"
         className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14"
@@ -288,7 +288,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Bottom CTA ────────────────────────────────────────────────────── */}
+      {/* -- Bottom CTA ------------------------------------------------------ */}
       <section className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center space-y-4">
           <h2 className="text-xl font-black text-slate-900 dark:text-white">

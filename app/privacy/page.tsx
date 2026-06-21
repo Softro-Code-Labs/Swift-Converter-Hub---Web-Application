@@ -1,171 +1,252 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import {
+  ArrowLeft,
+  Shield,
+  Eye,
+  BarChart2,
+  Globe,
+  Mail,
+  CheckCircle,
+} from 'lucide-react';
 
-export const metadata = {
-  title: 'Privacy Policy | 100% Local File Security Guarantee',
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
   description:
-    'Read the Swift Converter Hub Privacy Policy. Learn how our client-side architecture guarantees your images and documents never touch a remote server.',
+    'Swift Converter Hub processes all files locally in your browser. Read our full privacy policy on data handling, cookies, and why your files never touch our servers.',
+  keywords: [
+    'swift converter hub privacy policy',
+    'no upload image converter privacy',
+    'browser image processing privacy',
+    'image converter data policy',
+    'private photo converter online',
+  ],
+  alternates: { canonical: 'https://swiftconverterhub.com/privacy' },
+  openGraph: {
+    title: 'Privacy Policy - Privacy-First Local File Converters',
+    description:
+      'Your files never leave your browser. Read our full privacy policy.',
+    url: 'https://swiftconverterhub.com/privacy',
+    type: 'website',
+  },
 };
 
+const SECTIONS = [
+  {
+    id: '1',
+    icon: Shield,
+    title: 'What we collect',
+    color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    content: (
+      <>
+        <p>
+          We do not collect, store, or transmit any files you process using our
+          tools. All file conversion happens entirely inside your browser using
+          WebAssembly. Your files never leave your device.
+        </p>
+        <p className="mt-3">
+          We may collect basic anonymous analytics - page views, button clicks,
+          error rates - to understand how the tools are used and improve them.
+          This data contains no personal information and cannot be linked to
+          you.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: '2',
+    icon: Eye,
+    title: 'What we never see',
+    color:
+      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+    content: (
+      <ul className="space-y-2">
+        {[
+          'The content, pixels, or text of any file you upload',
+          'File names or metadata of files you process',
+          'Any personal or identifying information from your files',
+          'Your conversion history or output files',
+        ].map((item) => (
+          <li key={item} className="flex items-start gap-2.5">
+            <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    id: '3',
+    icon: BarChart2,
+    title: 'Advertising & analytics',
+    color:
+      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    content: (
+      <>
+        <p>
+          To keep our tools free, we show ads through Google AdSense. Google may
+          use cookies to show relevant ads based on your general browsing
+          activity. These cookies cannot access your files or conversion data in
+          any way.
+        </p>
+        <p className="mt-3">
+          You can block ads using any standard browser extension without
+          affecting the functionality of our conversion tools. We use Google
+          Analytics for anonymous usage statistics. You can opt out via{' '}
+          <a
+            href="https://tools.google.com/dlpage/gaoptout"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            Google's opt-out tool
+          </a>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    id: '4',
+    icon: Globe,
+    title: 'Your rights & compliance',
+    color:
+      'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    content: (
+      <>
+        <p>
+          Because we never store your personal data or files, there is nothing
+          to request deletion of. Our architecture makes data breaches involving
+          your files technically impossible - there is no database of your
+          content to breach.
+        </p>
+        <p className="mt-3">
+          Our service is designed to comply with GDPR (EU), CCPA (California),
+          and HIPAA data safety principles. If you have questions about your
+          rights, contact us at the address below.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: '5',
+    icon: Mail,
+    title: 'Contact us',
+    color: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
+    content: (
+      <>
+        <p>
+          Questions about this policy or how your data is handled? Reach us at:
+        </p>
+        <a
+          href="mailto:privacy@swiftconverterhub.com"
+          className="inline-flex items-center gap-2 mt-3 px-3 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
+        >
+          privacy@swiftconverterhub.com
+        </a>
+      </>
+    ),
+  },
+];
+
 export default function PrivacyPage() {
-  const lastUpdated = 'June 2026';
-
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-500 selection:text-white transition-colors duration-300 dark:bg-slate-950 dark:text-slate-200">
-      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        {/* Document Header */}
-        <div className="border-b border-slate-200 pb-8 text-center sm:text-left dark:border-slate-800">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
-            Privacy Policy
-          </h1>
-          <p className="mt-2 text-sm text-slate-400 font-medium dark:text-slate-500">
-            Last Updated: {lastUpdated} • Version 1.1 (Zero-Upload Guarantee)
-          </p>
-        </div>
-
-        {/* Legal Text Stream */}
-        <div className="mt-10 space-y-10 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-          {/* Section 1: The Core Zero-Knowledge Promise */}
-          <section className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 dark:bg-blue-950/20 dark:border-blue-900/50">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 dark:text-slate-100">
-              <span>🛡️</span> Our Core Philosophy: Zero Remote Storage
-            </h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-400">
-              At Swift Converter Hub, we treat your privacy as an absolute
-              right. Unlike standard online converters that transmit your files
-              to cloud infrastructure for rendering, our platform operates on a{' '}
-              <strong className="text-slate-900 dark:text-slate-200">
-                Zero-Knowledge client-side architecture
-              </strong>
-              .
-            </p>
-            <p className="mt-2 font-semibold text-blue-800 dark:text-blue-400">
-              Your files, images, and documents are never uploaded to our
-              servers, because we do not use or maintain file-processing
-              servers.
-            </p>
-          </section>
-
-          {/* Section 2: How Data is Processed */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              1. How Your Data is Processed
-            </h2>
-            <p>
-              When you drop a file into our web interface, the file is loaded
-              directly into your local browser window using secure, modern
-              browser technologies (JavaScript and WebAssembly).
-            </p>
-            <p>
-              The actual file conversion happens entirely within your
-              device&apos;s own memory. As soon as the conversion finishes, or
-              when you close the browser tab or reload the application, any
-              temporary cache created by the browser is instantly discarded and
-              permanently destroyed.
-            </p>
-          </section>
-
-          {/* Section 3: Data We DO NOT Collect */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              2. Information We Do Not Collect
-            </h2>
-            <p>
-              Because all transformations execute strictly inside your local web
-              environment, we have zero technical capacity to view, log,
-              collect, or store any of your content. This means we never see:
-            </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-slate-500 dark:text-slate-450">
-              <li>
-                The actual text, content, or layout arrangements of your
-                documents.
-              </li>
-              <li>
-                The pixels, photos, embedded location tags, or original names of
-                your files.
-              </li>
-              <li>
-                Any personal identification profiles or digital signatures.
-              </li>
-            </ul>
-          </section>
-
-          {/* Section 4: Analytics and Advertising (Google AdSense Compliance) */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              3. Analytics & Third-Party Advertising
-            </h2>
-            <p>
-              To keep our conversion studios completely free to use around the
-              world, we display automated advertisements through network
-              providers like Google AdSense, and measure basic usage trends
-              using privacy-focused analytics.
-            </p>
-            <p>
-              These third-party tools may use basic browser cookies to display
-              ads relevant to your generic web interests. These scripts monitor
-              abstract metrics-like view counts, button selections, or error
-              reports-but{' '}
-              <strong className="text-slate-900 dark:text-slate-200">
-                can never access or intercept
-              </strong>{' '}
-              your local file conversion streams. You can use any standard
-              browser ad-blocker without limiting the features of our conversion
-              tools.
-            </p>
-          </section>
-
-          {/* Section 5: Regulatory Compliance */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              4. Global Regulatory Compliance
-            </h2>
-            <p>
-              Our code infrastructure is built to natively honor global data
-              standard rights including the European Union General Data
-              Protection Regulation (
-              <strong className="text-slate-900 dark:text-slate-200">
-                GDPR
-              </strong>
-              ) and the California Consumer Privacy Act (
-              <strong className="text-slate-900 dark:text-slate-200">
-                CCPA
-              </strong>
-              ).
-            </p>
-            <p>
-              Because your personal file data is never sent to our systems, we
-              never hold, store, control, or transfer your assets to third
-              parties. There is no personal database to be breached, sold, or
-              requested for removal.
-            </p>
-          </section>
-
-          {/* Section 6: Contact Information */}
-          <section className="space-y-3 pt-6 border-t border-slate-200 dark:border-slate-800">
-            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              5. Contact Support
-            </h2>
-            <p>
-              If you have any questions regarding our client-side processing
-              mechanics or how memory management is handled on your machine,
-              feel free to reach out to our team at:
-            </p>
-            <p className="font-mono bg-slate-100 px-3 py-1.5 rounded-xl inline-block text-xs text-slate-700 dark:bg-slate-900 dark:text-slate-300 border border-slate-200 dark:border-slate-800">
-              privacy@swiftconverterhub.com
-            </p>
-          </section>
-        </div>
-
-        {/* Post-Read Navigation Footer */}
-        <div className="mt-16 pt-8 border-t border-slate-200 text-center dark:border-slate-800">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
+      {/* -- Header -------------------------------------------------------- */}
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors group"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-6"
           >
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-            Return to Workspace Home
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            Back to home
           </Link>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-2xl font-black text-slate-900 dark:text-white">
+                Privacy Policy
+              </h1>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50">
+                Version 1.0
+              </span>
+            </div>
+            <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+              Last updated: June 2026
+            </p>
+          </div>
+
+          {/* Core promise banner */}
+          <div className="mt-6 flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 rounded-xl">
+            <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-bold text-blue-900 dark:text-blue-300">
+                Your files never leave your device
+              </p>
+              <p className="text-xs text-blue-700 dark:text-blue-400 mt-0.5 leading-relaxed">
+                All conversion happens locally in your browser using
+                WebAssembly. We have no servers that receive your files - this
+                is not a policy promise, it's an architectural fact.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* -- Content ------------------------------------------------------- */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-4">
+        {SECTIONS.map(({ id, icon: Icon, title, color, content }) => (
+          <div
+            key={id}
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
+          >
+            {/* Section header */}
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-slate-800">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${color}`}
+              >
+                <Icon className="w-4 h-4" />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600">
+                  {id}
+                </span>
+                <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+                  {title}
+                </h2>
+              </div>
+            </div>
+
+            {/* Section body */}
+            <div className="px-5 py-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              {content}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* -- Footer -------------------------------------------------------- */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
+            © {new Date().getFullYear()} Swift Converter Hub
+          </p>
+          <div className="flex items-center gap-4 text-xs">
+            <Link
+              href="/terms"
+              className="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold group"
+            >
+              <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+              Home
+            </Link>
+          </div>
         </div>
       </div>
     </main>

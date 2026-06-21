@@ -2,114 +2,126 @@
 
 import Link from 'next/link';
 import {
-  Image as ImageIcon,
+  ImageIcon,
   FileText,
   Music,
   Video,
   Database,
   Type,
-  HelpCircle,
+  ArrowRight,
 } from 'lucide-react';
+
+const MODULES = [
+  {
+    href: '/image',
+    label: 'Image Studio',
+    desc: 'Convert WebP, PNG, HEIC and 70+ formats',
+    icon: ImageIcon,
+    color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    hover:
+      'hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/50 dark:hover:bg-blue-950/20',
+    iconHover: 'group-hover:bg-blue-600 group-hover:text-white',
+  },
+  {
+    href: '/audio',
+    label: 'Audio Studio',
+    desc: 'Transcode MP3, WAV, FLAC and more',
+    icon: Music,
+    color:
+      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+    hover:
+      'hover:border-emerald-200 dark:hover:border-emerald-800 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20',
+    iconHover: 'group-hover:bg-emerald-600 group-hover:text-white',
+  },
+  {
+    href: '/video',
+    label: 'Video Studio',
+    desc: 'Convert MP4, WebM, clip and compress',
+    icon: Video,
+    color:
+      'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    hover:
+      'hover:border-purple-200 dark:hover:border-purple-800 hover:bg-purple-50/50 dark:hover:bg-purple-950/20',
+    iconHover: 'group-hover:bg-purple-600 group-hover:text-white',
+  },
+  {
+    href: '/file',
+    label: 'Document Suite',
+    desc: 'PDF, Word, Excel and document tools',
+    icon: FileText,
+    color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+    hover:
+      'hover:border-cyan-200 dark:hover:border-cyan-800 hover:bg-cyan-50/50 dark:hover:bg-cyan-950/20',
+    iconHover: 'group-hover:bg-cyan-600 group-hover:text-white',
+  },
+  {
+    href: '/data',
+    label: 'Data Studio',
+    desc: 'Parse JSON, CSV and XML formats',
+    icon: Database,
+    color:
+      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    hover:
+      'hover:border-amber-200 dark:hover:border-amber-800 hover:bg-amber-50/50 dark:hover:bg-amber-950/20',
+    iconHover: 'group-hover:bg-amber-600 group-hover:text-white',
+  },
+  {
+    href: '/character',
+    label: 'Character Studio',
+    desc: 'Text encoding, case and regex tools',
+    icon: Type,
+    color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
+    hover:
+      'hover:border-rose-200 dark:hover:border-rose-800 hover:bg-rose-50/50 dark:hover:bg-rose-950/20',
+    iconHover: 'group-hover:bg-rose-600 group-hover:text-white',
+  },
+];
 
 interface LaboratoryModulesProps {
   title?: string;
 }
 
 export const LaboratoryModules = ({
-  title = 'Available Laboratory Modules',
+  title = 'Available tools',
 }: LaboratoryModulesProps) => {
-  const modules = [
-    {
-      href: '/image',
-      title: 'Image Studio',
-      desc: 'Convert & compress WebP, PNG, HEIC',
-      icon: ImageIcon,
-      themeClass:
-        'hover:bg-blue-50/50 dark:hover:bg-blue-950/30 hover:border-blue-200 dark:hover:border-blue-800',
-      iconBg:
-        'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 group-hover/item:bg-blue-600 dark:group-hover/item:bg-blue-500',
-    },
-    {
-      href: '/file',
-      title: 'Document Suite',
-      desc: 'PDF compiler, Word tools, Excel',
-      icon: FileText,
-      themeClass:
-        'hover:bg-cyan-50/50 dark:hover:bg-cyan-950/30 hover:border-cyan-200 dark:hover:border-cyan-800',
-      iconBg:
-        'bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 group-hover/item:bg-cyan-600 dark:group-hover/item:bg-cyan-500',
-    },
-    {
-      href: '/audio',
-      title: 'Audio Studio',
-      desc: 'Transcode MP3, WAV, FLAC, bitrates',
-      icon: Music,
-      themeClass:
-        'hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30 hover:border-emerald-200 dark:hover:border-emerald-800',
-      iconBg:
-        'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 group-hover/item:bg-emerald-600 dark:group-hover/item:bg-emerald-500',
-    },
-    {
-      href: '/data',
-      title: 'Data Studio',
-      desc: 'Map schemas across CSV, JSON, XML',
-      icon: Database,
-      themeClass:
-        'hover:bg-amber-50/50 dark:hover:bg-amber-950/30 hover:border-amber-200 dark:hover:border-amber-800',
-      iconBg:
-        'bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 group-hover/item:bg-amber-600 dark:group-hover/item:bg-amber-500',
-    },
-    {
-      href: '/video',
-      title: 'Video Studio',
-      desc: 'Clip rendering, MP4 arrays, GIF engine',
-      icon: Video,
-      themeClass:
-        'hover:bg-purple-50/50 dark:hover:bg-purple-950/30 hover:border-purple-200 dark:hover:border-purple-800',
-      iconBg:
-        'bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 group-hover/item:bg-purple-600 dark:group-hover/item:bg-purple-500',
-    },
-    {
-      href: '/character',
-      title: 'Character Studio',
-      desc: 'Case shifts, word metrics, sanitation',
-      icon: Type,
-      themeClass:
-        'hover:bg-rose-50/50 dark:hover:bg-rose-950/30 hover:border-rose-200 dark:hover:border-rose-800',
-      iconBg:
-        'bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 group-hover/item:bg-rose-600 dark:group-hover/item:bg-rose-500',
-    },
-  ];
-
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm dark:shadow-xl dark:shadow-black/20 space-y-4 transition-colors duration-300">
-      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-        <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+      {/* Header */}
+      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+        <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
           {title}
         </p>
-        <HelpCircle className="w-4 h-4 text-slate-300 dark:text-slate-600 animate-pulse" />
+        <span className="text-[10px] font-semibold text-slate-300 dark:text-slate-600">
+          {MODULES.length} studios
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-        {modules.map((mod) => {
-          const IconComponent = mod.icon;
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-100 dark:bg-slate-800">
+        {MODULES.map((mod) => {
+          const Icon = mod.icon;
           return (
             <Link
               key={mod.href}
               href={mod.href}
-              className={`flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-950/40 text-slate-700 dark:text-slate-300 font-semibold text-xs transition-all duration-200 group/item active:scale-98 cursor-pointer ${mod.themeClass}`}
+              className={`group flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-transparent transition-all duration-200 ${mod.hover}`}
             >
-              <span
-                className={`flex h-8 w-8 items-center justify-center rounded-lg shadow-sm flex-shrink-0 group-hover/item:text-white transition-colors duration-200 ${mod.iconBg}`}
+              <div
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-200 ${mod.color} ${mod.iconHover}`}
               >
-                <IconComponent className="w-4 h-4 group-hover/item:scale-110 transition-transform" />
-              </span>
-              <div>
-                <span className="block font-bold">{mod.title}</span>
-                <span className="block text-[10px] text-slate-400 dark:text-slate-500 font-normal mt-0.5">
-                  {mod.desc}
-                </span>
+                <Icon className="w-4 h-4" />
               </div>
+
+              <div className="min-w-0 flex-1 text-left">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                  {mod.label}
+                </p>
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
+                  {mod.desc}
+                </p>
+              </div>
+
+              <ArrowRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 group-hover:text-slate-500 dark:group-hover:text-slate-400 group-hover:translate-x-0.5 transition-all shrink-0" />
             </Link>
           );
         })}

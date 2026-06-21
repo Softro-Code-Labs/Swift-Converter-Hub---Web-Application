@@ -1,69 +1,66 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { Compass, RefreshCw, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Search } from 'lucide-react';
 import { LaboratoryModules } from '@/components/LaboratoryModules';
+
 export default function NotFound() {
   return (
-    <main className="relative min-h-[90vh] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 px-4 py-12 overflow-hidden transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* Glow Matrix Background Tech Aura Accents */}
-      <div className="absolute inset-0 -z-10 pointer-events-none opacity-40 dark:opacity-30">
-        <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-blue-400 dark:bg-blue-600 rounded-full blur-3xl animate-pulse [animation-duration:4s]" />
-        <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-cyan-400 dark:bg-cyan-600 rounded-full blur-3xl animate-pulse [animation-duration:6s]" />
-      </div>
-
-      {/* Main Interactive Container */}
-      <div className="w-full max-w-2xl text-center space-y-8 z-10">
-        {/* Animated 404 Display Area */}
-        <div className="relative inline-flex items-center justify-center group">
-          {/* Pulsing Outer Radar Rings */}
-          <div className="absolute inset-0 rounded-full bg-blue-500/10 dark:bg-blue-500/5 scale-150 animate-ping opacity-40 [animation-duration:3s]" />
-          <div className="absolute inset-0 rounded-full bg-cyan-500/5 scale-125 animate-pulse opacity-30 [animation-duration:2s]" />
-
-          {/* Floating UI Elements */}
-          <div className="absolute -top-6 -right-6 p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-md rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-300">
-            <Compass className="w-6 h-6 text-blue-600 dark:text-blue-400 animate-spin [animation-duration:12s]" />
+    <main className="min-h-[90vh] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-16 transition-colors duration-300">
+      <div className="w-full max-w-2xl space-y-10 text-center">
+        {/* -- 404 number -------------------------------------------------- */}
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-xs font-bold text-red-600 dark:text-red-400 mb-2">
+            <Search className="w-3 h-3" />
+            Page not found
           </div>
 
-          <div className="absolute -bottom-4 -left-6 p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-md -rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-300">
-            <RefreshCw className="w-5 h-5 text-cyan-500 dark:text-cyan-400 animate-spin [animation-duration:8s]" />
-          </div>
-
-          <h1 className="text-8xl font-black tracking-tighter sm:text-9xl text-slate-900 dark:text-white select-none drop-shadow-sm transition-transform duration-300 group-hover:scale-102">
-            4
-            <span className="text-blue-600 dark:text-blue-500 relative inline-block animate-bounce [animation-duration:2.5s]">
-              0
+          <h1 className="text-[120px] sm:text-[160px] font-black leading-none tracking-tighter text-slate-100 dark:text-slate-800 select-none relative">
+            404
+            <span
+              className="absolute inset-0 flex items-center justify-center text-[120px] sm:text-[160px] font-black !text-slate-900 dark:text-white"
+              style={{
+                WebkitTextStroke: '2px currentColor',
+                color: 'transparent',
+              }}
+            >
+              404
             </span>
-            4
           </h1>
         </div>
 
-        {/* Clear, Action-Oriented User Messaging */}
-        <div className="space-y-3">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
-            Oops! This page seems to have drifted away.
+        {/* -- Message ----------------------------------------------------- */}
+        <div className="space-y-2 max-w-md mx-auto">
+          <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+            This page doesn't exist
           </h2>
-          <p className="mx-auto max-w-md text-xs sm:text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-            We couldn&apos;t find the specific route or tool you were looking
-            for. Don&apos;t worry, your data is completely safe. Jump straight
-            into one of our dedicated local studios below to get back to work.
+          <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+            The route you're looking for has moved, been deleted, or never
+            existed. Head back to the homepage or jump into one of the tools
+            below.
           </p>
         </div>
 
-        {/* Shared Theme-Injected Module List Component */}
-        <LaboratoryModules title="Available Tool Studios" />
-
-        {/* Master Return Action Button */}
-        <div className="pt-2">
+        {/* -- Quick actions ----------------------------------------------- */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-blue-600 px-6 py-3.5 text-sm font-bold text-white hover:bg-blue-600 dark:hover:bg-blue-500 active:scale-95 shadow-md shadow-slate-900/10 dark:shadow-blue-900/30 transition-all duration-200 group cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white hover:bg-slate-700 dark:hover:bg-slate-100 text-white dark:text-slate-900 text-sm font-bold rounded-xl transition-all active:scale-[0.98] group"
           >
-            <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" />
-            Return to Main Workspace
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+            Back to home
+          </Link>
+          <Link
+            href="/image"
+            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all active:scale-[0.98] group"
+          >
+            Go to Image Studio
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
+
+        {/* -- Studio modules ---------------------------------------------- */}
+        <LaboratoryModules title="Or jump into a tool" />
       </div>
     </main>
   );

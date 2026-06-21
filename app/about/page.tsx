@@ -1,142 +1,271 @@
-import { LaboratoryModules } from '@/components/LaboratoryModules';
-import { ArrowLeft } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
+import { LaboratoryModules } from '@/components/LaboratoryModules';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Shield,
+  Zap,
+  Globe,
+  Lock,
+  Cpu,
+  ServerOff,
+} from 'lucide-react';
 
-export const metadata = {
-  title: 'About Our Privacy-First Architecture',
+export const metadata: Metadata = {
+  title: 'About',
   description:
-    'Learn how Swift Converter Hub uses cutting-edge client-side browser computing to convert your images and files with 100% data privacy and zero cloud uploads.',
+    'Learn how Swift Converter Hub uses WebAssembly to convert files entirely in your browser with zero uploads and 100% data privacy.',
+  keywords: [
+    'about swift converter hub',
+    'privacy first image converter',
+    'browser based image tools',
+    'webassembly image processing',
+    'no upload image converter',
+  ],
+  alternates: { canonical: 'https://swiftconverterhub.com/about' },
+  openGraph: {
+    title: 'About Swift Converter Hub - Privacy-First Local File Converters',
+    description:
+      'How we built a browser-based image toolkit that never uploads your files.',
+    url: 'https://swiftconverterhub.com/about',
+    type: 'website',
+  },
 };
+
+const PILLARS = [
+  {
+    icon: Shield,
+    label: '100% Private',
+    desc: 'Your files are processed entirely inside your browser. Nothing is uploaded to any server - ever.',
+    color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+  },
+  {
+    icon: Zap,
+    label: 'Instant Processing',
+    desc: 'WebAssembly runs at near-native speed. No upload wait times, no server queues.',
+    color:
+      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+  },
+  {
+    icon: Globe,
+    label: 'Always Free',
+    desc: 'No paywalls, no account required, no download caps. Available to anyone, anywhere.',
+    color:
+      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+  },
+];
+
+const HOW_IT_WORKS = [
+  {
+    icon: Cpu,
+    step: '01',
+    label: 'WebAssembly loads in your browser',
+    desc: 'When you open a tool, a compiled WebAssembly binary is loaded into your browser tab - the same binary that powers professional desktop-class design and editing software.',
+  },
+  {
+    icon: Lock,
+    step: '02',
+    label: 'Your file never leaves your device',
+    desc: 'When you drop a file, it goes directly into browser memory. No network request is made. No data is transmitted.',
+  },
+  {
+    icon: ServerOff,
+    step: '03',
+    label: 'Processing happens locally',
+    desc: 'The WASM engine converts your file using your own CPU. Pull the ethernet cable mid-conversion - it will still finish.',
+  },
+];
+
+const TRUST_BADGES = [
+  'GDPR compliant',
+  'HIPAA data safe',
+  'Zero server logging',
+  'Works offline',
+  'No account required',
+  'Open to all',
+];
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-500 selection:text-white transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
-      {/* 1. HERO SECTION */}
-      <section className="mx-auto max-w-4xl px-4 pt-20 pb-12 text-center sm:px-6 lg:px-8">
-        <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 ring-1 ring-inset ring-blue-700/10 mb-4 shadow-sm dark:bg-blue-950/50 dark:text-blue-400 dark:ring-blue-400/20">
-          🔬 Re-engineering Web Utilities via WebAssembly
-        </span>
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-slate-900 dark:text-white">
-          We Believe Your Private Data <br />
-          <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent dark:from-blue-400 dark:to-cyan-400">
-            Belongs on Your Computer
-          </span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-slate-500 dark:text-slate-400">
-          Swift Converter Hub was founded with a simple, disruptive vision: to
-          build a global file processing hub powered by binary compilation
-          models that require zero file uploads, zero registration, and absolute
-          privacy compliance.
-        </p>
-      </section>
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
+      {/* -- Hero ------------------------------------------------------------ */}
+      <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          {/* Breadcrumb */}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-8"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            Back to home
+          </Link>
 
-      {/* 2. CORE MISSION STATEMENTS GRID */}
-      <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {/* Pillar 1: Privacy */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 font-bold text-lg mb-4 dark:bg-blue-950/60 dark:text-blue-400">
-              🛡️
+          <div className="max-w-2xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-xs font-bold text-blue-700 dark:text-blue-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              Privacy-first file conversion
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              100% Data Privacy
-            </h3>
-            <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed dark:text-slate-400">
-              Traditional utility apps upload your personal photos, documents,
-              and corporate records to distant cloud databases. Our pipeline
-              completely blocks this, parsing data arrays locally inside your
-              isolated browser sandbox.
-            </p>
-          </div>
 
-          {/* Pillar 2: Velocity */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600 font-bold text-lg mb-4 dark:bg-cyan-950/60 dark:text-cyan-400">
-              ⚡
-            </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              WASM Velocity
-            </h3>
-            <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed dark:text-slate-400">
-              By removing the network bottleneck of uploading heavy,
-              multi-megabyte assets across the internet, data transformations
-              happen instantly at the speed of your local multi-core CPU
-              hardware.
-            </p>
-          </div>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+              Your files belong on{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                your computer
+              </span>
+            </h1>
 
-          {/* Pillar 3: Accessibility */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 font-bold text-lg mb-4 dark:bg-emerald-950/60 dark:text-emerald-400">
-              🌐
-            </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              Always Free & Open
-            </h3>
-            <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed dark:text-slate-400">
-              No hidden sub-tier paywalls, premium download caps, or forced
-              login registration screens. A clean, streamlined web workspace
-              accessible to anyone on the globe.
+            <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed">
+              Swift Converter Hub was built on one principle: file conversion
+              tools should not require you to upload your personal files to a
+              stranger's server. Everything runs in your browser. Your data
+              never moves.
             </p>
+
+            <div className="flex items-center gap-3 pt-2">
+              <Link
+                href="/image"
+                className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all active:scale-[0.98] group"
+              >
+                Try it now
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                No account needed
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. TECHNICAL ARCHITECTURE EXPLANATION (TRUST BUILDER) */}
-      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white shadow-xl dark:border-slate-800 dark:from-slate-900 dark:to-slate-950">
-          <h2 className="text-2xl font-bold tracking-tight text-white">
-            How does Client-Side Processing work?
-          </h2>
-          <p className="mt-3 text-sm text-slate-300 leading-relaxed dark:text-slate-400">
-            When you load an asset into our ecosystem workspaces, our platform
-            streams highly optimized, specialized **WebAssembly (WASM)
-            micro-kernels** directly into your active browser runtime. This
-            enables native, near-desktop execution processing speeds right in
-            your tab without needing background server assistance.
-          </p>
-          <p className="mt-3 text-sm text-slate-300 leading-relaxed dark:text-slate-400">
-            Instead of routing raw files to a remote backend server, your local
-            system processor converts the file bytes in real-time inside an
-            isolated browser thread. If you pull the internet cable out of your
-            router mid-conversion, our applications will still finish processing
-            perfectly. Your files never touch our servers-because we don&apos;t
-            use them.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-semibold text-cyan-400 dark:text-cyan-300">
-            <span>✓ GDPR Compliant</span>
-            <span className="text-slate-600 dark:text-slate-700">•</span>
-            <span>✓ HIPAA Data Safe</span>
-            <span className="text-slate-600 dark:text-slate-700">•</span>
-            <span>✓ Zero Server-Side Logging</span>
-          </div>
+      {/* -- Three pillars --------------------------------------------------- */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {PILLARS.map(({ icon: Icon, label, desc, color }) => (
+            <div
+              key={label}
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-3"
+            >
+              <div
+                className={`flex h-10 w-10 items-center justify-center rounded-xl ${color}`}
+              >
+                <Icon className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">
+                {label}
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                {desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* 4. ECOSYSTEM LAB MODULES & NAVIGATION CALL TO ACTION */}
-      <section className="mx-auto max-w-4xl px-4 pt-12 pb-24 sm:px-6 lg:px-8">
-        <div className="border-t border-slate-200/80 dark:border-zinc-800 pt-10 space-y-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-              Ready to transform your assets safely?
+      {/* -- How it works ---------------------------------------------------- */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span className="w-1 h-4 rounded-full bg-blue-500 inline-block" />
+              How client-side processing works
             </h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
-              Select an isolated local studio module below to initialize your
-              project.
+          </div>
+
+          {/* Steps */}
+          <div className="divide-y divide-slate-100 dark:divide-slate-800">
+            {HOW_IT_WORKS.map(({ icon: Icon, step, label, desc }) => (
+              <div key={step} className="flex items-start gap-5 px-6 py-5">
+                <div className="flex flex-col items-center gap-2 shrink-0">
+                  <span className="text-[10px] font-black text-slate-300 dark:text-slate-600">
+                    {step}
+                  </span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="space-y-1 pt-1">
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    {label}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    {desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust badges */}
+          <div className="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2">
+            {TRUST_BADGES.map((badge) => (
+              <span
+                key={badge}
+                className="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full"
+              >
+                <span className="w-1 h-1 rounded-full bg-emerald-500" />
+                {badge}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* -- Technical detail ------------------------------------------------ */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+        <div className="bg-slate-900 dark:bg-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
+          <h2 className="text-base font-bold text-white">
+            What is WebAssembly?
+          </h2>
+          <p className="text-sm text-slate-300 leading-relaxed">
+            WebAssembly (WASM) is a binary instruction format that runs in your
+            browser at near-native speed. It's the same technology that lets
+            Figma, Google Earth and AutoCAD run in a browser tab. We use it to
+            run a professional-grade image processing engine directly in your
+            browser.
+          </p>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            Because all computation happens locally, there is no server involved
+            in the conversion process. We don't log your files, we don't store
+            your files, and we can't access your files - not because we promise
+            not to, but because the architecture makes it technically
+            impossible.
+          </p>
+          <div className="pt-2 border-t border-slate-700">
+            <p className="text-xs text-slate-500 font-mono">
+              File path:{' '}
+              <span className="text-slate-400">
+                your device → browser memory → WASM engine → download
+              </span>
+              <span className="ml-3 text-slate-600">// no network hop</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* -- CTA + modules --------------------------------------------------- */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="space-y-6">
+          <div className="text-center space-y-2">
+            <h2 className="text-lg font-black text-slate-900 dark:text-white">
+              Ready to try it?
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Pick a tool and convert your first file in seconds - no setup
+              required.
             </p>
           </div>
 
-          {/* Reusable Component */}
-          <LaboratoryModules title="Available Laboratory Studios" />
+          <LaboratoryModules title="Choose a studio" />
 
-          {/* Master Return Base Navigation Option */}
-          <div className="flex justify-center pt-2">
+          <div className="flex justify-center">
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-blue-600 px-6 py-3 text-sm font-bold text-white hover:bg-blue-600 dark:hover:bg-blue-500 active:scale-95 shadow-md shadow-slate-900/10 dark:shadow-blue-900/30 transition-all duration-200 group cursor-pointer"
+              className="flex items-center gap-2 text-sm font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors group"
             >
-              <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" />
-              Return to Core Hub Workspace
+              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+              Back to homepage
             </Link>
           </div>
         </div>
