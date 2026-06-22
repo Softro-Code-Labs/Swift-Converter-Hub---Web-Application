@@ -4,7 +4,7 @@ import CharacterStudioClient from './CharacterStudioClient';
 export const metadata: Metadata = {
   title: 'Character Studio - Free Online Text Tools (Coming Soon)',
   description:
-    'Transform text case, count words, find & replace, and validate regex - all client-side in your browser. No uploads, completely private.',
+    'Word counter, case converter, find & replace, Markdown preview, and regex tester — all running locally in your browser. Zero server uploads, 100% private.',
   keywords: [
     // Case Conversion & Formatting Intent
     'text case converter online',
