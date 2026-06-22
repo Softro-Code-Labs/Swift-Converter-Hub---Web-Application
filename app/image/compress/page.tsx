@@ -14,16 +14,33 @@ export const metadata: Metadata = {
   description:
     'Shrink image file size without losing visual quality. Adjustable quality presets, metadata stripping, and batch compression. 100% browser-based, no uploads.',
   keywords: [
+    // High-Volume Core & Format Specifics
     'compress image online',
     'reduce image file size',
-    'image optimizer free',
-    'shrink photo size online',
     'jpg compressor online',
     'png compressor free',
+    'shrink photo size online',
+    'webp compression tool free',
+
+    // Bulk & Automated Workflow Actions
     'batch image compression tool',
-    'browser image compression',
+    'bulk image optimizer online',
+    'compress multiple images at once',
+    'zip compress photos browser',
+
+    // Web Performance & Design Intent
     'optimize images for web',
+    'image optimizer free',
+    'lossless image compressor online',
     'lossy image compression online',
+    'strip image metadata online',
+
+    // Privacy & Client-Side Engine Advantages
+    'browser image compression',
+    'no upload image compressor',
+    'completely private photo shrinker',
+    'secure local image optimizer',
+    'offline image size reducer',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/compress' },
   openGraph: {

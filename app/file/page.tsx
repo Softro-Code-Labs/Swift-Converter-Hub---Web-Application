@@ -6,16 +6,35 @@ export const metadata: Metadata = {
   description:
     'Merge, split, and compress PDF files, or convert Word and Excel documents to PDF. All processing happens in your browser - no uploads required.',
   keywords: [
-    'merge pdf files',
-    'merge pdf files online',
+    // PDF Modification & Assembly Intent
     'merge pdf online free',
+    'merge pdf files online',
     'split pdf pages online',
+    'extract pdf pages free',
+    'combine pdf documents browser',
+
+    // Optimization & Compression Focus
     'compress pdf file size',
+    'reduce pdf size online',
+    'compress pdf without losing quality',
+    'shrink pdf file browser',
+
+    // Office Document to PDF Conversions
     'word to pdf converter online',
     'excel to pdf converter free',
+    'convert docx to pdf free',
+    'spreadsheet to pdf browser',
+
+    // Privacy, Security, & Client-Side Capabilities
     'pdf tools no upload',
+    'completely private pdf editor',
+    'secure pdf compiler online',
+    'offline pdf tools browser',
+
+    // General Document Management Intent
     'browser based pdf editor',
     'free document converter online',
+    'all in one pdf toolkit',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/file' },
   openGraph: {

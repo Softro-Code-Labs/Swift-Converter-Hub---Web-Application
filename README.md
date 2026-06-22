@@ -65,7 +65,6 @@ Backend configurations and templating engines for handling transactional emails.
 
 # TO-DO
 
-<!-- Shard Files Managments // crop, adject, compress, converter -->
 <!-- Crop Tool Bug -->
 <!-- Converter Bug -->
 <!-- Final Checkup one by one -->

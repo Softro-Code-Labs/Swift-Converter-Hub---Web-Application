@@ -13,16 +13,33 @@ export const metadata: Metadata = {
   description:
     'View camera settings, GPS location, and embedded metadata from your photos. See exposure, lens, and date info without uploading anything anywhere.',
   keywords: [
+    // Core Viewing & Extraction Focus
     'exif viewer online',
     'photo metadata viewer',
-    'gps location from photo',
-    'camera settings viewer online',
     'image exif extractor free',
-    'check photo gps data',
     'view jpeg exif data',
+    'browser based exif reader',
+    'online image metadata extractor',
+
+    // GPS & Location Privacy Intent
+    'gps location from photo',
+    'check photo gps data',
+    'extract coordinates from image',
+    'find map location of picture',
+    'photo geolocation finder free',
+
+    // Camera, Lens & Photography Specifics
+    'camera settings viewer online',
+    'read camera data from photo',
+    'view shutter speed and iso online',
+    'lens information lookup tool',
+    'check original photo capture date',
+
+    // Security, Privacy, & Tool Ecosystem
     'remove or view exif metadata',
     'free exif data tool',
-    'browser based exif reader',
+    'no upload photo metadata reader',
+    'secure private exif analyzer',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/metadata' },
   openGraph: {

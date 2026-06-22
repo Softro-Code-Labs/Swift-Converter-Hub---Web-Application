@@ -6,16 +6,33 @@ export const metadata: Metadata = {
   description:
     'Convert, crop, compress, adjust and inspect images entirely in your browser. 120+ formats supported, zero uploads, no account required. A complete image toolkit.',
   keywords: [
+    // High-Volume Core & Format Transformations
     'free image converter online',
-    'browser based image tools',
     'image format converter',
-    'crop compress adjust images online',
     'convert image formats free',
+    'bulk image converter online',
+    'batch image converter free',
+    'convert raw to jpeg online',
+
+    // Optimization & File Shrinking Intent
+    'compress image size online',
+    'reduce image file size free',
+    'lossless image compressor browser',
+    'shrink image dimensions online',
+
+    // Editing, Cropping & Inspection Features
+    'crop compress adjust images online',
+    'crop image online free',
+    'inspect image metadata browser',
+    'view exif data online',
+    'online image editor no download',
+
+    // Privacy, WebAssembly & Architecture Advantages
     'no upload image editor',
     'private image conversion tool',
-    'all in one image toolkit',
     'webassembly image converter',
-    'batch image converter free',
+    'browser based image tools',
+    'all in one image toolkit',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image' },
   openGraph: {
