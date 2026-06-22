@@ -16,10 +16,12 @@ export const metadata: Metadata = {
     'Swift Converter Hub processes all files locally in your browser. Read our full privacy policy on data handling, cookies, and why your files never touch our servers.',
   keywords: [
     'swift converter hub privacy policy',
-    'no upload image converter privacy',
-    'browser image processing privacy',
-    'image converter data policy',
-    'private photo converter online',
+    'no upload file converter privacy',
+    'browser based utility data security',
+    'secure client side file processing',
+    'gdpr compliant file converter',
+    'local processing data protection policy',
+    'private webassembly converter safety',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/privacy' },
   openGraph: {

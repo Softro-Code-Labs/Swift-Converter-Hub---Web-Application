@@ -13,16 +13,33 @@ export const metadata: Metadata = {
   description:
     'Convert images to Base64 strings or decode Base64 back to images. Get raw text, Data URI, CSS, or HTML output. 100% browser-based, nothing uploaded.',
   keywords: [
+    // Core Encoding & Transformation Focus
     'image to base64',
-    'base64 to image converter',
-    'base64 encoder online',
-    'base64 decoder online',
-    'data uri converter',
     'convert image to base64 string',
+    'base64 encoder online',
+    'image string converter free',
+    'jpeg to base64 converter',
+    'png to base64 online',
+
+    // Decoding & Extraction Focus
+    'base64 to image converter',
+    'base64 decoder online',
+    'convert base64 back to image',
+    'render base64 string as image',
+
+    // Web Development Implementation Intent
+    'data uri converter',
     'base64 image embed css',
     'html img base64 generator',
+    'convert image to data url',
+    'inline image generator browser',
+
+    // Privacy, Performance & General Utility
     'free base64 image tool',
     'browser base64 converter',
+    'no upload base64 encoder',
+    'secure local image encoding',
+    'offline base64 data uri tool',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/base64' },
   openGraph: {

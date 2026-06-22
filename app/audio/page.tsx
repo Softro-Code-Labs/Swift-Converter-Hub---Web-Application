@@ -6,16 +6,33 @@ export const metadata: Metadata = {
   description:
     'Convert, trim, and adjust audio files entirely in your browser. MP3, WAV, FLAC support coming soon - no uploads, no account required.',
   keywords: [
-    'audio converter',
-    'audio converter free',
+    // Core Tool & Conversion Intent
     'audio converter online',
-    'free audio tools browser',
-    'mp3 wav flac converter',
-    'trim audio online free',
-    'browser based audio editor',
+    'free audio converter',
+    'mp3 converter browser',
+    'wav to mp3 converter free',
+    'flac to mp3 high quality',
+    'convert audio to m4a',
+
+    // Privacy & Browser Architecture Specifics
     'no upload audio converter',
+    'completely private audio converter',
+    'local audio processing online',
+    'secure browser audio editor',
+
+    // Editing & Modification Focus
+    'trim audio online free',
+    'mp3 cutter no upload',
+    'compress audio files online',
     'adjust audio bitrate online',
-    'audio format converter free',
+    'change audio volume browser',
+
+    // Batch & Advanced Feature Intent
+    'bulk audio converter online',
+    'convert multiple mp3 files',
+    'extract audio from video free',
+    'free audio tools browser',
+    'ogg to mp3 converter online',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/audio' },
   openGraph: {
