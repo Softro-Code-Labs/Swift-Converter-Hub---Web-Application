@@ -17,10 +17,10 @@ export interface ConversionRoute {
   faqs: { q: string; a: string }[];
 }
 
-// ─── All Supported Formats ────────────────────────────────────────────────────
+// --- All Supported Formats ----------------------------------------------------
 
 export const IMAGE_FORMATS: ImageFormat[] = [
-  // ── Web & Photo ────────────────────────────────────────────────────────────
+  // -- Web & Photo ------------------------------------------------------------
   {
     label: 'JPG',
     extension: 'jpg',
@@ -120,7 +120,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['jps'],
   },
 
-  // ── JPEG 2000 ──────────────────────────────────────────────────────────────
+  // -- JPEG 2000 --------------------------------------------------------------
   {
     label: 'JP2',
     extension: 'jp2',
@@ -164,7 +164,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['jpm'],
   },
 
-  // ── PNG Variants ──────────────────────────────────────────────────────────
+  // -- PNG Variants ----------------------------------------------------------
   {
     label: 'PNG8',
     extension: 'png8',
@@ -208,7 +208,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['png00'],
   },
 
-  // ── HEIF / HEIC ────────────────────────────────────────────────────────────
+  // -- HEIF / HEIC ------------------------------------------------------------
   {
     label: 'HEIC',
     extension: 'heic',
@@ -226,7 +226,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     sourceOnly: true,
   },
 
-  // ── Bitmap ────────────────────────────────────────────────────────────────
+  // -- Bitmap ----------------------------------------------------------------
   {
     label: 'BMP',
     extension: 'bmp',
@@ -389,7 +389,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['picon'],
   },
 
-  // ── Photoshop ─────────────────────────────────────────────────────────────
+  // -- Photoshop -------------------------------------------------------------
   {
     label: 'PSD',
     extension: 'psd',
@@ -405,7 +405,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['psb'],
   },
 
-  // ── TIFF ──────────────────────────────────────────────────────────────────
+  // -- TIFF ------------------------------------------------------------------
   {
     label: 'TIFF',
     extension: 'tiff',
@@ -435,7 +435,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['ptif'],
   },
 
-  // ── Portable Bitmap / Pixmap ───────────────────────────────────────────────
+  // -- Portable Bitmap / Pixmap -----------------------------------------------
   {
     label: 'PBM',
     extension: 'pbm',
@@ -486,7 +486,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['phm'],
   },
 
-  // ── Vector / PostScript ───────────────────────────────────────────────────
+  // -- Vector / PostScript ---------------------------------------------------
   {
     label: 'SVG',
     extension: 'svg',
@@ -579,7 +579,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['ps3'],
   },
 
-  // ── Document ──────────────────────────────────────────────────────────────
+  // -- Document --------------------------------------------------------------
   {
     label: 'PDF',
     extension: 'pdf',
@@ -609,7 +609,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['pcl'],
   },
 
-  // ── HDR / Scientific ──────────────────────────────────────────────────────
+  // -- HDR / Scientific ------------------------------------------------------
   {
     label: 'EXR',
     extension: 'exr',
@@ -667,7 +667,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['fl32'],
   },
 
-  // ── Fax / Compression ─────────────────────────────────────────────────────
+  // -- Fax / Compression -----------------------------------------------------
   {
     label: 'FAX',
     extension: 'fax',
@@ -704,7 +704,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['cals'],
   },
 
-  // ── Game / DirectX ────────────────────────────────────────────────────────
+  // -- Game / DirectX --------------------------------------------------------
   {
     label: 'DDS',
     extension: 'dds',
@@ -713,7 +713,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['dds'],
   },
 
-  // ── Raw Color Spaces ──────────────────────────────────────────────────────
+  // -- Raw Color Spaces ------------------------------------------------------
   {
     label: 'RGB',
     extension: 'rgb',
@@ -806,7 +806,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['mono'],
   },
 
-  // ── Icon & System ─────────────────────────────────────────────────────────
+  // -- Icon & System ---------------------------------------------------------
   {
     label: 'ICO',
     extension: 'ico',
@@ -850,7 +850,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['pcds'],
   },
 
-  // ── Braille / Accessibility ───────────────────────────────────────────────
+  // -- Braille / Accessibility -----------------------------------------------
   {
     label: 'BRF',
     extension: 'brf',
@@ -894,7 +894,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['isobrl6'],
   },
 
-  // ── Text / Metadata Output ────────────────────────────────────────────────
+  // -- Text / Metadata Output ------------------------------------------------
   {
     label: 'TXT',
     extension: 'txt',
@@ -938,7 +938,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['shtml'],
   },
 
-  // ── Magick Internal ───────────────────────────────────────────────────────
+  // -- Magick Internal -------------------------------------------------------
   {
     label: 'MIFF',
     extension: 'miff',
@@ -983,7 +983,7 @@ export const IMAGE_FORMATS: ImageFormat[] = [
   },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 export const getFormatByExtension = (ext: string): ImageFormat | undefined =>
   IMAGE_FORMATS.find(
@@ -1007,7 +1007,7 @@ export const isAcceptedByFormat = (
   return aliases.includes(fileExt.toLowerCase());
 };
 
-// ─── Format category detection ────────────────────────────────────────────────
+// --- Format category detection ------------------------------------------------
 
 const isLossless = (ext: string) =>
   [
@@ -1198,7 +1198,7 @@ const isDocument = (ext: string) =>
 const isWebOptimized = (ext: string) =>
   ['webp', 'avif', 'jxl', 'heic', 'heif'].includes(ext.toLowerCase());
 
-// ─── Smart feature generation ─────────────────────────────────────────────────
+// --- Smart feature generation -------------------------------------------------
 
 const DEFAULT_FEATURES = (source: string, target: string) => {
   const src = source.toLowerCase();
@@ -1272,7 +1272,7 @@ const DEFAULT_FEATURES = (source: string, target: string) => {
   ];
 };
 
-// ─── Smart FAQ generation ─────────────────────────────────────────────────────
+// --- Smart FAQ generation -----------------------------------------------------
 
 const DEFAULT_FAQS = (source: string, target: string) => {
   const src = source.toLowerCase();
@@ -1331,7 +1331,7 @@ const DEFAULT_FAQS = (source: string, target: string) => {
   return faqs;
 };
 
-// ─── Route-specific SEO overrides ─────────────────────────────────────────────
+// --- Route-specific SEO overrides ---------------------------------------------
 
 const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
   'jpg-to-png': {

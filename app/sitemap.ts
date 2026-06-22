@@ -1,8 +1,5 @@
 import { MetadataRoute } from 'next';
-import {
-  IMAGE_FORMATS,
-  ALL_CONVERSION_PAIRS,
-} from '@/features/image/converter/config/formats';
+import { ALL_CONVERSION_PAIRS } from '@/features/image/converter/config/formats';
 
 const BASE_URL = 'https://swiftconverterhub.com';
 
@@ -14,7 +11,7 @@ const BASE_URL = 'https://swiftconverterhub.com';
 // 0.6  - Studio landing pages
 // 0.5  - Static info pages
 
-// High-traffic routes that get explicit 1-day refresh
+// High-traffic routes
 const HIGH_TRAFFIC_PAIRS = new Set([
   'jpg-to-png',
   'png-to-jpg',
@@ -103,32 +100,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${BASE_URL}/audio`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/video`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/file`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/data`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/character`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/about`,
@@ -156,7 +153,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // -- Image conversion routes -------------------------------------------------
+  // -- Image Studio Tools ------------------------------------------------------
+  const imageStudioTools: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/image/crop`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${BASE_URL}/image/compress`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/image/adjust`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/image/metadata`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/image/base64`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+  ];
+
+  // -- Chargecter Studio Tool --------------------------------------------------
+  const characterStudioTools: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/character/word-counter`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+  ];
+
+  // -- Dynamic Image cConversion Routes ----------------------------------------
 
   const conversionRoutes: MetadataRoute.Sitemap = ALL_CONVERSION_PAIRS.map(
     ({ source, target }) => {
@@ -167,20 +209,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return {
         url: `${BASE_URL}/image/${key}`,
         lastModified: now,
-        changeFrequency: isHigh ? 'daily' : isMedium ? 'weekly' : 'monthly',
-        priority: isHigh ? 0.9 : isMedium ? 0.8 : 0.7,
+        changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
+        priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,
       };
     },
   );
 
-  // -- Format hub pages --------------------------------------------------------
-
-  const formatHubPages: MetadataRoute.Sitemap = IMAGE_FORMATS.map((format) => ({
-    url: `${BASE_URL}/image/formats/${format.extension}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }));
-
-  return [...staticPages, ...conversionRoutes, ...formatHubPages];
+  return [
+    ...staticPages,
+    ...imageStudioTools,
+    ...characterStudioTools,
+    ...conversionRoutes,
+  ];
 }
