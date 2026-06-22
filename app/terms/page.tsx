@@ -17,10 +17,11 @@ export const metadata: Metadata = {
     'Review the Terms of Service for Swift Converter Hub, including usage guidelines, intellectual property rights, and liability limitations for our free file conversion toolkit.',
   keywords: [
     'swift converter hub terms of service',
-    'image converter terms of use',
-    'free online tool terms',
-    'image converter liability policy',
-    'browser tool usage agreement',
+    'swift converter hub terms and conditions',
+    'free online file tools user agreement',
+    'browser utility usage guidelines',
+    'client side tool liability policy',
+    'webassembly application terms of use',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/terms' },
   openGraph: {

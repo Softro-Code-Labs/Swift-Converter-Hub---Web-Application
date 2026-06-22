@@ -6,16 +6,35 @@ export const metadata: Metadata = {
   description:
     'Transform text case, count words, find & replace, and validate regex - all client-side in your browser. No uploads, completely private.',
   keywords: [
-    'text case converter',
-    'case converter online',
+    // Case Conversion & Formatting Intent
     'text case converter online',
+    'case converter online',
+    'change text case free',
+    'uppercase lowercase converter',
+    'title case generator browser',
+
+    // Word Counting & Analysis Focus
     'word counter free tool',
+    'character count online',
+    'accurate word tracker browser',
+    'sentence counter online free',
+
+    // Manipulation & Search/Replace Utility
     'find and replace text online',
-    'regex tester browser',
-    'markdown preview tool',
-    'text tools no upload',
     'string manipulation online',
+    'remove extra spaces text online',
+    'regex tester browser',
+    'client side regex validator',
+
+    // Markdown & Documentation Tools
+    'markdown preview tool',
+    'live markdown editor browser',
+
+    // Privacy, Security, & General Utilities
+    'text tools no upload',
+    'completely private text editor',
     'free text utility tools',
+    'offline text formatting tool',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/character' },
   openGraph: {

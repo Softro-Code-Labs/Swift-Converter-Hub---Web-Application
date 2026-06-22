@@ -14,16 +14,33 @@ export const metadata: Metadata = {
   description:
     'Crop and resize images to any dimension or aspect ratio with a visual drag editor. Works 100% in your browser - no uploads, no account required.',
   keywords: [
+    // Core Cropping & Framing Intent
     'crop image online',
-    'resize image free',
     'image cropper online',
     'crop photo online tool',
-    'image resize tool free',
-    'browser image crop',
-    'aspect ratio crop tool',
-    'resize photo to exact pixels',
     'online photo cropper no upload',
+    'circular image cropper free',
+    'crop image to circle browser',
+
+    // Precise Resizing & Scaling Focus
+    'resize image free',
+    'image resize tool free',
+    'resize photo to exact pixels',
+    'change image dimensions online',
+    'bulk image resizer browser',
+    'scale image down without losing quality',
+
+    // Aspect Ratio & Social Composition Intent
+    'aspect ratio crop tool',
+    'crop image 16x9 online',
+    'square image cropper free',
+    'resize photo for social media',
+
+    // Privacy & Browser Capabilities
+    'browser image crop',
     'free crop and resize tool',
+    'no upload image resizer',
+    'secure local photo cropper',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/crop' },
   openGraph: {

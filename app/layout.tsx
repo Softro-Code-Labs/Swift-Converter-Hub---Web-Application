@@ -85,7 +85,6 @@ export const metadata: Metadata = {
     'unlimited free file converter',
     'batch converter no server',
     'privacy first file tools',
-    'swift converter hub',
 
     // images studio
     'webp to png converter',
@@ -163,7 +162,7 @@ export const metadata: Metadata = {
     'sql insert statement builder',
     'minify json data free',
 
-    // character studi
+    // character studio
     'case converter online',
     'convert upper to lowercase',
     'regex tester and builder',

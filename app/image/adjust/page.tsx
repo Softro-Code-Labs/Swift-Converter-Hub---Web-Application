@@ -14,16 +14,33 @@ export const metadata: Metadata = {
   description:
     'Adjust brightness, contrast, saturation and apply photo filters like Vivid, Vintage and Noir. Works 100% in your browser - no uploads, no account required.',
   keywords: [
+    // Core Editing & Adjustment Keywords
     'adjust image online',
-    'photo filter editor online',
     'brightness contrast tool',
     'image saturation editor',
-    'grayscale converter online',
-    'free photo filter tool',
-    'browser photo editor',
     'online image color correction',
-    'sepia filter photo online',
     'image hue adjustment tool',
+    'fix dark photos online',
+
+    // Filters & Aesthetics Focus
+    'photo filter editor online',
+    'free photo filter tool',
+    'vintage filter photo online',
+    'apply noir filter to image',
+    'grayscale converter online',
+    'sepia filter photo online',
+    'vivid color photo editor',
+
+    // Workflow & Utility Intent
+    'browser photo editor',
+    'quick photo enhancer online',
+    'edit photos without app download',
+    'lightweight image editor browser',
+
+    // Privacy & Safety Specifics
+    'no upload photo editor',
+    'private image filter tool',
+    'secure local photo adjustment',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/adjust' },
   openGraph: {

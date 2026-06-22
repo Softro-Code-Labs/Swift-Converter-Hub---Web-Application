@@ -18,10 +18,12 @@ export const metadata: Metadata = {
     'Learn how Swift Converter Hub uses WebAssembly to convert files entirely in your browser with zero uploads and 100% data privacy.',
   keywords: [
     'about swift converter hub',
-    'privacy first image converter',
-    'browser based image tools',
-    'webassembly image processing',
-    'no upload image converter',
+    'how swift converter hub works',
+    'privacy first file converter',
+    'browser based utility tools',
+    'webassembly local file processing',
+    'no upload file converter',
+    'secure client side conversion',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/about' },
   openGraph: {

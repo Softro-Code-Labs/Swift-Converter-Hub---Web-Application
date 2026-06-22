@@ -6,10 +6,10 @@ import {
   Check,
   Download,
   RotateCcw,
-  ImageIcon,
   Loader2,
+  Binary,
 } from 'lucide-react';
-import { Base64DropZone } from './Base64DropZone';
+import { SingleFileDropZone } from '../../shared/components';
 import { useBase64Engine } from '../hooks/useBase64Engine';
 import { Base64OutputStyle } from '../types/base64';
 
@@ -80,7 +80,17 @@ export const EncodeTab = () => {
   };
 
   if (!file) {
-    return <Base64DropZone onFile={loadFile} />;
+    return (
+      <SingleFileDropZone
+        isReady={true}
+        onFile={loadFile}
+        inputRef={inputRef}
+        accept="image/*"
+        icon={Binary}
+        title="Drag & drop an image, or"
+        subtitle="Any image format accepted"
+      />
+    );
   }
 
   return (

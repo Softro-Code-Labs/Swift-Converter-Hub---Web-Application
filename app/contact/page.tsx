@@ -7,10 +7,11 @@ export const metadata: Metadata = {
     'Get in touch with the Swift Converter Hub team. Report bugs, suggest features, or ask questions about our privacy-first file conversion tools.',
   keywords: [
     'contact swift converter hub',
-    'image converter support',
-    'report a bug image tool',
-    'feature request image converter',
+    'swift converter hub support',
+    'report a bug file converter',
+    'feature request browser utility',
     'swift converter hub help',
+    'contact webassembly tool team',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/contact' },
   openGraph: {

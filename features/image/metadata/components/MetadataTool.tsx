@@ -5,15 +5,17 @@ import {
   RotateCcw,
   ImageIcon,
   Loader2,
-  CheckCircle,
   ShieldOff,
   Download,
+  FileSearch,
 } from 'lucide-react';
-import { MetadataDropZone } from './MetadataDropZone';
 import { MetadataSection } from './MetadataSection';
 import { MapPreview } from './MapPreview';
-import { UnsupportedMetadataDialog } from './UnsupportedMetadataDialog';
-import { EngineStatusBar } from '../../shared/components';
+import {
+  EngineStatusBar,
+  SingleFileDropZone,
+  UnsupportedFormatDialog,
+} from '../../shared/components';
 import { useMetadataEngine } from '../hooks/useMetadataEngine';
 import { useMagickEngine } from '@/features/image/shared/hooks/useMagickEngine';
 import { isSupportedForMetadata } from '../types/metadata';
@@ -78,11 +80,15 @@ export default function MetadataTool() {
 
   return (
     <div className="space-y-5">
-      <UnsupportedMetadataDialog
+      <UnsupportedFormatDialog
         open={unsupportedOpen}
         onOpenChange={setUnsupportedOpen}
         fileName={unsupportedFile.name}
         fileExtension={unsupportedFile.ext}
+        supportedFormats={['JPG', 'TIFF', 'PNG', 'WebP', 'HEIC']}
+        reason="This file type rarely carries EXIF data"
+        showConverterCta={false}
+        onTryAnother={() => inputRef.current?.click()}
       />
 
       <input
@@ -110,7 +116,16 @@ export default function MetadataTool() {
       </div>
 
       {!file ? (
-        <MetadataDropZone isMagickLoaded={isMagickLoaded} onFile={loadFile} />
+        <SingleFileDropZone
+          isReady={isMagickLoaded}
+          onFile={loadFile}
+          inputRef={inputRef}
+          accept="image/jpeg,image/tiff,image/png,image/webp,image/heic,image/heif"
+          icon={FileSearch}
+          title="Drag & drop a photo, or"
+          subtitle="JPG and TIFF carry the most EXIF data"
+          formatPills={['JPG', 'TIFF', 'PNG', 'WebP', 'HEIC']}
+        />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-5">
           {/* Image preview column */}
