@@ -67,7 +67,7 @@ const TOOLS = [
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     href: '/character/regex-tester',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
 ] as const;
 
