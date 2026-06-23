@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     canonical: 'https://swiftconverterhub.com/character/case-converter',
   },
   openGraph: {
-    title: 'Case Converter - 12 Case Formats Instantly',
+    title: 'Case Converter - 12 Case Formats Instantly | Character Studio',
     description:
       'UPPERCASE, camelCase, snake_case, Title Case and 8 more - instant, private, no server.',
     url: 'https://swiftconverterhub.com/character/case-converter',

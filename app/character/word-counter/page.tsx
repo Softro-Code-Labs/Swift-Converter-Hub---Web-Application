@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     canonical: 'https://swiftconverterhub.com/character/word-counter',
   },
   openGraph: {
-    title: 'Word & Character Counter - Free Online Tool',
+    title: 'Word & Character Counter - Free Online Tool | Character Studio',
     description:
       'Real-time word, character, sentence, and reading time stats - 100% in your browser.',
     url: 'https://swiftconverterhub.com/character/word-counter',

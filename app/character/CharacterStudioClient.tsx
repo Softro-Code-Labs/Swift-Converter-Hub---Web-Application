@@ -45,7 +45,7 @@ const TOOLS = [
       'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
     accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
     href: '/character/find-replace',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'markdown-preview',

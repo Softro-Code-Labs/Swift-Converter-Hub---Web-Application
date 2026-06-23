@@ -82,7 +82,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/metadata' },
   openGraph: {
-    title: 'EXIF Metadata Viewer - Free Online Photo Info Tool',
+    title: 'EXIF Metadata Viewer - Free Online Photo Info Tool | Image Studio',
     description:
       'See camera, GPS and exposure data hidden in your photos, fully private.',
     url: 'https://swiftconverterhub.com/image/metadata',

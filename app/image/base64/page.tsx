@@ -82,7 +82,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/base64' },
   openGraph: {
-    title: 'Image to Base64 Converter - Free Online Tool',
+    title: 'Image to Base64 Converter - Free Online Tool | Image Studio',
     description:
       'Encode images to Base64 or decode back instantly, entirely in your browser.',
     url: 'https://swiftconverterhub.com/image/base64',

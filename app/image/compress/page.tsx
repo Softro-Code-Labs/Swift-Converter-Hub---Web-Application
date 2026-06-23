@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/compress' },
   openGraph: {
-    title: 'Compress Images Online - Free Image Optimizer',
+    title: 'Compress Images Online - Free Image Optimizer | Image Studio',
     description:
       'Reduce file size without losing quality - fully processed in your browser.',
     url: 'https://swiftconverterhub.com/image/compress',

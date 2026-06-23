@@ -86,7 +86,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/crop' },
   openGraph: {
-    title: 'Image Crop & Resize - Free Online Tool',
+    title: 'Image Crop & Resize - Free Online Tool | Image Studio',
     description:
       'Crop to any ratio or resize to exact pixel dimensions, processed locally.',
     url: 'https://swiftconverterhub.com/image/crop',

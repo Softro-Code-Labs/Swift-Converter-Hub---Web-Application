@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/adjust' },
   openGraph: {
-    title: 'Adjust & Filter Images Online - Free Photo Editor',
+    title: 'Adjust & Filter Images Online - Free Photo Editor | Image Studio',
     description:
       'Brightness, contrast, saturation and filters - all processed locally in your browser.',
     url: 'https://swiftconverterhub.com/image/adjust',
