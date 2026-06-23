@@ -2027,6 +2027,7 @@ export const getConversionRoute = (
   const override = ROUTE_OVERRIDES[key] ?? {};
 
   const baseKeywords = [
+    // --- Core Combinations ---
     `${source} to ${target}`,
     `${source} to ${target} converter`,
     `convert ${source} to ${target}`,
@@ -2047,6 +2048,34 @@ export const getConversionRoute = (
     `private ${source} to ${target} conversion`,
     `batch ${source} to ${target} converter`,
     `wasm ${source} to ${target} tool`,
+
+    // --- Bulk & Performance Multipliers ---
+    `bulk ${source} to ${target} online`,
+    `mass ${source} to ${target} converter`,
+    `fast ${source} to ${target} tool`,
+    `high quality ${source} to ${target}`,
+    `lossless ${source} to ${target} conversion`,
+    `instant ${source} to ${target} converter`,
+    `multiple ${source} to ${target} transform`,
+
+    // --- Platform & Web Ecosystem Intent ---
+    `best ${source} to ${target} online`,
+    `optimize ${source} to ${target} for web`,
+    `browser based ${source} to ${target}`,
+    `html5 ${source} to ${target} application`,
+    `responsive ${source} to ${target} utility`,
+    `web app ${source} to ${target}`,
+
+    // --- Developer & API Design Targets ---
+    `convert ${source} file to ${target}`,
+    `script ${source} to ${target} generator`,
+    `clean ${source} to ${target} rendering`,
+    `local storage ${source} to ${target}`,
+
+    // --- Privacy & Sandbox Positioning ---
+    `no upload ${source} to ${target} free`,
+    `zero server ${source} to ${target}`,
+    `sandbox ${source} to ${target} converter`,
   ];
 
   return {

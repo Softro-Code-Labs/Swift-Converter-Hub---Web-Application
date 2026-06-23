@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     'Crop and resize images to any dimension or aspect ratio with a visual drag editor. Works 100% in your browser - no uploads, no account required.',
   keywords: [
-    // Core Cropping & Framing Intent
+    // Original core cropping keywords
     'crop image online',
     'image cropper online',
     'crop photo online tool',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     'circular image cropper free',
     'crop image to circle browser',
 
-    // Precise Resizing & Scaling Focus
+    // Resizing & scaling keywords
     'resize image free',
     'image resize tool free',
     'resize photo to exact pixels',
@@ -30,21 +30,63 @@ export const metadata: Metadata = {
     'bulk image resizer browser',
     'scale image down without losing quality',
 
-    // Aspect Ratio & Social Composition Intent
+    // Aspect ratio & social composition
     'aspect ratio crop tool',
     'crop image 16x9 online',
     'square image cropper free',
     'resize photo for social media',
 
-    // Privacy & Browser Capabilities
+    // Privacy & browser capability keywords
     'browser image crop',
     'free crop and resize tool',
     'no upload image resizer',
     'secure local photo cropper',
+
+    // Social media avatar & banner targets
+    'youtube banner crop tool online',
+    'resize image for instagram post',
+    'twitter header dimension resizer',
+    'linkedin profile picture cropper',
+    'facebook cover photo size converter',
+    'discord avatar cropper free',
+    'crop image for tiktok profile',
+
+    // Aspect ratio specific long-tail queries
+    'crop image to 4x3 ratio',
+    'crop photo to 1x1 square',
+    'vertical portrait image cropper',
+    'golden ratio aspect cropper browser',
+    'cinematic widescreen photo crop',
+
+    // Professional & marketplace platform dimensions
+    'shopify product image resizer',
+    'amazon listing photo cropper',
+    'etsy product picture size editor',
+    'passport photo cropper online free',
+    'crop image for corporate resume',
+
+    // Tech & gaming specifications
+    'twitch offline banner resizer',
+    'steam profile avatar cropper',
+    'resize favicon ico dimensions',
+    'crop high resolution wallpaper',
+    '4k image downscaler online',
+
+    // Pixel-specific precision searches
+    'resize image to 1920x1080 online',
+    'convert image size to 512x512',
+    'resize image to 1200x630 og tag',
+    'custom aspect ratio pixel box editor',
+
+    // Frontend developer execution mechanics
+    'client side canvas crop tool',
+    'html5 drag and drop photo cropper',
+    'wasm accelerated image scaling',
+    'zero tracking asset dimension changer',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/crop' },
   openGraph: {
-    title: 'Image Crop & Resize - Free Online Tool',
+    title: 'Image Crop & Resize - Free Online Tool | Image Studio',
     description:
       'Crop to any ratio or resize to exact pixel dimensions, processed locally.',
     url: 'https://swiftconverterhub.com/image/crop',
