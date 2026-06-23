@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import WordCounterTool from '../../../features/character/word-counter/components';
+import WordCounterTool from '@/features/character/word-counter/components';
 
 export const metadata: Metadata = {
-  title: 'Word & Character Counter - Free Online Tool',
+  title: 'Word & Character Counter',
   description:
     'Count words, characters, sentences, and paragraphs in real time. Get reading time, speaking time, and keyword density - all in your browser, nothing sent to any server.',
   keywords: [
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     canonical: 'https://swiftconverterhub.com/character/word-counter',
   },
   openGraph: {
-    title: 'Word & Character Counter - Free Online Tool',
+    title: 'Word & Character Counter - Free Online Tool | Character Studio',
     description:
       'Real-time word, character, sentence, and reading time stats - 100% in your browser.',
     url: 'https://swiftconverterhub.com/character/word-counter',

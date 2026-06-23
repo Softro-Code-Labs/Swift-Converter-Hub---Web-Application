@@ -12,10 +12,18 @@ import {
   Shield,
   ArrowRight,
   Sparkles,
+  GitCompare,
+  AlignLeft,
+  ArrowUpDown,
+  Link2,
+  Fingerprint,
+  ScanText,
+  Cpu,
 } from 'lucide-react';
 
 // --- Tool registry ------------------------------------------------------------
 const TOOLS = [
+  // ── Live now ──────────────────────────────────────────────────────
   {
     id: 'word-counter',
     icon: Hash,
@@ -34,7 +42,7 @@ const TOOLS = [
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
     accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
     href: '/character/case-converter',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'find-replace',
@@ -45,7 +53,7 @@ const TOOLS = [
       'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
     accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
     href: '/character/find-replace',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'markdown-preview',
@@ -56,7 +64,7 @@ const TOOLS = [
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
     accentBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
     href: '/character/markdown-preview',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'regex-tester',
@@ -67,6 +75,81 @@ const TOOLS = [
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     href: '/character/regex-tester',
+    status: 'live' as const,
+  },
+
+  // ── Coming soon ───────────────────────────────────────────────────
+  {
+    id: 'text-diff',
+    icon: GitCompare,
+    title: 'Text Diff Viewer',
+    desc: 'Compare two texts side-by-side and see exactly what changed — added, removed, or modified lines.',
+    color: 'bg-sky-100 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400',
+    accentBorder: 'hover:border-sky-300 dark:hover:border-sky-700',
+    href: '/character/text-diff',
+    status: 'soon' as const,
+  },
+  {
+    id: 'lorem-ipsum',
+    icon: AlignLeft,
+    title: 'Lorem Ipsum Generator',
+    desc: 'Generate placeholder text by words, sentences, or paragraphs — classic or random.',
+    color:
+      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
+    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
+    href: '/character/lorem-ipsum',
+    status: 'soon' as const,
+  },
+  {
+    id: 'text-sorter',
+    icon: ArrowUpDown,
+    title: 'Text Sorter & Deduplicator',
+    desc: 'Sort lines A–Z, by length, or shuffle. Remove duplicates and blank lines instantly.',
+    color: 'bg-teal-100 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400',
+    accentBorder: 'hover:border-teal-300 dark:hover:border-teal-700',
+    href: '/character/text-sorter',
+    status: 'soon' as const,
+  },
+  {
+    id: 'url-encoder',
+    icon: Link2,
+    title: 'URL Encoder / Decoder',
+    desc: 'Encode or decode URL components and parse full URLs into protocol, host, params, and hash.',
+    color:
+      'bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400',
+    accentBorder: 'hover:border-indigo-300 dark:hover:border-indigo-700',
+    href: '/character/url-encoder',
+    status: 'soon' as const,
+  },
+  {
+    id: 'hash-generator',
+    icon: Fingerprint,
+    title: 'Hash Generator',
+    desc: 'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text using the Web Crypto API.',
+    color: 'bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400',
+    accentBorder: 'hover:border-red-300 dark:hover:border-red-700',
+    href: '/character/hash-generator',
+    status: 'soon' as const,
+  },
+  {
+    id: 'unicode-inspector',
+    icon: ScanText,
+    title: 'Unicode Inspector',
+    desc: "Reveal every character's code point, category, and hex value — exposes invisible chars and smart quotes.",
+    color:
+      'bg-violet-100 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400',
+    accentBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
+    href: '/character/unicode-inspector',
+    status: 'soon' as const,
+  },
+  {
+    id: 'number-base',
+    icon: Cpu,
+    title: 'Number Base Converter',
+    desc: 'Convert between binary, octal, decimal, and hex simultaneously as you type.',
+    color: 'bg-lime-100 dark:bg-lime-950/50 text-lime-600 dark:text-lime-400',
+    accentBorder: 'hover:border-lime-300 dark:hover:border-lime-700',
+    href: '/character/number-base',
     status: 'soon' as const,
   },
 ] as const;
