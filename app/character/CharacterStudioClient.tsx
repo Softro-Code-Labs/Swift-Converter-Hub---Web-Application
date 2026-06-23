@@ -56,7 +56,7 @@ const TOOLS = [
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
     accentBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
     href: '/character/markdown-preview',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'regex-tester',

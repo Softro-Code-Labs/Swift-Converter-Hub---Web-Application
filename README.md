@@ -38,6 +38,13 @@ Engines and decoders handling client-side image processing.
 - **`@imagemagick/magick-wasm`** (`^0.0.40`) — WebAssembly port of ImageMagick for advanced format conversions.
 - **`heic2any`** (`^0.0.4`) — Client-side conversion of HEIC/HEIF images to JPEG or PNG.
 
+### 📝 Character Studio
+
+Engines, parsers, and sanitizers handling client-side text processing, analysis, and validation.
+
+- **`marked`** (`^12.0.0`) — A high-performance Markdown compiler for parsing markup into structured text layouts.
+- **`dompurify`** (`^3.0.9`) — DOM-based XSS sanitizer for cleaning HTML and safe character rendering.
+
 ### 🎬 Video & Audio Studio
 
 Engines utilized for media decoding, cutting, and transcoding directly in the browser.
