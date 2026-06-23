@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import DataStudioClient from './DataStudioClient';
 
 export const metadata: Metadata = {
-  title: 'Data Studio - Free Online Data Format Converter (Coming Soon)',
+  title: 'Data Studio - Free Online Data Format Converter',
   description:
     'Convert between CSV, JSON, XML and YAML formats entirely in your browser. Parse Excel files, format JSON, and encode Base64 - no uploads required.',
   keywords: [

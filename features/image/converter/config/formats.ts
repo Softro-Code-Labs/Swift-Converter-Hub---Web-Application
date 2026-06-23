@@ -1335,7 +1335,7 @@ const DEFAULT_FAQS = (source: string, target: string) => {
 
 const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
   'jpg-to-png': {
-    title: 'Convert JPG to PNG Online - Free, High-Quality, Batch',
+    title: 'JPG to PNG Converter',
     description:
       'Convert JPG images to transparent PNG files instantly. Process your images safely inside your browser with zero server uploads. High-quality, fast batch conversion.',
     keywords: [
@@ -1362,7 +1362,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'png-to-jpg': {
-    title: 'Convert PNG to JPG Online - Free, Fast Batch Conversion',
+    title: 'PNG to JPG Converter',
     description:
       'Compress and convert PNG images to high-quality JPG files. Reduce file sizes instantly without uploading images to a server. Best free batch PNG to JPG tool.',
     keywords: [
@@ -1389,7 +1389,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'jpg-to-webp': {
-    title: 'Convert JPG to WebP Online - Optimize for Web Performance',
+    title: 'JPG to WebP Converter',
     description:
       'Convert JPG or JPEG images to modern WebP format for faster page load speeds. Compress your images locally with no server uploads. Improve Core Web Vitals.',
     keywords: [
@@ -1416,7 +1416,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'png-to-webp': {
-    title: 'Convert PNG to WebP Online - Compress Web Images with Transparency',
+    title: 'PNG to WebP Converter',
     description:
       'Convert PNG files to WebP format while preserving alpha channel transparency. Shrink PNG file sizes up to 80% directly in your browser.',
     keywords: [
@@ -1443,7 +1443,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'jpg-to-ico': {
-    title: 'Convert JPG to ICO Online - Free Favicon Generator',
+    title: 'JPG to ICO Converter',
     description:
       'Convert JPG images to Windows ICO format. Easily generate app icons, website favicons, and desktop shortcut icons instantly and privately.',
     keywords: [
@@ -1470,7 +1470,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'heic-to-jpg': {
-    title: 'Convert HEIC to JPG Online - Free iPhone Photo Converter',
+    title: 'HEIC to JPG Converter',
     description:
       'Convert Apple HEIC photos to universal JPG format. Open and view your iPhone pictures on Windows. 100% offline, local browser processing.',
     keywords: [
@@ -1497,7 +1497,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'png-to-pdf': {
-    title: 'Convert PNG to PDF Online - Free Image to PDF Document',
+    title: 'PNG to PDF Converter',
     description:
       'Convert and export PNG images into clean, print-ready PDF files. Safe, browser-side rendering ensures your documents remain completely private.',
     keywords: [
@@ -1524,7 +1524,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'jpg-to-pdf': {
-    title: 'Convert JPG to PDF Online - Turn Photos into PDF Documents',
+    title: 'JPG to PDF Converter',
     description:
       'Convert JPG and JPEG photos into secure PDF files. Perfect for printing, scanning, and portfolio assembly. Complete privacy with zero server uploads.',
     keywords: [
@@ -1551,7 +1551,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'svg-to-png': {
-    title: 'Convert SVG to PNG Online - High-Resolution Vector Rasterizer',
+    title: 'SVG to PNG Converter',
     description:
       'Rasterize vector SVG graphics into high-quality pixel-perfect PNG images. Preserves clear paths and transparent backgrounds. Safe and instant.',
     keywords: [
@@ -1578,7 +1578,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'webp-to-jpg': {
-    title: 'Convert WebP to JPG Online - Unblock and Save Web Images',
+    title: 'WebP to JPG Converter',
     description:
       'Convert modern web-native WebP images to universal JPG format. Easily save website graphics as traditional files. Fast, secure, and private.',
     keywords: [
@@ -1605,7 +1605,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'webp-to-png': {
-    title: 'Convert WebP to PNG Online - Extract Lossless Images with Alpha',
+    title: 'WebP to PNG Converter',
     description:
       'Convert WebP images to lossless PNG format with transparency channels intact. Fast browser processing via high-fidelity WASM engine.',
     keywords: [
@@ -1632,7 +1632,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'bmp-to-jpg': {
-    title: 'Convert BMP to JPG Online - Compress Legacy Bitmaps',
+    title: 'BMP to JPG Converter',
     description:
       'Convert raw uncompressed BMP bitmap images to optimized, lightweight JPG files. Instant conversion with no data files ever leaving your computer.',
     keywords: [
@@ -1659,7 +1659,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'tiff-to-jpg': {
-    title: 'Convert TIFF to JPG Online - Compress Master Print Images',
+    title: 'TIFF to JPG Converter',
     description:
       'Convert heavy print-quality TIFF or TIF files to standard web-friendly compressed JPG format. Fast, private bulk processing directly in-browser.',
     keywords: [
@@ -1686,7 +1686,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'gif-to-png': {
-    title: 'Convert GIF to PNG Online - Extract Frames & Graphics',
+    title: 'GIF to PNG Converter',
     description:
       'Convert static or animated GIF files to clear, alpha-transparent PNG layouts. Clean up visual distortion from legacy compression channels.',
     keywords: [
@@ -1713,7 +1713,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'psd-to-jpg': {
-    title: 'Convert PSD to JPG Online - View Photoshop Files Free',
+    title: 'PSD to JPG Converter',
     description:
       'Convert Adobe Photoshop PSD layers into standard JPG flat files without needing a costly Creative Cloud subscription. local, private execution.',
     keywords: [
@@ -1740,8 +1740,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'psd-to-png': {
-    title:
-      'Convert PSD to PNG Online - Flatten Photoshop Files with Transparency',
+    title: 'PSD to PNG Converter',
     description:
       'Convert Adobe Photoshop PSD files into clean PNG formats, retaining transparent composition elements. Quick browser-side extraction.',
     keywords: [
@@ -1768,7 +1767,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'avif-to-jpg': {
-    title: 'Convert AVIF to JPG Online - Decode Next-Gen Files Universal',
+    title: 'AVIF to JPG Converter',
     description:
       'Convert highly compressed next-generation AVIF images into standard JPG layouts compatible across older operating systems and device displays.',
     keywords: [
@@ -1795,7 +1794,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'ico-to-png': {
-    title: 'Convert ICO to PNG Online - Extract App and Web Favicons',
+    title: 'ICO to PNG Converter',
     description:
       'Convert Windows ICO files into high-resolution PNG transparent assets. Deconstruct complex system icons down to crisp graphic layouts instantly.',
     keywords: [
@@ -1822,8 +1821,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'avif-to-png': {
-    title:
-      'Convert AVIF to PNG Online - Extract Next-Gen Images with Transparency',
+    title: 'AVIF to PNG Converter',
     description:
       'Convert high-efficiency AVIF images into lossless PNG assets, completely keeping transparency parameters intact. Local browser compilation protects workflow file security.',
     keywords: [
@@ -1850,8 +1848,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'pdf-to-png': {
-    title:
-      'Convert PDF to PNG Online - Rasterize PDF Pages into Transparent Images',
+    title: 'PDF to PNG Converter',
     description:
       'Convert document PDF files into clear high-resolution PNG graphics inside your browser interface. Extract document pages into distinct transparent image layouts easily.',
     keywords: [
@@ -1878,7 +1875,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'pdf-to-jpg': {
-    title: 'Convert PDF to JPG Online - Turn Document Sheets into Flat Photos',
+    title: 'PDF to JPG Converter',
     description:
       'Deconstruct multipage PDF layout sheets into highly optimized flat JPG photographs instantly. Zero server upload pipelines guarantee total data compliance protocols.',
     keywords: [
@@ -1905,8 +1902,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'eps-to-png': {
-    title:
-      'Convert EPS to PNG Online - Rasterize Encapsulated PostScript Layouts',
+    title: 'EPS to PNG Converter',
     description:
       'Convert graphic design vector EPS files down to high-definition alpha-channel transparent PNG graphics. Zero cloud transmission ensures complete intellectual asset protection.',
     keywords: [
@@ -1933,8 +1929,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'ai-to-png': {
-    title:
-      'Convert AI to PNG Online - Rasterize Adobe Illustrator Vector Designs',
+    title: 'AI to PNG Converter',
     description:
       'Convert proprietary Adobe Illustrator AI layout documents into standard transparent web-friendly PNG images. Perfect framework to unpack raw artwork assets.',
     keywords: [
@@ -1961,8 +1956,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'dng-to-jpg': {
-    title:
-      'Convert DNG to JPG Online - Develop Digital Negative Camera Formats',
+    title: 'DNG to JPG Converter',
     description:
       'Develop high bit depth Adobe Digital Negative DNG camera RAW files into universal web compressed standard JPG photographs. Total local exposure mapping manipulation.',
     keywords: [
@@ -1989,7 +1983,7 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     ],
   },
   'cr2-to-jpg': {
-    title: 'Convert CR2 to JPG Online - Develop Canon Raw Camera Snapshots',
+    title: 'CR2 to JPG Converter',
     description:
       'Process and convert Canon RAW CR2 photo files into standard universal compressed JPG images. Local image processing algorithms render pure sensor inputs.',
     keywords: [
@@ -2081,9 +2075,7 @@ export const getConversionRoute = (
   return {
     source,
     target,
-    title:
-      override.title ??
-      `${sourceLabel} to ${targetLabel} Converter - Free Online Tool`,
+    title: override.title ?? `${sourceLabel} to ${targetLabel} Converter`,
     description:
       override.description ??
       `Convert ${sourceLabel} images to ${targetLabel} format free, fast, and privately in your browser.`,
