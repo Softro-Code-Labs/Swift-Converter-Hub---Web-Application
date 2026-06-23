@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import VideoStudioClient from './VideoStudioClient';
 
 export const metadata: Metadata = {
-  title: 'Video Studio - Free Online Video Tools (Coming Soon)',
+  title: 'Video Studio - Free Online Video Tools',
   description:
     'Convert, trim, and compress video files entirely in your browser using a high-performance WebAssembly engine. MP4, WebM, and GIF export - no uploads, completely private.',
   keywords: [

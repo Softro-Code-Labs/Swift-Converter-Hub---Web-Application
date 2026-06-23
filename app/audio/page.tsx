@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import AudioStudioClient from './AudioStudioClient';
 
 export const metadata: Metadata = {
-  title: 'Audio Studio - Free Browser-Based Audio Tools (Coming Soon)',
+  title: 'Audio Studio - Free Browser-Based Audio Tools',
   description:
     'Convert, trim, and adjust audio files entirely in your browser. MP3, WAV, FLAC support coming soon - no uploads, no account required.',
   keywords: [
