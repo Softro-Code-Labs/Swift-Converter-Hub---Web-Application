@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import DocumentSuiteClient from './DocumentSuiteClient';
 
 export const metadata: Metadata = {
-  title: 'Document Suite - Free Online PDF Tools (Coming Soon)',
+  title: 'Document Suite - Free Online PDF Tools',
   description:
     'Merge, split, and compress PDF files, or convert Word and Excel documents to PDF. All processing happens in your browser - no uploads required.',
   keywords: [
