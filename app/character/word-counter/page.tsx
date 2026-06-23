@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import WordCounterTool from '../../../features/character/word-counter/components';
+import WordCounterTool from '@/features/character/word-counter/components';
 
 export const metadata: Metadata = {
-  title: 'Word & Character Counter - Free Online Tool',
+  title: 'Word & Character Counter',
   description:
     'Count words, characters, sentences, and paragraphs in real time. Get reading time, speaking time, and keyword density - all in your browser, nothing sent to any server.',
   keywords: [

@@ -34,7 +34,7 @@ const TOOLS = [
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
     accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
     href: '/character/case-converter',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'find-replace',

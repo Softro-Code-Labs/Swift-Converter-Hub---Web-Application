@@ -1,24 +1,11 @@
 'use client';
 
 import { useMemo } from 'react';
-
-export interface TextStats {
-  words: number;
-  characters: number; // with spaces
-  charactersNoSpaces: number; // without spaces
-  sentences: number;
-  paragraphs: number;
-  readingTime: string; // e.g. "2 min read"
-  speakingTime: string; // e.g. "3 min"
-  avgWordLength: number;
-  longestWord: string;
-  topKeywords: { word: string; count: number }[];
-}
+import type { TextStats } from '../types/wordCounter';
 
 const READING_WPM = 238;
 const SPEAKING_WPM = 130;
 
-// Common English stop words to exclude from keyword density
 const STOP_WORDS = new Set([
   'a',
   'an',
@@ -104,8 +91,7 @@ const STOP_WORDS = new Set([
 
 function formatMinutes(minutes: number): string {
   if (minutes < 1) return '< 1 min';
-  const m = Math.round(minutes);
-  return `${m} min`;
+  return `${Math.round(minutes)} min`;
 }
 
 export function useTextStats(text: string): TextStats {
@@ -125,41 +111,32 @@ export function useTextStats(text: string): TextStats {
       };
     }
 
-    // Words: split on whitespace, filter empty
     const wordList = text.trim().split(/\s+/).filter(Boolean);
     const words = wordList.length;
-
-    // Characters
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, '').length;
 
-    // Sentences: split on . ! ? followed by whitespace or end
     const sentences =
       (text.match(/[^.!?]*[.!?]+/g) ?? []).length ||
       (text.trim().length > 0 ? 1 : 0);
 
-    // Paragraphs: split on double newline
     const paragraphs =
       text.split(/\n\s*\n/).filter((p) => p.trim().length > 0).length ||
       (text.trim().length > 0 ? 1 : 0);
 
-    // Reading / speaking times
     const readingTime = formatMinutes(words / READING_WPM);
     const speakingTime = formatMinutes(words / SPEAKING_WPM);
 
-    // Avg word length (alpha chars per word)
     const cleanWords = wordList.map((w) => w.replace(/[^a-zA-Z]/g, ''));
     const totalLetters = cleanWords.reduce((sum, w) => sum + w.length, 0);
     const avgWordLength =
       words > 0 ? Math.round((totalLetters / words) * 10) / 10 : 0;
 
-    // Longest word
     const longestWord = cleanWords.reduce(
       (longest, w) => (w.length > longest.length ? w : longest),
       '',
     );
 
-    // Top keywords (exclude stop words, min 3 chars)
     const freq: Record<string, number> = {};
     for (const w of cleanWords) {
       const key = w.toLowerCase();

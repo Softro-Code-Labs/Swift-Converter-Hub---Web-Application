@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     'Adjust brightness, contrast, saturation and apply photo filters like Vivid, Vintage and Noir. Works 100% in your browser - no uploads, no account required.',
   keywords: [
-    // Core Editing & Adjustment Keywords
+    // Original core editing keywords
     'adjust image online',
     'brightness contrast tool',
     'image saturation editor',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     'image hue adjustment tool',
     'fix dark photos online',
 
-    // Filters & Aesthetics Focus
+    // Filters & aesthetics
     'photo filter editor online',
     'free photo filter tool',
     'vintage filter photo online',
@@ -31,16 +31,56 @@ export const metadata: Metadata = {
     'sepia filter photo online',
     'vivid color photo editor',
 
-    // Workflow & Utility Intent
+    // Workflow & utilities
     'browser photo editor',
     'quick photo enhancer online',
     'edit photos without app download',
     'lightweight image editor browser',
 
-    // Privacy & Safety Specifics
+    // Privacy & safety
     'no upload photo editor',
     'private image filter tool',
     'secure local photo adjustment',
+
+    // Advanced photo adjustments
+    'image exposure editor online',
+    'photo highlights and shadows tool',
+    'adjust image temperature browser',
+    'image sharpness tool online',
+    'photo tint modifier free',
+    'gamma correction tool online',
+    'invert colors image converter',
+
+    // Creative effects & styling
+    'black and white photo converter',
+    'retro photography effect online',
+    'cool aesthetic photo filters',
+    'cinematic photo look editor',
+    'monochrome filter online free',
+    'dramatic contrast photo tool',
+    'warm tone filter for images',
+
+    // Social media & e-commerce use cases
+    'instagram filter editor browser',
+    'e-commerce product photo cleaner',
+    'optimize product images online',
+    'bulk look image editor',
+    'social media graphics enhancer',
+    'avatar lighting enhancer online',
+    'profile picture editor contrast',
+
+    // Frontend developer assets
+    'css filter tester online',
+    'browser canvas image adjuster',
+    'client side image manipulator',
+    'web based asset photo optimizer',
+
+    // Privacy & client-side performance
+    'offline web photo editor',
+    'wasm photo processor browser',
+    'zero tracking photo editor',
+    'local storage image enhancer',
+    'instant client side image tuning',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image/adjust' },
   openGraph: {
