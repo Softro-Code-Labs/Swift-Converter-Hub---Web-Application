@@ -103,6 +103,7 @@ const CHARACTER_STUDIO_SLUGS = new Set([
   'url-encoder',
   'hash-generator',
   'unicode-inspector',
+  'number-base',
 ]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

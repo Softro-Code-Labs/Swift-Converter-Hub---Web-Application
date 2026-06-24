@@ -29,7 +29,7 @@ const CATEGORY_FILTERS: { id: CharCategory | 'all'; label: string }[] = [
 
 const PLACEHOLDER = `Paste any text to inspect it character by character.
 
-Try pasting text from a PDF, Word doc, or webpage — hidden characters like zero-width spaces, smart quotes, and byte-order marks will be revealed.`;
+Try pasting text from a PDF, Word doc, or webpage - hidden characters like zero-width spaces, smart quotes, and byte-order marks will be revealed.`;
 
 const SAMPLE_TEXT = `Hello, "World"! Zero​Width here.
 Smart quotes: \u201CHello\u201D \u2018World\u2019
@@ -88,7 +88,7 @@ export default function UnicodeInspectorTool() {
               Unicode Inspector
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              Every character revealed — code points, names, categories,
+              Every character revealed - code points, names, categories,
               invisible chars
             </p>
           </div>
@@ -151,7 +151,7 @@ export default function UnicodeInspectorTool() {
             <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
             <p className="text-xs font-semibold text-red-700 dark:text-red-400">
               {stats.invisible} invisible character
-              {stats.invisible !== 1 ? 's' : ''} detected —{' '}
+              {stats.invisible !== 1 ? 's' : ''} detected -{' '}
               <button
                 onClick={() => setFilter('invisible')}
                 className="underline underline-offset-2 hover:text-red-800 dark:hover:text-red-300 cursor-pointer transition-colors"
@@ -390,7 +390,7 @@ export default function UnicodeInspectorTool() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500" />
           </span>
           <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-            Characters inspected locally — your text never leaves this page
+            Characters inspected locally - your text never leaves this page
           </p>
         </div>
       </div>

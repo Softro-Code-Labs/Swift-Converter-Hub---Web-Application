@@ -150,7 +150,7 @@ const TOOLS = [
     color: 'bg-lime-100 dark:bg-lime-950/50 text-lime-600 dark:text-lime-400',
     accentBorder: 'hover:border-lime-300 dark:hover:border-lime-700',
     href: '/character/number-base',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
 ] as const;
 

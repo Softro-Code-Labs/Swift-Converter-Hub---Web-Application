@@ -4,7 +4,7 @@ import UnicodeInspectorTool from '@/features/character/unicode-inspector/compone
 export const metadata: Metadata = {
   title: 'Unicode Inspector',
   description:
-    "Reveal every character's Unicode code point, name, category, and UTF-8 bytes. Detect invisible characters, zero-width spaces, smart quotes, and byte-order marks — instantly in your browser, 100% private.",
+    "Reveal every character's Unicode code point, name, category, and UTF-8 bytes. Detect invisible characters, zero-width spaces, smart quotes, and byte-order marks - instantly in your browser, 100% private.",
   keywords: [
     // Core intent
     'unicode inspector online',
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title:
       'Unicode Inspector - Reveal Hidden Characters & Code Points | Character Studio',
     description:
-      "Every character's code point, name, category and UTF-8 bytes — invisible chars, smart quotes and BOM detected instantly, nothing sent to any server.",
+      "Every character's code point, name, category and UTF-8 bytes - invisible chars, smart quotes and BOM detected instantly, nothing sent to any server.",
     url: 'https://swiftconverterhub.com/character/unicode-inspector',
     type: 'website',
   },
