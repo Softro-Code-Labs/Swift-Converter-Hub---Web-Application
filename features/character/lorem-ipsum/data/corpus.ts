@@ -1,4 +1,4 @@
-// Classic Lorem Ipsum paragraphs — the original Cicero-derived text
+// Classic Lorem Ipsum paragraphs - the original Cicero-derived text
 export const CLASSIC_PARAGRAPHS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
@@ -10,7 +10,7 @@ export const CLASSIC_PARAGRAPHS = [
   'Curabitur suscipit suscipit tellus. Morbi nec metus. Phasellus blandit leo ut odio. Nullam accumsan lorem in dui. Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In ac dui quis mi consectetuer lacinia.',
 ];
 
-// Random English-like word pool — diverse, design-friendly
+// Random English-like word pool - diverse, design-friendly
 export const RANDOM_WORDS = [
   'the',
   'be',

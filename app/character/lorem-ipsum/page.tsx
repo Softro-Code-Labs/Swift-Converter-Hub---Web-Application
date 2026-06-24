@@ -4,7 +4,7 @@ import LoremIpsumTool from '@/features/character/lorem-ipsum/components';
 export const metadata: Metadata = {
   title: 'Lorem Ipsum Generator',
   description:
-    'Generate classic Lorem Ipsum or random English placeholder text by words, sentences, or paragraphs — instantly in your browser. No server, 100% private.',
+    'Generate classic Lorem Ipsum or random English placeholder text by words, sentences, or paragraphs - instantly in your browser. No server, 100% private.',
   keywords: [
     // Core intent
     'lorem ipsum generator',
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     title:
       'Lorem Ipsum Generator - Classic & Random Placeholder Text | Character Studio',
     description:
-      'Paragraphs, sentences, or words — classic Latin or random English, instant copy and download, no server.',
+      'Paragraphs, sentences, or words - classic Latin or random English, instant copy and download, no server.',
     url: 'https://swiftconverterhub.com/character/lorem-ipsum',
     type: 'website',
   },

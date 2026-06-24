@@ -72,7 +72,7 @@ export default function LoremIpsumTool() {
               Lorem Ipsum Generator
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              Placeholder text on demand — classic Latin or random English
+              Placeholder text on demand - classic Latin or random English
             </p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function LoremIpsumTool() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500" />
           </span>
           <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-            Generated instantly — no server, no tracking
+            Generated instantly - no server, no tracking
           </p>
         </div>
       </div>
