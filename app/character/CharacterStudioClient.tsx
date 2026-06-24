@@ -129,7 +129,7 @@ const TOOLS = [
     color: 'bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400',
     accentBorder: 'hover:border-red-300 dark:hover:border-red-700',
     href: '/character/hash-generator',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'unicode-inspector',
