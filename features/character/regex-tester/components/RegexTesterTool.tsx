@@ -74,7 +74,7 @@ export default function RegexTesterTool() {
   const toggleFlag = useCallback((flag: RegexFlag) => {
     setActiveFlags((prev) => {
       const next = new Set(prev);
-      // 'g' is always on — we force it internally but hide it visually
+      // 'g' is always on - we force it internally but hide it visually
       next.has(flag) ? next.delete(flag) : next.add(flag);
       return next;
     });
@@ -426,7 +426,7 @@ export default function RegexTesterTool() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-500" />
           </span>
           <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-            Matches update as you type — JavaScript RegExp engine, no server
+            Matches update as you type - JavaScript RegExp engine, no server
           </p>
         </div>
       </div>

@@ -4,7 +4,7 @@ import RegexTesterTool from '@/features/character/regex-tester/components';
 export const metadata: Metadata = {
   title: 'Regex Tester',
   description:
-    'Test regular expressions live with match highlighting, capture group inspection, and flag controls (i, m, s, u). Powered by the JavaScript RegExp engine — instant, private, no server.',
+    'Test regular expressions live with match highlighting, capture group inspection, and flag controls (i, m, s, u). Powered by the JavaScript RegExp engine - instant, private, no server.',
   keywords: [
     // Original core keywords
     'regex tester online',
@@ -72,9 +72,9 @@ export const metadata: Metadata = {
     canonical: 'https://swiftconverterhub.com/character/regex-tester',
   },
   openGraph: {
-    title: 'Regex Tester — Live Matching & Capture Groups | Character Studio',
+    title: 'Regex Tester - Live Matching & Capture Groups | Character Studio',
     description:
-      'Live highlights, capture group inspector, flag toggles, quick reference — instant, private, no server.',
+      'Live highlights, capture group inspector, flag toggles, quick reference - instant, private, no server.',
     url: 'https://swiftconverterhub.com/character/regex-tester',
     type: 'website',
   },
