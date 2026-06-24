@@ -119,7 +119,7 @@ const TOOLS = [
       'bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400',
     accentBorder: 'hover:border-indigo-300 dark:hover:border-indigo-700',
     href: '/character/url-encoder',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'hash-generator',

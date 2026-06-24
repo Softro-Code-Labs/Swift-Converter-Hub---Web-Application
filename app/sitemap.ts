@@ -100,6 +100,7 @@ const CHARACTER_STUDIO_SLUGS = new Set([
   'text-diff',
   'lorem-ipsum',
   'text-sorter',
+  'url-encoder',
 ]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
