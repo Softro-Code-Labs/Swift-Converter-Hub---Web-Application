@@ -98,7 +98,7 @@ const TOOLS = [
       'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
     accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
     href: '/character/lorem-ipsum',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'text-sorter',

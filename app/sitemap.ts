@@ -98,6 +98,7 @@ const CHARACTER_STUDIO_SLUGS = new Set([
   'markdown-preview',
   'regex-tester',
   'text-diff',
+  'lorem-ipsum',
 ]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

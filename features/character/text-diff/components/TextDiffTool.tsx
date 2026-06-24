@@ -65,7 +65,7 @@ export default function TextDiffTool() {
             <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
               <button
                 onClick={() => setMode('split')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold cursor-pointer transition-all
                   ${
                     mode === 'split'
                       ? 'bg-white dark:bg-slate-700 text-sky-700 dark:text-sky-300 shadow-sm'
@@ -76,7 +76,7 @@ export default function TextDiffTool() {
               </button>
               <button
                 onClick={() => setMode('unified')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold cursor-pointer transition-all
                   ${
                     mode === 'unified'
                       ? 'bg-white dark:bg-slate-700 text-sky-700 dark:text-sky-300 shadow-sm'
@@ -92,7 +92,7 @@ export default function TextDiffTool() {
             {/* Line numbers toggle */}
             <button
               onClick={() => setShowLineNums((v) => !v)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold transition-all
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-all
                 ${
                   showLineNums
                     ? 'border-sky-400 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300'

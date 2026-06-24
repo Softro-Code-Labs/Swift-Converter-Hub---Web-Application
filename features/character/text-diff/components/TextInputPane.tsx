@@ -33,7 +33,7 @@ export function TextInputPane({
         <div className="flex items-center gap-2">
           <button
             onClick={handlePaste}
-            className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+            className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer transition-colors"
           >
             <ClipboardPaste className="w-3 h-3" /> Paste
           </button>
@@ -42,7 +42,7 @@ export function TextInputPane({
               <span className="text-slate-200 dark:text-slate-700">|</span>
               <button
                 onClick={() => onChange('')}
-                className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-red-500 transition-colors"
+                className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
               >
                 <Trash2 className="w-3 h-3" /> Clear
               </button>
