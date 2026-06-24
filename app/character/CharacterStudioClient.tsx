@@ -140,7 +140,7 @@ const TOOLS = [
       'bg-violet-100 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400',
     accentBorder: 'hover:border-violet-300 dark:hover:border-violet-700',
     href: '/character/unicode-inspector',
-    status: 'soon' as const,
+    status: 'live' as const,
   },
   {
     id: 'number-base',
