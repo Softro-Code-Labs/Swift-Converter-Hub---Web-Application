@@ -11,7 +11,8 @@ const BASE_URL = 'https://swiftconverterhub.com';
 // 0.6  - Studio landing pages
 // 0.5  - Static info pages
 
-// High-traffic routes
+// --- High-traffic routes -------------------------------------------------------
+
 const HIGH_TRAFFIC_PAIRS = new Set([
   'jpg-to-png',
   'png-to-jpg',
@@ -45,7 +46,8 @@ const HIGH_TRAFFIC_PAIRS = new Set([
   'dng-to-jpg',
 ]);
 
-// Medium-traffic routes
+// --- Medium-traffic routes -----------------------------------------------------
+
 const MEDIUM_TRAFFIC_PAIRS = new Set([
   'jpg-to-svg',
   'png-to-svg',
@@ -77,6 +79,31 @@ const MEDIUM_TRAFFIC_PAIRS = new Set([
   'exr-to-png',
   'hdr-to-jpg',
   'dpx-to-png',
+]);
+
+// --- Studio Tool Slugs --------------------------------------------------------
+
+const IMAGE_STUDIO_SLUGS = new Set([
+  'crop',
+  'compress',
+  'adjust',
+  'metadata',
+  'base64',
+]);
+
+const CHARACTER_STUDIO_SLUGS = new Set([
+  'word-counter',
+  'case-converter',
+  'find-replace',
+  'markdown-preview',
+  'regex-tester',
+  'text-diff',
+  'lorem-ipsum',
+  'text-sorter',
+  'url-encoder',
+  'hash-generator',
+  'unicode-inspector',
+  'number-base',
 ]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -154,90 +181,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // -- Image Studio Tools ------------------------------------------------------
-  const imageStudioTools: MetadataRoute.Sitemap = [
-    {
-      url: `${BASE_URL}/image/crop`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
 
-    {
-      url: `${BASE_URL}/image/compress`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/image/adjust`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/image/metadata`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/image/base64`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-  ];
+  const imageStudioTools: MetadataRoute.Sitemap = Array.from(
+    IMAGE_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/image/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
 
   // -- Chargecter Studio Tool --------------------------------------------------
-  const characterStudioTools: MetadataRoute.Sitemap = [
-    {
-      url: `${BASE_URL}/character/word-counter`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/character/case-converter`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/character/find-replace`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/character/markdown-preview`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/character/regex-tester`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-  ];
 
-  // -- Dynamic Image cConversion Routes ----------------------------------------
+  const characterStudioTools: MetadataRoute.Sitemap = Array.from(
+    CHARACTER_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/character/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
 
-  const conversionRoutes: MetadataRoute.Sitemap = ALL_CONVERSION_PAIRS.map(
-    ({ source, target }) => {
-      const key = `${source}-to-${target}`;
-      const isHigh = HIGH_TRAFFIC_PAIRS.has(key);
-      const isMedium = MEDIUM_TRAFFIC_PAIRS.has(key);
+  // -- Dynamic Image Conversion Routes ----------------------------------------
+  const conversionRoutes: MetadataRoute.Sitemap = [];
 
-      return {
-        url: `${BASE_URL}/image/${key}`,
-        lastModified: now,
-        changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
-        priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,
-      };
-    },
-  );
+  for (const { source, target } of ALL_CONVERSION_PAIRS) {
+    const key = `${source}-to-${target}`;
+    const isHigh = HIGH_TRAFFIC_PAIRS.has(key);
+    const isMedium = MEDIUM_TRAFFIC_PAIRS.has(key);
+
+    if (!isHigh && !isMedium) continue;
+
+    conversionRoutes.push({
+      url: `${BASE_URL}/image/${key}`,
+      lastModified: now,
+      changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
+      priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,
+    });
+  }
 
   return [
     ...staticPages,
