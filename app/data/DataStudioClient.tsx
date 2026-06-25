@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
 import {
-  ArrowLeft,
   Database,
   FileSpreadsheet,
   Code,
@@ -11,136 +9,230 @@ import {
   FileJson,
   Binary,
   Shield,
-  Bell,
+  Zap,
+  Package,
 } from 'lucide-react';
+import { StudioPageLayout } from '@/features/shared/studio/components/StudioPageLayout';
+import type {
+  StudioTool,
+  StudioGroup,
+  StudioHeroConfig,
+} from '@/features/shared/studio/types/studio';
 
-const TOOLS = [
+// --- Tools --------------------------------------------------------------------
+
+const TOOLS: StudioTool[] = [
+  // -- Convert group -------------------------------------------------
   {
+    id: 'csv-json',
     icon: FileSpreadsheet,
     title: 'CSV ↔ JSON Converter',
-    desc: 'Turn spreadsheet rows into nested JSON objects, or flatten back to CSV.',
+    desc: 'Turn spreadsheet rows into nested JSON objects, or flatten structured JSON back to CSV.',
     color:
       'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
+    accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
+    href: '/data/csv-json',
+    status: 'soon',
+    group: 'convert',
+    featured: true,
+    tags: ['csv', 'json', 'spreadsheet', 'convert', 'table', 'rows', 'columns'],
   },
   {
+    id: 'json-xml',
     icon: Code,
     title: 'JSON ↔ XML Converter',
-    desc: 'Bridge modern API payloads with legacy XML-based systems.',
+    desc: 'Bridge modern API payloads with legacy XML-based systems - convert in either direction.',
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+    accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
+    href: '/data/json-xml',
+    status: 'soon',
+    group: 'convert',
+    featured: true,
+    tags: ['json', 'xml', 'convert', 'api', 'payload', 'legacy', 'soap'],
   },
   {
-    icon: Layers,
-    title: 'Excel to JSON',
-    desc: 'Parse .xlsx multi-sheet files into structured JSON data.',
-    color:
-      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
-  },
-  {
+    id: 'yaml-json',
     icon: Braces,
     title: 'YAML ↔ JSON Converter',
-    desc: 'Convert deployment configs between YAML and JSON formats.',
+    desc: 'Convert deployment configs, CI pipelines, and API specs between YAML and JSON formats.',
     color:
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
+    accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
+    href: '/data/yaml-json',
+    status: 'soon',
+    group: 'convert',
+    featured: false,
+    tags: [
+      'yaml',
+      'json',
+      'convert',
+      'config',
+      'deployment',
+      'ci',
+      'kubernetes',
+      'docker',
+    ],
   },
   {
+    id: 'excel-json',
+    icon: Layers,
+    title: 'Excel to JSON',
+    desc: 'Parse .xlsx multi-sheet workbooks into structured JSON - pick sheets, map columns.',
+    color:
+      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+    accentBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+    accentText:
+      'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
+    href: '/data/excel-json',
+    status: 'soon',
+    group: 'convert',
+    featured: false,
+    tags: [
+      'excel',
+      'xlsx',
+      'json',
+      'spreadsheet',
+      'workbook',
+      'sheets',
+      'convert',
+    ],
+  },
+
+  // -- Format group --------------------------------------------------
+  {
+    id: 'json-formatter',
     icon: FileJson,
-    title: 'JSON Formatter & Minifier',
-    desc: 'Beautify with indentation or strip whitespace to minify.',
+    title: 'JSON Formatter & Validator',
+    desc: 'Beautify with indentation, minify to strip whitespace, validate syntax, and inspect nested structure.',
     color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+    accentBorder: 'hover:border-cyan-300 dark:hover:border-cyan-700',
+    accentText: 'group-hover:text-cyan-600 dark:group-hover:text-cyan-400',
+    href: '/data/json-formatter',
+    status: 'soon',
+    group: 'format',
+    featured: true,
+    tags: [
+      'json',
+      'format',
+      'beautify',
+      'minify',
+      'validate',
+      'pretty print',
+      'lint',
+    ],
+  },
+
+  // -- Encode group --------------------------------------------------
+  {
+    id: 'base64-text',
+    icon: Binary,
+    title: 'Base64 Text Encoder / Decoder',
+    desc: 'Encode plain text or decode Base64 strings - great for JWT payloads and API tokens.',
+    color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
+    accentBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
+    accentText: 'group-hover:text-rose-600 dark:group-hover:text-rose-400',
+    href: '/data/base64-text',
+    status: 'soon',
+    group: 'encode',
+    featured: true,
+    tags: ['base64', 'encode', 'decode', 'text', 'jwt', 'token', 'string'],
   },
   {
-    icon: Binary,
-    title: 'Base64 Encode / Decode',
-    desc: 'Encode text or files to Base64, or decode existing strings.',
-    color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
+    id: 'toml-json',
+    icon: Package,
+    title: 'TOML ↔ JSON Converter',
+    desc: 'Convert Cargo.toml, pyproject.toml, or any TOML config to JSON and back.',
+    color:
+      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
+    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
+    accentText: 'group-hover:text-orange-600 dark:group-hover:text-orange-400',
+    href: '/data/toml-json',
+    status: 'soon',
+    group: 'convert',
+    featured: false,
+    tags: ['toml', 'json', 'convert', 'config', 'cargo', 'rust', 'python'],
   },
-] as const;
+];
+
+// --- Groups -------------------------------------------------------------------
+
+const GROUPS: StudioGroup[] = [
+  {
+    id: 'convert',
+    label: 'Format Converters',
+    desc: 'Transform data between CSV, JSON, XML, YAML, TOML, and Excel',
+    dot: 'bg-amber-400',
+  },
+  {
+    id: 'format',
+    label: 'Formatters & Validators',
+    desc: 'Beautify, minify, lint, and inspect structured data',
+    dot: 'bg-cyan-400',
+  },
+  {
+    id: 'encode',
+    label: 'Encode & Decode',
+    desc: 'Base64, binary, and data encoding utilities',
+    dot: 'bg-rose-400',
+  },
+];
+
+// --- Hero config --------------------------------------------------------------
+
+const HERO: StudioHeroConfig = {
+  icon: Database,
+  iconColor: 'text-amber-600 dark:text-amber-400',
+  iconBg:
+    'bg-amber-100 dark:bg-amber-950/50 border-amber-200 dark:border-amber-800',
+  title: 'Data Studio',
+  subtitle: 'Client-side data conversion · No file uploads · Any size',
+  description:
+    'Every Data Studio tool runs entirely in your browser using pure JavaScript libraries - no server round-trips, no file size limits imposed by uploads. Drop in a 50 MB CSV and it processes instantly.',
+  privacyNote:
+    '🔒 Your data files never leave your device - processed entirely in-browser.',
+  accentFrom: 'from-amber-400',
+  accentTo: 'to-amber-500',
+  badgeColor:
+    'bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800',
+  pills: [
+    {
+      icon: Shield,
+      label: 'Files stay on your device',
+      color:
+        'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800',
+    },
+    {
+      icon: Zap,
+      label: 'No file size limits',
+      color:
+        'text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800',
+    },
+    {
+      icon: Database,
+      label: '7 data tools',
+      color:
+        'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800',
+    },
+  ],
+};
+
+// --- Page ---------------------------------------------------------------------
 
 export default function DataStudioClient() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-8"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-          Back to home
-        </Link>
-
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 mb-6">
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400">
-              <Database className="w-5 h-5" />
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                  Data Studio
-                </h1>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400">
-                  <Bell className="w-2.5 h-2.5" /> Coming soon
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500">
-                Structured data conversion, fully client-side
-              </p>
-            </div>
-          </div>
-          <p className="mt-5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            Parsing and converting structured data formats is entirely doable
-            with pure JavaScript libraries - no server roundtrip needed. These
-            tools will process files of any size instantly in your browser tab.
-          </p>
-          <div className="mt-4 flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-            <Shield className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span className="font-semibold">
-              Your data files never leave your device
-            </span>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h2 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
-            <span className="w-1 h-3 rounded-full bg-amber-500 inline-block" />
-            Planned tools
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {TOOLS.map(({ icon: Icon, title, desc, color }) => (
-              <div
-                key={title}
-                className="flex gap-4 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 opacity-80"
-              >
-                <div
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${color}`}
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    {title}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-8 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Need a specific data converter?{' '}
-            <Link
-              href="/contact"
-              className="font-bold text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              Let us know
-            </Link>
-          </p>
-        </div>
-      </div>
-    </main>
+    <StudioPageLayout
+      tools={TOOLS}
+      groups={GROUPS}
+      hero={HERO}
+      searchPlaceholder="Search tools - try 'csv', 'yaml', 'base64'…"
+      backHref="/"
+      backLabel="Back to home"
+      accentHover="hover:text-amber-600 dark:hover:text-amber-400"
+      footerNote="Need a specific data converter?"
+      footerCta={{ label: 'Let us know', href: '/contact' }}
+    />
   );
 }

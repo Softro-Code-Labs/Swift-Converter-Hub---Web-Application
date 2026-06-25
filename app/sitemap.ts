@@ -202,22 +202,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // -- Dynamic Image cConversion Routes ----------------------------------------
+  // -- Dynamic Image Conversion Routes ----------------------------------------
+  const conversionRoutes: MetadataRoute.Sitemap = [];
 
-  const conversionRoutes: MetadataRoute.Sitemap = ALL_CONVERSION_PAIRS.map(
-    ({ source, target }) => {
-      const key = `${source}-to-${target}`;
-      const isHigh = HIGH_TRAFFIC_PAIRS.has(key);
-      const isMedium = MEDIUM_TRAFFIC_PAIRS.has(key);
+  for (const { source, target } of ALL_CONVERSION_PAIRS) {
+    const key = `${source}-to-${target}`;
+    const isHigh = HIGH_TRAFFIC_PAIRS.has(key);
+    const isMedium = MEDIUM_TRAFFIC_PAIRS.has(key);
 
-      return {
-        url: `${BASE_URL}/image/${key}`,
-        lastModified: now,
-        changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
-        priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,
-      };
-    },
-  );
+    if (!isHigh && !isMedium) continue;
+
+    conversionRoutes.push({
+      url: `${BASE_URL}/image/${key}`,
+      lastModified: now,
+      changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
+      priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,
+    });
+  }
 
   return [
     ...staticPages,

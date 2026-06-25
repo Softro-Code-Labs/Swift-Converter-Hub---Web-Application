@@ -18,7 +18,7 @@ import { MatchCard } from './MatchCard';
 import { RegexHighlightedText } from './RegexHighlightedText';
 import type { RegexFlag, RegexFlagMeta } from '../types/regexTester';
 
-// ─── Flag metadata ────────────────────────────────────────────────────────────
+// --- Flag metadata ------------------------------------------------------------
 
 const FLAG_META: RegexFlagMeta[] = [
   { flag: 'i', label: 'Ignore case', title: 'Case-insensitive matching' },
@@ -27,7 +27,7 @@ const FLAG_META: RegexFlagMeta[] = [
   { flag: 'u', label: 'Unicode', title: 'Full Unicode support' },
 ];
 
-// ─── Quick reference ──────────────────────────────────────────────────────────
+// --- Quick reference ----------------------------------------------------------
 
 const QUICK_REF = [
   { token: '.', desc: 'Any character (except newline)' },
@@ -57,7 +57,7 @@ The regex engine will highlight every match in real time.
 Try writing a pattern like \\b\\w{5}\\b to find 5-letter words,
 or (\\d{1,3}\\.){3}\\d{1,3} to match IP addresses.`;
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// --- Component ----------------------------------------------------------------
 
 export default function RegexTesterTool() {
   const [pattern, setPattern] = useState('');

@@ -20,7 +20,7 @@ import type {
   SorterOptions,
 } from '../types/textSorter';
 
-// ─── Operation registry ───────────────────────────────────────────────────────
+// --- Operation registry -------------------------------------------------------
 
 const OPERATIONS: Operation[] = [
   // Sort group
