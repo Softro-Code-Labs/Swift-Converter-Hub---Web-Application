@@ -248,6 +248,13 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     description: 'Windows bitmap v3',
     aliases: ['bmp3'],
   },
+  // {
+  //   label: 'XCF',
+  //   extension: 'xcf',
+  //   mimeType: 'image/x-xcf',
+  //   description: 'GIMP image',
+  //   aliases: ['xcf'],
+  // },
   {
     label: 'TGA',
     extension: 'tga',
@@ -667,6 +674,43 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     aliases: ['fl32'],
   },
 
+  // --- Raw Digital Camera -------------------------------------------------------
+  // {
+  //   label: 'CR2',
+  //   extension: 'cr2',
+  //   mimeType: 'image/x-canon-cr2',
+  //   description: 'Canon RAW format',
+  //   aliases: ['cr2'],
+  // },
+  // {
+  //   label: 'CR3',
+  //   extension: 'cr3',
+  //   mimeType: 'image/x-canon-cr3',
+  //   description: 'Canon RAW format',
+  //   aliases: ['cr3'],
+  // },
+  // {
+  //   label: 'NEF',
+  //   extension: 'nef',
+  //   mimeType: 'image/x-nikon-nef',
+  //   description: 'Nikon RAW format',
+  //   aliases: ['nef'],
+  // },
+  // {
+  //   label: 'ARW',
+  //   extension: 'arw',
+  //   mimeType: 'image/x-sony-arw',
+  //   description: 'Sony RAW format',
+  //   aliases: ['arw'],
+  // },
+  // {
+  //   label: 'DNG',
+  //   extension: 'dng',
+  //   mimeType: 'image/x-adobe-dng',
+  //   description: 'Adobe Digital Negative',
+  //   aliases: ['dng'],
+  // },
+
   // -- Fax / Compression -----------------------------------------------------
   {
     label: 'FAX',
@@ -983,6 +1027,510 @@ export const IMAGE_FORMATS: ImageFormat[] = [
   },
 ];
 
+// ─── Conversion Matrix ────────────────────────────────────────────────────────
+
+export type ConversionRule =
+  | { mode: 'all' }
+  | { mode: 'allow'; formats: string[] }
+  | { mode: 'block'; formats: string[] };
+
+export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
+  // ── Tier 1: Universal - converts to everything ──────────────────────────────
+  jpg: { mode: 'all' },
+  jpeg: { mode: 'all' },
+  jfif: { mode: 'all' },
+  jpe: { mode: 'all' },
+  png: { mode: 'all' },
+  png8: { mode: 'all' },
+  png24: { mode: 'all' },
+  png32: { mode: 'all' },
+  png48: { mode: 'all' },
+  png64: { mode: 'all' },
+  png00: { mode: 'all' },
+  webp: { mode: 'all' },
+  avif: { mode: 'all' },
+  bmp: { mode: 'all' },
+  bmp2: { mode: 'all' },
+  bmp3: { mode: 'all' },
+  tiff: { mode: 'all' },
+  tif: { mode: 'all' },
+  tiff64: { mode: 'all' },
+  ptif: { mode: 'all' },
+  gif: { mode: 'all' },
+  psd: { mode: 'all' },
+  psb: { mode: 'all' },
+  // xcf: { mode: 'all' },
+  tga: { mode: 'all' },
+  sgi: { mode: 'all' },
+  exr: { mode: 'all' },
+  hdr: { mode: 'all' },
+  rgbe: { mode: 'all' },
+  jxl: { mode: 'all' },
+  qoi: { mode: 'all' },
+  ico: { mode: 'all' },
+  dds: { mode: 'all' },
+  dpx: { mode: 'all' },
+  cin: { mode: 'all' },
+
+  // ── HEIC / HEIF - source only, limited targets ──────────────────────────────
+  // Can be read but browsers cannot encode to HEIC/HEIF
+  heic: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'tiff', 'bmp', 'gif'],
+  },
+  heif: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'tiff', 'bmp', 'gif'],
+  },
+
+  // ── JPEG 2000 family - converts to raster formats only ──────────────────────
+  jp2: {
+    mode: 'allow',
+    formats: [
+      'jpg',
+      'jpeg',
+      'png',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'png8',
+      'png24',
+      'png32',
+      'tga',
+      'sgi',
+      'ppm',
+      'pgm',
+      'pbm',
+    ],
+  },
+  jpg2: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  jpc: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  j2k: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  j2c: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  jpm: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+
+  // ── Vector / PostScript - raster output + PDF/EPS ───────────────────────────
+  svg: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png8',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'pdf',
+      'eps',
+      'tga',
+      'ppm',
+      'ico',
+    ],
+  },
+  svgz: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png8',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'pdf',
+      'eps',
+    ],
+  },
+  ai: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'tiff',
+      'pdf',
+      'eps',
+      'bmp',
+      'gif',
+      'tga',
+    ],
+  },
+  eps: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png8',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'pdf',
+      'tga',
+      'ppm',
+      'ico',
+    ],
+  },
+  eps2: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif', 'pdf'],
+  },
+  eps3: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif', 'pdf'],
+  },
+  epsf: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif', 'pdf'],
+  },
+  epsi: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif', 'pdf'],
+  },
+  epi: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'pdf'],
+  },
+  ept: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'pdf'],
+  },
+  ps: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif', 'pdf'],
+  },
+  ps2: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'pdf'],
+  },
+  ps3: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'pdf'],
+  },
+
+  // ── PDF - raster output + vector passthrough ─────────────────────────────────
+  pdf: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png8',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'tga',
+      'ppm',
+      'ico',
+      'eps',
+    ],
+  },
+  epdf: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif'],
+  },
+
+  // ── RAW camera formats - raster output only ──────────────────────────────────
+  // Common targets only, no obscure formats
+  dng: {
+    mode: 'allow',
+    formats: [
+      'jpg',
+      'jpeg',
+      'png',
+      'png24',
+      'png32',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'tga',
+    ],
+  },
+  cr2: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  cr3: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  nef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  nrw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  arw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  srf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  sr2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  raf: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  orf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  rw2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  pef: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  srw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  x3f: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  mrw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  dcr: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  kdc: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  erf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  mef: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  mos: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  iiq: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  rwl: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+
+  // ── Portable bitmap family - raster targets only ─────────────────────────────
+  pbm: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'jpg',
+      'jpeg',
+      'bmp',
+      'tiff',
+      'gif',
+      'webp',
+      'pgm',
+      'ppm',
+      'pnm',
+    ],
+  },
+  pgm: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'jpg',
+      'jpeg',
+      'bmp',
+      'tiff',
+      'gif',
+      'webp',
+      'pbm',
+      'ppm',
+      'pnm',
+    ],
+  },
+  ppm: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'jpg',
+      'jpeg',
+      'bmp',
+      'tiff',
+      'gif',
+      'webp',
+      'pbm',
+      'pgm',
+      'pnm',
+    ],
+  },
+  pnm: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'jpg',
+      'jpeg',
+      'bmp',
+      'tiff',
+      'gif',
+      'webp',
+      'pbm',
+      'pgm',
+      'ppm',
+    ],
+  },
+  pam: {
+    mode: 'allow',
+    formats: ['png', 'png32', 'jpg', 'jpeg', 'tiff', 'webp', 'bmp'],
+  },
+  pfm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr', 'hdr'] },
+  phm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr', 'hdr'] },
+
+  // ── Raw color spaces - limited raster output ─────────────────────────────────
+  rgb: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
+  },
+  rgba: { mode: 'allow', formats: ['png', 'png32', 'webp', 'tiff', 'bmp'] },
+  rgbo: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
+  rgb565: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
+  gray: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pgm', 'webp'],
+  },
+  graya: { mode: 'allow', formats: ['png', 'png32', 'webp', 'tiff'] },
+  cmyk: { mode: 'allow', formats: ['jpg', 'jpeg', 'tiff', 'png', 'pdf'] },
+  cmyka: { mode: 'allow', formats: ['tiff', 'png', 'pdf'] },
+  yuv: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'bmp'] },
+  ycbcr: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff'] },
+  ycbcra: { mode: 'allow', formats: ['png', 'tiff', 'webp'] },
+  uyvy: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'bmp'] },
+  mono: { mode: 'allow', formats: ['png', 'bmp', 'tiff', 'pbm', 'gif'] },
+
+  // ── HDR / Scientific ─────────────────────────────────────────────────────────
+  fits: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
+  },
+  fts: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
+  fl32: {
+    mode: 'allow',
+    formats: ['png', 'tiff', 'exr', 'hdr', 'jpg', 'jpeg'],
+  },
+
+  // ── Fax / Compression ────────────────────────────────────────────────────────
+  fax: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf', 'gif'],
+  },
+  g3: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
+  g4: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
+  group4: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'],
+  },
+  cals: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
+
+  // ── Animated / Multi-frame ───────────────────────────────────────────────────
+  mng: {
+    mode: 'allow',
+    formats: ['gif', 'webp', 'png', 'jpg', 'jpeg', 'apng'],
+  },
+  jng: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'gif'] },
+
+  // ── Legacy / Specialty ───────────────────────────────────────────────────────
+  pcx: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif', 'webp'],
+  },
+  dcx: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif'] },
+  wbmp: { mode: 'allow', formats: ['png', 'bmp', 'jpg', 'jpeg', 'gif'] },
+  xbm: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
+  xpm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'tiff'] },
+  sun: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif'] },
+  ras: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif'] },
+  avs: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif'] },
+  viff: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
+  aai: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
+  art: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'gif'] },
+  wpg: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'tiff'] },
+  vicar: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'fits', 'fts'],
+  },
+  hrz: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
+  farbfeld: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
+  otb: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
+  picon: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'ico'],
+  },
+  cip: { mode: 'allow', formats: ['png', 'bmp', 'gif'] },
+
+  // ── Icon / System ────────────────────────────────────────────────────────────
+  palm: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
+  plam: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
+  pdb: { mode: 'allow', formats: ['png', 'bmp', 'jpg', 'jpeg'] },
+  pcd: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff', 'bmp'] },
+  pcds: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff', 'bmp'] },
+  pict: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif'],
+  },
+  pcl: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
+
+  // ── Text / Metadata output - text targets only ───────────────────────────────
+  txt: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
+  ftxt: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
+  info: { mode: 'allow', formats: ['json', 'txt', 'yaml'] },
+  json: { mode: 'allow', formats: ['yaml', 'txt'] },
+  yaml: { mode: 'allow', formats: ['json', 'txt'] },
+  shtml: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
+
+  // ── Magick internal ──────────────────────────────────────────────────────────
+  miff: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'tga',
+    ],
+  },
+  mpc: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif'],
+  },
+  mat: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff'] },
+  mtv: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
+  mng2: { mode: 'allow', formats: ['gif', 'webp', 'png'] },
+  sf3: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr'] },
+
+  // ── Braille - only text output ────────────────────────────────────────────────
+  brf: { mode: 'allow', formats: ['png', 'bmp'] },
+  ubrl: { mode: 'allow', formats: ['png', 'bmp'] },
+  ubrl6: { mode: 'allow', formats: ['png', 'bmp'] },
+  uil: { mode: 'allow', formats: ['png', 'bmp', 'xpm'] },
+  isobrl: { mode: 'allow', formats: ['txt'] },
+  isobrl6: { mode: 'allow', formats: ['txt'] },
+
+  // ── Misc ─────────────────────────────────────────────────────────────────────
+  jps: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  pjpeg: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'] },
+  sparsecolor: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'miff'],
+  },
+};
+
 // --- Helpers ------------------------------------------------------------------
 
 export const getFormatByExtension = (ext: string): ImageFormat | undefined =>
@@ -997,6 +1545,9 @@ export const getTargetFormats = (sourceExtension: string): ImageFormat[] =>
     (f) => f.extension !== sourceExtension.toLowerCase() && !f.sourceOnly,
   );
 
+export const getConversionHref = (source: string, target: string): string =>
+  `/image/convert/${source}-to-${target}`;
+
 export const isAcceptedByFormat = (
   fileExt: string,
   sourceExtension: string,
@@ -1006,6 +1557,33 @@ export const isAcceptedByFormat = (
   const aliases = format.aliases ?? [format.extension];
   return aliases.includes(fileExt.toLowerCase());
 };
+
+export function getAllowedTargets(sourceExt: string): Set<string> {
+  const rule = CONVERSION_MATRIX[sourceExt.toLowerCase()];
+
+  // No rule defined - default to all (safe fallback)
+  if (!rule) return new Set(IMAGE_FORMATS.map((f) => f.extension));
+
+  if (rule.mode === 'all') {
+    return new Set(IMAGE_FORMATS.map((f) => f.extension));
+  }
+
+  if (rule.mode === 'allow') {
+    return new Set(rule.formats);
+  }
+
+  // mode === 'block'
+  const blocked = new Set(rule.formats);
+  return new Set(
+    IMAGE_FORMATS.map((f) => f.extension).filter((ext) => !blocked.has(ext)),
+  );
+}
+
+export function isConversionAllowed(source: string, target: string): boolean {
+  if (source === target) return false;
+  const allowed = getAllowedTargets(source);
+  return allowed.has(target.toLowerCase());
+}
 
 // --- Format category detection ------------------------------------------------
 
@@ -2088,11 +2666,13 @@ export const getConversionRoute = (
 };
 
 // All valid conversion pairs for static generation
-export const ALL_CONVERSION_PAIRS = IMAGE_FORMATS.flatMap((source) =>
-  IMAGE_FORMATS.filter((target) => target.extension !== source.extension).map(
-    (target) => ({
-      source: source.extension,
-      target: target.extension,
-    }),
-  ),
-);
+export const ALL_CONVERSION_PAIRS = IMAGE_FORMATS.flatMap((source) => {
+  const allowed = getAllowedTargets(source.extension);
+  return IMAGE_FORMATS.filter(
+    (target) =>
+      target.extension !== source.extension && allowed.has(target.extension),
+  ).map((target) => ({
+    source: source.extension,
+    target: target.extension,
+  }));
+});

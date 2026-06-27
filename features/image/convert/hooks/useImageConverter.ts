@@ -60,6 +60,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   bmp: MagickFormat.Bmp,
   bmp2: MagickFormat.Bmp2,
   bmp3: MagickFormat.Bmp3,
+  // xcf: MagickFormat.Xcf,
   tga: MagickFormat.Tga,
   pcx: MagickFormat.Pcx,
   dcx: MagickFormat.Dcx,
@@ -137,6 +138,13 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   g4: MagickFormat.G4,
   group4: MagickFormat.Group4,
   cals: MagickFormat.Cals,
+
+  // --- RAW Digital Camera ---------------------------------------------------
+  // cr2: MagickFormat.Cr2,
+  // cr3: MagickFormat.Cr3,
+  // nef: MagickFormat.Nef,
+  // arw: MagickFormat.Arw,
+  // dng: MagickFormat.Dng,
 
   // -- Game / DirectX --------------------------------------------------------
   dds: MagickFormat.Dds,
