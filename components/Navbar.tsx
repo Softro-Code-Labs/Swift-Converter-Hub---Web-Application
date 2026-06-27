@@ -28,37 +28,37 @@ const STUDIOS = [
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
     desc: 'Convert WebP, PNG, JPEG and 120+ formats.',
   },
-  {
-    name: 'Audio Studio',
-    href: '/audio',
-    icon: Music,
-    color:
-      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
-    desc: 'Transcode MP3, WAV, FLAC and more.',
-  },
-  {
-    name: 'Video Studio',
-    href: '/video',
-    icon: Video,
-    color:
-      'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
-    desc: 'Convert MP4, WebM, clip and compress.',
-  },
-  {
-    name: 'Document Suite',
-    href: '/file',
-    icon: FileText,
-    color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
-    desc: 'PDF, Word, Excel and document tools.',
-  },
-  {
-    name: 'Data Studio',
-    href: '/data',
-    icon: Database,
-    color:
-      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
-    desc: 'JSON, CSV, XML conversion and parsing.',
-  },
+  // {
+  //   name: 'Audio Studio',
+  //   href: '/audio',
+  //   icon: Music,
+  //   color:
+  //     'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+  //   desc: 'Transcode MP3, WAV, FLAC and more.',
+  // },
+  // {
+  //   name: 'Video Studio',
+  //   href: '/video',
+  //   icon: Video,
+  //   color:
+  //     'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+  //   desc: 'Convert MP4, WebM, clip and compress.',
+  // },
+  // {
+  //   name: 'Document Suite',
+  //   href: '/file',
+  //   icon: FileText,
+  //   color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+  //   desc: 'PDF, Word, Excel and document tools.',
+  // },
+  // {
+  //   name: 'Data Studio',
+  //   href: '/data',
+  //   icon: Database,
+  //   color:
+  //     'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+  //   desc: 'JSON, CSV, XML conversion and parsing.',
+  // },
   {
     name: 'Character Studio',
     href: '/character',

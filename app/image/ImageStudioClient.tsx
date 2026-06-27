@@ -11,7 +11,6 @@ import {
   Shield,
   Zap,
   Lock,
-  Layers,
 } from 'lucide-react';
 import { StudioPageLayout } from '@/features/shared/studio/components/StudioPageLayout';
 import type {

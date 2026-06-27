@@ -44,17 +44,14 @@ export const useFileQueue = (sourceExtension: string) => {
     }
 
     if (foundInvalid) {
-      toast.error(`Only ${sourceLabel} files are accepted on this page.`);
       setIsAlertOpen(true);
     }
 
     if (newItems.length > 0) {
       setFiles((prev) => [...prev, ...newItems]);
-      if (!foundInvalid) {
-        toast.success(
-          `${newItems.length} ${sourceLabel} ${newItems.length === 1 ? 'file' : 'files'} queued.`,
-        );
-      }
+      toast.success(
+        `${newItems.length} ${sourceLabel} ${newItems.length === 1 ? 'file' : 'files'} queued.`,
+      );
     }
   };
 

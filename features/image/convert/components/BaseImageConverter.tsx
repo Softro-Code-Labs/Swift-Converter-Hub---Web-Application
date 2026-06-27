@@ -5,6 +5,7 @@ import { BaseConverterProps } from '@/features/image/convert/types/converter';
 import {
   ImageFormat,
   getTargetFormats,
+  getAllowedTargets,
 } from '@/features/image/convert/config/formats';
 import { useMagickEngine } from '../../shared/hooks/useMagickEngine';
 import { useFileQueue } from '../hooks/useFileQueue';
@@ -26,7 +27,10 @@ export default function BaseImageConverter({
   sourceFormat,
   targetFormat,
 }: BaseConverterProps) {
-  const targetFormats = getTargetFormats(sourceFormat.extension);
+  const allowedTargets = getAllowedTargets(sourceFormat.extension);
+  const targetFormats = getTargetFormats(sourceFormat.extension).filter((f) =>
+    allowedTargets.has(f.extension),
+  );
   const resolvedInitial =
     targetFormat &&
     targetFormats.find((f) => f.extension === targetFormat.extension)

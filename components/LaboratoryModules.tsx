@@ -22,49 +22,49 @@ const MODULES = [
       'hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/50 dark:hover:bg-blue-950/20',
     iconHover: 'group-hover:bg-blue-600 group-hover:text-white',
   },
-  {
-    href: '/audio',
-    label: 'Audio Studio',
-    desc: 'Transcode MP3, WAV, FLAC and more',
-    icon: Music,
-    color:
-      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
-    hover:
-      'hover:border-emerald-200 dark:hover:border-emerald-800 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20',
-    iconHover: 'group-hover:bg-emerald-600 group-hover:text-white',
-  },
-  {
-    href: '/video',
-    label: 'Video Studio',
-    desc: 'Convert MP4, WebM, clip and compress',
-    icon: Video,
-    color:
-      'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
-    hover:
-      'hover:border-purple-200 dark:hover:border-purple-800 hover:bg-purple-50/50 dark:hover:bg-purple-950/20',
-    iconHover: 'group-hover:bg-purple-600 group-hover:text-white',
-  },
-  {
-    href: '/file',
-    label: 'Document Suite',
-    desc: 'PDF, Word, Excel and document tools',
-    icon: FileText,
-    color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
-    hover:
-      'hover:border-cyan-200 dark:hover:border-cyan-800 hover:bg-cyan-50/50 dark:hover:bg-cyan-950/20',
-    iconHover: 'group-hover:bg-cyan-600 group-hover:text-white',
-  },
-  {
-    href: '/data',
-    label: 'Data Studio',
-    desc: 'Parse JSON, CSV and XML formats',
-    icon: Database,
-    color:
-      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
-    hover:
-      'hover:border-amber-200 dark:hover:border-amber-800 hover:bg-amber-50/50 dark:hover:bg-amber-950/20',
-    iconHover: 'group-hover:bg-amber-600 group-hover:text-white',
-  },
+  // {
+  //   href: '/audio',
+  //   label: 'Audio Studio',
+  //   desc: 'Transcode MP3, WAV, FLAC and more',
+  //   icon: Music,
+  //   color:
+  //     'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+  //   hover:
+  //     'hover:border-emerald-200 dark:hover:border-emerald-800 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20',
+  //   iconHover: 'group-hover:bg-emerald-600 group-hover:text-white',
+  // },
+  // {
+  //   href: '/video',
+  //   label: 'Video Studio',
+  //   desc: 'Convert MP4, WebM, clip and compress',
+  //   icon: Video,
+  //   color:
+  //     'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+  //   hover:
+  //     'hover:border-purple-200 dark:hover:border-purple-800 hover:bg-purple-50/50 dark:hover:bg-purple-950/20',
+  //   iconHover: 'group-hover:bg-purple-600 group-hover:text-white',
+  // },
+  // {
+  //   href: '/file',
+  //   label: 'Document Suite',
+  //   desc: 'PDF, Word, Excel and document tools',
+  //   icon: FileText,
+  //   color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+  //   hover:
+  //     'hover:border-cyan-200 dark:hover:border-cyan-800 hover:bg-cyan-50/50 dark:hover:bg-cyan-950/20',
+  //   iconHover: 'group-hover:bg-cyan-600 group-hover:text-white',
+  // },
+  // {
+  //   href: '/data',
+  //   label: 'Data Studio',
+  //   desc: 'Parse JSON, CSV and XML formats',
+  //   icon: Database,
+  //   color:
+  //     'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+  //   hover:
+  //     'hover:border-amber-200 dark:hover:border-amber-800 hover:bg-amber-50/50 dark:hover:bg-amber-950/20',
+  //   iconHover: 'group-hover:bg-amber-600 group-hover:text-white',
+  // },
   {
     href: '/character',
     label: 'Character Studio',
