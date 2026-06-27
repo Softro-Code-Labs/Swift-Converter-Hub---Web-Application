@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { ALL_CONVERSION_PAIRS } from '@/features/image/converter/config/formats';
+import { ALL_CONVERSION_PAIRS } from '@/features/image/convert/config/formats';
 
 const BASE_URL = 'https://swiftconverterhub.com';
 
@@ -84,6 +84,7 @@ const MEDIUM_TRAFFIC_PAIRS = new Set([
 // --- Studio Tool Slugs --------------------------------------------------------
 
 const IMAGE_STUDIO_SLUGS = new Set([
+  'convert',
   'crop',
   'compress',
   'adjust',
@@ -213,7 +214,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!isHigh && !isMedium) continue;
 
     conversionRoutes.push({
-      url: `${BASE_URL}/image/${key}`,
+      url: `${BASE_URL}/image/convert/${key}`,
       lastModified: now,
       changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
       priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,

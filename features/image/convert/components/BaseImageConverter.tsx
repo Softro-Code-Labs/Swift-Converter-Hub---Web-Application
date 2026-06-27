@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { BaseConverterProps } from '@/features/image/converter/types/converter';
+import { BaseConverterProps } from '@/features/image/convert/types/converter';
 import {
   ImageFormat,
   getTargetFormats,
-} from '@/features/image/converter/config/formats';
+} from '@/features/image/convert/config/formats';
 import { useMagickEngine } from '../../shared/hooks/useMagickEngine';
 import { useFileQueue } from '../hooks/useFileQueue';
 import { useImageConverter } from '../hooks/useImageConverter';
