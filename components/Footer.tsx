@@ -10,26 +10,26 @@ const STUDIO_LINKS = [
     href: '/image',
     color: 'hover:text-blue-600 dark:hover:text-blue-400',
   },
-  {
-    label: 'Audio Studio',
-    href: '/audio',
-    color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
-  },
-  {
-    label: 'Video Studio',
-    href: '/video',
-    color: 'hover:text-purple-600 dark:hover:text-purple-400',
-  },
-  {
-    label: 'Document Suite',
-    href: '/file',
-    color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
-  },
-  {
-    label: 'Data Studio',
-    href: '/data',
-    color: 'hover:text-amber-600 dark:hover:text-amber-400',
-  },
+  // {
+  //   label: 'Audio Studio',
+  //   href: '/audio',
+  //   color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
+  // },
+  // {
+  //   label: 'Video Studio',
+  //   href: '/video',
+  //   color: 'hover:text-purple-600 dark:hover:text-purple-400',
+  // },
+  // {
+  //   label: 'Document Suite',
+  //   href: '/file',
+  //   color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
+  // },
+  // {
+  //   label: 'Data Studio',
+  //   href: '/data',
+  //   color: 'hover:text-amber-600 dark:hover:text-amber-400',
+  // },
   {
     label: 'Character Studio',
     href: '/character',
@@ -38,12 +38,11 @@ const STUDIO_LINKS = [
 ];
 
 const POPULAR_LINKS = [
-  { label: 'JPG to PNG', href: '/image/jpg-to-png' },
-  { label: 'PNG to WebP', href: '/image/png-to-webp' },
-  { label: 'HEIC to JPG', href: '/image/heic-to-jpg' },
-  { label: 'JPG to ICO', href: '/image/jpg-to-ico' },
-  { label: 'SVG to PNG', href: '/image/svg-to-png' },
-  { label: 'PDF Convert', href: '/file' },
+  { label: 'JPG to PNG', href: '/image/convert/jpg-to-png' },
+  { label: 'PNG to WebP', href: '/image/convert/png-to-webp' },
+  { label: 'HEIC to JPG', href: '/image/convert/heic-to-jpg' },
+  { label: 'JPG to ICO', href: '/image/convert/jpg-to-ico' },
+  { label: 'SVG to PNG', href: '/image/convert/svg-to-png' },
 ];
 
 const LEGAL_LINKS = [

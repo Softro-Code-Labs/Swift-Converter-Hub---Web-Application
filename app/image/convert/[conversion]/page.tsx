@@ -6,6 +6,7 @@ import BaseImageConverter from '@/features/image/convert/components';
 import {
   getFormatByExtension,
   getConversionRoute,
+  isConversionAllowed,
 } from '@/features/image/convert/config/formats';
 import {
   StepList,
@@ -68,6 +69,7 @@ export default async function ConversionPage({ params }: PageProps) {
   const sourceFormat = getFormatByExtension(sourceExt);
   const targetFormat = getFormatByExtension(targetExt);
   if (!sourceFormat || !targetFormat) notFound();
+  if (!isConversionAllowed(sourceExt, targetExt)) notFound();
 
   const route = getConversionRoute(sourceExt, targetExt);
 
