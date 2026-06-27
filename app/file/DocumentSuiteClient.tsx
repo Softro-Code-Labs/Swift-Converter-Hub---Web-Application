@@ -1,139 +1,197 @@
 'use client';
 
-import Link from 'next/link';
 import {
-  ArrowLeft,
   FileText,
   Layers,
   Scissors,
   FileDown,
   RefreshCw,
   FileSignature,
-  Shield,
-  Bell,
+  Zap,
+  Lock,
+  FilePlus,
 } from 'lucide-react';
+import { StudioPageLayout } from '@/features/shared/studio/components/StudioPageLayout';
+import type {
+  StudioTool,
+  StudioGroup,
+  StudioHeroConfig,
+} from '@/features/shared/studio/types/studio';
 
-const TOOLS = [
+// --- Tools --------------------------------------------------------------------
+
+const TOOLS: StudioTool[] = [
+  // --- PDF group ------------------------------------------------------------
   {
+    id: 'pdf-merge',
     icon: Layers,
     title: 'Merge PDF Files',
-    desc: 'Combine multiple PDFs into a single document.',
+    desc: 'Combine multiple PDFs into a single document - reorder pages by drag and drop.',
     color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+    accentBorder: 'hover:border-cyan-300 dark:hover:border-cyan-700',
+    accentText: 'group-hover:text-cyan-600 dark:group-hover:text-cyan-400',
+    href: '/document/pdf-merge',
+    status: 'soon',
+    group: 'pdf',
+    featured: true,
+    tags: ['merge', 'combine', 'pdf', 'join', 'pages', 'documents'],
   },
   {
+    id: 'pdf-split',
     icon: Scissors,
     title: 'Split PDF Pages',
-    desc: 'Extract specific pages or split into separate files.',
+    desc: 'Extract specific pages or split a PDF into separate files by page range.',
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+    accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
+    href: '/document/pdf-split',
+    status: 'soon',
+    group: 'pdf',
+    featured: true,
+    tags: ['split', 'extract', 'pdf', 'pages', 'separate', 'range'],
   },
   {
+    id: 'pdf-compress',
     icon: FileDown,
     title: 'Compress PDF',
-    desc: 'Reduce file size for easier sharing and email attachments.',
+    desc: 'Reduce file size for easier sharing and email attachments without visible quality loss.',
     color:
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+    accentBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+    accentText:
+      'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
+    href: '/document/pdf-compress',
+    status: 'soon',
+    group: 'pdf',
+    featured: false,
+    tags: ['compress', 'reduce', 'size', 'optimize', 'pdf', 'shrink'],
   },
   {
-    icon: RefreshCw,
-    title: 'Word / Excel to PDF',
-    desc: 'Convert .docx and .xlsx files to print-ready PDF documents.',
-    color:
-      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
-  },
-  {
+    id: 'pdf-rotate',
     icon: FileSignature,
     title: 'PDF Page Rotator',
-    desc: 'Rotate individual pages without re-uploading the whole file.',
+    desc: 'Rotate individual pages 90°, 180°, or 270° without re-uploading the whole file.',
     color:
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
+    accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
+    href: '/document/pdf-rotate',
+    status: 'soon',
+    group: 'pdf',
+    featured: false,
+    tags: ['rotate', 'flip', 'pdf', 'pages', 'orientation', '90', '180'],
   },
-] as const;
+
+  // --- Convert group ----------------------------------------------------------
+  {
+    id: 'word-to-pdf',
+    icon: RefreshCw,
+    title: 'Word / Excel to PDF',
+    desc: 'Convert .docx and .xlsx files to print-ready PDF documents - all formatting preserved.',
+    color:
+      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
+    accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
+    href: '/document/office-to-pdf',
+    status: 'soon',
+    group: 'convert',
+    featured: true,
+    tags: ['word', 'excel', 'docx', 'xlsx', 'pdf', 'convert', 'office'],
+  },
+  {
+    id: 'pdf-watermark',
+    icon: FilePlus,
+    title: 'PDF Watermark',
+    desc: 'Add text or image watermarks to every page of a PDF - set opacity, angle, and position.',
+    color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
+    accentBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
+    accentText: 'group-hover:text-rose-600 dark:group-hover:text-rose-400',
+    href: '/document/pdf-watermark',
+    status: 'soon',
+    group: 'convert',
+    featured: false,
+    tags: [
+      'watermark',
+      'stamp',
+      'pdf',
+      'text',
+      'image',
+      'overlay',
+      'confidential',
+    ],
+  },
+];
+
+// --- Groups -------------------------------------------------------------------
+
+const GROUPS: StudioGroup[] = [
+  {
+    id: 'pdf',
+    label: 'PDF Tools',
+    desc: 'Merge, split, compress, and rotate PDF files',
+    dot: 'bg-cyan-400',
+  },
+  {
+    id: 'convert',
+    label: 'Convert & Enhance',
+    desc: 'Office to PDF, watermarks, and document transformations',
+    dot: 'bg-amber-400',
+  },
+];
+
+// --- Hero config --------------------------------------------------------------
+
+const HERO: StudioHeroConfig = {
+  icon: FileText,
+  iconColor: 'text-cyan-600 dark:text-cyan-400',
+  iconBg:
+    'bg-cyan-100 dark:bg-cyan-950/50 border-cyan-200 dark:border-cyan-800',
+  title: 'Document Suite',
+  subtitle: 'PDF tools · Office conversion · Sensitive docs stay private',
+  description:
+    "We're building PDF manipulation using pdf-lib - merge, split, compress, and rotate pages without a server. Document conversion to PDF reuses the same engine that powers our Word and Excel rendering.",
+  privacyNote:
+    '🔒 Sensitive documents never leave your browser - processed entirely client-side.',
+  accentFrom: 'from-cyan-400',
+  accentTo: 'to-cyan-500',
+  badgeColor:
+    'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-400 border-cyan-200 dark:border-cyan-800',
+  pills: [
+    {
+      icon: Lock,
+      label: 'Documents stay private',
+      color:
+        'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800',
+    },
+    {
+      icon: Zap,
+      label: 'Powered by pdf-lib',
+      color:
+        'text-cyan-700 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/30 border-cyan-200 dark:border-cyan-800',
+    },
+    {
+      icon: FileText,
+      label: '6 document tools',
+      color:
+        'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800',
+    },
+  ],
+};
+
+// --- Page ---------------------------------------------------------------------
 
 export default function DocumentSuiteClient() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-8"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-          Back to home
-        </Link>
-
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 mb-6">
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400">
-              <FileText className="w-5 h-5" />
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                  Document Suite
-                </h1>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400">
-                  <Bell className="w-2.5 h-2.5" /> Coming soon
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500">
-                PDF and document tools, browser-native
-              </p>
-            </div>
-          </div>
-          <p className="mt-5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            We're building PDF manipulation using pdf-lib - merge, split,
-            compress and rotate pages without a server. Document conversion to
-            PDF reuses the same engine that powers our Word and Excel rendering.
-          </p>
-          <div className="mt-4 flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-            <Shield className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span className="font-semibold">
-              Sensitive documents never leave your browser
-            </span>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h2 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
-            <span className="w-1 h-3 rounded-full bg-cyan-500 inline-block" />
-            Planned tools
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {TOOLS.map(({ icon: Icon, title, desc, color }) => (
-              <div
-                key={title}
-                className="flex gap-4 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 opacity-80"
-              >
-                <div
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${color}`}
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    {title}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-8 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Need a document tool we haven't listed?{' '}
-            <Link
-              href="/contact"
-              className="font-bold text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              Tell us
-            </Link>
-          </p>
-        </div>
-      </div>
-    </main>
+    <StudioPageLayout
+      tools={TOOLS}
+      groups={GROUPS}
+      hero={HERO}
+      searchPlaceholder="Search tools - try 'merge', 'compress', 'word'…"
+      backHref="/"
+      backLabel="Back to home"
+      accentHover="hover:text-cyan-600 dark:hover:text-cyan-400"
+      footerNote="Need a document tool we haven't listed?"
+      footerCta={{ label: 'Tell us', href: '/contact' }}
+    />
   );
 }
