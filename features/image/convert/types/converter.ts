@@ -1,4 +1,4 @@
-import { ImageFormat } from '@/features/image/converter/config/formats';
+import { ImageFormat } from '@/features/image/convert/config/formats';
 
 export type ConversionStatus = 'idle' | 'processing' | 'success' | 'error';
 

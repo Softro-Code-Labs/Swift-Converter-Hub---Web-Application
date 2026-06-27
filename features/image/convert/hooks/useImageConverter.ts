@@ -10,7 +10,7 @@ import {
   toStandaloneBuffer,
   detectActualFormat,
 } from './useHeicConverter';
-import { FileItem } from '@/features/image/converter/types/converter';
+import { FileItem } from '@/features/image/convert/types/converter';
 import { formatBytes } from '../../shared/utils/bytes';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';

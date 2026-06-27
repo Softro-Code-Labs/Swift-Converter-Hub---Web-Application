@@ -4,78 +4,79 @@ import ImageStudioClient from './ImageStudioClient';
 export const metadata: Metadata = {
   title: 'Image Studio - Free Online Image Tools',
   description:
-    'Convert, crop, compress, adjust and inspect images entirely in your browser. 120+ formats supported, zero uploads, no account required. A complete image toolkit.',
+    'Convert, crop, compress, adjust, and inspect images entirely in your browser. 120+ formats supported, zero uploads, no account required - a complete free image toolkit powered by WebAssembly.',
   keywords: [
-    // Original core & format transformations
-    'free image converter online',
-    'image format converter',
-    'convert image formats free',
-    'bulk image converter online',
-    'batch image converter free',
-    'convert raw to jpeg online',
-
-    // Optimization & shrinking
-    'compress image size online',
-    'reduce image file size free',
-    'lossless image compressor browser',
-    'shrink image dimensions online',
-
-    // Editing & inspection features
-    'crop compress adjust images online',
-    'crop image online free',
-    'inspect image metadata browser',
-    'view exif data online',
-    'online image editor no download',
-
-    // Privacy & tech stack advantages
-    'no upload image editor',
-    'private image conversion tool',
-    'webassembly image converter',
-    'browser based image tools',
+    // Core suite identity
+    'image studio online free',
+    'free online image tools',
+    'browser based image editor',
     'all in one image toolkit',
+    'complete image editing suite',
+    'online image workshop free',
+    'web image processing tools',
+    'image utility suite browser',
+    'free creative cloud alternative',
+    'lightweight image editor no download',
 
-    // Broad suite and utility keywords
-    'free online image studio',
-    'complete photography utility suite',
-    'web based asset editor',
-    'creative cloud alternative free',
-    'lightweight graphic design utilities',
-    'all in one media converter',
+    // Format conversion
+    'image format converter online',
+    'convert image formats browser',
+    'bulk image converter free',
+    'batch image format converter',
+    '120 image formats supported',
+    'convert heic to jpg browser',
+    'webp image converter online',
+    'avif image converter free',
+    'svg to png converter browser',
+    'raw image converter online',
 
-    // File type and modern asset extensions
-    'heic heif browser tools',
-    'webp conversion workshop',
-    'avif to jpeg asset processing',
-    'convert svg to vector raster',
-    'ico generation utility online',
-    'transparency alpha channel checker',
+    // Crop & resize
+    'crop image online free',
+    'resize image browser no upload',
+    'image resizer free online',
+    'crop image to aspect ratio',
+    'pixel perfect image cropper',
+    'image dimensions resizer tool',
+    'free photo cropper browser',
+    'bulk image resizer online',
+    'image scale tool no server',
+    'custom size image cropper',
 
-    // Bulk workflow and multi-file automation
-    'batch photo processing online',
-    'mass resize image files browser',
-    'bulk image stripper exif',
-    'zip pack multiple image conversions',
-    'automated client side graphics tool',
+    // Compression & optimization
+    'compress image online free',
+    'reduce image file size browser',
+    'lossless image compressor free',
+    'image optimizer no upload',
+    'shrink image size online',
+    'optimize images core web vitals',
+    'webp avif image optimizer',
+    'bulk image compressor browser',
+    'image size reducer free tool',
+    'photo compressor no account',
 
-    // Specific creative & platform use cases
-    'social media graphics toolkit',
-    'optimize product assets for e-commerce',
-    'blog post feature image optimizer',
-    'avatar profile picture designer tool',
-    'passport and visa photo generator',
+    // Adjust & filter
+    'adjust image brightness online',
+    'image filter tool browser',
+    'grayscale image converter free',
+    'contrast saturation adjuster',
+    'photo editor no download',
+    'image adjustment tool online',
+    'blur sharpen image browser',
+    'sepia filter image tool',
+    'online photo filter free',
+    'image effects no upload',
 
-    // Engineering & Web Perf metrics
-    'optimize core web vitals images',
-    'lighthouse page speed photo toolkit',
-    'frontend asset optimizer online',
-    'html5 canvas image manipulation',
-
-    // Privacy, Security, & Architecture positioning
-    'offline capable web image studio',
-    'zero tracking design utility',
-    'local file reader api photo editor',
-    'secure image sandbox processing',
-    'wasm accelerated graphics workshop',
+    // Metadata & privacy
+    'view exif data online free',
+    'exif metadata viewer browser',
+    'gps data photo inspector',
+    'strip exif data online',
+    'private image tool no upload',
+    'zero upload image editor',
+    'webassembly image processing',
+    'offline image tools browser',
+    'secure image converter private',
+    'local image processing browser',
   ],
   alternates: { canonical: 'https://swiftconverterhub.com/image' },
   openGraph: {

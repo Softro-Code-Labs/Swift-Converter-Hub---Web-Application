@@ -2,12 +2,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Shield, Zap, Globe, Package } from 'lucide-react';
 import Link from 'next/link';
-import BaseImageConverter from '@/features/image/converter/components';
+import BaseImageConverter from '@/features/image/convert/components';
 import {
   getFormatByExtension,
   getConversionRoute,
-  ALL_CONVERSION_PAIRS,
-} from '@/features/image/converter/config/formats';
+} from '@/features/image/convert/config/formats';
 import {
   StepList,
   FeatureGrid,
@@ -21,9 +20,6 @@ interface PageProps {
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  // return ALL_CONVERSION_PAIRS.map(({ source, target }) => ({
-  //   conversion: `${source}-to-${target}`,
-  // }));
   return [];
 }
 
@@ -42,12 +38,12 @@ export async function generateMetadata({
     description: route.description,
     keywords: route.keywords,
     alternates: {
-      canonical: `https://swiftconverterhub.com/image/${conversion}`,
+      canonical: `https://swiftconverterhub.com/image/convert/${conversion}`,
     },
     openGraph: {
       title: route.title,
       description: route.description,
-      url: `https://swiftconverterhub.com/image/${conversion}`,
+      url: `https://swiftconverterhub.com/image/convert/${conversion}`,
       type: 'website',
     },
   };
@@ -94,6 +90,13 @@ export default async function ConversionPage({ params }: PageProps) {
             Image Studio
           </Link>
           <ArrowRight className="w-3 h-3" />
+          <Link
+            href="/image/convert"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            Format Converter
+          </Link>
+          <ArrowRight className="w-3 h-3" />
           <span className="text-slate-600 dark:text-slate-300 font-medium">
             {sourceFormat.label} to {targetFormat.label}
           </span>
@@ -134,7 +137,7 @@ export default async function ConversionPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex sm:hidden items-center gap-2 mt-4 overflow-x-auto pb-1 scrollbar-hide">
+        <div className="flex sm:hidden items-center gap-2 mt-4 overflow-x-auto pb-1">
           {TRUST_PILLS.map(({ icon: Icon, label }) => (
             <div
               key={label}
@@ -181,7 +184,7 @@ export default async function ConversionPage({ params }: PageProps) {
         />
       </div>
 
-      {/* Marketing zone */}
+      {/* Features */}
       <div className="px-6 pb-2 border-t border-slate-100 dark:border-slate-800 pt-6">
         <FeatureGrid
           title="Why use this converter"
