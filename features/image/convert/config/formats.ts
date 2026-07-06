@@ -3,8 +3,6 @@ export interface ImageFormat {
   extension: string;
   mimeType: string;
   description: string;
-  aliases?: string[];
-  sourceOnly?: boolean;
 }
 
 export interface ConversionRoute {
@@ -26,98 +24,86 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'jpg',
     mimeType: 'image/jpeg',
     description: 'Standard photo format',
-    aliases: ['jpg', 'jpeg', 'jfif'],
   },
   {
     label: 'JPEG',
     extension: 'jpeg',
     mimeType: 'image/jpeg',
     description: 'Standard photo format',
-    aliases: ['jpeg', 'jpg'],
   },
   {
     label: 'JFIF',
     extension: 'jfif',
     mimeType: 'image/jpeg',
     description: 'JPEG interchange format',
-    aliases: ['jfif'],
   },
   {
     label: 'PNG',
     extension: 'png',
     mimeType: 'image/png',
     description: 'Lossless with transparency',
-    aliases: ['png'],
   },
   {
-    label: 'WebP',
+    label: 'WEBP',
     extension: 'webp',
     mimeType: 'image/webp',
     description: 'Modern web image format',
-    aliases: ['webp'],
   },
   {
     label: 'GIF',
     extension: 'gif',
     mimeType: 'image/gif',
     description: 'Animated & indexed color',
-    aliases: ['gif'],
   },
   {
     label: 'AVIF',
     extension: 'avif',
     mimeType: 'image/avif',
     description: 'AV1 compressed image',
-    aliases: ['avif'],
   },
   {
     label: 'JXL',
     extension: 'jxl',
     mimeType: 'image/jxl',
     description: 'Next-gen JPEG format',
-    aliases: ['jxl'],
-  },
-  {
-    label: 'MNG',
-    extension: 'mng',
-    mimeType: 'image/x-mng',
-    description: 'Multi-frame animation format',
-    aliases: ['mng'],
-  },
-  {
-    label: 'JNG',
-    extension: 'jng',
-    mimeType: 'image/jng',
-    description: 'JPEG-based network graphics',
-    aliases: ['jng'],
   },
   {
     label: 'QOI',
     extension: 'qoi',
     mimeType: 'image/qoi',
     description: 'Fast lossless image format',
-    aliases: ['qoi'],
   },
   {
     label: 'PJPEG',
     extension: 'pjpeg',
     mimeType: 'image/pjpeg',
     description: 'Progressive JPEG format',
-    aliases: ['pjpeg'],
   },
   {
     label: 'JPE',
     extension: 'jpe',
     mimeType: 'image/jpeg',
     description: 'JPEG photo variant',
-    aliases: ['jpe'],
   },
   {
     label: 'JPS',
     extension: 'jps',
     mimeType: 'image/jps',
     description: 'JPEG stereo pair',
-    aliases: ['jps'],
+  },
+
+  // -- Animated / Multi-frame -------------------------------------------------
+  {
+    label: 'MNG',
+    extension: 'mng',
+    mimeType: 'image/x-mng',
+    description: 'Multi-frame animation format',
+  },
+  {
+    label: 'JNG',
+    extension: 'jng',
+    mimeType: 'image/jng',
+    description: 'JPEG-based network graphics',
   },
 
   // -- JPEG 2000 --------------------------------------------------------------
@@ -126,42 +112,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'jp2',
     mimeType: 'image/jp2',
     description: 'JPEG 2000 wavelet image',
-    aliases: ['jp2'],
   },
   {
     label: 'JPG2',
     extension: 'jpg2',
     mimeType: 'image/jp2',
     description: 'JPEG 2000 codestream',
-    aliases: ['jpg2'],
   },
   {
     label: 'JPC',
     extension: 'jpc',
     mimeType: 'image/jpc',
     description: 'JPEG 2000 raw stream',
-    aliases: ['jpc', 'j2k', 'j2c'],
   },
   {
     label: 'J2K',
     extension: 'j2k',
     mimeType: 'image/j2k',
     description: 'JPEG 2000 codestream',
-    aliases: ['j2k'],
   },
   {
     label: 'J2C',
     extension: 'j2c',
     mimeType: 'image/j2c',
     description: 'JPEG 2000 code stream',
-    aliases: ['j2c'],
   },
   {
     label: 'JPM',
     extension: 'jpm',
     mimeType: 'image/jpm',
     description: 'JPEG 2000 multi-layer',
-    aliases: ['jpm'],
   },
 
   // -- PNG Variants ----------------------------------------------------------
@@ -170,42 +150,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'png8',
     mimeType: 'image/png',
     description: 'PNG 8-bit palette',
-    aliases: ['png8'],
   },
   {
     label: 'PNG24',
     extension: 'png24',
     mimeType: 'image/png',
     description: 'PNG true color',
-    aliases: ['png24'],
   },
   {
     label: 'PNG32',
     extension: 'png32',
     mimeType: 'image/png',
     description: 'PNG with full alpha',
-    aliases: ['png32'],
   },
   {
     label: 'PNG48',
     extension: 'png48',
     mimeType: 'image/png',
     description: 'PNG 48-bit deep color',
-    aliases: ['png48'],
   },
   {
     label: 'PNG64',
     extension: 'png64',
     mimeType: 'image/png',
     description: 'PNG 64-bit with alpha',
-    aliases: ['png64'],
   },
   {
     label: 'PNG00',
     extension: 'png00',
     mimeType: 'image/png',
     description: 'PNG sub-format variant',
-    aliases: ['png00'],
   },
 
   // -- HEIF / HEIC ------------------------------------------------------------
@@ -214,16 +188,12 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'heic',
     mimeType: 'image/heic',
     description: 'High Efficiency Image Format',
-    aliases: ['heic'],
-    sourceOnly: true,
   },
   {
     label: 'HEIF',
     extension: 'heif',
     mimeType: 'image/heif',
     description: 'High Efficiency Image Format',
-    aliases: ['heif'],
-    sourceOnly: true,
   },
 
   // -- Bitmap ----------------------------------------------------------------
@@ -232,168 +202,146 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'bmp',
     mimeType: 'image/bmp',
     description: 'Windows bitmap',
-    aliases: ['bmp'],
   },
   {
     label: 'BMP2',
     extension: 'bmp2',
     mimeType: 'image/bmp',
     description: 'Windows bitmap v2',
-    aliases: ['bmp2'],
   },
   {
     label: 'BMP3',
     extension: 'bmp3',
     mimeType: 'image/bmp',
     description: 'Windows bitmap v3',
-    aliases: ['bmp3'],
   },
-  // {
-  //   label: 'XCF',
-  //   extension: 'xcf',
-  //   mimeType: 'image/x-xcf',
-  //   description: 'GIMP image',
-  //   aliases: ['xcf'],
-  // },
   {
     label: 'TGA',
     extension: 'tga',
     mimeType: 'image/x-tga',
     description: 'Truevision game texture',
-    aliases: ['tga'],
   },
   {
     label: 'PCX',
     extension: 'pcx',
     mimeType: 'image/x-pcx',
     description: 'Legacy PC bitmap',
-    aliases: ['pcx'],
   },
   {
     label: 'DCX',
     extension: 'dcx',
     mimeType: 'image/vnd.dcx',
     description: 'Multi-page PCX format',
-    aliases: ['dcx'],
   },
   {
     label: 'WBMP',
     extension: 'wbmp',
     mimeType: 'image/vnd.wap.wbmp',
     description: 'Wireless monochrome bitmap',
-    aliases: ['wbmp'],
   },
   {
     label: 'XBM',
     extension: 'xbm',
     mimeType: 'image/x-xbitmap',
     description: 'X11 monochrome bitmap',
-    aliases: ['xbm'],
   },
   {
     label: 'XPM',
     extension: 'xpm',
     mimeType: 'image/x-xpixmap',
     description: 'X11 color pixmap',
-    aliases: ['xpm'],
   },
   {
     label: 'SGI',
     extension: 'sgi',
     mimeType: 'image/sgi',
     description: 'Silicon Graphics image',
-    aliases: ['sgi'],
   },
   {
     label: 'SUN',
     extension: 'sun',
     mimeType: 'image/x-sun-raster',
     description: 'Sun raster image',
-    aliases: ['sun'],
   },
   {
     label: 'RAS',
     extension: 'ras',
     mimeType: 'image/x-sun-raster',
     description: 'Sun raster format',
-    aliases: ['ras'],
   },
   {
     label: 'AVS',
     extension: 'avs',
     mimeType: 'image/avs',
     description: 'AVS X image',
-    aliases: ['avs'],
   },
   {
     label: 'VIFF',
     extension: 'viff',
     mimeType: 'image/x-viff',
     description: 'Visualization image format',
-    aliases: ['viff'],
   },
   {
     label: 'AAI',
     extension: 'aai',
     mimeType: 'image/aai',
     description: 'AAI Dune image',
-    aliases: ['aai'],
   },
   {
     label: 'ART',
     extension: 'art',
     mimeType: 'image/art',
     description: 'AOL ART image',
-    aliases: ['art'],
   },
   {
     label: 'WPG',
     extension: 'wpg',
     mimeType: 'image/x-wpg',
     description: 'WordPerfect graphics',
-    aliases: ['wpg'],
   },
   {
     label: 'VICAR',
     extension: 'vicar',
     mimeType: 'image/x-vicar',
     description: 'NASA planetary image',
-    aliases: ['vicar'],
   },
   {
     label: 'HRZ',
     extension: 'hrz',
     mimeType: 'image/x-hrz',
     description: 'Slow-scan TV format',
-    aliases: ['hrz'],
   },
   {
     label: 'FARBFELD',
     extension: 'farbfeld',
     mimeType: 'image/vnd.farbfeld',
     description: 'Minimal raw image format',
-    aliases: ['farbfeld'],
   },
   {
     label: 'OTB',
     extension: 'otb',
     mimeType: 'image/x-otb',
     description: 'Over-the-air mobile bitmap',
-    aliases: ['otb'],
   },
   {
     label: 'CIP',
     extension: 'cip',
     mimeType: 'image/vnd.cns.inf2',
     description: 'Cisco IP phone image',
-    aliases: ['cip'],
   },
   {
     label: 'PICON',
     extension: 'picon',
     mimeType: 'image/picon',
     description: 'Personal icon format',
-    aliases: ['picon'],
+  },
+
+  // -- GIMP ------------------------------------------------------------------
+  {
+    label: 'XCF',
+    extension: 'xcf',
+    mimeType: 'image/x-xcf',
+    description: 'GIMP image',
   },
 
   // -- Photoshop -------------------------------------------------------------
@@ -402,14 +350,12 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'psd',
     mimeType: 'image/vnd.adobe.photoshop',
     description: 'Photoshop layered document',
-    aliases: ['psd'],
   },
   {
     label: 'PSB',
     extension: 'psb',
     mimeType: 'image/vnd.adobe.photoshop',
     description: 'Photoshop large document',
-    aliases: ['psb'],
   },
 
   // -- TIFF ------------------------------------------------------------------
@@ -418,28 +364,24 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'tiff',
     mimeType: 'image/tiff',
     description: 'Tagged image, print quality',
-    aliases: ['tiff', 'tif'],
   },
   {
     label: 'TIF',
     extension: 'tif',
     mimeType: 'image/tiff',
     description: 'Tagged image format',
-    aliases: ['tif', 'tiff'],
   },
   {
     label: 'TIFF64',
     extension: 'tiff64',
     mimeType: 'image/tiff',
     description: 'BigTIFF large file format',
-    aliases: ['tiff64'],
   },
   {
     label: 'PTIF',
     extension: 'ptif',
     mimeType: 'image/ptif',
     description: 'Pyramid tiled TIFF',
-    aliases: ['ptif'],
   },
 
   // -- Portable Bitmap / Pixmap -----------------------------------------------
@@ -448,49 +390,42 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'pbm',
     mimeType: 'image/x-portable-bitmap',
     description: 'Portable black & white',
-    aliases: ['pbm'],
   },
   {
     label: 'PGM',
     extension: 'pgm',
     mimeType: 'image/pgm',
     description: 'Portable grayscale map',
-    aliases: ['pgm'],
   },
   {
     label: 'PPM',
     extension: 'ppm',
     mimeType: 'image/x-portable-pixmap',
     description: 'Portable pixel map',
-    aliases: ['ppm'],
   },
   {
     label: 'PNM',
     extension: 'pnm',
     mimeType: 'image/x-portable-anymap',
     description: 'Portable any-map format',
-    aliases: ['pnm', 'pbm', 'pgm', 'ppm'],
   },
   {
     label: 'PAM',
     extension: 'pam',
     mimeType: 'image/x-pam',
     description: 'Portable arbitrary map',
-    aliases: ['pam'],
   },
   {
     label: 'PFM',
     extension: 'pfm',
     mimeType: 'image/pfm',
     description: 'Portable float map',
-    aliases: ['pfm'],
   },
   {
     label: 'PHM',
     extension: 'phm',
     mimeType: 'image/phm',
     description: 'Portable half map',
-    aliases: ['phm'],
   },
 
   // -- Vector / PostScript ---------------------------------------------------
@@ -499,91 +434,84 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'svg',
     mimeType: 'image/svg+xml',
     description: 'Scalable vector graphics',
-    aliases: ['svg', 'svgz'],
   },
   {
     label: 'SVGZ',
     extension: 'svgz',
     mimeType: 'image/svg+xml',
     description: 'Compressed SVG vector',
-    aliases: ['svgz'],
   },
   {
     label: 'AI',
     extension: 'ai',
     mimeType: 'application/postscript',
     description: 'Adobe Illustrator artwork',
-    aliases: ['ai'],
   },
   {
     label: 'EPS',
     extension: 'eps',
     mimeType: 'application/postscript',
     description: 'Encapsulated PostScript',
-    aliases: ['eps'],
   },
   {
     label: 'EPS2',
     extension: 'eps2',
     mimeType: 'application/postscript',
     description: 'PostScript level 2',
-    aliases: ['eps2'],
   },
   {
     label: 'EPS3',
     extension: 'eps3',
     mimeType: 'application/postscript',
     description: 'PostScript level 3',
-    aliases: ['eps3'],
   },
   {
     label: 'EPSF',
     extension: 'epsf',
     mimeType: 'application/postscript',
     description: 'PostScript with preview',
-    aliases: ['epsf'],
   },
   {
     label: 'EPSI',
     extension: 'epsi',
     mimeType: 'application/postscript',
     description: 'PostScript interchange format',
-    aliases: ['epsi'],
   },
   {
     label: 'EPI',
     extension: 'epi',
     mimeType: 'application/postscript',
     description: 'Encapsulated PostScript interchange format',
-    aliases: ['epi'],
   },
   {
     label: 'EPT',
     extension: 'ept',
     mimeType: 'application/postscript',
     description: 'EPS with TIFF preview',
-    aliases: ['ept'],
   },
   {
     label: 'PS',
     extension: 'ps',
     mimeType: 'application/postscript',
     description: 'PostScript document',
-    aliases: ['ps'],
   },
   {
     label: 'PS2',
     extension: 'ps2',
     mimeType: 'application/postscript',
     description: 'PostScript level 2 doc',
-    aliases: ['ps2'],
   },
   {
     label: 'PS3',
     extension: 'ps3',
     mimeType: 'application/postscript',
     description: 'PostScript level 3 doc',
-    aliases: ['ps3'],
+  },
+  {
+    label: 'MVG',
+    extension: 'mvg',
+    description: 'Magick Vector Graphics',
+    mimeType: 'image/x-magick-mvg',
   },
 
   // -- Document --------------------------------------------------------------
@@ -592,28 +520,24 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'pdf',
     mimeType: 'application/pdf',
     description: 'Portable document format',
-    aliases: ['pdf'],
   },
   {
     label: 'EPDF',
     extension: 'epdf',
     mimeType: 'image/x-epdf',
     description: 'Embedded PDF format',
-    aliases: ['epdf'],
   },
   {
     label: 'PICT',
     extension: 'pict',
     mimeType: 'image/pict',
     description: 'Mac QuickDraw picture',
-    aliases: ['pict'],
   },
   {
     label: 'PCL',
     extension: 'pcl',
     mimeType: 'application/vnd.hp-pcl',
     description: 'HP printer language',
-    aliases: ['pcl'],
   },
 
   // -- HDR / Scientific ------------------------------------------------------
@@ -622,94 +546,165 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'exr',
     mimeType: 'image/x-exr',
     description: 'HDR film/VFX format',
-    aliases: ['exr'],
   },
   {
     label: 'HDR',
     extension: 'hdr',
     mimeType: 'image/vnd.radiance',
     description: 'Radiance HDR image',
-    aliases: ['hdr', 'rgbe'],
   },
   {
     label: 'RGBE',
     extension: 'rgbe',
     mimeType: 'image/vnd.radiance',
     description: 'Radiance exposure format',
-    aliases: ['rgbe'],
   },
   {
     label: 'DPX',
     extension: 'dpx',
     mimeType: 'image/x-dpx',
     description: 'Digital cinema exchange',
-    aliases: ['dpx'],
   },
   {
     label: 'CIN',
     extension: 'cin',
     mimeType: 'image/x-cin',
     description: 'Kodak Cineon film scan',
-    aliases: ['cin'],
   },
   {
     label: 'FITS',
     extension: 'fits',
     mimeType: 'image/fits',
     description: 'Astronomy image format',
-    aliases: ['fits'],
   },
   {
     label: 'FTS',
     extension: 'fts',
     mimeType: 'image/fts',
     description: 'FITS scientific image',
-    aliases: ['fts'],
   },
   {
     label: 'FL32',
     extension: 'fl32',
     mimeType: 'image/fl32',
     description: '32-bit float image',
-    aliases: ['fl32'],
   },
 
   // --- Raw Digital Camera -------------------------------------------------------
-  // {
-  //   label: 'CR2',
-  //   extension: 'cr2',
-  //   mimeType: 'image/x-canon-cr2',
-  //   description: 'Canon RAW format',
-  //   aliases: ['cr2'],
-  // },
-  // {
-  //   label: 'CR3',
-  //   extension: 'cr3',
-  //   mimeType: 'image/x-canon-cr3',
-  //   description: 'Canon RAW format',
-  //   aliases: ['cr3'],
-  // },
-  // {
-  //   label: 'NEF',
-  //   extension: 'nef',
-  //   mimeType: 'image/x-nikon-nef',
-  //   description: 'Nikon RAW format',
-  //   aliases: ['nef'],
-  // },
-  // {
-  //   label: 'ARW',
-  //   extension: 'arw',
-  //   mimeType: 'image/x-sony-arw',
-  //   description: 'Sony RAW format',
-  //   aliases: ['arw'],
-  // },
-  // {
-  //   label: 'DNG',
-  //   extension: 'dng',
-  //   mimeType: 'image/x-adobe-dng',
-  //   description: 'Adobe Digital Negative',
-  //   aliases: ['dng'],
-  // },
+  {
+    label: 'CR2',
+    extension: 'cr2',
+    mimeType: 'image/x-canon-cr2',
+    description: 'Canon RAW format',
+  },
+  {
+    label: 'CR3',
+    extension: 'cr3',
+    mimeType: 'image/x-canon-cr3',
+    description: 'Canon RAW format',
+  },
+  {
+    label: 'NEF',
+    extension: 'nef',
+    mimeType: 'image/x-nikon-nef',
+    description: 'Nikon RAW format',
+  },
+  {
+    label: 'ARW',
+    extension: 'arw',
+    mimeType: 'image/x-sony-arw',
+    description: 'Sony RAW format',
+  },
+  {
+    label: 'DNG',
+    extension: 'dng',
+    mimeType: 'image/x-adobe-dng',
+    description: 'Adobe Digital Negative',
+  },
+  {
+    label: 'ORF',
+    extension: 'orf',
+    description: 'Olympus RAW Format',
+    mimeType: 'image/x-olympus-orf',
+  },
+  {
+    label: 'RW2',
+    extension: 'rw2',
+    description: 'Panasonic RAW 2',
+    mimeType: 'image/x-panasonic-rw2',
+  },
+  {
+    label: 'PEF',
+    extension: 'pef',
+    description: 'Pentax Electronic Format',
+    mimeType: 'image/x-pentax-pef',
+  },
+  {
+    label: 'SRW',
+    extension: 'srw',
+    description: 'Samsung RAW',
+    mimeType: 'image/x-samsung-srw',
+  },
+  {
+    label: 'X3F',
+    extension: 'x3f',
+    description: 'Sigma RAW',
+    mimeType: 'image/x-sigma-x3f',
+  },
+  {
+    label: 'MRW',
+    extension: 'mrw',
+    description: 'Minolta RAW',
+    mimeType: 'image/x-minolta-mrw',
+  },
+  {
+    label: 'DCR',
+    extension: 'dcr',
+    description: 'Kodak RAW',
+    mimeType: 'image/x-kodak-dcr',
+  },
+  {
+    label: 'MDC',
+    extension: 'mdc',
+    description: 'Minolta DiMAGE RAW',
+    mimeType: 'image/x-minolta-mdc',
+  },
+  {
+    label: 'SRF',
+    extension: 'srf',
+    description: 'Sony RAW Format',
+    mimeType: 'image/x-sony-srf',
+  },
+  {
+    label: 'SR2',
+    extension: 'sr2',
+    description: 'Sony RAW 2',
+    mimeType: 'image/x-sony-sr2',
+  },
+  {
+    label: 'RAF',
+    extension: 'raf',
+    description: 'Fujifilm RAW',
+    mimeType: 'image/x-fuji-raf',
+  },
+  {
+    label: 'CRW',
+    extension: 'crw',
+    description: 'Canon RAW original',
+    mimeType: 'image/x-canon-crw',
+  },
+  {
+    label: 'MEF',
+    extension: 'mef',
+    description: 'Mamiya RAW',
+    mimeType: 'image/x-mamiya-mef',
+  },
+  {
+    label: 'IIQ',
+    extension: 'iiq',
+    description: 'Phase One RAW',
+    mimeType: 'image/x-phaseone-iiq',
+  },
 
   // -- Fax / Compression -----------------------------------------------------
   {
@@ -717,35 +712,30 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'fax',
     mimeType: 'image/fax',
     description: 'Group 3 fax image',
-    aliases: ['fax'],
   },
   {
     label: 'G3',
     extension: 'g3',
     mimeType: 'image/g3fax',
     description: 'Group 3 fax compression',
-    aliases: ['g3'],
   },
   {
     label: 'G4',
     extension: 'g4',
     mimeType: 'image/g4fax',
     description: 'Group 4 fax compression',
-    aliases: ['g4'],
   },
   {
     label: 'GROUP4',
     extension: 'group4',
     mimeType: 'image/group4',
     description: 'CCITT Group 4 bilevel',
-    aliases: ['group4'],
   },
   {
     label: 'CALS',
     extension: 'cals',
     mimeType: 'image/x-cals',
     description: 'Military raster format',
-    aliases: ['cals'],
   },
 
   // -- Game / DirectX --------------------------------------------------------
@@ -754,7 +744,14 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'dds',
     mimeType: 'image/vnd-ms.dds',
     description: 'DirectX GPU texture',
-    aliases: ['dds'],
+  },
+
+  // -- Medical --------------------------------------------------------------
+  {
+    label: 'DCM',
+    extension: 'dcm',
+    description: 'Digital Imaging and Communications in Medicine',
+    mimeType: 'application/dicom',
   },
 
   // -- Raw Color Spaces ------------------------------------------------------
@@ -763,91 +760,78 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'rgb',
     mimeType: 'image/x-rgb',
     description: 'Raw RGB pixel data',
-    aliases: ['rgb'],
   },
   {
     label: 'RGBA',
     extension: 'rgba',
     mimeType: 'image/x-rgba',
     description: 'Raw RGB with alpha',
-    aliases: ['rgba'],
   },
   {
     label: 'RGBO',
     extension: 'rgbo',
     mimeType: 'image/x-rgbo',
     description: 'RGB opacity channel',
-    aliases: ['rgbo'],
   },
   {
     label: 'RGB565',
     extension: 'rgb565',
     mimeType: 'image/x-rgb565',
     description: 'Packed 16-bit RGB',
-    aliases: ['rgb565'],
   },
   {
     label: 'GRAY',
     extension: 'gray',
     mimeType: 'image/x-gray',
     description: 'Raw grayscale samples',
-    aliases: ['gray'],
   },
   {
     label: 'GRAYA',
     extension: 'graya',
     mimeType: 'image/x-graya',
     description: 'Grayscale with alpha',
-    aliases: ['graya'],
   },
   {
     label: 'CMYK',
     extension: 'cmyk',
     mimeType: 'image/x-cmyk',
     description: 'Raw CMYK print data',
-    aliases: ['cmyk'],
   },
   {
     label: 'CMYKA',
     extension: 'cmyka',
     mimeType: 'image/x-cmyka',
     description: 'CMYK with alpha channel',
-    aliases: ['cmyka'],
   },
   {
     label: 'YUV',
     extension: 'yuv',
     mimeType: 'image/x-yuv',
     description: 'Raw YUV video data',
-    aliases: ['yuv'],
   },
   {
     label: 'YCBCR',
     extension: 'ycbcr',
     mimeType: 'image/x-ycbcr',
     description: 'YCbCr color space',
-    aliases: ['ycbcr'],
   },
   {
     label: 'YCBCRA',
     extension: 'ycbcra',
     mimeType: 'image/x-ycbcra',
     description: 'YCbCr with alpha',
-    aliases: ['ycbcra'],
   },
   {
     label: 'UYVY',
     extension: 'uyvy',
     mimeType: 'image/x-uyvy',
     description: 'Packed YUV 4:2:2',
-    aliases: ['uyvy'],
   },
   {
     label: 'MONO',
     extension: 'mono',
     mimeType: 'image/x-mono',
     description: '1-bit monochrome bitmap',
-    aliases: ['mono'],
   },
 
   // -- Icon & System ---------------------------------------------------------
@@ -856,42 +840,42 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'ico',
     mimeType: 'image/x-icon',
     description: 'Windows icon format',
-    aliases: ['ico'],
+  },
+  {
+    label: 'CUR',
+    extension: 'cur',
+    mimeType: 'image/x-cursor',
+    description: 'Windows cursor format',
   },
   {
     label: 'PALM',
     extension: 'palm',
     mimeType: 'image/palm',
     description: 'Palm Pilot image',
-    aliases: ['palm', 'plam'],
   },
   {
     label: 'PLAM',
     extension: 'plam',
-    mimeType: 'image/palm',
+    mimeType: 'image/plam',
     description: 'Palm Pilot image',
-    aliases: ['palm', 'plam'],
   },
   {
     label: 'PDB',
     extension: 'pdb',
     mimeType: 'image/x-pdb',
     description: 'Palm database image',
-    aliases: ['pdb'],
   },
   {
     label: 'PCD',
     extension: 'pcd',
     mimeType: 'image/x-pcd',
     description: 'Kodak Photo CD',
-    aliases: ['pcd'],
   },
   {
     label: 'PCDS',
     extension: 'pcds',
     mimeType: 'image/x-pcds',
     description: 'Photo CD selector scan',
-    aliases: ['pcds'],
   },
 
   // -- Braille / Accessibility -----------------------------------------------
@@ -900,42 +884,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'brf',
     mimeType: 'image/x-bitmap',
     description: 'Braille ready format',
-    aliases: ['brf'],
   },
   {
     label: 'UBRL',
     extension: 'ubrl',
     mimeType: 'image/x-ubrl',
     description: 'Unicode braille pattern',
-    aliases: ['ubrl'],
   },
   {
     label: 'UBRL6',
     extension: 'ubrl6',
     mimeType: 'image/x-ubrl6',
     description: '6-dot unicode braille',
-    aliases: ['ubrl6'],
   },
   {
     label: 'UIL',
     extension: 'uil',
     mimeType: 'image/x-uil',
     description: 'Motif UI language bitmap',
-    aliases: ['uil'],
   },
   {
     label: 'ISOBRL',
     extension: 'isobrl',
     mimeType: 'text/plain',
     description: 'ISO standard braille',
-    aliases: ['isobrl'],
   },
   {
     label: 'ISOBRL6',
     extension: 'isobrl6',
     mimeType: 'text/plain',
     description: 'ISO 6-dot braille',
-    aliases: ['isobrl6'],
   },
 
   // -- Text / Metadata Output ------------------------------------------------
@@ -944,42 +922,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'txt',
     mimeType: 'text/plain',
     description: 'Image as pixel text',
-    aliases: ['txt'],
   },
   {
     label: 'FTXT',
     extension: 'ftxt',
     mimeType: 'text/plain',
     description: 'Formatted pixel text',
-    aliases: ['ftxt'],
   },
   {
     label: 'INFO',
     extension: 'info',
     mimeType: 'text/plain',
     description: 'Image metadata output',
-    aliases: ['info'],
   },
   {
     label: 'JSON',
     extension: 'json',
     mimeType: 'application/json',
     description: 'Image data as JSON',
-    aliases: ['json'],
   },
   {
     label: 'YAML',
     extension: 'yaml',
     mimeType: 'text/x-yaml',
     description: 'Image data as YAML',
-    aliases: ['yaml'],
   },
   {
     label: 'SHTML',
     extension: 'shtml',
     mimeType: 'text/html',
     description: 'Image as HTML table',
-    aliases: ['shtml'],
   },
 
   // -- Magick Internal -------------------------------------------------------
@@ -988,92 +960,115 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'miff',
     mimeType: 'image/x-miff',
     description: 'Magick native format',
-    aliases: ['miff'],
   },
   {
     label: 'MPC',
     extension: 'mpc',
     mimeType: 'image/x-mpc',
     description: 'Magick pixel cache',
-    aliases: ['mpc'],
   },
   {
     label: 'MAT',
     extension: 'mat',
     mimeType: 'application/octet-stream',
     description: 'MATLAB matrix image',
-    aliases: ['mat'],
   },
   {
     label: 'SF3',
     extension: 'sf3',
     mimeType: 'image/x-sf3',
     description: 'FilmLight color format',
-    aliases: ['sf3'],
   },
   {
     label: 'MTV',
     extension: 'mtv',
-    mimeType: 'audio/x-mtv',
+    mimeType: 'image/x-mtv',
     description: 'MTV ray-trace format',
-    aliases: ['mtv'],
   },
   {
     label: 'SPARSECOLOR',
     extension: 'sparsecolor',
     mimeType: 'image/x-sparsecolor',
     description: 'Sparse color fill data',
-    aliases: ['sparsecolor'],
   },
 ];
 
-// ─── Conversion Matrix ────────────────────────────────────────────────────────
+// --- Conversion Matrix --------------------------------------------------------
 
 export type ConversionRule =
   | { mode: 'all' }
   | { mode: 'allow'; formats: string[] }
   | { mode: 'block'; formats: string[] };
 
-export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
-  // ── Tier 1: Universal - converts to everything ──────────────────────────────
-  jpg: { mode: 'all' },
-  jpeg: { mode: 'all' },
-  jfif: { mode: 'all' },
-  jpe: { mode: 'all' },
-  png: { mode: 'all' },
-  png8: { mode: 'all' },
-  png24: { mode: 'all' },
-  png32: { mode: 'all' },
-  png48: { mode: 'all' },
-  png64: { mode: 'all' },
-  png00: { mode: 'all' },
-  webp: { mode: 'all' },
-  avif: { mode: 'all' },
-  bmp: { mode: 'all' },
-  bmp2: { mode: 'all' },
-  bmp3: { mode: 'all' },
-  tiff: { mode: 'all' },
-  tif: { mode: 'all' },
-  tiff64: { mode: 'all' },
-  ptif: { mode: 'all' },
-  gif: { mode: 'all' },
-  psd: { mode: 'all' },
-  psb: { mode: 'all' },
-  // xcf: { mode: 'all' },
-  tga: { mode: 'all' },
-  sgi: { mode: 'all' },
-  exr: { mode: 'all' },
-  hdr: { mode: 'all' },
-  rgbe: { mode: 'all' },
-  jxl: { mode: 'all' },
-  qoi: { mode: 'all' },
-  ico: { mode: 'all' },
-  dds: { mode: 'all' },
-  dpx: { mode: 'all' },
-  cin: { mode: 'all' },
+const SOURCE_ONLY_EXTS = [
+  'heic',
+  'heif',
+  'cr2',
+  'cr3',
+  'crw',
+  'nef',
+  'arw',
+  'srf',
+  'sr2',
+  'raf',
+  'orf',
+  'rw2',
+  'pef',
+  'srw',
+  'x3f',
+  'mrw',
+  'dcr',
+  'mdc',
+  'mef',
+  'iiq',
+  'dng',
+  'dcm',
+] as const;
 
-  // ── HEIC / HEIF - source only, limited targets ──────────────────────────────
-  // Can be read but browsers cannot encode to HEIC/HEIF
+export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
+  // -- Tier 1: Universal raster - block only browser-unencodable targets -------
+  jpg: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jpeg: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jfif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jpe: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png8: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png24: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png32: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png48: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png64: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png00: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  webp: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  avif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jxl: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  gif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  bmp: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  bmp2: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  bmp3: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tiff: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tiff64: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  ptif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tga: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  sgi: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  psd: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  psb: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  xcf: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  exr: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  hdr: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  rgbe: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  dpx: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  cin: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  dds: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  qoi: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  ico: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  cur: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jps: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  pjpeg: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  mng: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jng: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+
+  // -- HEIC / HEIF - source only, browser cannot encode back to HEIC -----------
   heic: {
     mode: 'allow',
     formats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'tiff', 'bmp', 'gif'],
@@ -1083,7 +1078,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'tiff', 'bmp', 'gif'],
   },
 
-  // ── JPEG 2000 family - converts to raster formats only ──────────────────────
+  // -- JPEG 2000 family - raster output only ------------------------------------
   jp2: {
     mode: 'allow',
     formats: [
@@ -1126,7 +1121,88 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
   },
 
-  // ── Vector / PostScript - raster output + PDF/EPS ───────────────────────────
+  // -- RAW digital camera - raster output only ----------------------------------
+  cr2: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  cr3: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  nef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  arw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  dng: {
+    mode: 'allow',
+    formats: [
+      'jpg',
+      'jpeg',
+      'png',
+      'png24',
+      'png32',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'tga',
+    ],
+  },
+  orf: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  rw2: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  pef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  srw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  x3f: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  mrw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  dcr: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  mdc: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  srf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  sr2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  raf: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  crw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  mef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  iiq: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+
+  // -- Vector / PostScript - raster + PDF/EPS output ----------------------------
   svg: {
     mode: 'allow',
     formats: [
@@ -1239,8 +1315,30 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'pdf'],
   },
+  mvg: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png8',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'pdf',
+      'eps',
+      'svg',
+      'tga',
+      'ppm',
+      'ico',
+    ],
+  },
 
-  // ── PDF - raster output + vector passthrough ─────────────────────────────────
+  // -- PDF - raster output + EPS passthrough ------------------------------------
   pdf: {
     mode: 'allow',
     formats: [
@@ -1266,62 +1364,14 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif'],
   },
 
-  // ── RAW camera formats - raster output only ──────────────────────────────────
-  // Common targets only, no obscure formats
-  dng: {
+  // -- Document / Print - limited raster output ---------------------------------
+  pict: {
     mode: 'allow',
-    formats: [
-      'jpg',
-      'jpeg',
-      'png',
-      'png24',
-      'png32',
-      'webp',
-      'avif',
-      'tiff',
-      'bmp',
-      'gif',
-      'tga',
-    ],
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif'],
   },
-  cr2: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  cr3: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  nef: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  nrw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  arw: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  srf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  sr2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  raf: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  orf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  rw2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  pef: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  srw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  x3f: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  mrw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  dcr: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  kdc: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  erf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  mef: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  mos: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  iiq: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  rwl: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  pcl: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
 
-  // ── Portable bitmap family - raster targets only ─────────────────────────────
+  // -- Portable bitmap family - raster targets only -----------------------------
   pbm: {
     mode: 'allow',
     formats: [
@@ -1389,7 +1439,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   pfm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr', 'hdr'] },
   phm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr', 'hdr'] },
 
-  // ── Raw color spaces - limited raster output ─────────────────────────────────
+  // -- Raw color spaces - limited raster output ---------------------------------
   rgb: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
@@ -1410,7 +1460,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   uyvy: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'bmp'] },
   mono: { mode: 'allow', formats: ['png', 'bmp', 'tiff', 'pbm', 'gif'] },
 
-  // ── HDR / Scientific ─────────────────────────────────────────────────────────
+  // -- HDR / Scientific - raster output only ------------------------------------
   fits: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
@@ -1421,7 +1471,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['png', 'tiff', 'exr', 'hdr', 'jpg', 'jpeg'],
   },
 
-  // ── Fax / Compression ────────────────────────────────────────────────────────
+  // -- Fax / Compression --------------------------------------------------------
   fax: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf', 'gif'],
@@ -1434,14 +1484,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   },
   cals: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
 
-  // ── Animated / Multi-frame ───────────────────────────────────────────────────
-  mng: {
-    mode: 'allow',
-    formats: ['gif', 'webp', 'png', 'jpg', 'jpeg', 'apng'],
-  },
-  jng: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'gif'] },
-
-  // ── Legacy / Specialty ───────────────────────────────────────────────────────
+  // -- Legacy / Specialty -------------------------------------------------------
   pcx: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif', 'webp'],
@@ -1470,19 +1513,20 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   },
   cip: { mode: 'allow', formats: ['png', 'bmp', 'gif'] },
 
-  // ── Icon / System ────────────────────────────────────────────────────────────
+  // -- Icon / Palm / System -----------------------------------------------------
   palm: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
   plam: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
   pdb: { mode: 'allow', formats: ['png', 'bmp', 'jpg', 'jpeg'] },
   pcd: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff', 'bmp'] },
   pcds: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff', 'bmp'] },
-  pict: {
-    mode: 'allow',
-    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif'],
-  },
-  pcl: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
 
-  // ── Text / Metadata output - text targets only ───────────────────────────────
+  // -- Medical (DCM) -------------------------------------------------------------
+  dcm: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
+  },
+
+  // -- Text / Metadata output ---------------------------------------------------
   txt: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
   ftxt: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
   info: { mode: 'allow', formats: ['json', 'txt', 'yaml'] },
@@ -1490,7 +1534,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   yaml: { mode: 'allow', formats: ['json', 'txt'] },
   shtml: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
 
-  // ── Magick internal ──────────────────────────────────────────────────────────
+  // -- Magick internal ----------------------------------------------------------
   miff: {
     mode: 'allow',
     formats: [
@@ -1511,39 +1555,35 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   },
   mat: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff'] },
   mtv: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
-  mng2: { mode: 'allow', formats: ['gif', 'webp', 'png'] },
   sf3: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr'] },
+  sparsecolor: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'miff'],
+  },
 
-  // ── Braille - only text output ────────────────────────────────────────────────
+  // -- Braille / Accessibility --------------------------------------------------
   brf: { mode: 'allow', formats: ['png', 'bmp'] },
   ubrl: { mode: 'allow', formats: ['png', 'bmp'] },
   ubrl6: { mode: 'allow', formats: ['png', 'bmp'] },
   uil: { mode: 'allow', formats: ['png', 'bmp', 'xpm'] },
   isobrl: { mode: 'allow', formats: ['txt'] },
   isobrl6: { mode: 'allow', formats: ['txt'] },
-
-  // ── Misc ─────────────────────────────────────────────────────────────────────
-  jps: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  pjpeg: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'] },
-  sparsecolor: {
-    mode: 'allow',
-    formats: ['png', 'jpg', 'jpeg', 'tiff', 'miff'],
-  },
 };
 
 // --- Helpers ------------------------------------------------------------------
 
 export const getFormatByExtension = (ext: string): ImageFormat | undefined =>
-  IMAGE_FORMATS.find(
-    (f) =>
-      f.extension === ext.toLowerCase() ||
-      f.aliases?.includes(ext.toLowerCase()),
-  );
+  IMAGE_FORMATS.find((f) => f.extension === ext.toLowerCase());
 
-export const getTargetFormats = (sourceExtension: string): ImageFormat[] =>
-  IMAGE_FORMATS.filter(
-    (f) => f.extension !== sourceExtension.toLowerCase() && !f.sourceOnly,
+export const getAllowedTargetFormats = (
+  sourceExtension: string,
+): ImageFormat[] => {
+  const allowed = getAllowedTargets(sourceExtension);
+  return IMAGE_FORMATS.filter(
+    (f) =>
+      f.extension !== sourceExtension.toLowerCase() && allowed.has(f.extension),
   );
+};
 
 export const getConversionHref = (source: string, target: string): string =>
   `/image/convert/${source}-to-${target}`;
@@ -1554,8 +1594,8 @@ export const isAcceptedByFormat = (
 ): boolean => {
   const format = getFormatByExtension(sourceExtension);
   if (!format) return false;
-  const aliases = format.aliases ?? [format.extension];
-  return aliases.includes(fileExt.toLowerCase());
+  const extensions = format.extension;
+  return extensions.includes(fileExt.toLowerCase());
 };
 
 export function getAllowedTargets(sourceExt: string): Set<string> {
@@ -1606,9 +1646,10 @@ const isLossless = (ext: string) =>
     'bmp',
     'bmp2',
     'bmp3',
-    // Photoshop
+    // Photoshop / GIMP
     'psd',
     'psb',
+    'xcf',
     // Modern web (lossless modes)
     'webp',
     'avif',
@@ -1638,9 +1679,14 @@ const isLossless = (ext: string) =>
     'graya',
     'cmyk',
     'cmyka',
+    'mono',
+    // Icon & system
+    'ico',
+    'cur',
     // Other lossless
     'qoi',
     'miff',
+    'mpc',
     'sgi',
     'tga',
     'dds',
@@ -1654,12 +1700,15 @@ const isLossless = (ext: string) =>
     'viff',
     'aai',
     'vicar',
+    'otb',
+    'picon',
+    'hrz',
+    'wpg',
     'fax',
     'g3',
     'g4',
     'group4',
     'cals',
-    'art',
   ].includes(ext.toLowerCase());
 
 const isCompressed = (ext: string) =>
@@ -1679,17 +1728,14 @@ const isCompressed = (ext: string) =>
     'heif',
     // Legacy compressed
     'gif',
-    'jp2',
-    'jpg2',
-    'jpc',
-    'j2k',
-    'j2c',
-    'jpm',
+
     // Other compressed
     'mng',
     'jng',
     'pcx',
     'dcx',
+    'art',
+    'dcm',
   ].includes(ext.toLowerCase());
 
 const isVector = (ext: string) =>
@@ -1709,6 +1755,8 @@ const isVector = (ext: string) =>
     'ps2',
     'ps3',
     'mvg',
+    'pdf',
+    'pcl',
   ].includes(ext.toLowerCase());
 
 const isRaw = (ext: string) =>
@@ -1716,6 +1764,7 @@ const isRaw = (ext: string) =>
     // Canon
     'cr2',
     'cr3',
+    'crw',
     // Adobe
     'dng',
     // Nikon
@@ -1739,6 +1788,7 @@ const isRaw = (ext: string) =>
     'x3f',
     // Minolta
     'mrw',
+    'mdc',
     // Kodak
     'dcr',
     'kdc',
@@ -1749,9 +1799,10 @@ const isRaw = (ext: string) =>
     'raw',
     // Phase One
     'iiq',
+    // Mamiya
+    'mef',
     // Generic
     'erf',
-    'mef',
     'mos',
   ].includes(ext.toLowerCase());
 

@@ -10,26 +10,26 @@ const STUDIO_LINKS = [
     href: '/image',
     color: 'hover:text-blue-600 dark:hover:text-blue-400',
   },
-  // {
-  //   label: 'Audio Studio',
-  //   href: '/audio',
-  //   color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
-  // },
-  // {
-  //   label: 'Video Studio',
-  //   href: '/video',
-  //   color: 'hover:text-purple-600 dark:hover:text-purple-400',
-  // },
-  // {
-  //   label: 'Document Suite',
-  //   href: '/file',
-  //   color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
-  // },
-  // {
-  //   label: 'Data Studio',
-  //   href: '/data',
-  //   color: 'hover:text-amber-600 dark:hover:text-amber-400',
-  // },
+  {
+    label: 'Audio Studio',
+    href: '/audio',
+    color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
+  },
+  {
+    label: 'Video Studio',
+    href: '/video',
+    color: 'hover:text-purple-600 dark:hover:text-purple-400',
+  },
+  {
+    label: 'Document Suite',
+    href: '/file',
+    color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
+  },
+  {
+    label: 'Data Studio',
+    href: '/data',
+    color: 'hover:text-amber-600 dark:hover:text-amber-400',
+  },
   {
     label: 'Character Studio',
     href: '/character',

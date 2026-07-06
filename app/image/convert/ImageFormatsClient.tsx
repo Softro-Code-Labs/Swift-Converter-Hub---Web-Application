@@ -22,7 +22,7 @@ import {
   getConversionHref,
 } from '@/features/image/convert/config/formats';
 
-// ─── Popular conversions ──────────────────────────────────────────────────────
+// --- Popular conversions ------------------------------------------------------
 
 const POPULAR_CONVERSIONS = [
   {
@@ -67,7 +67,7 @@ const POPULAR_CONVERSIONS = [
   },
 ];
 
-// ─── Searchable dropdown ──────────────────────────────────────────────────────
+// --- Searchable dropdown ------------------------------------------------------
 
 interface DropdownProps {
   label: string;
@@ -331,7 +331,7 @@ function SearchableDropdown({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function ImageFormatsClient() {
   const router = useRouter();
@@ -560,18 +560,6 @@ export default function ImageFormatsClient() {
                   ? 'Select a target format to continue'
                   : 'Select a source format to start'}
             </button>
-
-            {/* HEIC warning */}
-            {(targetFormat === 'heic' || targetFormat === 'heif') && (
-              <div className="flex items-start mt-4 gap-2 px-3 py-2.5 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl text-xs text-amber-700 dark:text-amber-400">
-                <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                <span>
-                  HEIC/HEIF output is not supported in browsers - this pair
-                  won't be available. Use <strong>WebP</strong> or{' '}
-                  <strong>AVIF</strong> for the same file-size benefit.
-                </span>
-              </div>
-            )}
           </div>
 
           {/* Format grid */}
@@ -661,7 +649,7 @@ export default function ImageFormatsClient() {
                     setSourceFormat('');
                     setTargetFormat('');
                   }}
-                  className="ml-auto text-[10px] font-bold text-slate-400 hover:text-red-500 transition-colors"
+                  className="ml-auto text-[10px] font-bold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
                 >
                   Reset selection
                 </button>

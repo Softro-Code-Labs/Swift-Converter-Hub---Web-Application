@@ -33,7 +33,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
     accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
     href: '/data/csv-json',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: true,
     tags: ['csv', 'json', 'spreadsheet', 'convert', 'table', 'rows', 'columns'],
