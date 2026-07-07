@@ -47,7 +47,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
     accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
     href: '/data/json-xml',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: true,
     tags: ['json', 'xml', 'convert', 'api', 'payload', 'legacy', 'soap'],
