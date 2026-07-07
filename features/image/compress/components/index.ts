@@ -1,1 +1,1 @@
-export { default } from './CompressTool';
+export { default } from './Tool';

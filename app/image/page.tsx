@@ -4,7 +4,7 @@ import ImageStudioClient from './ImageStudioClient';
 export const metadata: Metadata = {
   title: 'Image Studio - Free Online Image Tools',
   description:
-    'Convert, crop, compress, adjust, and inspect images entirely in your browser. 120+ formats supported, zero uploads, no account required - a complete free image toolkit powered by WebAssembly.',
+    'Convert, crop, compress, adjust, and inspect images entirely in your browser. 150+ formats supported, zero uploads, no account required - a complete free image toolkit powered by WebAssembly.',
   keywords: [
     // Core suite identity
     'image studio online free',
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Image Studio - Free Browser-Based Image Tools',
     description:
-      'Convert, crop, compress, and adjust images entirely in your browser. 120+ formats, zero uploads.',
+      'Convert, crop, compress, and adjust images entirely in your browser. 150+ formats, zero uploads.',
     url: 'https://swiftconverterhub.com/image',
     type: 'website',
   },

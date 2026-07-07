@@ -1,1 +1,1 @@
-export { default } from './MarkdownPreviewTool';
+export { default } from './Tool';

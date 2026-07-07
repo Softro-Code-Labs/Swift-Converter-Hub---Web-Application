@@ -51,7 +51,7 @@ const BLOCKED_METADATA_EXTENSIONS = new Set([
   'ai',
   'ps',
   'gif',
-  'bmp', // these formats don't carry EXIF meaningfully
+  'bmp',
   'dcm',
   'exr',
   'hdr',

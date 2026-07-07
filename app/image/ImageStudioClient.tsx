@@ -22,12 +22,12 @@ import type {
 // --- Tools --------------------------------------------------------------------
 
 const TOOLS: StudioTool[] = [
-  // ── Convert group ──────────────────────────────────────────────────
+  // -- Convert group --------------------------------------------------
   {
     id: 'format-converter',
     icon: RefreshCw,
     title: 'Format Converter',
-    desc: 'Convert between 120+ image formats - JPG, PNG, WebP, AVIF, HEIC, SVG, and more. Pick source and target from a searchable dropdown.',
+    desc: 'Convert between 150+ image formats - JPG, PNG, WebP, AVIF, HEIC, SVG, and more. Pick source and target from a searchable dropdown.',
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
     accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
     accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
@@ -62,7 +62,7 @@ const TOOLS: StudioTool[] = [
     tags: ['base64', 'encode', 'decode', 'data uri', 'embed', 'image'],
   },
 
-  // ── Edit group ─────────────────────────────────────────────────────
+  // -- Edit group -----------------------------------------------------
   {
     id: 'crop',
     icon: Crop,
@@ -103,7 +103,7 @@ const TOOLS: StudioTool[] = [
     ],
   },
 
-  // ── Optimise group ─────────────────────────────────────────────────
+  // -- Optimise group -------------------------------------------------
   {
     id: 'compress',
     icon: Minimize2,
@@ -128,7 +128,7 @@ const TOOLS: StudioTool[] = [
     ],
   },
 
-  // ── Inspect group ──────────────────────────────────────────────────
+  // -- Inspect group --------------------------------------------------
   {
     id: 'metadata',
     icon: FileSearch,
@@ -191,7 +191,7 @@ const HERO: StudioHeroConfig = {
   iconBg:
     'bg-blue-100 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800',
   title: 'Image Studio',
-  subtitle: 'WebAssembly-powered · 120+ formats · Zero uploads',
+  subtitle: 'WebAssembly-powered · 150+ formats · Zero uploads',
   description:
     'Every Image Studio tool runs entirely in your browser using a high-performance WebAssembly engine. Convert, crop, compress, and inspect images with no uploads, no accounts, and no file size limits.',
   privacyNote:
@@ -215,7 +215,7 @@ const HERO: StudioHeroConfig = {
     },
     {
       icon: Lock,
-      label: '120+ formats supported',
+      label: '150+ formats supported',
       color:
         'text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800',
     },

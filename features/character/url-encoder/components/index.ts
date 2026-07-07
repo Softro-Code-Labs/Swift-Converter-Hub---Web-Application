@@ -1,1 +1,1 @@
-export { default } from './UrlEncoderTool';
+export { default } from './Tool';

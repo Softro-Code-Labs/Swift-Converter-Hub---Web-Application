@@ -107,6 +107,18 @@ const CHARACTER_STUDIO_SLUGS = new Set([
   'number-base',
 ]);
 
+const DATA_STUDIO_SLUGS = new Set([
+  'csv-json',
+  'json-xml',
+  'yaml-json',
+  'excel-json',
+  'toml-json',
+  'json-formatter',
+  'base64-text',
+]);
+
+// --- Sitemap ------------------------------------------------------------------
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
@@ -125,30 +137,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
-    // {
-    //   url: `${BASE_URL}/audio`,
-    //   lastModified: now,
-    //   changeFrequency: 'weekly',
-    //   priority: 0.9,
-    // },
-    // {
-    //   url: `${BASE_URL}/video`,
-    //   lastModified: now,
-    //   changeFrequency: 'weekly',
-    //   priority: 0.9,
-    // },
-    // {
-    //   url: `${BASE_URL}/file`,
-    //   lastModified: now,
-    //   changeFrequency: 'weekly',
-    //   priority: 0.9,
-    // },
-    // {
-    //   url: `${BASE_URL}/data`,
-    //   lastModified: now,
-    //   changeFrequency: 'weekly',
-    //   priority: 0.9,
-    // },
+    {
+      url: `${BASE_URL}/audio`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/video`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/file`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/data`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     {
       url: `${BASE_URL}/character`,
       lastModified: now,
@@ -203,6 +215,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // -- Data Studio Tools -------------------------------------------------------
+
+  const dataStudioTools: MetadataRoute.Sitemap = Array.from(
+    DATA_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/data/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   // -- Dynamic Image Conversion Routes ----------------------------------------
   const conversionRoutes: MetadataRoute.Sitemap = [];
 
@@ -225,6 +248,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages,
     ...imageStudioTools,
     ...characterStudioTools,
+    ...dataStudioTools,
     ...conversionRoutes,
   ];
 }

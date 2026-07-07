@@ -31,7 +31,7 @@ import { useMagickEngine } from '@/features/image/shared/hooks/useMagickEngine';
 import { useSingleFileLoader } from '../../shared/hooks/useSingleFileLoader';
 
 const OUTPUT_FORMATS = ['png', 'jpg', 'webp'];
-const CROP_ACCEPT = 'image/jpeg,image/png,image/webp';
+const CROP_ACCEPT = 'image/jpeg,image/png,image/webp,image/bmp,image/avif';
 
 export default function CropTool() {
   const { isMagickLoaded } = useMagickEngine();
@@ -134,11 +134,19 @@ export default function CropTool() {
   const handleAspectChange = (preset: AspectRatioPreset) => {
     setAspectPreset(preset);
     const ratio = ASPECT_RATIOS[preset];
-    if (!ratio || !naturalW || !naturalH) return;
-    setCropRegion((prev) => ({
-      ...prev,
-      height: Math.min(Math.round(prev.width / ratio), naturalH - prev.y),
-    }));
+    if (!naturalW || !naturalH) return;
+
+    if (!ratio) {
+      return;
+    }
+
+    const baseSize = Math.round(Math.min(naturalW, naturalH) * 0.6);
+    const w = Math.min(baseSize, naturalW);
+    const h = Math.min(Math.round(w / ratio), naturalH);
+    const x = Math.round((naturalW - w) / 2);
+    const y = Math.round((naturalH - h) / 2);
+
+    setCropRegion({ x, y, width: w, height: h });
   };
 
   const handleProcess = async () => {

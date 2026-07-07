@@ -1,1 +1,1 @@
-export { default } from './FindReplaceTool';
+export { default } from './Tool';

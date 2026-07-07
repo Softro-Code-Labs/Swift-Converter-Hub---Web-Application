@@ -1,1 +1,1 @@
-export { default } from './RegexTesterTool';
+export { default } from './Tool';
