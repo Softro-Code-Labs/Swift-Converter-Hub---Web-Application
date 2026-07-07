@@ -1,1 +1,1 @@
-export { default } from './NumberBaseTool';
+export { default } from './Tool';

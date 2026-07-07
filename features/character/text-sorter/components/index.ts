@@ -1,1 +1,1 @@
-export { default } from './TextSorterTool';
+export { default } from './Tool';

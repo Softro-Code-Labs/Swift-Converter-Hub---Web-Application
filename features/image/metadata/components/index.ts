@@ -1,1 +1,1 @@
-export { default } from './MetadataTool';
+export { default } from './Tool';

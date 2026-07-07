@@ -1,1 +1,1 @@
-export { default } from './JsonXmlTool';
+export { default } from './Tool';

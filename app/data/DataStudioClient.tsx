@@ -87,7 +87,7 @@ const TOOLS: StudioTool[] = [
     accentText:
       'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
     href: '/data/excel-json',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: false,
     tags: [

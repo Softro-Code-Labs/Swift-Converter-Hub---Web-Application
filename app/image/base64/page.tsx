@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Binary, Code, Zap, Shield } from 'lucide-react';
-import Base64Tool from '@/features/image/base64/components/Base64Tool';
+import Base64Tool from '@/features/image/base64/components/Tool';
 import {
   InfoCardGrid,
   TechnicalNote,

@@ -1,1 +1,1 @@
-export { default } from './YamlJsonTool';
+export { default } from './Tool';

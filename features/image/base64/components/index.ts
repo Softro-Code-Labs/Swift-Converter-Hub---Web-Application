@@ -1,1 +1,1 @@
-export { default } from './Base64Tool';
+export { default } from './Tool';

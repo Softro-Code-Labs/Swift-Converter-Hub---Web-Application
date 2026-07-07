@@ -1,1 +1,1 @@
-export { default } from './UnicodeInspectorTool';
+export { default } from './Tool';

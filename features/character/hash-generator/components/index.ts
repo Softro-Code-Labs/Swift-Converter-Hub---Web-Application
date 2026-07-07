@@ -1,1 +1,1 @@
-export { default } from './HashGeneratorTool';
+export { default } from './Tool';
