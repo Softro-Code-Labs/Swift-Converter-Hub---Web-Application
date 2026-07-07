@@ -150,7 +150,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
     accentText: 'group-hover:text-rose-600 dark:group-hover:text-rose-400',
     href: '/data/base64-text',
-    status: 'soon',
+    status: 'live',
     group: 'encode',
     featured: true,
     tags: ['base64', 'encode', 'decode', 'text', 'jwt', 'token', 'string'],

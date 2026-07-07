@@ -114,6 +114,7 @@ const DATA_STUDIO_SLUGS = new Set([
   'excel-json',
   'toml-json',
   'json-formatter',
+  'base64-text',
 ]);
 
 // --- Sitemap ------------------------------------------------------------------
