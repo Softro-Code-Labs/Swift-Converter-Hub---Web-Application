@@ -126,7 +126,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-cyan-300 dark:hover:border-cyan-700',
     accentText: 'group-hover:text-cyan-600 dark:group-hover:text-cyan-400',
     href: '/data/json-formatter',
-    status: 'soon',
+    status: 'live',
     group: 'format',
     featured: true,
     tags: [
