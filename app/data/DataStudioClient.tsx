@@ -62,7 +62,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
     href: '/data/yaml-json',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: false,
     tags: [

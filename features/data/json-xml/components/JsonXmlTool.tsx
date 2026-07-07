@@ -20,7 +20,7 @@ import { useJsonXml } from '../hooks/useJsonXml';
 import type { ConvertDirection, JsonXmlOptions } from '../types/jsonXml';
 import { DEFAULT_OPTIONS } from '../types/jsonXml';
 
-// ─── Option chip ──────────────────────────────────────────────────────────────
+// --- Option chip --------------------------------------------------------------
 
 function OptionChip({
   label,
@@ -46,7 +46,7 @@ function OptionChip({
   );
 }
 
-// ─── Direction tab ────────────────────────────────────────────────────────────
+// --- Direction tab ------------------------------------------------------------
 
 function DirectionTab({
   direction,
@@ -80,7 +80,7 @@ function DirectionTab({
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+// --- Main component -----------------------------------------------------------
 
 export default function JsonXmlTool() {
   const [input, setInput] = useState('');
@@ -182,7 +182,7 @@ export default function JsonXmlTool() {
               JSON ↔ XML Converter
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              Bidirectional conversion with attribute support — no server, no
+              Bidirectional conversion with attribute support - no server, no
               upload
             </p>
           </div>
@@ -451,7 +451,7 @@ export default function JsonXmlTool() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500" />
           </span>
           <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-            Converts as you type — no server, your data never leaves this page
+            Converts as you type - no server, your data never leaves this page
           </p>
         </div>
       </div>

@@ -107,7 +107,7 @@ const CHARACTER_STUDIO_SLUGS = new Set([
   'number-base',
 ]);
 
-const DATA_STUDIO_SLUGS = new Set(['csv-json', 'json-xml']);
+const DATA_STUDIO_SLUGS = new Set(['csv-json', 'json-xml', 'yaml-json']);
 
 // --- Sitemap ------------------------------------------------------------------
 

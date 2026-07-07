@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import type { JsonXmlOptions, ConvertResult } from '../types/jsonXml';
 
-// ─── JSON → XML ───────────────────────────────────────────────────────────────
+// --- JSON → XML ---------------------------------------------------------------
 
 function escapeXml(str: string): string {
   return String(str)
@@ -99,7 +99,7 @@ function jsonToXml(raw: string, opts: JsonXmlOptions): ConvertResult {
       parsed !== null &&
       !Array.isArray(parsed)
     ) {
-      // Object — wrap each key as child of root
+      // Object - wrap each key as child of root
       const children = Object.entries(parsed)
         .map(([k, v]) => {
           nodeCount++;
@@ -126,7 +126,7 @@ function jsonToXml(raw: string, opts: JsonXmlOptions): ConvertResult {
   }
 }
 
-// ─── XML → JSON ───────────────────────────────────────────────────────────────
+// --- XML → JSON ---------------------------------------------------------------
 
 function parseXmlToNode(xml: string): Document {
   if (typeof window === 'undefined')
@@ -160,7 +160,7 @@ function nodeToJson(
 
   if (elementChildren.length === 0) {
     if (Object.keys(result).length === 0) {
-      // Plain text node — auto coerce
+      // Plain text node - auto coerce
       return coerceXmlValue(textContent);
     }
     if (textContent) result[opts.textKey] = textContent;
@@ -228,7 +228,7 @@ function xmlToJson(raw: string, opts: JsonXmlOptions): ConvertResult {
   }
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// --- Hook ---------------------------------------------------------------------
 
 export function useJsonXml(input: string, opts: JsonXmlOptions): ConvertResult {
   return useMemo(() => {
