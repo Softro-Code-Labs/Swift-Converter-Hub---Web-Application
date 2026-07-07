@@ -159,7 +159,7 @@ export default function ExcelJsonTool() {
               Excel to JSON
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              Parse .xlsx workbooks into JSON — pick sheets, configure columns,
+              Parse .xlsx workbooks into JSON - pick sheets, configure columns,
               download
             </p>
           </div>
@@ -191,7 +191,7 @@ export default function ExcelJsonTool() {
                 </span>
               </p>
               <p className="text-xs text-slate-400 dark:text-slate-500">
-                .xlsx · .xls · .ods · .csv — processed entirely in your browser
+                .xlsx · .xls · .ods · .csv - processed entirely in your browser
               </p>
             </div>
             <div className="flex gap-2">
@@ -404,7 +404,7 @@ export default function ExcelJsonTool() {
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
                         {exportAll
-                          ? 'All sheets — JSON object'
+                          ? 'All sheets - JSON object'
                           : `Sheet: ${currentSheet?.name}`}
                       </p>
                       <div className="flex items-center gap-2">
@@ -457,7 +457,7 @@ export default function ExcelJsonTool() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
           </span>
           <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-            Parsed entirely in your browser — your spreadsheet never leaves this
+            Parsed entirely in your browser - your spreadsheet never leaves this
             page
           </p>
         </div>

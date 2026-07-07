@@ -12,6 +12,7 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
+    "@iarna/toml": "^2.2.5",
     "@imagemagick/magick-wasm": "^0.0.40",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.9",

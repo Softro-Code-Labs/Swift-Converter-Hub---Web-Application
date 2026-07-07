@@ -100,6 +100,21 @@ const TOOLS: StudioTool[] = [
       'convert',
     ],
   },
+  {
+    id: 'toml-json',
+    icon: Package,
+    title: 'TOML ↔ JSON Converter',
+    desc: 'Convert Cargo.toml, pyproject.toml, or any TOML config to JSON and back.',
+    color:
+      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
+    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
+    accentText: 'group-hover:text-orange-600 dark:group-hover:text-orange-400',
+    href: '/data/toml-json',
+    status: 'live',
+    group: 'convert',
+    featured: false,
+    tags: ['toml', 'json', 'convert', 'config', 'cargo', 'rust', 'python'],
+  },
 
   // -- Format group --------------------------------------------------
   {
@@ -139,21 +154,6 @@ const TOOLS: StudioTool[] = [
     group: 'encode',
     featured: true,
     tags: ['base64', 'encode', 'decode', 'text', 'jwt', 'token', 'string'],
-  },
-  {
-    id: 'toml-json',
-    icon: Package,
-    title: 'TOML ↔ JSON Converter',
-    desc: 'Convert Cargo.toml, pyproject.toml, or any TOML config to JSON and back.',
-    color:
-      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
-    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
-    accentText: 'group-hover:text-orange-600 dark:group-hover:text-orange-400',
-    href: '/data/toml-json',
-    status: 'soon',
-    group: 'convert',
-    featured: false,
-    tags: ['toml', 'json', 'convert', 'config', 'cargo', 'rust', 'python'],
   },
 ];
 

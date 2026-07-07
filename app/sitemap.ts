@@ -112,6 +112,7 @@ const DATA_STUDIO_SLUGS = new Set([
   'json-xml',
   'yaml-json',
   'excel-json',
+  'toml-json',
 ]);
 
 // --- Sitemap ------------------------------------------------------------------

@@ -4,7 +4,7 @@ import ExcelJsonTool from '@/features/data/excel-json/components';
 export const metadata: Metadata = {
   title: 'Excel to JSON Converter',
   description:
-    'Convert Excel .xlsx, .xls, and .ods spreadsheets to JSON in your browser. Multi-sheet support, header row detection, date formatting, and empty cell control — no server, no upload, 100% private.',
+    'Convert Excel .xlsx, .xls, and .ods spreadsheets to JSON in your browser. Multi-sheet support, header row detection, date formatting, and empty cell control - no server, no upload, 100% private.',
   keywords: [
     // Core intent
     'excel to json converter',
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Excel to JSON Converter - Multi-Sheet .xlsx Parser | Data Studio',
     description:
-      'Convert .xlsx workbooks to JSON with sheet picker, header detection, date formatting — parsed in your browser, nothing uploaded.',
+      'Convert .xlsx workbooks to JSON with sheet picker, header detection, date formatting - parsed in your browser, nothing uploaded.',
     url: 'https://swiftconverterhub.com/data/excel-json',
     type: 'website',
   },
