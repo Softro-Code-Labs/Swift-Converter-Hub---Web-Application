@@ -45,8 +45,6 @@ Engines, parsers, and sanitizers handling client-side text processing, analysis,
 - **`marked`** (`^12.0.0`) — A high-performance Markdown compiler for parsing markup into structured text layouts.
 - **`dompurify`** (`^3.0.9`) — DOM-based XSS sanitizer for cleaning HTML and safe character rendering.
 
-### Data Studio
-
 ### 📊 Data Studio
 
 Libraries responsible for parsing, reading, and transforming structured data formats directly in the browser.
@@ -54,6 +52,13 @@ Libraries responsible for parsing, reading, and transforming structured data for
 - **`js-yaml`** (`^5.2.1`) — YAML parser and serializer used to read, validate, and convert YAML configuration files into JavaScript objects (and vice versa).
 - **`xlsx`** (`^0.18.5`) — Spreadsheet processing library for reading, writing, and converting Microsoft Excel (`.xlsx`, `.xls`) and other tabular data formats such as CSV directly in the browser.
 - **`@iarna/toml`** (`^2.2.5`) — TOML parser and serializer for reading, validating, and converting TOML configuration files into JavaScript objects (and vice versa).
+
+### 📄 Document Suite
+
+Libraries responsible for client-side PDF creation, manipulation, rendering, and document processing.
+
+- **`pdf-lib`** (`^1.17.1`) — JavaScript PDF library used for creating, modifying, merging, splitting, copying pages, and manipulating PDF documents directly in the browser without requiring a backend service.
+- **`pdfjs-dist`** (`^6.1.200`) — Official PDF.js distribution used for rendering PDF documents into canvas previews, generating thumbnails, and displaying PDF pages inside the browser using Web Workers.
 
 ### 🎬 Video & Audio Studio
 
