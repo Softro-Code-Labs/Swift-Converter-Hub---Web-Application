@@ -117,7 +117,7 @@ const DATA_STUDIO_SLUGS = new Set([
   'base64-text',
 ]);
 
-const DOCUMENT_STUDIO_SLUGS = new Set(['pdf-merge']);
+const DOCUMENT_STUDIO_SLUGS = new Set(['pdf-merge', 'pdf-split']);
 
 // --- Sitemap ------------------------------------------------------------------
 

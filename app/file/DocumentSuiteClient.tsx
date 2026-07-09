@@ -45,7 +45,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
     accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
     href: '/file/pdf-split',
-    status: 'soon',
+    status: 'live',
     group: 'pdf',
     featured: true,
     tags: ['split', 'extract', 'pdf', 'pages', 'separate', 'range'],
