@@ -82,7 +82,7 @@ async function renderThumbs(
       });
     }
 
-    // Pages beyond 50 — no thumbnail
+    // Pages beyond 50 - no thumbnail
     for (let i = 50; i < pageCount; i++) {
       thumbs.push({ pageIndex: i, thumbUrl: null, loaded: true });
     }

@@ -125,7 +125,7 @@ export default function PdfSplitTool() {
     });
   }, [result, handleDownload]);
 
-  // For 'ranges' mode — add a new range group
+  // For 'ranges' mode - add a new range group
   const addRangeGroup = useCallback(() => {
     setRangeGroups((prev) => [
       ...prev,
@@ -188,7 +188,7 @@ export default function PdfSplitTool() {
               Split PDF Pages
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              Extract pages, split by ranges, or divide into equal parts — all
+              Extract pages, split by ranges, or divide into equal parts - all
               in your browser
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function PdfSplitTool() {
                 </span>
               </p>
               <p className="text-xs text-slate-400 dark:text-slate-500">
-                Single PDF file — processed entirely in your browser
+                Single PDF file - processed entirely in your browser
               </p>
             </div>
           </div>
@@ -254,7 +254,7 @@ export default function PdfSplitTool() {
               <ModeTab mode={splitMode} onChange={setSplitMode} />
             </div>
 
-            {/* ── Extract mode ──────────────────────────────────────── */}
+            {/* -- Extract mode ---------------------------------------- */}
             {splitMode === 'extract' && (
               <div className="space-y-5">
                 {/* Range string input */}
@@ -299,7 +299,7 @@ export default function PdfSplitTool() {
               </div>
             )}
 
-            {/* ── Ranges mode ───────────────────────────────────────── */}
+            {/* -- Ranges mode ----------------------------------------- */}
             {splitMode === 'ranges' && (
               <div className="space-y-3">
                 {rangeGroups.map((group, gi) => (
@@ -354,7 +354,7 @@ export default function PdfSplitTool() {
               </div>
             )}
 
-            {/* ── Every N mode ──────────────────────────────────────── */}
+            {/* -- Every N mode ---------------------------------------- */}
             {splitMode === 'every' && (
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-4">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
@@ -479,7 +479,7 @@ export default function PdfSplitTool() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500" />
           </span>
           <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-            PDFs are split entirely in your browser using pdf-lib — your files
+            PDFs are split entirely in your browser using pdf-lib - your files
             never leave your device
           </p>
         </div>

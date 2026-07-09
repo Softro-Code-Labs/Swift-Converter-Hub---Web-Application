@@ -61,7 +61,7 @@ const TOOLS: StudioTool[] = [
     accentText:
       'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
     href: '/file/pdf-compress',
-    status: 'soon',
+    status: 'live',
     group: 'pdf',
     featured: false,
     tags: ['compress', 'reduce', 'size', 'optimize', 'pdf', 'shrink'],
