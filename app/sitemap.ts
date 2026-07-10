@@ -117,6 +117,15 @@ const DATA_STUDIO_SLUGS = new Set([
   'base64-text',
 ]);
 
+const DOCUMENT_STUDIO_SLUGS = new Set([
+  'pdf-merge',
+  'pdf-split',
+  'pdf-compress',
+  'pdf-rotate',
+  'office-to-pdf',
+  'pdf-watermark',
+]);
+
 // --- Sitemap ------------------------------------------------------------------
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -226,6 +235,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // -- Document Studio Tools ---------------------------------------------------
+
+  const documentStudioTools: MetadataRoute.Sitemap = Array.from(
+    DOCUMENT_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/file/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   // -- Dynamic Image Conversion Routes ----------------------------------------
   const conversionRoutes: MetadataRoute.Sitemap = [];
 
@@ -249,6 +269,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...imageStudioTools,
     ...characterStudioTools,
     ...dataStudioTools,
+    ...documentStudioTools,
     ...conversionRoutes,
   ];
 }
