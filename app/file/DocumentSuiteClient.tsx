@@ -76,7 +76,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
     href: '/file/pdf-rotate',
-    status: 'soon',
+    status: 'live',
     group: 'pdf',
     featured: false,
     tags: ['rotate', 'flip', 'pdf', 'pages', 'orientation', '90', '180'],
