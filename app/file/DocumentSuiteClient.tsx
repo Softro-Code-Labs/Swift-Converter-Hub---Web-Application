@@ -93,7 +93,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
     accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
     href: '/file/office-to-pdf',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: true,
     tags: ['word', 'excel', 'docx', 'xlsx', 'pdf', 'convert', 'office'],

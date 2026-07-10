@@ -122,6 +122,7 @@ const DOCUMENT_STUDIO_SLUGS = new Set([
   'pdf-split',
   'pdf-compress',
   'pdf-rotate',
+  'office-to-pdf',
 ]);
 
 // --- Sitemap ------------------------------------------------------------------

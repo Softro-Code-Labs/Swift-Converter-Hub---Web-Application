@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   description:
     'Combine multiple PDF files into a single document in your browser. Drag to reorder pages before merging - no server, no upload, 100% private. Powered by pdf-lib.',
   keywords: [
-    // Core intent
     'merge pdf online free',
     'combine pdf files browser',
     'join pdf documents online',
@@ -17,8 +16,6 @@ export const metadata: Metadata = {
     'merge pdf files instantly',
     'pdf combiner no server',
     'merge pdfs private browser',
-
-    // Reorder features
     'pdf reorder pages online',
     'drag reorder pdf merge',
     'pdf merge drag drop order',
@@ -29,8 +26,6 @@ export const metadata: Metadata = {
     'combine pdf reorder files',
     'pdf merge page sequence',
     'pdf merge file sequence',
-
-    // Technical / use cases
     'merge pdf no account',
     'pdf merge no registration',
     'pdf merge client side',
@@ -41,8 +36,6 @@ export const metadata: Metadata = {
     'pdf merge multiple files',
     'pdf merge upload files',
     'pdf merge drop zone',
-
-    // Document use cases
     'combine scanned pdfs online',
     'merge pdf reports browser',
     'join pdf contracts online',
@@ -53,8 +46,6 @@ export const metadata: Metadata = {
     'pdf combine chapters online',
     'pdf merge presentations free',
     'merge pdf pages free online',
-
-    // Privacy & features
     'private pdf merger browser',
     'pdf merge no data sent',
     'secure pdf merger online',

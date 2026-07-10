@@ -59,6 +59,8 @@ Libraries responsible for client-side PDF creation, manipulation, rendering, and
 
 - **`pdf-lib`** (`^1.17.1`) — JavaScript PDF library used for creating, modifying, merging, splitting, copying pages, and manipulating PDF documents directly in the browser without requiring a backend service.
 - **`pdfjs-dist`** (`^6.1.200`) — Official PDF.js distribution used for rendering PDF documents into canvas previews, generating thumbnails, and displaying PDF pages inside the browser using Web Workers.
+- **`mammoth`** (`^1.12.0`) — Library for extracting and converting Microsoft Word (`.docx`) documents into clean HTML or plain text directly in the browser while preserving the document structure.
+- **`xlsx`** (`^0.18.5`) — Spreadsheet processing library for reading, writing, and converting Microsoft Excel (`.xlsx`, `.xls`) and other tabular document formats such as CSV directly in the browser.
 
 ### 🎬 Video & Audio Studio
 
