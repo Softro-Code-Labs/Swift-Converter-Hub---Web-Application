@@ -58,13 +58,13 @@ export const metadata: Metadata = {
     'pdf merge free no watermark',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/document/pdf-merge',
+    canonical: 'https://swiftconverterhub.com/file/pdf-merge',
   },
   openGraph: {
     title: 'Merge PDF Files - Drag to Reorder & Combine | Document Suite',
     description:
       'Combine multiple PDFs into one. Drag to reorder, see page counts and thumbnails - processed in your browser, nothing uploaded.',
-    url: 'https://swiftconverterhub.com/document/pdf-merge',
+    url: 'https://swiftconverterhub.com/file/pdf-merge',
     type: 'website',
   },
 };

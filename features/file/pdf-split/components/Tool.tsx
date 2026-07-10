@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -67,6 +67,9 @@ function ModeTab({
 }
 
 export default function PdfSplitTool() {
+  const [rawRangeValues, setRawRangeValues] = useState<Record<string, string>>(
+    {},
+  );
   const fileRef = useRef<HTMLInputElement>(null);
   const {
     file,
@@ -327,7 +330,14 @@ export default function PdfSplitTool() {
                       />
                       {rangeGroups.length > 1 && (
                         <button
-                          onClick={() => removeRangeGroup(group.id)}
+                          onClick={() => {
+                            removeRangeGroup(group.id);
+                            setRawRangeValues((prev) => {
+                              const next = { ...prev };
+                              delete next[group.id];
+                              return next;
+                            });
+                          }}
                           className="text-slate-300 hover:text-red-500 cursor-pointer transition-colors"
                         >
                           <X className="w-3.5 h-3.5" />
@@ -335,18 +345,24 @@ export default function PdfSplitTool() {
                       )}
                     </div>
                     <RangeInput
-                      value={
-                        group.pages.length > 0
-                          ? rangeGroupToString(group.pages)
-                          : ''
-                      }
-                      onChange={(v) => updateRangeGroup(group.id, v)}
+                      value={rawRangeValues[group.id] ?? ''}
+                      onChange={(v) => {
+                        // Always update the raw display value immediately
+                        setRawRangeValues((prev) => ({
+                          ...prev,
+                          [group.id]: v,
+                        }));
+                        // Only update parsed pages — don't touch display value
+                        updateRangeGroup(group.id, v);
+                      }}
                       pageCount={pageCount}
                     />
                   </div>
                 ))}
                 <button
-                  onClick={addRangeGroup}
+                  onClick={() => {
+                    addRangeGroup();
+                  }}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 text-[10px] font-bold text-slate-500 hover:border-blue-300 hover:text-blue-600 cursor-pointer transition-all"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add another range

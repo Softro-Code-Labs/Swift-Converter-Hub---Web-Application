@@ -58,14 +58,14 @@ export const metadata: Metadata = {
     'pdf compress instant download',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/document/pdf-compress',
+    canonical: 'https://swiftconverterhub.com/file/pdf-compress',
   },
   openGraph: {
     title:
       'Compress PDF - Three Levels, Before/After Size Bar | Document Suite',
     description:
       'Light, balanced, or maximum compression - strips metadata, annotations, and bookmarks. Instant size comparison, nothing uploaded.',
-    url: 'https://swiftconverterhub.com/document/pdf-compress',
+    url: 'https://swiftconverterhub.com/file/pdf-compress',
     type: 'website',
   },
 };

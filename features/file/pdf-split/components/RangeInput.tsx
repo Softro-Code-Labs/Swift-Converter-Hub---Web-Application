@@ -8,17 +8,24 @@ interface RangeInputProps {
 }
 
 export function RangeInput({ value, onChange, pageCount }: RangeInputProps) {
-  const error = value.trim() ? validateRangeString(value, pageCount) : null;
-  const pages = value.trim()
-    ? error
-      ? 0
-      : value.split(',').reduce((s, p) => {
-          const parts = p.trim().split('-').map(Number);
-          return parts.length === 2
-            ? s + Math.abs(parts[1] - parts[0]) + 1
-            : s + 1;
+  const isTyping = /[-,]\s*$/.test(value);
+  const error =
+    value.trim() && !isTyping ? validateRangeString(value, pageCount) : null;
+
+  const pages =
+    value.trim() && !isTyping && !error
+      ? value.split(',').reduce((s, p) => {
+          const trimmed = p.trim();
+          if (!trimmed) return s;
+          const parts = trimmed
+            .split('-')
+            .map((n) => parseInt(n.trim()))
+            .filter((n) => !isNaN(n));
+          if (parts.length === 2) return s + Math.abs(parts[1] - parts[0]) + 1;
+          if (parts.length === 1) return s + 1;
+          return s;
         }, 0)
-    : 0;
+      : 0;
 
   return (
     <div className="space-y-2">

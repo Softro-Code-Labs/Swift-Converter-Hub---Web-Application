@@ -58,13 +58,13 @@ export const metadata: Metadata = {
     'pdf page watermark tool',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/document/pdf-watermark',
+    canonical: 'https://swiftconverterhub.com/file/pdf-watermark',
   },
   openGraph: {
     title: 'PDF Watermark - Text & Image with Live Preview | Document Suite',
     description:
       'Add CONFIDENTIAL, DRAFT, or custom text/image watermarks to every PDF page. Live canvas preview, tiled pattern, angle control - nothing uploaded.',
-    url: 'https://swiftconverterhub.com/document/pdf-watermark',
+    url: 'https://swiftconverterhub.com/file/pdf-watermark',
     type: 'website',
   },
 };
