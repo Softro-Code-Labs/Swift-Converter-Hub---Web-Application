@@ -123,6 +123,7 @@ const DOCUMENT_STUDIO_SLUGS = new Set([
   'pdf-compress',
   'pdf-rotate',
   'office-to-pdf',
+  'pdf-watermark',
 ]);
 
 // --- Sitemap ------------------------------------------------------------------

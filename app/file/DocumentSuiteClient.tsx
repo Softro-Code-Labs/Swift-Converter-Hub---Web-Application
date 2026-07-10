@@ -107,7 +107,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
     accentText: 'group-hover:text-rose-600 dark:group-hover:text-rose-400',
     href: '/file/pdf-watermark',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: false,
     tags: [
