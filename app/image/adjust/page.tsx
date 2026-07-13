@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { SlidersHorizontal, Palette, Zap, Shield } from 'lucide-react';
@@ -82,12 +83,12 @@ export const metadata: Metadata = {
     'local storage image enhancer',
     'instant client side image tuning',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/image/adjust' },
+  alternates: { canonical: `${SITE_URL}/image/adjust` },
   openGraph: {
     title: 'Adjust & Filter Images Online - Free Photo Editor | Image Studio',
     description:
       'Brightness, contrast, saturation and filters - all processed locally in your browser.',
-    url: 'https://swiftconverterhub.com/image/adjust',
+    url: `${SITE_URL}/image/adjust`,
     type: 'website',
   },
 };

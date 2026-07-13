@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import OfficeToPdfTool from '@/features/file/office-to-pdf/components';
 
@@ -58,13 +59,13 @@ export const metadata: Metadata = {
     'docx xlsx pdf free online',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/file/office-to-pdf',
+    canonical: `${SITE_URL}/file/office-to-pdf`,
   },
   openGraph: {
     title: 'Word / Excel to PDF - Browser Print Conversion | Document Suite',
     description:
       'Convert .docx and .xlsx to PDF via browser print dialog - preview, then save as PDF. Nothing uploaded.',
-    url: 'https://swiftconverterhub.com/file/office-to-pdf',
+    url: `${SITE_URL}/file/office-to-pdf`,
     type: 'website',
   },
 };

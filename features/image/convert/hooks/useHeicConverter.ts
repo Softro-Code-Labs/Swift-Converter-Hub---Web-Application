@@ -93,8 +93,11 @@ export const decodeHeic = async (
     }
   }
 
+  const lastErrMessage =
+    lastErr instanceof Error ? lastErr.message : String(lastErr);
+
   throw new Error(
-    `Could not decode HEIC file: ${(lastErr as any)?.message ?? String(lastErr)}. ` +
+    `Could not decode HEIC file: ${lastErrMessage}. ` +
       `This file may be corrupted or use an unsupported HEIC variant.`,
   );
 };

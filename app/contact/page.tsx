@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import ContactForm from '@/features/contact/components/ContactForm';
 
@@ -13,11 +14,11 @@ export const metadata: Metadata = {
     'swift converter hub help',
     'contact webassembly tool team',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/contact' },
+  alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: {
     title: 'Contact Swift Converter Hub - Privacy-First Local File Converters',
     description: 'Reach out with bugs, feature requests, or privacy questions.',
-    url: 'https://swiftconverterhub.com/contact',
+    url: `${SITE_URL}/contact`,
     type: 'website',
   },
 };

@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -23,12 +24,12 @@ export const metadata: Metadata = {
     'local processing data protection policy',
     'private webassembly converter safety',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/privacy' },
+  alternates: { canonical: `${SITE_URL}/privacy` },
   openGraph: {
     title: 'Privacy Policy - Privacy-First Local File Converters',
     description:
       'Your files never leave your browser. Read our full privacy policy.',
-    url: 'https://swiftconverterhub.com/privacy',
+    url: `${SITE_URL}/privacy`,
     type: 'website',
   },
 };
@@ -47,10 +48,21 @@ const SECTIONS = [
           WebAssembly. Your files never leave your device.
         </p>
         <p className="mt-3">
-          We may collect basic anonymous analytics - page views, button clicks,
-          error rates - to understand how the tools are used and improve them.
-          This data contains no personal information and cannot be linked to
-          you.
+          We use Microsoft Clarity to understand how the tools are used and
+          improve them - this includes page views, clicks, scrolling, and
+          anonymized session recordings/heatmaps of on-page interactions.
+          Clarity masks the content of text input fields by default, so what
+          you type is not captured. Files you convert are never involved,
+          since they never leave your browser in the first place. See{' '}
+          <a
+            href="https://privacy.microsoft.com/en-us/privacystatement"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            Microsoft&apos;s Privacy Statement
+          </a>{' '}
+          for how Microsoft handles this data.
         </p>
       </>
     ),
@@ -93,17 +105,11 @@ const SECTIONS = [
         </p>
         <p className="mt-3">
           You can block ads using any standard browser extension without
-          affecting the functionality of our conversion tools. We use Google
-          Analytics for anonymous usage statistics. You can opt out via{' '}
-          <a
-            href="https://tools.google.com/dlpage/gaoptout"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            Google's opt-out tool
-          </a>
-          .
+          affecting the functionality of our conversion tools. For analytics,
+          we use Microsoft Clarity (see &quot;What we collect&quot; above for what it
+          records). On your first visit you&apos;ll be asked to accept or decline
+          non-essential cookies for ads and analytics - you can change that
+          choice at any time from the cookie preferences link in the footer.
         </p>
       </>
     ),
@@ -189,7 +195,7 @@ export default function PrivacyPage() {
               <p className="text-xs text-blue-700 dark:text-blue-400 mt-0.5 leading-relaxed">
                 All conversion happens locally in your browser using
                 WebAssembly. We have no servers that receive your files - this
-                is not a policy promise, it's an architectural fact.
+                is not a policy promise, it&apos;s an architectural fact.
               </p>
             </div>
           </div>

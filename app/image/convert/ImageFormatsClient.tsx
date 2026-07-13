@@ -232,7 +232,7 @@ function SearchableDropdown({
           <div className="max-h-72 overflow-y-auto p-1.5">
             {filteredAllowed.length === 0 && filteredDisabled.length === 0 && (
               <p className="text-xs text-slate-400 text-center py-6">
-                No formats match "{query}"
+                No formats match &quot;{query}&quot;
               </p>
             )}
 

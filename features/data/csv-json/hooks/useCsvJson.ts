@@ -69,7 +69,7 @@ function coerce(val: string): string | number | boolean | null {
   return val;
 }
 
-function csvToJson(raw: string, opts: CsvJsonOptions): ConvertResult {
+export function csvToJson(raw: string, opts: CsvJsonOptions): ConvertResult {
   try {
     const rows = parseCsv(raw.trim(), opts.delimiter);
     if (rows.length === 0)
@@ -104,7 +104,7 @@ function csvToJson(raw: string, opts: CsvJsonOptions): ConvertResult {
   }
 }
 
-function jsonToCsv(raw: string, opts: CsvJsonOptions): ConvertResult {
+export function jsonToCsv(raw: string, opts: CsvJsonOptions): ConvertResult {
   try {
     const parsed = JSON.parse(raw.trim());
 

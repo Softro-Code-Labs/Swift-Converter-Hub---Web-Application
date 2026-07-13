@@ -13,6 +13,9 @@ interface UnsupportedFormatDialogProps {
   /** Show a "Go to Format Converter" CTA - useful when the user could
    * convert the file first and come back */
   showConverterCta?: boolean;
+  /** Where the converter CTA links to, e.g. '/image/convert' or '/audio/convert' */
+  converterHref?: string;
+  converterCtaLabel?: string;
   /** Optional callback for a "Try a different file" secondary action that
    * reopens the original tool's file picker */
   onTryAnother?: () => void;
@@ -26,6 +29,8 @@ export const UnsupportedFormatDialog = ({
   supportedFormats,
   reason = "This file type isn't supported",
   showConverterCta = true,
+  converterHref = '/image/convert',
+  converterCtaLabel = 'Go to Format Converter',
   onTryAnother,
 }: UnsupportedFormatDialogProps) => (
   <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -85,11 +90,11 @@ export const UnsupportedFormatDialog = ({
       <div className="px-6 pb-6 flex flex-col gap-2">
         {showConverterCta && (
           <Link
-            href="/image"
+            href={converterHref}
             onClick={() => onOpenChange(false)}
             className="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white text-sm font-bold rounded-xl transition-all"
           >
-            Go to Format Converter <ArrowRight className="w-4 h-4" />
+            {converterCtaLabel} <ArrowRight className="w-4 h-4" />
           </Link>
         )}
         <button

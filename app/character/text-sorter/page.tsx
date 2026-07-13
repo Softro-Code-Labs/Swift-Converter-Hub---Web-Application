@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import TextSorterTool from '@/features/character/text-sorter/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'private text sort no upload',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/text-sorter',
+    canonical: `${SITE_URL}/character/text-sorter`,
   },
   openGraph: {
     title:
       'Text Sorter & Deduplicator - Sort, Filter & Transform Lines | Character Studio',
     description:
       'Sort A–Z, by length, numerically, shuffle, deduplicate, remove blanks - stack operations and see results instantly, no server.',
-    url: 'https://swiftconverterhub.com/character/text-sorter',
+    url: `${SITE_URL}/character/text-sorter`,
     type: 'website',
   },
 };

@@ -55,7 +55,7 @@ export const DecodeTab = () => {
           />
           {!isValid && (
             <p className="flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-              <AlertCircle className="w-3.5 h-3.5" /> This doesn't look like
+              <AlertCircle className="w-3.5 h-3.5" /> This doesn&apos;t look like
               valid Base64
             </p>
           )}

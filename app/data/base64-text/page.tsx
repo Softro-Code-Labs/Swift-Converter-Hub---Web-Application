@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Base64TextTool from '@/features/data/base64-text/components';
 
@@ -67,13 +68,13 @@ export const metadata: Metadata = {
     'decode jwt no server upload',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/base64-text',
+    canonical: `${SITE_URL}/data/base64-text`,
   },
   openGraph: {
     title: 'Base64 Text Encoder / Decoder - With JWT Inspector | Data Studio',
     description:
       'Encode text, decode Base64, inspect JWT tokens - URL-safe support, Unicode, expiry detection, instant, no server.',
-    url: 'https://swiftconverterhub.com/data/base64-text',
+    url: `${SITE_URL}/data/base64-text`,
     type: 'website',
   },
 };

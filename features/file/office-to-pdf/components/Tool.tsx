@@ -90,8 +90,8 @@ export default function OfficeToPdfTool() {
           <Info className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
           <p className="text-[11px] text-blue-700 dark:text-blue-400 font-semibold leading-relaxed">
             This tool converts your file to formatted HTML, then opens the
-            browser's <strong>Print dialog</strong> - select{' '}
-            <em>"Save as PDF"</em> (or <em>"Microsoft Print to PDF"</em> on
+            browser&apos;s <strong>Print dialog</strong> - select{' '}
+            <em>&quot;Save as PDF&quot;</em> (or <em>&quot;Microsoft Print to PDF&quot;</em> on
             Windows) as the destination to save your PDF.
           </p>
         </div>

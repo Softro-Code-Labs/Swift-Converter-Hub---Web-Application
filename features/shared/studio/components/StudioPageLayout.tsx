@@ -126,7 +126,7 @@ export function StudioPageLayout({
               <div className="flex flex-col items-center justify-center py-16 gap-3 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl">
                 <Search className="w-8 h-8 text-slate-200 dark:text-slate-700" />
                 <p className="text-sm font-semibold text-slate-400 dark:text-slate-500">
-                  No tools match "{query}"
+                  No tools match &quot;{query}&quot;
                 </p>
                 <p className="text-xs text-slate-300 dark:text-slate-600 max-w-xs">
                   Try a different keyword or browse by category below
@@ -177,7 +177,7 @@ export function StudioPageLayout({
                     {footerNote}
                   </p>
                   <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-                    We're always adding new tools
+                    We&apos;re always adding new tools
                   </p>
                 </div>
               )}

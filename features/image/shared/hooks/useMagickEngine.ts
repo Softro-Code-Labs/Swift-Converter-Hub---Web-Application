@@ -1,25 +1,16 @@
-import { useState, useEffect } from 'react';
-import { initializeImageMagick } from '@imagemagick/magick-wasm';
-import toast from 'react-hot-toast';
+import { useMagickEngineContext } from '../providers/MagickEngineProvider';
 
+/**
+ * Returns whether the shared ImageMagick WASM engine has finished loading.
+ *
+ * The engine itself is booted exactly once by <MagickEngineProvider>
+ * (mounted in app/image/layout.tsx so it wraps every tool under /image/*).
+ * This hook just reads that shared state, so calling it from multiple tool
+ * components (convert, compress, crop, adjust, metadata) no longer
+ * triggers redundant WASM re-downloads/re-initialization when navigating
+ * between tools. Same public API as before, so no call sites needed to
+ * change.
+ */
 export const useMagickEngine = () => {
-  const [isMagickLoaded, setIsMagickLoaded] = useState(false);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const response = await fetch('/magick.wasm');
-        if (!response.ok) throw new Error('WASM fetch failed');
-        const wasmBytes = await response.arrayBuffer();
-        await initializeImageMagick(new Uint8Array(wasmBytes));
-        setIsMagickLoaded(true);
-      } catch (error) {
-        console.error('Failed to boot WASM engine:', error);
-        toast.error('Image engine failed to initialize.');
-      }
-    };
-    load();
-  }, []);
-
-  return { isMagickLoaded };
+  return useMagickEngineContext();
 };

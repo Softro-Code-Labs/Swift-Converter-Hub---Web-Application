@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import PdfWatermarkTool from '@/features/file/pdf-watermark/components';
 
@@ -58,13 +59,13 @@ export const metadata: Metadata = {
     'pdf page watermark tool',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/file/pdf-watermark',
+    canonical: `${SITE_URL}/file/pdf-watermark`,
   },
   openGraph: {
     title: 'PDF Watermark - Text & Image with Live Preview | Document Suite',
     description:
       'Add CONFIDENTIAL, DRAFT, or custom text/image watermarks to every PDF page. Live canvas preview, tiled pattern, angle control - nothing uploaded.',
-    url: 'https://swiftconverterhub.com/file/pdf-watermark',
+    url: `${SITE_URL}/file/pdf-watermark`,
     type: 'website',
   },
 };

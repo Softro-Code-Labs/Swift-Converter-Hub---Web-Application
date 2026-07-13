@@ -273,8 +273,8 @@ export default function JsonXmlTool() {
                 />
               </div>
               <p className="text-[10px] text-slate-400 dark:text-slate-500 italic">
-                In JSON, keys starting with "{attrPrefix || '@'}" become XML
-                attributes. "{textKey || '#text'}" holds mixed text content.
+                In JSON, keys starting with &quot;{attrPrefix || '@'}&quot; become XML
+                attributes. &quot;{textKey || '#text'}&quot; holds mixed text content.
               </p>
             </div>
           )}

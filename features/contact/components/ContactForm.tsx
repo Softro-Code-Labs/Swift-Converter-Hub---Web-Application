@@ -14,8 +14,11 @@ import {
 import toast from 'react-hot-toast';
 
 import { TOPICS, FAQS } from '../constants/constants';
+import { SITE_EMAILS } from '@/config/site';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactForm() {
   const [selectedTopic, setSelectedTopic] = useState('');
@@ -23,7 +26,10 @@ export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const [website, setWebsite] = useState('');
 
   const canSubmit =
     selectedTopic && name.trim() && email.trim() && message.trim();
@@ -35,7 +41,13 @@ export default function ContactForm() {
 
     if (!canSubmit) return;
 
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
     setStatus('sending');
+    setErrorMessage('');
 
     try {
       const res = await fetch('/api/contact', {
@@ -48,17 +60,27 @@ export default function ContactForm() {
           email,
           message,
           topic: selectedTopic,
+          website, // honeypot field, expected to be empty
         }),
       });
 
-      toast.success('Message sent successfully.');
-      if (!res.ok) {
-        toast.error('Something went wrong. Please try again.');
+      if (res.ok) {
+        setStatus('sent');
+        toast.success('Message sent successfully.');
+      } else {
+        const data = await res.json().catch(() => null);
+        setStatus('error');
+        setErrorMessage(
+          data?.error ?? 'Something went wrong. Please try again.',
+        );
+        toast.error(data?.error ?? 'Something went wrong. Please try again.');
       }
-
-      setStatus('sent');
-    } catch (err) {
+    } catch {
       setStatus('error');
+      setErrorMessage(
+        'Network error. Please check your connection and try again.',
+      );
+      toast.error('Network error. Please check your connection and try again.');
     }
   };
 
@@ -103,7 +125,7 @@ export default function ContactForm() {
                     Message sent!
                   </h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    Thanks {name.split(' ')[0]}. We'll get back to you at{' '}
+                    Thanks {name.split(' ')[0]}. We&apos;ll get back to you at{' '}
                     <span className="font-semibold text-slate-700 dark:text-slate-300">
                       {email}
                     </span>{' '}
@@ -113,10 +135,12 @@ export default function ContactForm() {
                 <button
                   onClick={() => {
                     setStatus('idle');
+                    setErrorMessage('');
                     setName('');
                     setEmail('');
                     setMessage('');
                     setSelectedTopic('');
+                    setWebsite('');
                   }}
                   className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                 >
@@ -125,11 +149,40 @@ export default function ContactForm() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Honeypot field */}
+                <div
+                  aria-hidden="true"
+                  className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden"
+                >
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </div>
+
+                {status === 'error' && (
+                  <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/40 text-xs text-red-700 dark:text-red-400">
+                    <span className="font-bold shrink-0">
+                      Couldn&apos;t send:
+                    </span>
+                    <span>
+                      {errorMessage ||
+                        'Something went wrong. Please try again.'}
+                    </span>
+                  </div>
+                )}
+
                 {/* Topic selector */}
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
                   <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
                     <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-                      What's this about?
+                      What&apos;s this about?
                     </p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-100 dark:bg-slate-800">
@@ -276,7 +329,7 @@ export default function ContactForm() {
                 Direct contact
               </h3>
               <a
-                href="mailto:hello@swiftconverterhub.com"
+                href={`mailto:${SITE_EMAILS.hello}`}
                 className="flex items-center gap-3 group"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -284,7 +337,7 @@ export default function ContactForm() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    hello@swiftconverterhub.com
+                    {SITE_EMAILS.hello}
                   </p>
                   <p className="text-[10px] text-slate-400">
                     General enquiries
@@ -293,7 +346,7 @@ export default function ContactForm() {
                 <ArrowRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 ml-auto group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all" />
               </a>
               <a
-                href="mailto:privacy@swiftconverterhub.com"
+                href={`mailto:${SITE_EMAILS.privacy}`}
                 className="flex items-center gap-3 group"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all">
@@ -301,7 +354,7 @@ export default function ContactForm() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    privacy@swiftconverterhub.com
+                    {SITE_EMAILS.privacy}
                   </p>
                   <p className="text-[10px] text-slate-400">
                     Privacy & data questions
@@ -316,7 +369,7 @@ export default function ContactForm() {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <p className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                  We're available
+                  We&apos;re available
                 </p>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">

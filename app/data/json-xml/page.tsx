@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import JsonXmlTool from '@/features/data/json-xml/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'json xml attribute support',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/json-xml',
+    canonical: `${SITE_URL}/data/json-xml`,
   },
   openGraph: {
     title:
       'JSON ↔ XML Converter - Bidirectional with Attribute Support | Data Studio',
     description:
       'Convert JSON to XML or XML to JSON with full attribute support, custom root tags, and pretty printing - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/data/json-xml',
+    url: `${SITE_URL}/data/json-xml`,
     type: 'website',
   },
 };

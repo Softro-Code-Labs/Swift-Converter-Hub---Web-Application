@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Binary, Code, Zap, Shield } from 'lucide-react';
@@ -80,12 +81,12 @@ export const metadata: Metadata = {
     'local file reader api converter',
     'private script image tokenizer',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/image/base64' },
+  alternates: { canonical: `${SITE_URL}/image/base64` },
   openGraph: {
     title: 'Image to Base64 Converter - Free Online Tool | Image Studio',
     description:
       'Encode images to Base64 or decode back instantly, entirely in your browser.',
-    url: 'https://swiftconverterhub.com/image/base64',
+    url: `${SITE_URL}/image/base64`,
     type: 'website',
   },
 };

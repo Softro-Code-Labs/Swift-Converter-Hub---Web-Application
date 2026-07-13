@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import PdfCompressTool from '@/features/file/pdf-compress/components';
 
@@ -58,14 +59,14 @@ export const metadata: Metadata = {
     'pdf compress instant download',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/file/pdf-compress',
+    canonical: `${SITE_URL}/file/pdf-compress`,
   },
   openGraph: {
     title:
       'Compress PDF - Three Levels, Before/After Size Bar | Document Suite',
     description:
       'Light, balanced, or maximum compression - strips metadata, annotations, and bookmarks. Instant size comparison, nothing uploaded.',
-    url: 'https://swiftconverterhub.com/file/pdf-compress',
+    url: `${SITE_URL}/file/pdf-compress`,
     type: 'website',
   },
 };

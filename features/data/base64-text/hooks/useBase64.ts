@@ -15,7 +15,7 @@ function fromUrlSafe(b64: string): string {
   return s;
 }
 
-function encodeBase64(text: string, urlSafe: boolean): string {
+export function encodeBase64(text: string, urlSafe: boolean): string {
   // Use TextEncoder to handle full Unicode correctly
   const bytes = new TextEncoder().encode(text);
   const binary = Array.from(bytes)
@@ -25,14 +25,14 @@ function encodeBase64(text: string, urlSafe: boolean): string {
   return urlSafe ? toUrlSafe(b64) : b64;
 }
 
-function decodeBase64(b64: string, urlSafe: boolean): string {
+export function decodeBase64(b64: string, urlSafe: boolean): string {
   const normalized = urlSafe ? fromUrlSafe(b64.trim()) : b64.trim();
   const binary = atob(normalized);
   const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
   return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
 }
 
-function isJwtToken(input: string): boolean {
+export function isJwtToken(input: string): boolean {
   const parts = input.trim().split('.');
   return (
     parts.length === 3 &&

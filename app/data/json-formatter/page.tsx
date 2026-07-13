@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import JsonFormatterTool from '@/features/data/json-formatter/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'json formatter download',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/json-formatter',
+    canonical: `${SITE_URL}/data/json-formatter`,
   },
   openGraph: {
     title:
       'JSON Formatter & Validator - Beautify, Minify, Validate | Data Studio',
     description:
       'Beautify, minify, or validate JSON instantly. Sort keys, ASCII escape, structure stats - no server, no upload.',
-    url: 'https://swiftconverterhub.com/data/json-formatter',
+    url: `${SITE_URL}/data/json-formatter`,
     type: 'website',
   },
 };
