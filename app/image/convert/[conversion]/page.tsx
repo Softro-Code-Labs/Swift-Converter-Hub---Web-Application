@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Shield, Zap, Globe, Package } from 'lucide-react';
@@ -7,12 +8,20 @@ import {
   getFormatByExtension,
   getConversionRoute,
   isConversionAllowed,
+  HIGH_TRAFFIC_PAIRS,
+  MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/image/convert/config/formats';
 import {
   StepList,
   FeatureGrid,
   FaqAccordion,
 } from '@/features/image/shared/components/page-sections';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  howToJsonLd,
+} from '@/components/seo/JsonLd';
 
 interface PageProps {
   params: Promise<{ conversion: string }>;
@@ -20,8 +29,14 @@ interface PageProps {
 
 export const dynamicParams = true;
 
+// Pre-render the highest-traffic conversion pairs at build time
 export async function generateStaticParams() {
-  return [];
+  const priorityPairs = new Set([
+    ...HIGH_TRAFFIC_PAIRS,
+    ...MEDIUM_TRAFFIC_PAIRS,
+  ]);
+
+  return Array.from(priorityPairs).map((conversion) => ({ conversion }));
 }
 
 export async function generateMetadata({
@@ -39,12 +54,12 @@ export async function generateMetadata({
     description: route.description,
     keywords: route.keywords,
     alternates: {
-      canonical: `https://swiftconverterhub.com/image/convert/${conversion}`,
+      canonical: `${SITE_URL}/image/convert/${conversion}`,
     },
     openGraph: {
       title: route.title,
       description: route.description,
-      url: `https://swiftconverterhub.com/image/convert/${conversion}`,
+      url: `${SITE_URL}/image/convert/${conversion}`,
       type: 'website',
     },
   };
@@ -73,8 +88,42 @@ export default async function ConversionPage({ params }: PageProps) {
 
   const route = getConversionRoute(sourceExt, targetExt);
 
+  const howToSteps = [
+    {
+      title: 'Upload your files',
+      desc: `Drag & drop or browse up to 20 ${sourceFormat.label} files at once.`,
+    },
+    {
+      title: 'Browser converts locally',
+      desc: `Files convert to ${targetFormat.label} in your browser - nothing is uploaded anywhere.`,
+    },
+    {
+      title: 'Download results',
+      desc: 'Save files individually or download everything as a ZIP bundle.',
+    },
+  ];
+
   return (
     <div className="space-y-0">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Image Studio', path: '/image' },
+            { name: 'Format Converter', path: '/image/convert' },
+            {
+              name: `${sourceFormat.label} to ${targetFormat.label}`,
+              path: `/image/convert/${conversion}`,
+            },
+          ]),
+          howToJsonLd({
+            name: `How to convert ${sourceFormat.label} to ${targetFormat.label}`,
+            description: route.description,
+            steps: howToSteps,
+          }),
+          faqPageJsonLd(route.faqs),
+        ]}
+      />
       {/* Hero */}
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
@@ -166,23 +215,11 @@ export default async function ConversionPage({ params }: PageProps) {
           variant="boxed"
           accentColor="bg-blue-500"
           title={`How to convert ${sourceFormat.label} to ${targetFormat.label}`}
-          steps={[
-            {
-              step: '1',
-              title: 'Upload your files',
-              desc: `Drag & drop or browse up to 20 ${sourceFormat.label} files at once.`,
-            },
-            {
-              step: '2',
-              title: 'Browser converts locally',
-              desc: `Files convert to ${targetFormat.label} in your browser - nothing is uploaded anywhere.`,
-            },
-            {
-              step: '3',
-              title: 'Download results',
-              desc: 'Save files individually or download everything as a ZIP bundle.',
-            },
-          ]}
+          steps={howToSteps.map((step, i) => ({
+            step: String(i + 1),
+            title: step.title,
+            desc: step.desc,
+          }))}
         />
       </div>
 

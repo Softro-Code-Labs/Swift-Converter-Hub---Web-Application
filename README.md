@@ -1,6 +1,6 @@
-# Swift-Converters---Web-Application
+# Swift Converter Hub - Web Application
 
-swiftconverters.com
+[swiftconverterhub.com](https://swiftconverterhub.com)
 
 ---
 
@@ -88,10 +88,5 @@ Backend configurations and templating engines for handling transactional emails.
 ---
 
 # TO-DO
-
-<!-- Crop Tool Bug -->
-<!-- Converter Bug -->
-<!-- Final Checkup one by one -->
-<!-- Check if any furture improvments can be -->
 
 <!-- — ─ - -->

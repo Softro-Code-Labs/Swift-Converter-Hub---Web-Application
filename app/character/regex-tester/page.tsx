@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import RegexTesterTool from '@/features/character/regex-tester/components';
 
@@ -69,13 +70,13 @@ export const metadata: Metadata = {
     'wasm accelerated regular expression compiler',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/regex-tester',
+    canonical: `${SITE_URL}/character/regex-tester`,
   },
   openGraph: {
     title: 'Regex Tester - Live Matching & Capture Groups | Character Studio',
     description:
       'Live highlights, capture group inspector, flag toggles, quick reference - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/regex-tester',
+    url: `${SITE_URL}/character/regex-tester`,
     type: 'website',
   },
 };

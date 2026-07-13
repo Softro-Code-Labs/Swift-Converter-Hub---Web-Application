@@ -74,7 +74,6 @@ export default function Navbar() {
   const [dropOpen, setDropOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
 
-  // Close on route change
   useEffect(() => {
     setMobileOpen(false);
     setDropOpen(false);

@@ -3,6 +3,9 @@
 import * as React from 'react';
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
+import { ConsentProvider } from '@/components/consent/ConsentContext';
+import CookieConsentBanner from '@/components/consent/CookieConsentBanner';
+import TrackingScripts from '@/components/consent/TrackingScripts';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +15,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <ConsentProvider>
+        {children}
+        <CookieConsentBanner />
+        <TrackingScripts />
+      </ConsentProvider>
       <ThemeToaster />
     </NextThemesProvider>
   );

@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import YamlJsonTool from '@/features/data/yaml-json/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'yaml json load example',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/yaml-json',
+    canonical: `${SITE_URL}/data/yaml-json`,
   },
   openGraph: {
     title:
       'YAML ↔ JSON Converter - Kubernetes, Docker & CI Configs | Data Studio',
     description:
       'Convert YAML to JSON or JSON to YAML. Multi-document, sort keys, custom indent - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/data/yaml-json',
+    url: `${SITE_URL}/data/yaml-json`,
     type: 'website',
   },
 };

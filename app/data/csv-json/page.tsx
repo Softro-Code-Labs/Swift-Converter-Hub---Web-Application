@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import CsvJsonTool from '@/features/data/csv-json/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'browser csv json utility',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/csv-json',
+    canonical: `${SITE_URL}/data/csv-json`,
   },
   openGraph: {
     title:
       'CSV ↔ JSON Converter - Instant Bidirectional Conversion | Data Studio',
     description:
       'Paste CSV, get JSON. Paste JSON, get CSV. Custom delimiters, header toggle, pretty print - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/data/csv-json',
+    url: `${SITE_URL}/data/csv-json`,
     type: 'website',
   },
 };

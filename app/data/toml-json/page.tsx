@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import TomlJsonTool from '@/features/data/toml-json/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'client side toml parser',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/toml-json',
+    canonical: `${SITE_URL}/data/toml-json`,
   },
   openGraph: {
     title:
       'TOML ↔ JSON Converter - Cargo.toml, pyproject.toml & More | Data Studio',
     description:
       'Convert TOML to JSON or JSON to TOML. Cargo.toml, pyproject.toml, config files - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/data/toml-json',
+    url: `${SITE_URL}/data/toml-json`,
     type: 'website',
   },
 };

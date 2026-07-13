@@ -104,7 +104,7 @@ export default function CropTool() {
     const val = parseInt(rawVal) || 0;
     const ratio = ASPECT_RATIOS[aspectPreset];
     setCropRegion((prev) => {
-      let next = { ...prev, [field]: val };
+      const next = { ...prev, [field]: val };
       next.x = Math.max(0, Math.min(next.x, naturalW - 1));
       next.y = Math.max(0, Math.min(next.y, naturalH - 1));
       next.width = Math.max(1, Math.min(next.width, naturalW - next.x));

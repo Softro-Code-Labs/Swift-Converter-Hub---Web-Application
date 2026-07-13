@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import UnicodeInspectorTool from '@/features/character/unicode-inspector/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'grapheme cluster analyser',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/unicode-inspector',
+    canonical: `${SITE_URL}/character/unicode-inspector`,
   },
   openGraph: {
     title:
       'Unicode Inspector - Reveal Hidden Characters & Code Points | Character Studio',
     description:
       "Every character's code point, name, category and UTF-8 bytes - invisible chars, smart quotes and BOM detected instantly, nothing sent to any server.",
-    url: 'https://swiftconverterhub.com/character/unicode-inspector',
+    url: `${SITE_URL}/character/unicode-inspector`,
     type: 'website',
   },
 };

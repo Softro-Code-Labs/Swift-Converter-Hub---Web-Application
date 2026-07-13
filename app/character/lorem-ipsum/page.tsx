@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import LoremIpsumTool from '@/features/character/lorem-ipsum/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'lorem ipsum tool no login',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/lorem-ipsum',
+    canonical: `${SITE_URL}/character/lorem-ipsum`,
   },
   openGraph: {
     title:
       'Lorem Ipsum Generator - Classic & Random Placeholder Text | Character Studio',
     description:
       'Paragraphs, sentences, or words - classic Latin or random English, instant copy and download, no server.',
-    url: 'https://swiftconverterhub.com/character/lorem-ipsum',
+    url: `${SITE_URL}/character/lorem-ipsum`,
     type: 'website',
   },
 };

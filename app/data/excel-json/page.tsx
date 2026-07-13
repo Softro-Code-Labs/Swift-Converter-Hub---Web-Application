@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import ExcelJsonTool from '@/features/data/excel-json/components';
 
@@ -67,13 +68,13 @@ export const metadata: Metadata = {
     'excel json drag drop upload',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/data/excel-json',
+    canonical: `${SITE_URL}/data/excel-json`,
   },
   openGraph: {
     title: 'Excel to JSON Converter - Multi-Sheet .xlsx Parser | Data Studio',
     description:
       'Convert .xlsx workbooks to JSON with sheet picker, header detection, date formatting - parsed in your browser, nothing uploaded.',
-    url: 'https://swiftconverterhub.com/data/excel-json',
+    url: `${SITE_URL}/data/excel-json`,
     type: 'website',
   },
 };

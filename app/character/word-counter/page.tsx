@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import WordCounterTool from '@/features/character/word-counter/components';
 
@@ -69,13 +70,13 @@ export const metadata: Metadata = {
     'browser based string analyzer',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/word-counter',
+    canonical: `${SITE_URL}/character/word-counter`,
   },
   openGraph: {
     title: 'Word & Character Counter - Free Online Tool | Character Studio',
     description:
       'Real-time word, character, sentence, and reading time stats - 100% in your browser.',
-    url: 'https://swiftconverterhub.com/character/word-counter',
+    url: `${SITE_URL}/character/word-counter`,
     type: 'website',
   },
 };

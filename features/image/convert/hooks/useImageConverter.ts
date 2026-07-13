@@ -449,7 +449,7 @@ export const useImageConverter = (
   const downloadSingle = (item: FileItem) => {
     if (!item.convertedUrl) return;
     const target = item.targetFormat ?? selectedTarget;
-    const ext = (item as any).actualExt ?? target.extension;
+    const ext = target.extension;
     const name = item.file.name.substring(0, item.file.name.lastIndexOf('.'));
     const link = document.createElement('a');
     link.href = item.convertedUrl;

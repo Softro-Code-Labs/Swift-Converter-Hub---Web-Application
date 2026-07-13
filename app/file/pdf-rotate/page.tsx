@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import PdfRotateTool from '@/features/file/pdf-rotate/components';
 
@@ -58,13 +59,13 @@ export const metadata: Metadata = {
     'pdf rotate private document',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/file/pdf-rotate',
+    canonical: `${SITE_URL}/file/pdf-rotate`,
   },
   openGraph: {
     title: 'PDF Page Rotator - Rotate Individual or All Pages | Document Suite',
     description:
       'Visual page grid - hover to rotate individual pages or rotate all at once. 90°, 180°, 270° support. Nothing uploaded.',
-    url: 'https://swiftconverterhub.com/file/pdf-rotate',
+    url: `${SITE_URL}/file/pdf-rotate`,
     type: 'website',
   },
 };

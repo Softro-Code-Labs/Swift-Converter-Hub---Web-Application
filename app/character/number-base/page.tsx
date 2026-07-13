@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import NumberBaseTool from '@/features/character/number-base/components';
 
@@ -74,14 +75,14 @@ export const metadata: Metadata = {
     'number base converter no install',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/number-base',
+    canonical: `${SITE_URL}/character/number-base`,
   },
   openGraph: {
     title:
       'Number Base Converter - Binary, Octal, Decimal, Hex | Character Studio',
     description:
       'Edit any base and all four update live - with bit pattern display, byte size, and common value reference. Instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/number-base',
+    url: `${SITE_URL}/character/number-base`,
     type: 'website',
   },
 };

@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import MarkdownPreviewTool from '@/features/character/markdown-preview/components';
 
@@ -73,13 +74,13 @@ export const metadata: Metadata = {
     'wasm powered markdown engine html5',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/markdown-preview',
+    canonical: `${SITE_URL}/character/markdown-preview`,
   },
   openGraph: {
     title: 'Markdown Preview - Live GFM Renderer | Character Studio',
     description:
       'Split view, fullscreen, export to .md or .html - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/markdown-preview',
+    url: `${SITE_URL}/character/markdown-preview`,
     type: 'website',
   },
 };

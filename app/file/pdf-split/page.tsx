@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import PdfSplitTool from '@/features/file/pdf-split/components';
 
@@ -58,14 +59,14 @@ export const metadata: Metadata = {
     'pdf split bulk download',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/file/pdf-split',
+    canonical: `${SITE_URL}/file/pdf-split`,
   },
   openGraph: {
     title:
       'Split PDF Pages - Extract, Range Split & Equal Parts | Document Suite',
     description:
       'Click pages to extract, define named ranges, or split every N pages - all in your browser, nothing uploaded.',
-    url: 'https://swiftconverterhub.com/file/pdf-split',
+    url: `${SITE_URL}/file/pdf-split`,
     type: 'website',
   },
 };

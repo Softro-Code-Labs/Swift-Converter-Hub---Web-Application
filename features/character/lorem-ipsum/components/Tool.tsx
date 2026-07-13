@@ -31,7 +31,6 @@ export default function LoremIpsumTool() {
     setOutput(generate({ type, count, corpus, startWithLorem }));
   }, [generate, type, count, corpus, startWithLorem]);
 
-  // Auto-generate on any option change
   useEffect(() => {
     run();
   }, [run]);
@@ -155,7 +154,7 @@ export default function LoremIpsumTool() {
                 />
               </div>
               <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
-                Start with "Lorem ipsum"
+                Start with &quot;Lorem ipsum&quot;
               </span>
             </label>
 

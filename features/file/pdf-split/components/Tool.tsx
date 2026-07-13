@@ -352,7 +352,7 @@ export default function PdfSplitTool() {
                           ...prev,
                           [group.id]: v,
                         }));
-                        // Only update parsed pages — don't touch display value
+                        // Only update parsed pages - don't touch display value
                         updateRangeGroup(group.id, v);
                       }}
                       pageCount={pageCount}

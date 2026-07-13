@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import ImageFormatsClient from './ImageFormatsClient';
 
@@ -79,13 +80,13 @@ export const metadata: Metadata = {
     'fast image format converter free',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/image/convert',
+    canonical: `${SITE_URL}/image/convert`,
   },
   openGraph: {
     title: 'Image Format Converter - 150+ Formats | Image Studio',
     description:
       'Convert between JPG, PNG, WebP, AVIF, HEIC, SVG and 114 more formats - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/image/convert',
+    url: `${SITE_URL}/image/convert`,
     type: 'website',
   },
 };

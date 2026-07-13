@@ -111,7 +111,7 @@ export default function MetadataTool() {
         <ShieldOff className="w-3.5 h-3.5 shrink-0 mt-0.5" />
         <span>
           EXIF data - including GPS location - never leaves your browser. We
-          just read what's already in the file.
+          just read what&apos;s already in the file.
         </span>
       </div>
 
@@ -201,7 +201,7 @@ export default function MetadataTool() {
                       No EXIF metadata found
                     </p>
                     <p className="text-xs text-slate-400 dark:text-slate-500 max-w-xs">
-                      This image doesn't contain camera or location data - it
+                      This image doesn&apos;t contain camera or location data - it
                       may have been stripped, edited, or created without EXIF.
                     </p>
                   </div>
