@@ -205,7 +205,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // -- Dynamic Image Conversion Routes ----------------------------------------
-  const conversionRoutes: MetadataRoute.Sitemap = [];
+  const imageConversionRoutes: MetadataRoute.Sitemap = [];
 
   for (const { source, target } of ALL_CONVERSION_PAIRS) {
     const key = `${source}-to-${target}`;
@@ -214,7 +214,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (!isHigh && !isMedium) continue;
 
-    conversionRoutes.push({
+    imageConversionRoutes.push({
       url: `${BASE_URL}/image/convert/${key}`,
       lastModified: now,
       changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
@@ -242,10 +242,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages,
     ...imageStudioTools,
     ...audioStudioTools,
-    ...characterStudioTools,
-    ...dataStudioTools,
     ...documentStudioTools,
-    ...conversionRoutes,
+    ...dataStudioTools,
+    ...characterStudioTools,
+    ...imageConversionRoutes,
     ...audioConversionRoutes,
   ];
 }
