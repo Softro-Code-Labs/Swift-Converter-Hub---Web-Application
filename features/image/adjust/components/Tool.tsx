@@ -138,7 +138,7 @@ export default function AdjustTool() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-5">
             {/* -- Preview column ---------------------------------------------- */}
             <div className="space-y-3">
-              <FileInfoBar fileName={file.name} onChangeImage={changeImage} />
+              <FileInfoBar fileName={file.name} onChangeFile={changeImage} />
 
               {/* Live CSS-filtered preview - instant feedback before processing */}
               <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl p-3 flex items-center justify-center">

@@ -17,7 +17,7 @@ import {
   UnsupportedFormatDialog,
   MultiFileDropZone,
 } from '../../shared/components';
-import { EngineStatusBar } from '../../shared/components/EngineStatusBar';
+import { EngineStatusBar } from '../../shared/components';
 
 const CONVERTER_ACCEPT = 'image/*, image/x-icon';
 const FORMAT_PILLS = ['JPG', 'PNG', 'WebP', 'HEIC', 'GIF', 'SVG'];

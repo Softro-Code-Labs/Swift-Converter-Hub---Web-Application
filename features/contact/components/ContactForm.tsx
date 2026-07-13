@@ -28,6 +28,7 @@ export default function ContactForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const [website, setWebsite] = useState('');
 
   const canSubmit =
@@ -59,7 +60,7 @@ export default function ContactForm() {
           email,
           message,
           topic: selectedTopic,
-          website,
+          website, // honeypot field, expected to be empty
         }),
       });
 

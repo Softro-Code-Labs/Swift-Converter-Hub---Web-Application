@@ -1,7 +1,13 @@
 import { SITE_NAME, SITE_URL } from '@/config/site';
 
-/** Renders one or more JSON-LD schema objects. */
-// Escape '<' to prevent breaking out of the script tag.
+/**
+ * Reusable helpers for creating JSON-LD structured data.
+ *
+ * Converts page information like breadcrumbs, FAQs, and step-by-step guides
+ * into Schema.org markup to help search engines better understand the content.
+ *
+ * Use the JsonLd component with one or more schema builders on any page.
+ */
 
 type JsonLdValue = Record<string, unknown>;
 
@@ -14,6 +20,9 @@ export function JsonLd({ data }: { data: JsonLdValue | JsonLdValue[] }) {
         <script
           key={i}
           type="application/ld+json"
+          // JSON.stringify output is escaped to prevent a literal
+          // "</script>" (or other markup) inside string values from
+          // breaking out of the script tag.
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(item).replace(/</g, '\\u003c'),
           }}

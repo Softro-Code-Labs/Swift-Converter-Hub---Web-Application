@@ -11,13 +11,14 @@ import React, {
 export type ConsentChoice = 'accepted' | 'declined';
 
 interface ConsentContextValue {
-  // User consent status. Null means no choice has been made yet.
+  /** null = no choice recorded yet (or not read from storage yet) */
   consent: ConsentChoice | null;
-  // Checks if localStorage data has been loaded.
+  /** true once we've checked localStorage - avoids flashing the banner
+   * before we know whether a choice was already made. */
   isLoaded: boolean;
   accept: () => void;
   decline: () => void;
-  // Reopen the choice - e.g. a "Cookie preferences" link in the footer.
+  /** Reopen the choice - e.g. a "Cookie preferences" link in the footer. */
   reset: () => void;
 }
 

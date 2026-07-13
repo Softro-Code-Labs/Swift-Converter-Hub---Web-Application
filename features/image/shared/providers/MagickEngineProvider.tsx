@@ -18,6 +18,9 @@ const MagickEngineContext = createContext<MagickEngineContextValue>({
   isMagickLoaded: false,
 });
 
+// Cache the WASM engine initialization to avoid downloading and loading it
+// multiple times during the same browser session.
+// This improves performance when users switch between tools or components.
 let initPromise: Promise<void> | null = null;
 
 function loadMagickEngine(): Promise<void> {

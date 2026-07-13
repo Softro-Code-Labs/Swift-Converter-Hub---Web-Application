@@ -15,6 +15,8 @@ const MAX_LENGTHS = {
   message: 5000,
 } as const;
 
+// --- Rate limiting -------------------------------------------------------
+
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const requestLog = new Map<string, number[]>();
@@ -33,6 +35,8 @@ function isRateLimited(ip: string): boolean {
   timestamps.push(now);
   requestLog.set(ip, timestamps);
 
+  // Best-effort cleanup so the map doesn't grow unbounded over the
+  // lifetime of a long-running instance.
   if (requestLog.size > 5000) {
     for (const [key, value] of requestLog) {
       if (value.every((t) => now - t > RATE_LIMIT_WINDOW_MS)) {
@@ -70,6 +74,8 @@ export async function POST(req: Request) {
       unknown
     >;
 
+    // Honeypot: a real visitor never fills this field. Reject silently
+    // with a generic error rather than revealing the anti-spam mechanism.
     if (typeof website === 'string' && website.trim().length > 0) {
       return Response.json(
         { error: 'Failed to send message' },

@@ -208,7 +208,7 @@ export default function CropTool() {
               <FileInfoBar
                 fileName={file.name}
                 meta={`${naturalW} × ${naturalH}px`}
-                onChangeImage={changeImage}
+                onChangeFile={changeImage}
               />
 
               <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl p-3 overflow-hidden">

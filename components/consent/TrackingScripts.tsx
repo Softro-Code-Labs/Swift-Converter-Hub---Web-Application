@@ -5,7 +5,8 @@ import { ADSENSE } from '@/lib/adsense';
 import { useConsent } from './ConsentContext';
 
 /**
- * Renders the AdSense loader + Microsoft Clarity scripts, but only after the visitor has explicitly accepted non-essential cookies.
+ * Renders the AdSense loader + Microsoft Clarity scripts, but only after
+ * the visitor has explicitly accepted non-essential cookies.
  */
 export default function TrackingScripts() {
   const { consent, isLoaded } = useConsent();

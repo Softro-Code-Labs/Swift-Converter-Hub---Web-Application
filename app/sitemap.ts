@@ -5,6 +5,10 @@ import {
   HIGH_TRAFFIC_PAIRS,
   MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/image/convert/config/formats';
+import {
+  ALL_CONVERSION_PAIRS as ALL_AUDIO_CONVERSION_PAIRS,
+  HIGH_TRAFFIC_PAIRS as AUDIO_HIGH_TRAFFIC_PAIRS,
+} from '@/features/audio/convert/config/formats';
 
 const BASE_URL = SITE_URL;
 
@@ -25,6 +29,14 @@ const IMAGE_STUDIO_SLUGS = new Set([
   'adjust',
   'metadata',
   'base64',
+]);
+
+const AUDIO_STUDIO_SLUGS = new Set([
+  'convert',
+  'trim',
+  'compress',
+  'volume',
+  'merge',
 ]);
 
 const CHARACTER_STUDIO_SLUGS = new Set([
@@ -148,6 +160,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // -- Audio Studio Tools -------------------------------------------------------
+
+  const audioStudioTools: MetadataRoute.Sitemap = Array.from(
+    AUDIO_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/audio/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   // -- Chargecter Studio Tool --------------------------------------------------
 
   const characterStudioTools: MetadataRoute.Sitemap = Array.from(
@@ -199,12 +222,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
+  // -- Dynamic Audio Conversion Routes ------------------------------------------
+  const audioConversionRoutes: MetadataRoute.Sitemap = [];
+
+  for (const { source, target } of ALL_AUDIO_CONVERSION_PAIRS) {
+    const key = `${source}-to-${target}`;
+    const isHigh = AUDIO_HIGH_TRAFFIC_PAIRS.has(key);
+    if (!isHigh) continue;
+
+    audioConversionRoutes.push({
+      url: `${BASE_URL}/audio/convert/${key}`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    });
+  }
+
   return [
     ...staticPages,
     ...imageStudioTools,
+    ...audioStudioTools,
     ...characterStudioTools,
     ...dataStudioTools,
     ...documentStudioTools,
     ...conversionRoutes,
+    ...audioConversionRoutes,
   ];
 }
