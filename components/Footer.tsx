@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Zap, Globe, ArrowRight } from 'lucide-react';
+import { useConsent } from '@/components/consent/ConsentContext';
 
 const STUDIO_LINKS = [
   {
@@ -10,26 +11,26 @@ const STUDIO_LINKS = [
     href: '/image',
     color: 'hover:text-blue-600 dark:hover:text-blue-400',
   },
-  // {
-  //   label: 'Audio Studio',
-  //   href: '/audio',
-  //   color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
-  // },
-  // {
-  //   label: 'Video Studio',
-  //   href: '/video',
-  //   color: 'hover:text-purple-600 dark:hover:text-purple-400',
-  // },
-  // {
-  //   label: 'Document Suite',
-  //   href: '/file',
-  //   color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
-  // },
-  // {
-  //   label: 'Data Studio',
-  //   href: '/data',
-  //   color: 'hover:text-amber-600 dark:hover:text-amber-400',
-  // },
+  {
+    label: 'Audio Studio',
+    href: '/audio',
+    color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
+  },
+  {
+    label: 'Video Studio',
+    href: '/video',
+    color: 'hover:text-purple-600 dark:hover:text-purple-400',
+  },
+  {
+    label: 'Document Suite',
+    href: '/file',
+    color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
+  },
+  {
+    label: 'Data Studio',
+    href: '/data',
+    color: 'hover:text-amber-600 dark:hover:text-amber-400',
+  },
   {
     label: 'Character Studio',
     href: '/character',
@@ -75,6 +76,7 @@ const TRUST_BADGES = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { reset } = useConsent();
 
   return (
     <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors duration-300">
@@ -185,11 +187,20 @@ export default function Footer() {
         {/* -- Bottom bar ------------------------------------------------ */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-5 text-[11px] text-slate-400 dark:text-slate-500">
           <p>© {year} SwiftConverterHub · All rights reserved</p>
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-medium">
-              All systems operational · Zero server processing
-            </span>
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={reset}
+              className="font-medium hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors underline underline-offset-2"
+            >
+              Cookie preferences
+            </button>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-medium">
+                All systems operational · Zero server processing
+              </span>
+            </div>
           </div>
         </div>
       </div>

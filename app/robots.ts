@@ -1,7 +1,8 @@
+import { SITE_URL } from '@/config/site';
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://swiftconverterhub.com';
+  const baseUrl = SITE_URL;
 
   return {
     rules: [

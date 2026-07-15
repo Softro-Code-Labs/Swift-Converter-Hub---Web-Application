@@ -1,1 +1,1 @@
-export { default } from './TextDiffTool';
+export { default } from './Tool';

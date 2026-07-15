@@ -3,8 +3,6 @@ export interface ImageFormat {
   extension: string;
   mimeType: string;
   description: string;
-  aliases?: string[];
-  sourceOnly?: boolean;
 }
 
 export interface ConversionRoute {
@@ -26,98 +24,86 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'jpg',
     mimeType: 'image/jpeg',
     description: 'Standard photo format',
-    aliases: ['jpg', 'jpeg', 'jfif'],
   },
   {
     label: 'JPEG',
     extension: 'jpeg',
     mimeType: 'image/jpeg',
     description: 'Standard photo format',
-    aliases: ['jpeg', 'jpg'],
   },
   {
     label: 'JFIF',
     extension: 'jfif',
     mimeType: 'image/jpeg',
     description: 'JPEG interchange format',
-    aliases: ['jfif'],
   },
   {
     label: 'PNG',
     extension: 'png',
     mimeType: 'image/png',
     description: 'Lossless with transparency',
-    aliases: ['png'],
   },
   {
-    label: 'WebP',
+    label: 'WEBP',
     extension: 'webp',
     mimeType: 'image/webp',
     description: 'Modern web image format',
-    aliases: ['webp'],
   },
   {
     label: 'GIF',
     extension: 'gif',
     mimeType: 'image/gif',
     description: 'Animated & indexed color',
-    aliases: ['gif'],
   },
   {
     label: 'AVIF',
     extension: 'avif',
     mimeType: 'image/avif',
     description: 'AV1 compressed image',
-    aliases: ['avif'],
   },
   {
     label: 'JXL',
     extension: 'jxl',
     mimeType: 'image/jxl',
     description: 'Next-gen JPEG format',
-    aliases: ['jxl'],
-  },
-  {
-    label: 'MNG',
-    extension: 'mng',
-    mimeType: 'image/x-mng',
-    description: 'Multi-frame animation format',
-    aliases: ['mng'],
-  },
-  {
-    label: 'JNG',
-    extension: 'jng',
-    mimeType: 'image/jng',
-    description: 'JPEG-based network graphics',
-    aliases: ['jng'],
   },
   {
     label: 'QOI',
     extension: 'qoi',
     mimeType: 'image/qoi',
     description: 'Fast lossless image format',
-    aliases: ['qoi'],
   },
   {
     label: 'PJPEG',
     extension: 'pjpeg',
     mimeType: 'image/pjpeg',
     description: 'Progressive JPEG format',
-    aliases: ['pjpeg'],
   },
   {
     label: 'JPE',
     extension: 'jpe',
     mimeType: 'image/jpeg',
     description: 'JPEG photo variant',
-    aliases: ['jpe'],
   },
   {
     label: 'JPS',
     extension: 'jps',
     mimeType: 'image/jps',
     description: 'JPEG stereo pair',
-    aliases: ['jps'],
+  },
+
+  // -- Animated / Multi-frame -------------------------------------------------
+  {
+    label: 'MNG',
+    extension: 'mng',
+    mimeType: 'image/x-mng',
+    description: 'Multi-frame animation format',
+  },
+  {
+    label: 'JNG',
+    extension: 'jng',
+    mimeType: 'image/jng',
+    description: 'JPEG-based network graphics',
   },
 
   // -- JPEG 2000 --------------------------------------------------------------
@@ -126,42 +112,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'jp2',
     mimeType: 'image/jp2',
     description: 'JPEG 2000 wavelet image',
-    aliases: ['jp2'],
   },
   {
     label: 'JPG2',
     extension: 'jpg2',
     mimeType: 'image/jp2',
     description: 'JPEG 2000 codestream',
-    aliases: ['jpg2'],
   },
   {
     label: 'JPC',
     extension: 'jpc',
     mimeType: 'image/jpc',
     description: 'JPEG 2000 raw stream',
-    aliases: ['jpc', 'j2k', 'j2c'],
   },
   {
     label: 'J2K',
     extension: 'j2k',
     mimeType: 'image/j2k',
     description: 'JPEG 2000 codestream',
-    aliases: ['j2k'],
   },
   {
     label: 'J2C',
     extension: 'j2c',
     mimeType: 'image/j2c',
     description: 'JPEG 2000 code stream',
-    aliases: ['j2c'],
   },
   {
     label: 'JPM',
     extension: 'jpm',
     mimeType: 'image/jpm',
     description: 'JPEG 2000 multi-layer',
-    aliases: ['jpm'],
   },
 
   // -- PNG Variants ----------------------------------------------------------
@@ -170,42 +150,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'png8',
     mimeType: 'image/png',
     description: 'PNG 8-bit palette',
-    aliases: ['png8'],
   },
   {
     label: 'PNG24',
     extension: 'png24',
     mimeType: 'image/png',
     description: 'PNG true color',
-    aliases: ['png24'],
   },
   {
     label: 'PNG32',
     extension: 'png32',
     mimeType: 'image/png',
     description: 'PNG with full alpha',
-    aliases: ['png32'],
   },
   {
     label: 'PNG48',
     extension: 'png48',
     mimeType: 'image/png',
     description: 'PNG 48-bit deep color',
-    aliases: ['png48'],
   },
   {
     label: 'PNG64',
     extension: 'png64',
     mimeType: 'image/png',
     description: 'PNG 64-bit with alpha',
-    aliases: ['png64'],
   },
   {
     label: 'PNG00',
     extension: 'png00',
     mimeType: 'image/png',
     description: 'PNG sub-format variant',
-    aliases: ['png00'],
   },
 
   // -- HEIF / HEIC ------------------------------------------------------------
@@ -214,16 +188,12 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'heic',
     mimeType: 'image/heic',
     description: 'High Efficiency Image Format',
-    aliases: ['heic'],
-    sourceOnly: true,
   },
   {
     label: 'HEIF',
     extension: 'heif',
     mimeType: 'image/heif',
     description: 'High Efficiency Image Format',
-    aliases: ['heif'],
-    sourceOnly: true,
   },
 
   // -- Bitmap ----------------------------------------------------------------
@@ -232,168 +202,146 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'bmp',
     mimeType: 'image/bmp',
     description: 'Windows bitmap',
-    aliases: ['bmp'],
   },
   {
     label: 'BMP2',
     extension: 'bmp2',
     mimeType: 'image/bmp',
     description: 'Windows bitmap v2',
-    aliases: ['bmp2'],
   },
   {
     label: 'BMP3',
     extension: 'bmp3',
     mimeType: 'image/bmp',
     description: 'Windows bitmap v3',
-    aliases: ['bmp3'],
   },
-  // {
-  //   label: 'XCF',
-  //   extension: 'xcf',
-  //   mimeType: 'image/x-xcf',
-  //   description: 'GIMP image',
-  //   aliases: ['xcf'],
-  // },
   {
     label: 'TGA',
     extension: 'tga',
     mimeType: 'image/x-tga',
     description: 'Truevision game texture',
-    aliases: ['tga'],
   },
   {
     label: 'PCX',
     extension: 'pcx',
     mimeType: 'image/x-pcx',
     description: 'Legacy PC bitmap',
-    aliases: ['pcx'],
   },
   {
     label: 'DCX',
     extension: 'dcx',
     mimeType: 'image/vnd.dcx',
     description: 'Multi-page PCX format',
-    aliases: ['dcx'],
   },
   {
     label: 'WBMP',
     extension: 'wbmp',
     mimeType: 'image/vnd.wap.wbmp',
     description: 'Wireless monochrome bitmap',
-    aliases: ['wbmp'],
   },
   {
     label: 'XBM',
     extension: 'xbm',
     mimeType: 'image/x-xbitmap',
     description: 'X11 monochrome bitmap',
-    aliases: ['xbm'],
   },
   {
     label: 'XPM',
     extension: 'xpm',
     mimeType: 'image/x-xpixmap',
     description: 'X11 color pixmap',
-    aliases: ['xpm'],
   },
   {
     label: 'SGI',
     extension: 'sgi',
     mimeType: 'image/sgi',
     description: 'Silicon Graphics image',
-    aliases: ['sgi'],
   },
   {
     label: 'SUN',
     extension: 'sun',
     mimeType: 'image/x-sun-raster',
     description: 'Sun raster image',
-    aliases: ['sun'],
   },
   {
     label: 'RAS',
     extension: 'ras',
     mimeType: 'image/x-sun-raster',
     description: 'Sun raster format',
-    aliases: ['ras'],
   },
   {
     label: 'AVS',
     extension: 'avs',
     mimeType: 'image/avs',
     description: 'AVS X image',
-    aliases: ['avs'],
   },
   {
     label: 'VIFF',
     extension: 'viff',
     mimeType: 'image/x-viff',
     description: 'Visualization image format',
-    aliases: ['viff'],
   },
   {
     label: 'AAI',
     extension: 'aai',
     mimeType: 'image/aai',
     description: 'AAI Dune image',
-    aliases: ['aai'],
   },
   {
     label: 'ART',
     extension: 'art',
     mimeType: 'image/art',
     description: 'AOL ART image',
-    aliases: ['art'],
   },
   {
     label: 'WPG',
     extension: 'wpg',
     mimeType: 'image/x-wpg',
     description: 'WordPerfect graphics',
-    aliases: ['wpg'],
   },
   {
     label: 'VICAR',
     extension: 'vicar',
     mimeType: 'image/x-vicar',
     description: 'NASA planetary image',
-    aliases: ['vicar'],
   },
   {
     label: 'HRZ',
     extension: 'hrz',
     mimeType: 'image/x-hrz',
     description: 'Slow-scan TV format',
-    aliases: ['hrz'],
   },
   {
     label: 'FARBFELD',
     extension: 'farbfeld',
     mimeType: 'image/vnd.farbfeld',
     description: 'Minimal raw image format',
-    aliases: ['farbfeld'],
   },
   {
     label: 'OTB',
     extension: 'otb',
     mimeType: 'image/x-otb',
     description: 'Over-the-air mobile bitmap',
-    aliases: ['otb'],
   },
   {
     label: 'CIP',
     extension: 'cip',
     mimeType: 'image/vnd.cns.inf2',
     description: 'Cisco IP phone image',
-    aliases: ['cip'],
   },
   {
     label: 'PICON',
     extension: 'picon',
     mimeType: 'image/picon',
     description: 'Personal icon format',
-    aliases: ['picon'],
+  },
+
+  // -- GIMP ------------------------------------------------------------------
+  {
+    label: 'XCF',
+    extension: 'xcf',
+    mimeType: 'image/x-xcf',
+    description: 'GIMP image',
   },
 
   // -- Photoshop -------------------------------------------------------------
@@ -402,14 +350,12 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'psd',
     mimeType: 'image/vnd.adobe.photoshop',
     description: 'Photoshop layered document',
-    aliases: ['psd'],
   },
   {
     label: 'PSB',
     extension: 'psb',
     mimeType: 'image/vnd.adobe.photoshop',
     description: 'Photoshop large document',
-    aliases: ['psb'],
   },
 
   // -- TIFF ------------------------------------------------------------------
@@ -418,28 +364,24 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'tiff',
     mimeType: 'image/tiff',
     description: 'Tagged image, print quality',
-    aliases: ['tiff', 'tif'],
   },
   {
     label: 'TIF',
     extension: 'tif',
     mimeType: 'image/tiff',
     description: 'Tagged image format',
-    aliases: ['tif', 'tiff'],
   },
   {
     label: 'TIFF64',
     extension: 'tiff64',
     mimeType: 'image/tiff',
     description: 'BigTIFF large file format',
-    aliases: ['tiff64'],
   },
   {
     label: 'PTIF',
     extension: 'ptif',
     mimeType: 'image/ptif',
     description: 'Pyramid tiled TIFF',
-    aliases: ['ptif'],
   },
 
   // -- Portable Bitmap / Pixmap -----------------------------------------------
@@ -448,49 +390,42 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'pbm',
     mimeType: 'image/x-portable-bitmap',
     description: 'Portable black & white',
-    aliases: ['pbm'],
   },
   {
     label: 'PGM',
     extension: 'pgm',
     mimeType: 'image/pgm',
     description: 'Portable grayscale map',
-    aliases: ['pgm'],
   },
   {
     label: 'PPM',
     extension: 'ppm',
     mimeType: 'image/x-portable-pixmap',
     description: 'Portable pixel map',
-    aliases: ['ppm'],
   },
   {
     label: 'PNM',
     extension: 'pnm',
     mimeType: 'image/x-portable-anymap',
     description: 'Portable any-map format',
-    aliases: ['pnm', 'pbm', 'pgm', 'ppm'],
   },
   {
     label: 'PAM',
     extension: 'pam',
     mimeType: 'image/x-pam',
     description: 'Portable arbitrary map',
-    aliases: ['pam'],
   },
   {
     label: 'PFM',
     extension: 'pfm',
     mimeType: 'image/pfm',
     description: 'Portable float map',
-    aliases: ['pfm'],
   },
   {
     label: 'PHM',
     extension: 'phm',
     mimeType: 'image/phm',
     description: 'Portable half map',
-    aliases: ['phm'],
   },
 
   // -- Vector / PostScript ---------------------------------------------------
@@ -499,91 +434,84 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'svg',
     mimeType: 'image/svg+xml',
     description: 'Scalable vector graphics',
-    aliases: ['svg', 'svgz'],
   },
   {
     label: 'SVGZ',
     extension: 'svgz',
     mimeType: 'image/svg+xml',
     description: 'Compressed SVG vector',
-    aliases: ['svgz'],
   },
   {
     label: 'AI',
     extension: 'ai',
     mimeType: 'application/postscript',
     description: 'Adobe Illustrator artwork',
-    aliases: ['ai'],
   },
   {
     label: 'EPS',
     extension: 'eps',
     mimeType: 'application/postscript',
     description: 'Encapsulated PostScript',
-    aliases: ['eps'],
   },
   {
     label: 'EPS2',
     extension: 'eps2',
     mimeType: 'application/postscript',
     description: 'PostScript level 2',
-    aliases: ['eps2'],
   },
   {
     label: 'EPS3',
     extension: 'eps3',
     mimeType: 'application/postscript',
     description: 'PostScript level 3',
-    aliases: ['eps3'],
   },
   {
     label: 'EPSF',
     extension: 'epsf',
     mimeType: 'application/postscript',
     description: 'PostScript with preview',
-    aliases: ['epsf'],
   },
   {
     label: 'EPSI',
     extension: 'epsi',
     mimeType: 'application/postscript',
     description: 'PostScript interchange format',
-    aliases: ['epsi'],
   },
   {
     label: 'EPI',
     extension: 'epi',
     mimeType: 'application/postscript',
     description: 'Encapsulated PostScript interchange format',
-    aliases: ['epi'],
   },
   {
     label: 'EPT',
     extension: 'ept',
     mimeType: 'application/postscript',
     description: 'EPS with TIFF preview',
-    aliases: ['ept'],
   },
   {
     label: 'PS',
     extension: 'ps',
     mimeType: 'application/postscript',
     description: 'PostScript document',
-    aliases: ['ps'],
   },
   {
     label: 'PS2',
     extension: 'ps2',
     mimeType: 'application/postscript',
     description: 'PostScript level 2 doc',
-    aliases: ['ps2'],
   },
   {
     label: 'PS3',
     extension: 'ps3',
     mimeType: 'application/postscript',
     description: 'PostScript level 3 doc',
-    aliases: ['ps3'],
+  },
+  {
+    label: 'MVG',
+    extension: 'mvg',
+    description: 'Magick Vector Graphics',
+    mimeType: 'image/x-magick-mvg',
   },
 
   // -- Document --------------------------------------------------------------
@@ -592,28 +520,24 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'pdf',
     mimeType: 'application/pdf',
     description: 'Portable document format',
-    aliases: ['pdf'],
   },
   {
     label: 'EPDF',
     extension: 'epdf',
     mimeType: 'image/x-epdf',
     description: 'Embedded PDF format',
-    aliases: ['epdf'],
   },
   {
     label: 'PICT',
     extension: 'pict',
     mimeType: 'image/pict',
     description: 'Mac QuickDraw picture',
-    aliases: ['pict'],
   },
   {
     label: 'PCL',
     extension: 'pcl',
     mimeType: 'application/vnd.hp-pcl',
     description: 'HP printer language',
-    aliases: ['pcl'],
   },
 
   // -- HDR / Scientific ------------------------------------------------------
@@ -622,94 +546,165 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'exr',
     mimeType: 'image/x-exr',
     description: 'HDR film/VFX format',
-    aliases: ['exr'],
   },
   {
     label: 'HDR',
     extension: 'hdr',
     mimeType: 'image/vnd.radiance',
     description: 'Radiance HDR image',
-    aliases: ['hdr', 'rgbe'],
   },
   {
     label: 'RGBE',
     extension: 'rgbe',
     mimeType: 'image/vnd.radiance',
     description: 'Radiance exposure format',
-    aliases: ['rgbe'],
   },
   {
     label: 'DPX',
     extension: 'dpx',
     mimeType: 'image/x-dpx',
     description: 'Digital cinema exchange',
-    aliases: ['dpx'],
   },
   {
     label: 'CIN',
     extension: 'cin',
     mimeType: 'image/x-cin',
     description: 'Kodak Cineon film scan',
-    aliases: ['cin'],
   },
   {
     label: 'FITS',
     extension: 'fits',
     mimeType: 'image/fits',
     description: 'Astronomy image format',
-    aliases: ['fits'],
   },
   {
     label: 'FTS',
     extension: 'fts',
     mimeType: 'image/fts',
     description: 'FITS scientific image',
-    aliases: ['fts'],
   },
   {
     label: 'FL32',
     extension: 'fl32',
     mimeType: 'image/fl32',
     description: '32-bit float image',
-    aliases: ['fl32'],
   },
 
   // --- Raw Digital Camera -------------------------------------------------------
-  // {
-  //   label: 'CR2',
-  //   extension: 'cr2',
-  //   mimeType: 'image/x-canon-cr2',
-  //   description: 'Canon RAW format',
-  //   aliases: ['cr2'],
-  // },
-  // {
-  //   label: 'CR3',
-  //   extension: 'cr3',
-  //   mimeType: 'image/x-canon-cr3',
-  //   description: 'Canon RAW format',
-  //   aliases: ['cr3'],
-  // },
-  // {
-  //   label: 'NEF',
-  //   extension: 'nef',
-  //   mimeType: 'image/x-nikon-nef',
-  //   description: 'Nikon RAW format',
-  //   aliases: ['nef'],
-  // },
-  // {
-  //   label: 'ARW',
-  //   extension: 'arw',
-  //   mimeType: 'image/x-sony-arw',
-  //   description: 'Sony RAW format',
-  //   aliases: ['arw'],
-  // },
-  // {
-  //   label: 'DNG',
-  //   extension: 'dng',
-  //   mimeType: 'image/x-adobe-dng',
-  //   description: 'Adobe Digital Negative',
-  //   aliases: ['dng'],
-  // },
+  {
+    label: 'CR2',
+    extension: 'cr2',
+    mimeType: 'image/x-canon-cr2',
+    description: 'Canon RAW format',
+  },
+  {
+    label: 'CR3',
+    extension: 'cr3',
+    mimeType: 'image/x-canon-cr3',
+    description: 'Canon RAW format',
+  },
+  {
+    label: 'NEF',
+    extension: 'nef',
+    mimeType: 'image/x-nikon-nef',
+    description: 'Nikon RAW format',
+  },
+  {
+    label: 'ARW',
+    extension: 'arw',
+    mimeType: 'image/x-sony-arw',
+    description: 'Sony RAW format',
+  },
+  {
+    label: 'DNG',
+    extension: 'dng',
+    mimeType: 'image/x-adobe-dng',
+    description: 'Adobe Digital Negative',
+  },
+  {
+    label: 'ORF',
+    extension: 'orf',
+    description: 'Olympus RAW Format',
+    mimeType: 'image/x-olympus-orf',
+  },
+  {
+    label: 'RW2',
+    extension: 'rw2',
+    description: 'Panasonic RAW 2',
+    mimeType: 'image/x-panasonic-rw2',
+  },
+  {
+    label: 'PEF',
+    extension: 'pef',
+    description: 'Pentax Electronic Format',
+    mimeType: 'image/x-pentax-pef',
+  },
+  {
+    label: 'SRW',
+    extension: 'srw',
+    description: 'Samsung RAW',
+    mimeType: 'image/x-samsung-srw',
+  },
+  {
+    label: 'X3F',
+    extension: 'x3f',
+    description: 'Sigma RAW',
+    mimeType: 'image/x-sigma-x3f',
+  },
+  {
+    label: 'MRW',
+    extension: 'mrw',
+    description: 'Minolta RAW',
+    mimeType: 'image/x-minolta-mrw',
+  },
+  {
+    label: 'DCR',
+    extension: 'dcr',
+    description: 'Kodak RAW',
+    mimeType: 'image/x-kodak-dcr',
+  },
+  {
+    label: 'MDC',
+    extension: 'mdc',
+    description: 'Minolta DiMAGE RAW',
+    mimeType: 'image/x-minolta-mdc',
+  },
+  {
+    label: 'SRF',
+    extension: 'srf',
+    description: 'Sony RAW Format',
+    mimeType: 'image/x-sony-srf',
+  },
+  {
+    label: 'SR2',
+    extension: 'sr2',
+    description: 'Sony RAW 2',
+    mimeType: 'image/x-sony-sr2',
+  },
+  {
+    label: 'RAF',
+    extension: 'raf',
+    description: 'Fujifilm RAW',
+    mimeType: 'image/x-fuji-raf',
+  },
+  {
+    label: 'CRW',
+    extension: 'crw',
+    description: 'Canon RAW original',
+    mimeType: 'image/x-canon-crw',
+  },
+  {
+    label: 'MEF',
+    extension: 'mef',
+    description: 'Mamiya RAW',
+    mimeType: 'image/x-mamiya-mef',
+  },
+  {
+    label: 'IIQ',
+    extension: 'iiq',
+    description: 'Phase One RAW',
+    mimeType: 'image/x-phaseone-iiq',
+  },
 
   // -- Fax / Compression -----------------------------------------------------
   {
@@ -717,35 +712,30 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'fax',
     mimeType: 'image/fax',
     description: 'Group 3 fax image',
-    aliases: ['fax'],
   },
   {
     label: 'G3',
     extension: 'g3',
     mimeType: 'image/g3fax',
     description: 'Group 3 fax compression',
-    aliases: ['g3'],
   },
   {
     label: 'G4',
     extension: 'g4',
     mimeType: 'image/g4fax',
     description: 'Group 4 fax compression',
-    aliases: ['g4'],
   },
   {
     label: 'GROUP4',
     extension: 'group4',
     mimeType: 'image/group4',
     description: 'CCITT Group 4 bilevel',
-    aliases: ['group4'],
   },
   {
     label: 'CALS',
     extension: 'cals',
     mimeType: 'image/x-cals',
     description: 'Military raster format',
-    aliases: ['cals'],
   },
 
   // -- Game / DirectX --------------------------------------------------------
@@ -754,7 +744,14 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'dds',
     mimeType: 'image/vnd-ms.dds',
     description: 'DirectX GPU texture',
-    aliases: ['dds'],
+  },
+
+  // -- Medical --------------------------------------------------------------
+  {
+    label: 'DCM',
+    extension: 'dcm',
+    description: 'Digital Imaging and Communications in Medicine',
+    mimeType: 'application/dicom',
   },
 
   // -- Raw Color Spaces ------------------------------------------------------
@@ -763,91 +760,78 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'rgb',
     mimeType: 'image/x-rgb',
     description: 'Raw RGB pixel data',
-    aliases: ['rgb'],
   },
   {
     label: 'RGBA',
     extension: 'rgba',
     mimeType: 'image/x-rgba',
     description: 'Raw RGB with alpha',
-    aliases: ['rgba'],
   },
   {
     label: 'RGBO',
     extension: 'rgbo',
     mimeType: 'image/x-rgbo',
     description: 'RGB opacity channel',
-    aliases: ['rgbo'],
   },
   {
     label: 'RGB565',
     extension: 'rgb565',
     mimeType: 'image/x-rgb565',
     description: 'Packed 16-bit RGB',
-    aliases: ['rgb565'],
   },
   {
     label: 'GRAY',
     extension: 'gray',
     mimeType: 'image/x-gray',
     description: 'Raw grayscale samples',
-    aliases: ['gray'],
   },
   {
     label: 'GRAYA',
     extension: 'graya',
     mimeType: 'image/x-graya',
     description: 'Grayscale with alpha',
-    aliases: ['graya'],
   },
   {
     label: 'CMYK',
     extension: 'cmyk',
     mimeType: 'image/x-cmyk',
     description: 'Raw CMYK print data',
-    aliases: ['cmyk'],
   },
   {
     label: 'CMYKA',
     extension: 'cmyka',
     mimeType: 'image/x-cmyka',
     description: 'CMYK with alpha channel',
-    aliases: ['cmyka'],
   },
   {
     label: 'YUV',
     extension: 'yuv',
     mimeType: 'image/x-yuv',
     description: 'Raw YUV video data',
-    aliases: ['yuv'],
   },
   {
     label: 'YCBCR',
     extension: 'ycbcr',
     mimeType: 'image/x-ycbcr',
     description: 'YCbCr color space',
-    aliases: ['ycbcr'],
   },
   {
     label: 'YCBCRA',
     extension: 'ycbcra',
     mimeType: 'image/x-ycbcra',
     description: 'YCbCr with alpha',
-    aliases: ['ycbcra'],
   },
   {
     label: 'UYVY',
     extension: 'uyvy',
     mimeType: 'image/x-uyvy',
     description: 'Packed YUV 4:2:2',
-    aliases: ['uyvy'],
   },
   {
     label: 'MONO',
     extension: 'mono',
     mimeType: 'image/x-mono',
     description: '1-bit monochrome bitmap',
-    aliases: ['mono'],
   },
 
   // -- Icon & System ---------------------------------------------------------
@@ -856,42 +840,42 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'ico',
     mimeType: 'image/x-icon',
     description: 'Windows icon format',
-    aliases: ['ico'],
+  },
+  {
+    label: 'CUR',
+    extension: 'cur',
+    mimeType: 'image/x-cursor',
+    description: 'Windows cursor format',
   },
   {
     label: 'PALM',
     extension: 'palm',
     mimeType: 'image/palm',
     description: 'Palm Pilot image',
-    aliases: ['palm', 'plam'],
   },
   {
     label: 'PLAM',
     extension: 'plam',
-    mimeType: 'image/palm',
+    mimeType: 'image/plam',
     description: 'Palm Pilot image',
-    aliases: ['palm', 'plam'],
   },
   {
     label: 'PDB',
     extension: 'pdb',
     mimeType: 'image/x-pdb',
     description: 'Palm database image',
-    aliases: ['pdb'],
   },
   {
     label: 'PCD',
     extension: 'pcd',
     mimeType: 'image/x-pcd',
     description: 'Kodak Photo CD',
-    aliases: ['pcd'],
   },
   {
     label: 'PCDS',
     extension: 'pcds',
     mimeType: 'image/x-pcds',
     description: 'Photo CD selector scan',
-    aliases: ['pcds'],
   },
 
   // -- Braille / Accessibility -----------------------------------------------
@@ -900,42 +884,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'brf',
     mimeType: 'image/x-bitmap',
     description: 'Braille ready format',
-    aliases: ['brf'],
   },
   {
     label: 'UBRL',
     extension: 'ubrl',
     mimeType: 'image/x-ubrl',
     description: 'Unicode braille pattern',
-    aliases: ['ubrl'],
   },
   {
     label: 'UBRL6',
     extension: 'ubrl6',
     mimeType: 'image/x-ubrl6',
     description: '6-dot unicode braille',
-    aliases: ['ubrl6'],
   },
   {
     label: 'UIL',
     extension: 'uil',
     mimeType: 'image/x-uil',
     description: 'Motif UI language bitmap',
-    aliases: ['uil'],
   },
   {
     label: 'ISOBRL',
     extension: 'isobrl',
     mimeType: 'text/plain',
     description: 'ISO standard braille',
-    aliases: ['isobrl'],
   },
   {
     label: 'ISOBRL6',
     extension: 'isobrl6',
     mimeType: 'text/plain',
     description: 'ISO 6-dot braille',
-    aliases: ['isobrl6'],
   },
 
   // -- Text / Metadata Output ------------------------------------------------
@@ -944,42 +922,36 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'txt',
     mimeType: 'text/plain',
     description: 'Image as pixel text',
-    aliases: ['txt'],
   },
   {
     label: 'FTXT',
     extension: 'ftxt',
     mimeType: 'text/plain',
     description: 'Formatted pixel text',
-    aliases: ['ftxt'],
   },
   {
     label: 'INFO',
     extension: 'info',
     mimeType: 'text/plain',
     description: 'Image metadata output',
-    aliases: ['info'],
   },
   {
     label: 'JSON',
     extension: 'json',
     mimeType: 'application/json',
     description: 'Image data as JSON',
-    aliases: ['json'],
   },
   {
     label: 'YAML',
     extension: 'yaml',
     mimeType: 'text/x-yaml',
     description: 'Image data as YAML',
-    aliases: ['yaml'],
   },
   {
     label: 'SHTML',
     extension: 'shtml',
     mimeType: 'text/html',
     description: 'Image as HTML table',
-    aliases: ['shtml'],
   },
 
   // -- Magick Internal -------------------------------------------------------
@@ -988,92 +960,115 @@ export const IMAGE_FORMATS: ImageFormat[] = [
     extension: 'miff',
     mimeType: 'image/x-miff',
     description: 'Magick native format',
-    aliases: ['miff'],
   },
   {
     label: 'MPC',
     extension: 'mpc',
     mimeType: 'image/x-mpc',
     description: 'Magick pixel cache',
-    aliases: ['mpc'],
   },
   {
     label: 'MAT',
     extension: 'mat',
     mimeType: 'application/octet-stream',
     description: 'MATLAB matrix image',
-    aliases: ['mat'],
   },
   {
     label: 'SF3',
     extension: 'sf3',
     mimeType: 'image/x-sf3',
     description: 'FilmLight color format',
-    aliases: ['sf3'],
   },
   {
     label: 'MTV',
     extension: 'mtv',
-    mimeType: 'audio/x-mtv',
+    mimeType: 'image/x-mtv',
     description: 'MTV ray-trace format',
-    aliases: ['mtv'],
   },
   {
     label: 'SPARSECOLOR',
     extension: 'sparsecolor',
     mimeType: 'image/x-sparsecolor',
     description: 'Sparse color fill data',
-    aliases: ['sparsecolor'],
   },
 ];
 
-// ─── Conversion Matrix ────────────────────────────────────────────────────────
+// --- Conversion Matrix --------------------------------------------------------
 
 export type ConversionRule =
   | { mode: 'all' }
   | { mode: 'allow'; formats: string[] }
   | { mode: 'block'; formats: string[] };
 
-export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
-  // ── Tier 1: Universal - converts to everything ──────────────────────────────
-  jpg: { mode: 'all' },
-  jpeg: { mode: 'all' },
-  jfif: { mode: 'all' },
-  jpe: { mode: 'all' },
-  png: { mode: 'all' },
-  png8: { mode: 'all' },
-  png24: { mode: 'all' },
-  png32: { mode: 'all' },
-  png48: { mode: 'all' },
-  png64: { mode: 'all' },
-  png00: { mode: 'all' },
-  webp: { mode: 'all' },
-  avif: { mode: 'all' },
-  bmp: { mode: 'all' },
-  bmp2: { mode: 'all' },
-  bmp3: { mode: 'all' },
-  tiff: { mode: 'all' },
-  tif: { mode: 'all' },
-  tiff64: { mode: 'all' },
-  ptif: { mode: 'all' },
-  gif: { mode: 'all' },
-  psd: { mode: 'all' },
-  psb: { mode: 'all' },
-  // xcf: { mode: 'all' },
-  tga: { mode: 'all' },
-  sgi: { mode: 'all' },
-  exr: { mode: 'all' },
-  hdr: { mode: 'all' },
-  rgbe: { mode: 'all' },
-  jxl: { mode: 'all' },
-  qoi: { mode: 'all' },
-  ico: { mode: 'all' },
-  dds: { mode: 'all' },
-  dpx: { mode: 'all' },
-  cin: { mode: 'all' },
+const SOURCE_ONLY_EXTS = [
+  'heic',
+  'heif',
+  'cr2',
+  'cr3',
+  'crw',
+  'nef',
+  'arw',
+  'srf',
+  'sr2',
+  'raf',
+  'orf',
+  'rw2',
+  'pef',
+  'srw',
+  'x3f',
+  'mrw',
+  'dcr',
+  'mdc',
+  'mef',
+  'iiq',
+  'dng',
+  'dcm',
+] as const;
 
-  // ── HEIC / HEIF - source only, limited targets ──────────────────────────────
-  // Can be read but browsers cannot encode to HEIC/HEIF
+export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
+  // -- Tier 1: Universal raster - block only browser-unencodable targets -------
+  jpg: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jpeg: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jfif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jpe: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png8: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png24: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png32: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png48: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png64: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  png00: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  webp: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  avif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jxl: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  gif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  bmp: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  bmp2: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  bmp3: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tiff: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tiff64: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  ptif: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  tga: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  sgi: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  psd: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  psb: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  xcf: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  exr: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  hdr: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  rgbe: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  dpx: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  cin: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  dds: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  qoi: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  ico: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  cur: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jps: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  pjpeg: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  mng: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+  jng: { mode: 'block', formats: [...SOURCE_ONLY_EXTS] },
+
+  // -- HEIC / HEIF - source only, browser cannot encode back to HEIC -----------
   heic: {
     mode: 'allow',
     formats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'tiff', 'bmp', 'gif'],
@@ -1083,7 +1078,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'tiff', 'bmp', 'gif'],
   },
 
-  // ── JPEG 2000 family - converts to raster formats only ──────────────────────
+  // -- JPEG 2000 family - raster output only ------------------------------------
   jp2: {
     mode: 'allow',
     formats: [
@@ -1126,7 +1121,88 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
   },
 
-  // ── Vector / PostScript - raster output + PDF/EPS ───────────────────────────
+  // -- RAW digital camera - raster output only ----------------------------------
+  cr2: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  cr3: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  nef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  arw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  dng: {
+    mode: 'allow',
+    formats: [
+      'jpg',
+      'jpeg',
+      'png',
+      'png24',
+      'png32',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'tga',
+    ],
+  },
+  orf: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  rw2: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  pef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  srw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  x3f: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  mrw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  dcr: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  mdc: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  srf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  sr2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  raf: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+  crw: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  mef: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+  },
+  iiq: {
+    mode: 'allow',
+    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp', 'avif'],
+  },
+
+  // -- Vector / PostScript - raster + PDF/EPS output ----------------------------
   svg: {
     mode: 'allow',
     formats: [
@@ -1239,8 +1315,30 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'pdf'],
   },
+  mvg: {
+    mode: 'allow',
+    formats: [
+      'png',
+      'png8',
+      'png24',
+      'png32',
+      'jpg',
+      'jpeg',
+      'webp',
+      'avif',
+      'tiff',
+      'bmp',
+      'gif',
+      'pdf',
+      'eps',
+      'svg',
+      'tga',
+      'ppm',
+      'ico',
+    ],
+  },
 
-  // ── PDF - raster output + vector passthrough ─────────────────────────────────
+  // -- PDF - raster output + EPS passthrough ------------------------------------
   pdf: {
     mode: 'allow',
     formats: [
@@ -1266,62 +1364,14 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['png', 'jpg', 'jpeg', 'webp', 'tiff', 'bmp', 'gif'],
   },
 
-  // ── RAW camera formats - raster output only ──────────────────────────────────
-  // Common targets only, no obscure formats
-  dng: {
+  // -- Document / Print - limited raster output ---------------------------------
+  pict: {
     mode: 'allow',
-    formats: [
-      'jpg',
-      'jpeg',
-      'png',
-      'png24',
-      'png32',
-      'webp',
-      'avif',
-      'tiff',
-      'bmp',
-      'gif',
-      'tga',
-    ],
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif'],
   },
-  cr2: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  cr3: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  nef: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  nrw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  arw: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  srf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  sr2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  raf: {
-    mode: 'allow',
-    formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
-  },
-  orf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  rw2: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  pef: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  srw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  x3f: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  mrw: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  dcr: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  kdc: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  erf: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  mef: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  mos: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  iiq: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  rwl: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
+  pcl: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
 
-  // ── Portable bitmap family - raster targets only ─────────────────────────────
+  // -- Portable bitmap family - raster targets only -----------------------------
   pbm: {
     mode: 'allow',
     formats: [
@@ -1389,7 +1439,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   pfm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr', 'hdr'] },
   phm: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr', 'hdr'] },
 
-  // ── Raw color spaces - limited raster output ─────────────────────────────────
+  // -- Raw color spaces - limited raster output ---------------------------------
   rgb: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
@@ -1410,7 +1460,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   uyvy: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'bmp'] },
   mono: { mode: 'allow', formats: ['png', 'bmp', 'tiff', 'pbm', 'gif'] },
 
-  // ── HDR / Scientific ─────────────────────────────────────────────────────────
+  // -- HDR / Scientific - raster output only ------------------------------------
   fits: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
@@ -1421,7 +1471,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
     formats: ['png', 'tiff', 'exr', 'hdr', 'jpg', 'jpeg'],
   },
 
-  // ── Fax / Compression ────────────────────────────────────────────────────────
+  // -- Fax / Compression --------------------------------------------------------
   fax: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf', 'gif'],
@@ -1434,14 +1484,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   },
   cals: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp'] },
 
-  // ── Animated / Multi-frame ───────────────────────────────────────────────────
-  mng: {
-    mode: 'allow',
-    formats: ['gif', 'webp', 'png', 'jpg', 'jpeg', 'apng'],
-  },
-  jng: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'gif'] },
-
-  // ── Legacy / Specialty ───────────────────────────────────────────────────────
+  // -- Legacy / Specialty -------------------------------------------------------
   pcx: {
     mode: 'allow',
     formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'gif', 'webp'],
@@ -1470,19 +1513,20 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   },
   cip: { mode: 'allow', formats: ['png', 'bmp', 'gif'] },
 
-  // ── Icon / System ────────────────────────────────────────────────────────────
+  // -- Icon / Palm / System -----------------------------------------------------
   palm: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
   plam: { mode: 'allow', formats: ['png', 'bmp', 'gif', 'jpg', 'jpeg'] },
   pdb: { mode: 'allow', formats: ['png', 'bmp', 'jpg', 'jpeg'] },
   pcd: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff', 'bmp'] },
   pcds: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'tiff', 'bmp'] },
-  pict: {
-    mode: 'allow',
-    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif'],
-  },
-  pcl: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'pdf'] },
 
-  // ── Text / Metadata output - text targets only ───────────────────────────────
+  // -- Medical (DCM) -------------------------------------------------------------
+  dcm: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'webp'],
+  },
+
+  // -- Text / Metadata output ---------------------------------------------------
   txt: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
   ftxt: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp', 'tiff'] },
   info: { mode: 'allow', formats: ['json', 'txt', 'yaml'] },
@@ -1490,7 +1534,7 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   yaml: { mode: 'allow', formats: ['json', 'txt'] },
   shtml: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
 
-  // ── Magick internal ──────────────────────────────────────────────────────────
+  // -- Magick internal ----------------------------------------------------------
   miff: {
     mode: 'allow',
     formats: [
@@ -1511,39 +1555,35 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
   },
   mat: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff'] },
   mtv: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'bmp'] },
-  mng2: { mode: 'allow', formats: ['gif', 'webp', 'png'] },
   sf3: { mode: 'allow', formats: ['png', 'jpg', 'jpeg', 'tiff', 'exr'] },
+  sparsecolor: {
+    mode: 'allow',
+    formats: ['png', 'jpg', 'jpeg', 'tiff', 'miff'],
+  },
 
-  // ── Braille - only text output ────────────────────────────────────────────────
+  // -- Braille / Accessibility --------------------------------------------------
   brf: { mode: 'allow', formats: ['png', 'bmp'] },
   ubrl: { mode: 'allow', formats: ['png', 'bmp'] },
   ubrl6: { mode: 'allow', formats: ['png', 'bmp'] },
   uil: { mode: 'allow', formats: ['png', 'bmp', 'xpm'] },
   isobrl: { mode: 'allow', formats: ['txt'] },
   isobrl6: { mode: 'allow', formats: ['txt'] },
-
-  // ── Misc ─────────────────────────────────────────────────────────────────────
-  jps: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'tiff'] },
-  pjpeg: { mode: 'allow', formats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'] },
-  sparsecolor: {
-    mode: 'allow',
-    formats: ['png', 'jpg', 'jpeg', 'tiff', 'miff'],
-  },
 };
 
 // --- Helpers ------------------------------------------------------------------
 
 export const getFormatByExtension = (ext: string): ImageFormat | undefined =>
-  IMAGE_FORMATS.find(
-    (f) =>
-      f.extension === ext.toLowerCase() ||
-      f.aliases?.includes(ext.toLowerCase()),
-  );
+  IMAGE_FORMATS.find((f) => f.extension === ext.toLowerCase());
 
-export const getTargetFormats = (sourceExtension: string): ImageFormat[] =>
-  IMAGE_FORMATS.filter(
-    (f) => f.extension !== sourceExtension.toLowerCase() && !f.sourceOnly,
+export const getAllowedTargetFormats = (
+  sourceExtension: string,
+): ImageFormat[] => {
+  const allowed = getAllowedTargets(sourceExtension);
+  return IMAGE_FORMATS.filter(
+    (f) =>
+      f.extension !== sourceExtension.toLowerCase() && allowed.has(f.extension),
   );
+};
 
 export const getConversionHref = (source: string, target: string): string =>
   `/image/convert/${source}-to-${target}`;
@@ -1554,8 +1594,8 @@ export const isAcceptedByFormat = (
 ): boolean => {
   const format = getFormatByExtension(sourceExtension);
   if (!format) return false;
-  const aliases = format.aliases ?? [format.extension];
-  return aliases.includes(fileExt.toLowerCase());
+  const extensions = format.extension;
+  return extensions.includes(fileExt.toLowerCase());
 };
 
 export function getAllowedTargets(sourceExt: string): Set<string> {
@@ -1606,9 +1646,10 @@ const isLossless = (ext: string) =>
     'bmp',
     'bmp2',
     'bmp3',
-    // Photoshop
+    // Photoshop / GIMP
     'psd',
     'psb',
+    'xcf',
     // Modern web (lossless modes)
     'webp',
     'avif',
@@ -1638,9 +1679,14 @@ const isLossless = (ext: string) =>
     'graya',
     'cmyk',
     'cmyka',
+    'mono',
+    // Icon & system
+    'ico',
+    'cur',
     // Other lossless
     'qoi',
     'miff',
+    'mpc',
     'sgi',
     'tga',
     'dds',
@@ -1654,12 +1700,15 @@ const isLossless = (ext: string) =>
     'viff',
     'aai',
     'vicar',
+    'otb',
+    'picon',
+    'hrz',
+    'wpg',
     'fax',
     'g3',
     'g4',
     'group4',
     'cals',
-    'art',
   ].includes(ext.toLowerCase());
 
 const isCompressed = (ext: string) =>
@@ -1679,17 +1728,14 @@ const isCompressed = (ext: string) =>
     'heif',
     // Legacy compressed
     'gif',
-    'jp2',
-    'jpg2',
-    'jpc',
-    'j2k',
-    'j2c',
-    'jpm',
+
     // Other compressed
     'mng',
     'jng',
     'pcx',
     'dcx',
+    'art',
+    'dcm',
   ].includes(ext.toLowerCase());
 
 const isVector = (ext: string) =>
@@ -1709,6 +1755,8 @@ const isVector = (ext: string) =>
     'ps2',
     'ps3',
     'mvg',
+    'pdf',
+    'pcl',
   ].includes(ext.toLowerCase());
 
 const isRaw = (ext: string) =>
@@ -1716,6 +1764,7 @@ const isRaw = (ext: string) =>
     // Canon
     'cr2',
     'cr3',
+    'crw',
     // Adobe
     'dng',
     // Nikon
@@ -1739,6 +1788,7 @@ const isRaw = (ext: string) =>
     'x3f',
     // Minolta
     'mrw',
+    'mdc',
     // Kodak
     'dcr',
     'kdc',
@@ -1749,9 +1799,10 @@ const isRaw = (ext: string) =>
     'raw',
     // Phase One
     'iiq',
+    // Mamiya
+    'mef',
     // Generic
     'erf',
-    'mef',
     'mos',
   ].includes(ext.toLowerCase());
 
@@ -1925,18 +1976,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'turn jpeg into png',
       'safe image converter online',
       'jpg to png transparent',
-      'convert jpg to png free',
-      'jpeg to png converter online',
-      'bulk jpg to png conversion',
-      'high quality jpg to png',
-      'convert jpeg to png desktop',
-      'offline jpg to png tool',
-      'client side jpg to png',
-      'transform jpg to png transparent',
-      'free image converter jpg to png',
-      'save jpeg as png format',
-      'browser based jpg to png',
-      'image file converter jpg png',
     ],
   },
   'png-to-jpg': {
@@ -1947,23 +1986,11 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'png to jpg',
       'png to jpeg',
       'convert png to jpg online free',
-      'compress png to jpg without losing quality',
       'bulk png to jpg converter',
       'change png to jpeg',
       'save png as jpg',
       'png to jpg converter online',
       'batch png to jpeg tool',
-      'reduce png to jpg file size',
-      'free png to jpg converter without upload',
-      'convert transparent png to jpg',
-      'png to jpg high resolution',
-      'client side png to jpg',
-      'offline png to jpeg',
-      'mass png to jpg converter',
-      'best png to jpg conversion',
-      'png format to jpg converter',
-      'convert png file to jpeg format',
-      'browser png to jpg compressor',
     ],
   },
   'jpg-to-webp': {
@@ -1979,18 +2006,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'next gen image format converter',
       'reduce image size for web',
       'jpg to webp conversion free',
-      'convert jpeg to webp high quality',
-      'batch jpg to webp compressor',
-      'client side jpg to webp tool',
-      'offline jpeg to webp converter',
-      'optimize jpg to webp browser',
-      'core web vitals image converter',
-      'speed up website jpg to webp',
-      'webp image maker from jpg',
-      'save jpg as webp online',
-      'free jpeg to webp converter',
-      'mass jpg to webp conversion',
-      'local browser jpg to webp',
     ],
   },
   'png-to-webp': {
@@ -2006,18 +2021,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'lossless png to webp conversion',
       'png transparent to webp tool',
       'convert png to webp high quality',
-      'batch png to webp creator',
-      'client side png to webp',
-      'offline png to webp conversion',
-      'save transparent png as webp',
-      'shrink png to webp online',
-      'free png to webp converter',
-      'browser based png to webp',
-      'convert png images to webp format',
-      'next gen png to webp optimization',
-      'alpha channel png to webp',
-      'bulk png to webp converter free',
-      'local png to webp extension',
     ],
   },
   'jpg-to-ico': {
@@ -2033,18 +2036,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'convert image to windows icon file',
       'jpg to ico converter free',
       'make favicon from jpeg',
-      'batch jpg to ico converter',
-      'ico file generator from jpg',
-      'client side jpg to ico',
-      'offline jpeg to ico tool',
-      'convert image to icon 16x16 32x32',
-      'website icon maker from jpg',
-      'app icon creator from jpeg',
-      'windows 10 icon converter jpg',
-      'convert photo to ico file',
-      'browser based favicon creator',
-      'save jpg as ico format',
-      'secure favicon maker online',
     ],
   },
   'heic-to-jpg': {
@@ -2060,18 +2051,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'change apple .heic to .jpg',
       'open heic files',
       'heic to jpg online free',
-      'bulk iphone photo converter',
-      'convert heif to jpg',
-      'heic to jpeg converter tool',
-      'view heic on windows 10',
-      'client side heic to jpg',
-      'offline apple image converter',
-      'mass heic to jpg free',
-      'safe heic to jpg processing',
-      'convert apple live photos to jpg',
-      'heic to jpg high resolution',
-      'browser heic to jpeg converter',
-      'fix heic format to jpg',
     ],
   },
   'png-to-pdf': {
@@ -2081,24 +2060,12 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
     keywords: [
       'png to pdf',
       'convert png to pdf document',
-      'png to pdf online free no upload',
       'image to pdf converter tool',
       'save multiple png as one pdf',
       'turn png into pdf',
       'png to pdf converter online',
       'merge png into pdf document',
       'bulk png to pdf converter',
-      'free image to pdf compiler',
-      'client side png to pdf generator',
-      'offline png to pdf reader',
-      'convert transparent png to pdf',
-      'high quality png to pdf print',
-      'combine png photos into pdf',
-      'convert image file to pdf format',
-      'secure png to pdf workflow',
-      'browser based png to pdf tool',
-      'convert png graphics to pdf',
-      'mass png to pdf software free',
     ],
   },
   'jpg-to-pdf': {
@@ -2114,18 +2081,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'combine jpegs into pdf',
       'jpg to pdf converter online free',
       'merge jpeg images into single pdf',
-      'bulk photo to pdf converter',
-      'convert jpg layout to pdf file',
-      'offline jpg to pdf compiler',
-      'secure scanner image to pdf',
-      'high resolution jpg to pdf printable',
-      'convert camera photos to pdf document',
-      'make pdf from multiple jpegs',
-      'browser based photo to pdf',
-      'save jpeg as pdf document',
-      'free jpg to pdf software online',
-      'mass jpeg to pdf optimization',
-      'convert picture files to pdf document',
     ],
   },
   'svg-to-png': {
@@ -2141,18 +2096,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'change .svg to .png',
       'svg to png converter online free',
       'rasterize svg to transparent png',
-      'batch svg to png renderer',
-      'client side vector graphic rasterizer',
-      'offline svg to png application',
-      'convert svg paths to png pixels',
-      'high fidelity svg to png scaling',
-      'export svg as png icon',
-      'browser based svg to png converter',
-      'convert xml vector svg to png image',
-      'save svg file as png format',
-      'mass svg to png conversion utility',
-      'vector scaling tool svg to png',
-      'secure vector asset converter',
     ],
   },
   'webp-to-jpg': {
@@ -2168,18 +2111,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'change webp file to jpeg format',
       'webp to jpg converter free',
       'bulk webp to jpg compression',
-      'convert webp image to traditional jpg',
-      'client side webp to jpeg tool',
-      'offline webp to jpg downloader',
-      'fix webp image save as jpg',
-      'mass webp to jpeg conversion',
-      'high resolution webp to jpg converter',
-      'browser native webp to jpg encoder',
-      'convert extension webp to jpg',
-      'unblock google webp images to jpeg',
-      'free webp to jpg conversion script',
-      'convert .webp to .jpg image',
-      'secure webp to jpg processor',
     ],
   },
   'webp-to-png': {
@@ -2192,21 +2123,9 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'webp to png online free',
       'extract webp to png lossless',
       'change webp to png',
-      'webp to png converter online high quality',
       'batch webp to transparent png',
       'client side webp to png extractor',
       'offline webp to png software',
-      'save webp file as transparent png',
-      'convert animated webp to png sequence',
-      'wasm webp to png decoder',
-      'mass webp to png lossless converter',
-      'browser based webp to png render',
-      'unblock webp transparency to png',
-      'convert google image webp to png',
-      'extract alpha channel webp to png',
-      'free webp to png conversion tool',
-      'local desktop quality webp to png',
-      'convert extension .webp to .png',
     ],
   },
   'bmp-to-jpg': {
@@ -2222,18 +2141,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'bmp to jpg converter online free',
       'batch bmp to jpeg compression',
       'client side bitmap to jpeg',
-      'offline bmp to jpg tool',
-      'convert legacy bmp to compressed jpg',
-      'mass bmp to jpeg converter browser',
-      'reduce uncompressed bitmap size',
-      'save microsoft bmp as jpeg file',
-      'free bmp to jpg encoder',
-      'convert device independent bitmap to jpg',
-      'high fidelity bmp to jpg extraction',
-      'compress raw bmp to web friendly jpg',
-      'browser based bmp to jpeg application',
-      'convert extension .bmp to .jpg',
-      'secure legacy asset converter bmp',
     ],
   },
   'tiff-to-jpg': {
@@ -2249,18 +2156,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'tiff to jpeg converter online free',
       'bulk raw tiff to compressed jpg',
       'client side tif to jpeg converter',
-      'offline tiff to jpg compression',
-      'convert print format tif to web jpg',
-      'reduce multi page tiff to jpeg images',
-      'mass tiff to jpg conversion',
-      'save high res tiff as web image',
-      'free tiff to jpg software browser',
-      'convert extension .tiff to .jpg',
-      'high dynamic range tiff to jpeg',
-      'uncompressed tif file to jpeg size reduction',
-      'wasm tiff to jpg',
-      'secure master graphic file converter',
-      'convert print ready tif to compressed jpeg',
     ],
   },
   'gif-to-png': {
@@ -2274,20 +2169,8 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'extract frames from gif to png',
       'gif to png converter online free',
       'batch gif to transparent png conversion',
-      'client side gif frame extractor to png',
       'offline animated gif to png layout',
       'turn static gif into crisp png',
-      'remove artifact lines convert gif to png',
-      'save graphical gif as alpha channel png',
-      'free gif to png optimization script',
-      'mass gif to png converter browser',
-      'wasm powered gif to png texturing',
-      'convert legacy graphics interchange format to png',
-      'extract single layer from gif to png file',
-      'unblock alpha layer convert gif png',
-      'high definition pixel layout gif to png',
-      'local file processing gif to png tool',
-      'convert extension .gif to .png transparent',
     ],
   },
   'psd-to-jpg': {
@@ -2300,21 +2183,9 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'convert psd to jpg online free',
       'flatten psd to jpeg',
       'view psd files without photoshop',
-      'psd to jpg converter online high resolution',
       'batch adobe psd to compressed jpeg',
       'client side psd layer flattener',
       'offline photoshop design to jpg converter',
-      'extract layers preview psd as jpeg',
-      'unblock layered psd to flat jpg asset',
-      'mass psd to jpg layout configuration',
-      'save big cloud psd as lightweight jpeg',
-      'free photoshop utility to convert psd to jpg',
-      'convert extension .psd to .jpg browser',
-      'wasm script to open psd file as jpeg',
-      'convert secure proprietary psd to open jpeg',
-      'photoshop creative cloud free alternative psd jpg',
-      'extract artboards from psd to separate jpgs',
-      'high accuracy color workspace psd to jpeg conversion',
     ],
   },
   'psd-to-png': {
@@ -2329,19 +2200,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'extract layers from psd to png',
       'psd to png converter online free',
       'batch photoshop to transparent png compiler',
-      'client side layered psd to alpha channel png',
-      'offline psd document file to png layout',
-      'flatten adobe canvas layers to transparent png',
-      'unblock photoshop creative asset to open png file',
-      'mass export psd components to separate png graphics',
-      'save print project psd to web ready transparent png',
-      'free script file to render psd into clean png',
-      'convert extension .psd to .png transparent layer',
-      'wasm parsing engine psd to png profile',
-      'secure layered format to single transparency web graphic',
-      'photoshop mockup file extractor to png asset',
-      'render smart objects inside psd as individual png files',
-      'high bit depth color profile rendering psd to png',
     ],
   },
   'avif-to-jpg': {
@@ -2355,20 +2213,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'change avif image to jpg',
       'avif converter tool free',
       'avif to jpg converter online batch',
-      'bulk decode next gen avif to compressed jpeg',
-      'client side avif to universal jpg extractor',
-      'offline aomedia video format image to standard jpeg',
-      'fix unreadable avif file extension by saving as jpg',
-      'mass avif compression reversal to regular jpeg',
-      'free next generation web image decoder profile browser',
-      'save responsive layout avif as cross platform jpeg',
-      'high dynamic range avif map to standard srgb jpg',
-      'convert extension .avif to .jpg image viewer',
-      'wasm powered avif file extractor to legacy device layout',
-      'unblock hidden avif downloads into standard photograph layout',
-      'open media compression standard avif to base jpeg conversion',
-      'secure browser rendering engine convert avif to plain jpeg',
-      'batch process smart device native avif to web jpeg output',
     ],
   },
   'ico-to-png': {
@@ -2382,20 +2226,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'ico layout converter',
       'favicon asset extractor',
       'ico to png converter online free',
-      'batch decompose windows shortcut ico to clear png',
-      'client side multi size ico package to individual png files',
-      'offline desktop layout icon asset to alpha layer png',
-      'unblock legacy system icon file properties to native png structure',
-      'mass extraction tool extract multi bitmap icon container to single png',
-      'free development utility split composite icon directory down to raw png',
-      'save windows standard executable icon layer as high transparency web png',
-      'browser script reverse compiling binary icon matrices to standard transparent graphics',
-      'convert extension .ico to .png layout resource pipeline',
-      'web assembly runtime decoding proprietary microsoft icon packages',
-      'secure developer toolkit disassemble layout configuration ico matrices',
-      'extract highest resolution bitmap from website favicon stream to local file system',
-      'deconstruct desktop template asset to raw design component png structure',
-      'web resource converter unpack server profile favicons to master file array png',
     ],
   },
   'avif-to-png': {
@@ -2409,20 +2239,8 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'convert avif to png online',
       'avif to png converter free',
       'batch avif to transparent png',
-      'client side avif to lossless png extractor',
       'offline avif decoder script',
-      'save next gen avif as alpha channel png',
-      'extract transparency layer from compressed avif file',
-      'bulk next-gen web formatting conversion to png format',
-      'unblock modern device snapshot avif files down to open png graphic',
-      'high dynamic color range avif processing layer transparency mapping',
-      'mass map collection processing converter tool asset extraction',
-      'free browser application compile secure data format vector container',
-      'convert extension .avif to .png lossless data asset optimization',
       'assembly container framework pipeline extraction',
-      'secure visual infrastructure convert modern vector compression matrix',
-      'render complex layout asset array raw image asset array structure',
-      'unlimited free desktop level file handling automation package profiles',
     ],
   },
   'pdf-to-png': {
@@ -2434,22 +2252,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'convert pdf to png',
       'pdf to png online',
       'pdf page extractor to png format',
-      'convert pdf page to transparent png image asset',
-      'batch process pdf document formatting matrix to flat images',
-      'client side software tool transform printable document vector map',
-      'offline system layout optimization parse layout file data layers',
-      'rasterize layout structure convert design elements down to pixel metrics',
-      'extract visual assets hidden within composite database publishing stream array',
-      'unblock vector blueprints build crystal clear display screens png profile',
-      'mass export operations process legal documentation records local file system',
-      'save presentation template pages individual clean graphics structure assets',
-      'free web assembly framework interface parsing portable document profiles directly',
-      'convert extension .pdf text grids to alpha layer png output assets',
-      'secure privacy protocol handling sensitive financial calculation layouts safely offline',
-      'extract high resolution architectural schemes from canvas vectors cleanly',
-      'convert digital booklet sheets down to single image sequence configurations',
-      'high fidelity document processing library engine extract background components',
-      'desktop alternative application interface run background task compilation engines',
     ],
   },
   'pdf-to-jpg': {
@@ -2461,22 +2263,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'pdf to jpeg',
       'convert pdf to jpg online',
       'save pdf document pages flat photos',
-      'pdf to jpg converter online free batch processing profile',
-      'bulk turn portable document layout configuration compressed picture matrix',
-      'client side database file handling transform paperwork structures directly',
-      'offline document viewing pipeline extract graphic sheets universal file arrays',
-      'rasterize printing workspace specifications standard photo metadata tags',
-      'mass map transformation procedures convert structural documentation layers plain files',
-      'unblock administrative records change design layouts high resolution picture assets',
-      'free script pipeline process digital scanned folders single layout records',
-      'convert text layouts structural drawings flat pixel matrices easily',
-      'browser native compilation library extract page frames high speed script',
-      'convert extension .pdf schema definitions universal camera image profile arrays',
-      'secure financial audit trail image capture run fully private client side',
-      'flatten administrative book sheets compressed web image viewports cleanly',
-      'convert digital manuals schematic sketches basic image files online free',
-      'high efficiency data decoding engines flatten corporate contracts baseline files',
-      'portable application toolset replace cloud conversion tools local safe scripts',
     ],
   },
   'eps-to-png': {
@@ -2488,22 +2274,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'convert eps to png',
       'eps to png online high resolution',
       'vector postscript rasterizer',
-      'convert encapsulated postscript file transparent png layout',
-      'batch design artwork conversion process eps vectors flat images',
-      'client side typography rendering engine transform printing assets directly',
-      'offline structural layout interpreter compile postscript paths pixel matrices',
-      'rasterize professional branding logo configurations crisp open graphic frames',
-      'mass conversion utility scale complex vector shapes without loss asset layers',
-      'unblock legacy printing press formats transform publishing files modern assets',
-      'free developer resource compile industrial plotting file profiles raw png output',
-      'save high end publication layouts individual design component graphics structure',
-      'browser based dynamic graphics pipeline render high precision printing matrices natively',
-      'convert extension .eps asset streams directly alpha channel transparent image',
-      'secure corporate intellectual property processing shield premium creative mockups safely',
-      'extract source design elements clear transparent background layer structure assets',
-      'convert specialized vector print templates clean isolated web site resources',
-      'high engine fidelity parsing modules interpret path descriptions color data spaces',
-      'desktop application alternative translate mathematical coordinate geometries raster maps',
     ],
   },
   'ai-to-png': {
@@ -2515,22 +2285,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'illustrator to png',
       'convert ai to png online',
       'flatten illustrator vector layers transparent',
-      'convert adobe illustrator file raw open graphic asset component profile',
-      'batch process design layouts export artwork layers standalone files safely',
-      'client side processing script render vector node coordinates pixel layouts',
-      'offline creative asset translation engine change native drawing formats open structures',
-      'rasterize professional vector artwork configurations high crisp alpha layer masks',
-      'mass asset conversion pipeline export layered marketing banners clear transparent graphics',
-      'unblock proprietary creative workspace formats change graphic designs standard file resources',
-      'free digital art optimization framework extract path illustrations layout canvas arrays',
-      'save complex logo pattern elements individual high definition asset cards',
-      'browser platform rendering suite trace internal postscript mapping definitions engine elements',
-      'convert extension .ai draft files directly high fidelity transparent web output',
-      'secure privacy architecture render unpublished corporate identity frameworks completely hidden local',
-      'extract canvas illustration compositions clean transparent boundary background configurations layouts',
-      'convert high resolution vector sketches direct to isolated pixel precise images',
-      'high grade engine translation logic parse bezier mathematical curves raster parameters',
-      'desktop independent workflow script open illustration data sets without active license profiles',
     ],
   },
   'dng-to-jpg': {
@@ -2542,22 +2296,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'dng to jpeg',
       'convert dng to jpg online',
       'develop digital negative camera raw',
-      'convert raw dng snapshot standard compressed photograph profile layout',
-      'batch processing camera negative matrices export srgb color space files',
-      'client side demosaicing script extract photography sensor maps baseline images',
-      'offline development workflow engine decode high dynamic sensor range metrics',
-      'compress raw archive negatives highly optimized lightweight camera picture formats',
-      'mass photo translation processing scale heavy exposure snapshots fast browser viewports',
-      'unblock universal raw format files look at high dynamic print documentation',
-      'free photography tool processing engine convert master sensor maps standard layout',
-      'save uncompressed landscape profiles individual web optimized preview graphics structures',
-      'browser engine color mapping lookup tables translate professional color matrix spaces',
-      'convert extension .dng archive structures directly cross platform standard jpg images',
-      'secure metadata conservation pipeline protect exif geo tags while flattening locally',
-      'extract integrated preview thumbnails large camera raw format packages safely online',
-      'convert high bit depth sensor captures basic compressed consumer display configurations',
-      'high precision translation algorithm process baseline exposure levels dynamic frame ranges',
-      'desktop alternative photo development utility process raw digital assets without subscription profiles',
     ],
   },
   'cr2-to-jpg': {
@@ -2569,22 +2307,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'cr2 to jpeg',
       'convert canon raw to jpg',
       'develop cr2 files online',
-      'convert canon digital camera negative standard web compressed photo profile',
-      'batch process professional photography assets export high precision srgb jpeg arrays',
-      'client side digital darkroom toolkit render raw camera frames directly browser',
-      'offline photography translation software decode specialized canon sensor file configurations',
-      'compress heavy uncompressed camera master files optimized small layout formats',
-      'mass image rendering pipelines transform high bit depth raw exposures fast',
-      'unblock proprietary camera manufacturer files modify raw configuration file matrices instantly',
-      'free photography utility script extract image matrix profiles standard picture records',
-      'save high dynamic sensor captures individual clear presentation graphics files',
-      'browser development module interpret raw camera exposure layers native color fields',
-      'convert extension .cr2 photography streams directly cross platform compressed jpg assets',
-      'secure client side metadata processing strip or retain hardware configuration details',
-      'extract full resolution embedded jpeg sheets out of large camera containers',
-      'convert raw sensor output fields baseline consumer device image configurations safely',
-      'high grade demosaicing processing infrastructure map specialized bayer pattern array values',
-      'desktop professional software alternative transcode camera photography portfolios serverless scripts',
     ],
   },
 };
@@ -2599,55 +2321,16 @@ export const getConversionRoute = (
   const override = ROUTE_OVERRIDES[key] ?? {};
 
   const baseKeywords = [
-    // --- Core Combinations ---
     `${source} to ${target}`,
     `${source} to ${target} converter`,
     `convert ${source} to ${target}`,
-    `change ${source} to ${target}`,
     `${source} to ${target} online`,
-    `convert ${source} to ${target} online`,
-    `${source} to ${target} tool`,
-    `${source} to ${target} software`,
     `${source} to ${target} free`,
-    `${source} to ${target} online free`,
-    `${source} to ${target} converter free`,
-    `${source} to ${target} converter online free`,
-    `${source} to ${target} tool free`,
-    `${source} to ${target} tool online free`,
-    `client side ${source} to ${target}`,
-    `offline ${source} to ${target} converter`,
-    `secure ${source} to ${target} online`,
-    `private ${source} to ${target} conversion`,
+    `free ${source} to ${target} converter`,
     `batch ${source} to ${target} converter`,
-    `wasm ${source} to ${target} tool`,
-
-    // --- Bulk & Performance Multipliers ---
-    `bulk ${source} to ${target} online`,
-    `mass ${source} to ${target} converter`,
-    `fast ${source} to ${target} tool`,
-    `high quality ${source} to ${target}`,
-    `lossless ${source} to ${target} conversion`,
-    `instant ${source} to ${target} converter`,
-    `multiple ${source} to ${target} transform`,
-
-    // --- Platform & Web Ecosystem Intent ---
-    `best ${source} to ${target} online`,
-    `optimize ${source} to ${target} for web`,
-    `browser based ${source} to ${target}`,
-    `html5 ${source} to ${target} application`,
-    `responsive ${source} to ${target} utility`,
-    `web app ${source} to ${target}`,
-
-    // --- Developer & API Design Targets ---
-    `convert ${source} file to ${target}`,
-    `script ${source} to ${target} generator`,
-    `clean ${source} to ${target} rendering`,
-    `local storage ${source} to ${target}`,
-
-    // --- Privacy & Sandbox Positioning ---
-    `no upload ${source} to ${target} free`,
-    `zero server ${source} to ${target}`,
-    `sandbox ${source} to ${target} converter`,
+    `browser based ${source} to ${target} converter`,
+    `private ${source} to ${target} conversion`,
+    `${source} to ${target} converter no upload`,
   ];
 
   return {
@@ -2676,3 +2359,71 @@ export const ALL_CONVERSION_PAIRS = IMAGE_FORMATS.flatMap((source) => {
     target: target.extension,
   }));
 });
+
+// --- Traffic tiers --------------------------------------------------------
+
+export const HIGH_TRAFFIC_PAIRS = new Set([
+  'jpg-to-png',
+  'png-to-jpg',
+  'jpg-to-webp',
+  'png-to-webp',
+  'jpg-to-ico',
+  'heic-to-jpg',
+  'svg-to-png',
+  'webp-to-jpg',
+  'webp-to-png',
+  'jpg-to-pdf',
+  'png-to-pdf',
+  'psd-to-png',
+  'psd-to-jpg',
+  'gif-to-png',
+  'bmp-to-jpg',
+  'tiff-to-jpg',
+  'avif-to-jpg',
+  'ico-to-png',
+  'jpg-to-bmp',
+  'jpg-to-gif',
+  'jpg-to-tiff',
+  'png-to-gif',
+  'png-to-bmp',
+  'png-to-tiff',
+  'heic-to-png',
+  'heic-to-webp',
+  'cr2-to-jpg',
+  'nef-to-jpg',
+  'arw-to-jpg',
+  'dng-to-jpg',
+]);
+
+export const MEDIUM_TRAFFIC_PAIRS = new Set([
+  'jpg-to-svg',
+  'png-to-svg',
+  'jpg-to-avif',
+  'png-to-avif',
+  'gif-to-jpg',
+  'gif-to-webp',
+  'bmp-to-png',
+  'bmp-to-webp',
+  'tiff-to-png',
+  'tiff-to-webp',
+  'webp-to-gif',
+  'webp-to-bmp',
+  'svg-to-jpg',
+  'svg-to-webp',
+  'ico-to-jpg',
+  'ico-to-webp',
+  'pdf-to-jpg',
+  'pdf-to-png',
+  'eps-to-png',
+  'eps-to-jpg',
+  'psd-to-webp',
+  'xcf-to-png',
+  'xcf-to-jpg',
+  'tga-to-png',
+  'tga-to-jpg',
+  'pcx-to-png',
+  'sgi-to-png',
+  'exr-to-png',
+  'hdr-to-jpg',
+  'dpx-to-png',
+]);

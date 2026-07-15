@@ -37,10 +37,10 @@ export const useCropEngine = () => {
               // Apply crop if specified
               if (crop && crop.width > 0 && crop.height > 0) {
                 const geometry = new MagickGeometry(
-                  Math.round(crop.width),
-                  Math.round(crop.height),
                   Math.round(crop.x),
                   Math.round(crop.y),
+                  Math.round(crop.width),
+                  Math.round(crop.height),
                 );
                 image.crop(geometry);
                 image.resetPage();

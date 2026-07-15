@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import TextDiffTool from '@/features/character/text-diff/components';
 
@@ -69,14 +70,14 @@ export const metadata: Metadata = {
     'free diff checker no account',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/text-diff',
+    canonical: `${SITE_URL}/character/text-diff`,
   },
   openGraph: {
     title:
       'Text Diff Viewer - Compare Any Two Texts Instantly | Character Studio',
     description:
       'Side-by-side and unified diff with live highlighting, line numbers, and change stats - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/text-diff',
+    url: `${SITE_URL}/character/text-diff`,
     type: 'website',
   },
 };

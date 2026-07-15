@@ -177,7 +177,7 @@ export const CropCanvas = ({
       const enforced = enforceAspect(x, y, w, h);
       emitNatural(enforced.x, enforced.y, enforced.w, enforced.h);
     },
-    [scale, displayW, displayH, aspectRatio, cropRegion],
+    [scale, displayW, displayH, aspectRatio],
   );
 
   const onMouseUp = useCallback(() => {

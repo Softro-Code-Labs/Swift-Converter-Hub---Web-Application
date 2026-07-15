@@ -15,7 +15,11 @@ import { formatBytes } from '../../shared/utils/bytes';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import toast from 'react-hot-toast';
-import { IMAGE_FORMATS, ImageFormat } from '../config/formats';
+import {
+  CONVERSION_MATRIX,
+  IMAGE_FORMATS,
+  ImageFormat,
+} from '../config/formats';
 
 // --- Complete ImageMagick WASM Format Map -------------------------------------
 
@@ -32,9 +36,11 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   gif: MagickFormat.Gif,
   avif: MagickFormat.Avif,
   jxl: MagickFormat.Jxl,
+  qoi: MagickFormat.Qoi,
+
+  // -- Animated / Multi-frame -------------------------------------------------
   mng: MagickFormat.Mng,
   jng: MagickFormat.Jng,
-  qoi: MagickFormat.Qoi,
 
   // -- JPEG 2000 --------------------------------------------------------------
   jp2: MagickFormat.Jp2,
@@ -60,7 +66,6 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   bmp: MagickFormat.Bmp,
   bmp2: MagickFormat.Bmp2,
   bmp3: MagickFormat.Bmp3,
-  // xcf: MagickFormat.Xcf,
   tga: MagickFormat.Tga,
   pcx: MagickFormat.Pcx,
   dcx: MagickFormat.Dcx,
@@ -81,6 +86,9 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   viff: MagickFormat.Viff,
   hrz: MagickFormat.Hrz,
   vicar: MagickFormat.Vicar,
+
+  // -- GIMP ------------------------------------------------------------------
+  xcf: MagickFormat.Xcf,
 
   // -- Photoshop / Layered ---------------------------------------------------
   psd: MagickFormat.Psd,
@@ -115,6 +123,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   ps: MagickFormat.Ps,
   ps2: MagickFormat.Ps2,
   ps3: MagickFormat.Ps3,
+  mvg: MagickFormat.Mvg,
 
   // -- Document --------------------------------------------------------------
   pdf: MagickFormat.Pdf,
@@ -132,6 +141,27 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   fts: MagickFormat.Fts,
   fl32: MagickFormat.Fl32,
 
+  // --- RAW Digital Camera ---------------------------------------------------
+  cr2: MagickFormat.Cr2,
+  cr3: MagickFormat.Cr3,
+  nef: MagickFormat.Nef,
+  arw: MagickFormat.Arw,
+  dng: MagickFormat.Dng,
+  orf: MagickFormat.Orf,
+  rw2: MagickFormat.Rw2,
+  pef: MagickFormat.Pef,
+  srw: MagickFormat.Srw,
+  x3f: MagickFormat.X3f,
+  mrw: MagickFormat.Mrw,
+  dcr: MagickFormat.Dcr,
+  mdc: MagickFormat.Mdc,
+  srf: MagickFormat.Srf,
+  sr2: MagickFormat.Sr2,
+  raf: MagickFormat.Raf,
+  crw: MagickFormat.Crw,
+  mef: MagickFormat.Mef,
+  iiq: MagickFormat.Iiq,
+
   // -- Fax / Compression -----------------------------------------------------
   fax: MagickFormat.Fax,
   g3: MagickFormat.G3,
@@ -139,15 +169,11 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   group4: MagickFormat.Group4,
   cals: MagickFormat.Cals,
 
-  // --- RAW Digital Camera ---------------------------------------------------
-  // cr2: MagickFormat.Cr2,
-  // cr3: MagickFormat.Cr3,
-  // nef: MagickFormat.Nef,
-  // arw: MagickFormat.Arw,
-  // dng: MagickFormat.Dng,
-
   // -- Game / DirectX --------------------------------------------------------
   dds: MagickFormat.Dds,
+
+  // -- Medical ---------------------------------------------------------------
+  dcm: MagickFormat.Dcm,
 
   // -- Raw Color Spaces ------------------------------------------------------
   rgb: MagickFormat.Rgb,
@@ -166,6 +192,7 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
 
   // -- Icon & System ---------------------------------------------------------
   ico: MagickFormat.Ico,
+  cur: MagickFormat.Cur,
   palm: MagickFormat.Palm,
   plam: MagickFormat.Palm,
   pdb: MagickFormat.Pdb,
@@ -208,6 +235,7 @@ const RESIZE_ON_WRITE: Partial<Record<MagickFormat, { w: number; h: number }>> =
 // --- Development Checks -----------------------------------------------------
 
 if (process.env.NODE_ENV === 'development') {
+  // Check IMAGE_FORMATS
   IMAGE_FORMATS.forEach((f) => {
     if (!FORMAT_MAP[f.extension]) {
       console.warn(
@@ -216,13 +244,30 @@ if (process.env.NODE_ENV === 'development') {
     }
   });
   Object.keys(FORMAT_MAP).forEach((ext) => {
-    const exists = IMAGE_FORMATS.some(
-      (f) => f.extension === ext || f.aliases?.includes(ext),
-    );
+    const exists = IMAGE_FORMATS.some((f) => f.extension === ext);
     if (!exists) {
       console.warn(
         `FORMAT_MAP has "${ext}" but no IMAGE_FORMATS entry covers it`,
       );
+    }
+  });
+
+  // Check CONVERSION_MATRIX
+  const _allExts = new Set(IMAGE_FORMATS.map((f) => f.extension));
+  Object.entries(CONVERSION_MATRIX).forEach(([src, rule]) => {
+    if (!_allExts.has(src)) {
+      console.warn(
+        `[formats] CONVERSION_MATRIX source "${src}" not in IMAGE_FORMATS`,
+      );
+    }
+    if (rule.mode === 'allow' || rule.mode === 'block') {
+      rule.formats.forEach((tgt) => {
+        if (!_allExts.has(tgt)) {
+          console.warn(
+            `[formats] CONVERSION_MATRIX["${src}"] target "${tgt}" not in IMAGE_FORMATS`,
+          );
+        }
+      });
     }
   });
 }
@@ -404,7 +449,7 @@ export const useImageConverter = (
   const downloadSingle = (item: FileItem) => {
     if (!item.convertedUrl) return;
     const target = item.targetFormat ?? selectedTarget;
-    const ext = (item as any).actualExt ?? target.extension;
+    const ext = target.extension;
     const name = item.file.name.substring(0, item.file.name.lastIndexOf('.'));
     const link = document.createElement('a');
     link.href = item.convertedUrl;

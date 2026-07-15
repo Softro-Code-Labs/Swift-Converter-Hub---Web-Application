@@ -1,1 +1,1 @@
-export { default } from './AdjustTool';
+export { default } from './Tool';

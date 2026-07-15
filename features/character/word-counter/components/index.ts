@@ -1,1 +1,1 @@
-export { default } from './WordCounterTool';
+export { default } from './Tool';

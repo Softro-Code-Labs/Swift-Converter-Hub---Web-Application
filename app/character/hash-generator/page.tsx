@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import HashGeneratorTool from '@/features/character/hash-generator/components';
 
@@ -67,14 +68,14 @@ export const metadata: Metadata = {
     'developer hash utility free',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/hash-generator',
+    canonical: `${SITE_URL}/character/hash-generator`,
   },
   openGraph: {
     title:
       'Hash Generator - MD5, SHA-1, SHA-256, SHA-512 & HMAC | Character Studio',
     description:
       'Hash text or files with MD5, SHA-1, SHA-256, SHA-512 and HMAC - computed locally, nothing sent to any server.',
-    url: 'https://swiftconverterhub.com/character/hash-generator',
+    url: `${SITE_URL}/character/hash-generator`,
     type: 'website',
   },
 };

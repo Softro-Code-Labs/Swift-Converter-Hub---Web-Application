@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import FindReplaceTool from '@/features/character/find-replace/components';
 
@@ -69,13 +70,13 @@ export const metadata: Metadata = {
     'no server log data cleaner string',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/find-replace',
+    canonical: `${SITE_URL}/character/find-replace`,
   },
   openGraph: {
     title: 'Find & Replace - Live Regex & Plain Text | Character Studio',
     description:
       'Live match highlighting, plain text or regex, replace one or all - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/find-replace',
+    url: `${SITE_URL}/character/find-replace`,
     type: 'website',
   },
 };

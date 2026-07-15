@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Minimize2, Shield, Zap, TrendingDown } from 'lucide-react';
@@ -82,12 +83,12 @@ export const metadata: Metadata = {
     'instant local image cruncher',
     'browser engine image file shrinker',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/image/compress' },
+  alternates: { canonical: `${SITE_URL}/image/compress` },
   openGraph: {
     title: 'Compress Images Online - Free Image Optimizer | Image Studio',
     description:
       'Reduce file size without losing quality - fully processed in your browser.',
-    url: 'https://swiftconverterhub.com/image/compress',
+    url: `${SITE_URL}/image/compress`,
     type: 'website',
   },
 };

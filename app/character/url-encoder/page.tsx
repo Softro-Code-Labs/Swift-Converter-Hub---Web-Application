@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import UrlEncoderTool from '@/features/character/url-encoder/components';
 
@@ -69,14 +70,14 @@ export const metadata: Metadata = {
     'private url encoder no server',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/url-encoder',
+    canonical: `${SITE_URL}/character/url-encoder`,
   },
   openGraph: {
     title:
       'URL Encoder / Decoder - Encode, Decode & Parse URLs | Character Studio',
     description:
       'encodeURIComponent, encodeURI, decode, and full URL parser with query param table - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/url-encoder',
+    url: `${SITE_URL}/character/url-encoder`,
     type: 'website',
   },
 };

@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { LaboratoryModules } from '@/components/LaboratoryModules';
@@ -25,12 +26,12 @@ export const metadata: Metadata = {
     'no upload file converter',
     'secure client side conversion',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/about' },
+  alternates: { canonical: `${SITE_URL}/about` },
   openGraph: {
     title: 'About Swift Converter Hub - Privacy-First Local File Converters',
     description:
       'How we built a browser-based image toolkit that never uploads your files.',
-    url: 'https://swiftconverterhub.com/about',
+    url: `${SITE_URL}/about`,
     type: 'website',
   },
 };
@@ -119,7 +120,7 @@ export default function AboutPage() {
             <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed">
               Swift Converter Hub was built on one principle: file conversion
               tools should not require you to upload your personal files to a
-              stranger's server. Everything runs in your browser. Your data
+              stranger&apos;s server. Everything runs in your browser. Your data
               never moves.
             </p>
 
@@ -222,15 +223,15 @@ export default function AboutPage() {
           </h2>
           <p className="text-sm text-slate-300 leading-relaxed">
             WebAssembly (WASM) is a binary instruction format that runs in your
-            browser at near-native speed. It's the same technology that lets
+            browser at near-native speed. It&apos;s the same technology that lets
             Figma, Google Earth and AutoCAD run in a browser tab. We use it to
             run a professional-grade image processing engine directly in your
             browser.
           </p>
           <p className="text-sm text-slate-400 leading-relaxed">
             Because all computation happens locally, there is no server involved
-            in the conversion process. We don't log your files, we don't store
-            your files, and we can't access your files - not because we promise
+            in the conversion process. We don&apos;t log your files, we don&apos;t store
+            your files, and we can&apos;t access your files - not because we promise
             not to, but because the architecture makes it technically
             impossible.
           </p>
@@ -240,7 +241,7 @@ export default function AboutPage() {
               <span className="text-slate-400">
                 your device → browser memory → WASM engine → download
               </span>
-              <span className="ml-3 text-slate-600">// no network hop</span>
+              <span className="ml-3 text-slate-600">{'// no network hop'}</span>
             </p>
           </div>
         </div>

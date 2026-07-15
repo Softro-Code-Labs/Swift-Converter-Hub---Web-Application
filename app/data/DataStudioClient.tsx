@@ -33,7 +33,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
     accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
     href: '/data/csv-json',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: true,
     tags: ['csv', 'json', 'spreadsheet', 'convert', 'table', 'rows', 'columns'],
@@ -47,7 +47,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
     accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
     href: '/data/json-xml',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: true,
     tags: ['json', 'xml', 'convert', 'api', 'payload', 'legacy', 'soap'],
@@ -62,7 +62,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
     href: '/data/yaml-json',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: false,
     tags: [
@@ -87,7 +87,7 @@ const TOOLS: StudioTool[] = [
     accentText:
       'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
     href: '/data/excel-json',
-    status: 'soon',
+    status: 'live',
     group: 'convert',
     featured: false,
     tags: [
@@ -100,6 +100,21 @@ const TOOLS: StudioTool[] = [
       'convert',
     ],
   },
+  {
+    id: 'toml-json',
+    icon: Package,
+    title: 'TOML ↔ JSON Converter',
+    desc: 'Convert Cargo.toml, pyproject.toml, or any TOML config to JSON and back.',
+    color:
+      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
+    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
+    accentText: 'group-hover:text-orange-600 dark:group-hover:text-orange-400',
+    href: '/data/toml-json',
+    status: 'live',
+    group: 'convert',
+    featured: false,
+    tags: ['toml', 'json', 'convert', 'config', 'cargo', 'rust', 'python'],
+  },
 
   // -- Format group --------------------------------------------------
   {
@@ -111,7 +126,7 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-cyan-300 dark:hover:border-cyan-700',
     accentText: 'group-hover:text-cyan-600 dark:group-hover:text-cyan-400',
     href: '/data/json-formatter',
-    status: 'soon',
+    status: 'live',
     group: 'format',
     featured: true,
     tags: [
@@ -135,25 +150,10 @@ const TOOLS: StudioTool[] = [
     accentBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
     accentText: 'group-hover:text-rose-600 dark:group-hover:text-rose-400',
     href: '/data/base64-text',
-    status: 'soon',
+    status: 'live',
     group: 'encode',
     featured: true,
     tags: ['base64', 'encode', 'decode', 'text', 'jwt', 'token', 'string'],
-  },
-  {
-    id: 'toml-json',
-    icon: Package,
-    title: 'TOML ↔ JSON Converter',
-    desc: 'Convert Cargo.toml, pyproject.toml, or any TOML config to JSON and back.',
-    color:
-      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
-    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
-    accentText: 'group-hover:text-orange-600 dark:group-hover:text-orange-400',
-    href: '/data/toml-json',
-    status: 'soon',
-    group: 'convert',
-    featured: false,
-    tags: ['toml', 'json', 'convert', 'config', 'cargo', 'rust', 'python'],
   },
 ];
 

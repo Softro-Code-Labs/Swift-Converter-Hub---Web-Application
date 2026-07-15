@@ -1,1 +1,1 @@
-export { default } from './CropTool';
+export { default } from './Tool';

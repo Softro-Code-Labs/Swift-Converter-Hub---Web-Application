@@ -1,1 +1,1 @@
-export { default } from './BaseImageConverter';
+export { default } from './Tool';

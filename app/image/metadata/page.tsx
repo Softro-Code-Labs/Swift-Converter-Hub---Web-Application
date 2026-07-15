@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { FileSearch, MapPin, Camera, Shield } from 'lucide-react';
@@ -80,12 +81,12 @@ export const metadata: Metadata = {
     'local file binary stream inspector',
     'wasm accelerated exif decoder browser',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/image/metadata' },
+  alternates: { canonical: `${SITE_URL}/image/metadata` },
   openGraph: {
     title: 'EXIF Metadata Viewer - Free Online Photo Info Tool | Image Studio',
     description:
       'See camera, GPS and exposure data hidden in your photos, fully private.',
-    url: 'https://swiftconverterhub.com/image/metadata',
+    url: `${SITE_URL}/image/metadata`,
     type: 'website',
   },
 };
@@ -198,7 +199,7 @@ export default function MetadataPage() {
               EXIF Metadata Viewer
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              See exactly what's hidden in your photos - camera model, exposure
+              See exactly what&apos;s hidden in your photos - camera model, exposure
               settings, date taken, and GPS location - without uploading
               anything anywhere.
             </p>

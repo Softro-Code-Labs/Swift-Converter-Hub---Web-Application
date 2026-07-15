@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import CaseConverterTool from '@/features/character/case-converter/components';
 
@@ -67,13 +68,13 @@ export const metadata: Metadata = {
     'regex case converter alternative',
   ],
   alternates: {
-    canonical: 'https://swiftconverterhub.com/character/case-converter',
+    canonical: `${SITE_URL}/character/case-converter`,
   },
   openGraph: {
     title: 'Case Converter - 12 Case Formats Instantly | Character Studio',
     description:
       'UPPERCASE, camelCase, snake_case, Title Case and 8 more - instant, private, no server.',
-    url: 'https://swiftconverterhub.com/character/case-converter',
+    url: `${SITE_URL}/character/case-converter`,
     type: 'website',
   },
 };

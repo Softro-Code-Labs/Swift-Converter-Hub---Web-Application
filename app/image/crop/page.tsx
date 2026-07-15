@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Crop, Shield, Zap, Monitor } from 'lucide-react';
@@ -84,12 +85,12 @@ export const metadata: Metadata = {
     'wasm accelerated image scaling',
     'zero tracking asset dimension changer',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/image/crop' },
+  alternates: { canonical: `${SITE_URL}/image/crop` },
   openGraph: {
     title: 'Image Crop & Resize - Free Online Tool | Image Studio',
     description:
       'Crop to any ratio or resize to exact pixel dimensions, processed locally.',
-    url: 'https://swiftconverterhub.com/image/crop',
+    url: `${SITE_URL}/image/crop`,
     type: 'website',
   },
 };

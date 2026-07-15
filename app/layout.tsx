@@ -1,10 +1,11 @@
+import { SITE_URL, SITE_NAME } from '@/config/site';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Providers } from './providers';
 import { ADSENSE } from '@/lib/adsense';
-import Script from 'next/script';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { JsonLd } from '@/components/seo/JsonLd';
 import './globals.css';
 
 // 1. FONT CONFIGURATIONS
@@ -30,7 +31,7 @@ export const viewport: Viewport = {
 
 // 3. SEO & METADATA CONFIGURATION
 export const metadata: Metadata = {
-  metadataBase: new URL('https://swiftconverterhub.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Swift Converter Hub | Free Online Local File Converters',
     template: '%s | Swift Converter Hub',
@@ -185,7 +186,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://swiftconverterhub.com',
+    url: SITE_URL,
     siteName: 'Swift Converter Hub',
     title: 'Swift Converter Hub | Secure Local File Converters',
     description:
@@ -243,29 +244,52 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-sans bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-500 selection:text-white">
+        {/* 1. INITIALIZE GOOGLE CONSENT MODE DEFAULT STATES */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              
+              // If consent is already saved in localStorage, default to that to prevent state jumps
+              var savedConsent = null;
+              try {
+                savedConsent = window.localStorage.getItem('swiftconverterhub-consent');
+              } catch (e) {}
+
+              var defaultState = (savedConsent === 'accepted') ? 'granted' : 'denied';
+
+              gtag('consent', 'default', {
+                'ad_storage': defaultState,
+                'ad_user_data': defaultState,
+                'ad_personalization': defaultState,
+                'analytics_storage': defaultState
+              });
+            `,
+          }}
+        />
+
+        <JsonLd
+          data={[
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+          ]}
+        />
         <Providers>
           <Navbar />
           <div className="flex flex-col min-h-screen">{children}</div>
           <Footer />
         </Providers>
-
-        {/* -- AD-DELIVERY ENGINE INJECTION ------------------------------------------------ */}
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE.PUBLISHER_ID}`}
-          crossOrigin="anonymous"
-        />
-
-        {/* -- MICROSOFT CLARITY ----------------------------------------------------------- */}
-        <Script id="microsoft-clarity" strategy="afterInteractive">
-          {`
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "xb2li95vg9");
-          `}
-        </Script>
       </body>
     </html>
   );

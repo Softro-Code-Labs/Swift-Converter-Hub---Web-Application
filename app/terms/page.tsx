@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -23,12 +24,12 @@ export const metadata: Metadata = {
     'client side tool liability policy',
     'webassembly application terms of use',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/terms' },
+  alternates: { canonical: `${SITE_URL}/terms` },
   openGraph: {
     title: 'Terms of Service - Privacy-First File Convertors',
     description:
       'Usage guidelines and liability terms for our free image tools.',
-    url: 'https://swiftconverterhub.com/terms',
+    url: `${SITE_URL}/terms`,
     type: 'website',
   },
 };
@@ -41,7 +42,7 @@ const SECTIONS = [
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
     content: (
       <p>
-        By using Swift Converter Hub you agree to these terms. If you don't
+        By using Swift Converter Hub you agree to these terms. If you don&apos;t
         agree, please stop using the service. These terms apply to all tools and
         pages on swiftconverterhub.com.
       </p>
@@ -119,7 +120,7 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          The service is provided "as is" without any warranty of any kind. We
+          The service is provided &quot;as is&quot; without any warranty of any kind. We
           do not guarantee that:
         </p>
         <ul className="mt-3 space-y-2">
@@ -162,7 +163,7 @@ const SECTIONS = [
     color: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
     content: (
       <p>
-        We may update these terms from time to time. We'll update the date at
+        We may update these terms from time to time. We&apos;ll update the date at
         the top of this page when we do. Continued use of the service after
         changes means you accept the updated terms.
       </p>
@@ -201,7 +202,7 @@ export default function TermsPage() {
           </div>
 
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
-            These terms govern your use of Swift Converter Hub. They're written
+            These terms govern your use of Swift Converter Hub. They&apos;re written
             in plain language - no legal jargon. If you have questions, reach
             out at{' '}
             <a

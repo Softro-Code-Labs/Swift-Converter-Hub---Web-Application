@@ -1,50 +1,70 @@
+import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import DocumentSuiteClient from './DocumentSuiteClient';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Document Suite - Free Online PDF Tools',
   description:
     'Merge, split, and compress PDF files, or convert Word and Excel documents to PDF. All processing happens in your browser - no uploads required.',
   keywords: [
-    // PDF Modification & Assembly Intent
-    'merge pdf online free',
-    'merge pdf files online',
-    'split pdf pages online',
-    'extract pdf pages free',
-    'combine pdf documents browser',
-
-    // Optimization & Compression Focus
-    'compress pdf file size',
-    'reduce pdf size online',
-    'compress pdf without losing quality',
-    'shrink pdf file browser',
-
-    // Office Document to PDF Conversions
-    'word to pdf converter online',
-    'excel to pdf converter free',
-    'convert docx to pdf free',
-    'spreadsheet to pdf browser',
-
-    // Privacy, Security, & Client-Side Capabilities
-    'pdf tools no upload',
-    'completely private pdf editor',
-    'secure pdf compiler online',
-    'offline pdf tools browser',
-
-    // General Document Management Intent
-    'browser based pdf editor',
+    'document suite online free',
+    'pdf tools browser free',
+    'online pdf toolkit no upload',
+    'all in one pdf tools',
+    'client side pdf editor free',
+    'pdf tools no server',
+    'private pdf tools browser',
+    'offline pdf toolkit online',
+    'browser based pdf utilities',
     'free document converter online',
-    'all in one pdf toolkit',
+    'merge pdf online free',
+    'combine pdf files browser',
+    'pdf merger no upload',
+    'join pdf documents online',
+    'pdf combiner drag reorder',
+    'merge pdf no account',
+    'pdf merge instant browser',
+    'combine multiple pdfs free',
+    'pdf merge page thumbnails',
+    'pdf joiner free tool',
+    'split pdf online free',
+    'extract pdf pages browser',
+    'pdf page extractor free',
+    'split pdf by range online',
   ],
-  alternates: { canonical: 'https://swiftconverterhub.com/file' },
+  alternates: { canonical: `${SITE_URL}/file` },
   openGraph: {
     title: 'Document Suite - Free Online PDF Tools',
     description: 'Merge, split and compress PDFs entirely in your browser.',
-    url: 'https://swiftconverterhub.com/file',
+    url: `${SITE_URL}/file`,
     type: 'website',
   },
 };
 
 export default function DocumentSuitePage() {
-  return <DocumentSuiteClient />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Document Suite', path: '/file' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Document Suite',
+            description:
+              'Merge, split, and compress PDF files, or convert Word and Excel documents to PDF - all in your browser.',
+            path: '/file',
+            category: 'BusinessApplication',
+          }),
+        ]}
+      />
+      <DocumentSuiteClient />
+    </>
+  );
 }
