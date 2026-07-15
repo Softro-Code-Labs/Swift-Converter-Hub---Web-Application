@@ -11,8 +11,8 @@ import {
   X,
   ImageIcon,
   FileText,
-  Music,
-  Video,
+  AudioLines,
+  Clapperboard,
   Database,
   Type,
   Info,
@@ -31,7 +31,7 @@ const STUDIOS = [
   {
     name: 'Audio Studio',
     href: '/audio',
-    icon: Music,
+    icon: AudioLines,
     color:
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
     desc: 'Transcode MP3, WAV, FLAC and more.',
@@ -39,7 +39,7 @@ const STUDIOS = [
   {
     name: 'Video Studio',
     href: '/video',
-    icon: Video,
+    icon: Clapperboard,
     color:
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
     desc: 'Convert MP4, WebM, clip and compress.',

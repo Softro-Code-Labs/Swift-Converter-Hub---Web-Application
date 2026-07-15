@@ -30,10 +30,6 @@ export const ALL_CONVERSION_PAIRS = AUDIO_FORMATS.flatMap((source) =>
   ),
 );
 
-// The pairs worth pre-rendering at build time - the rest still render fine
-// on first request (dynamicParams = true), this just avoids build time
-// blowing up prerendering all 42 pairs when most traffic concentrates on
-// a handful of well-known conversions.
 export const HIGH_TRAFFIC_PAIRS = new Set([
   'mp3-to-wav',
   'wav-to-mp3',
@@ -90,7 +86,7 @@ const DEFAULT_FEATURES = (source: string, target: string) => {
     });
   } else if (!targetLossless && !sourceLossless) {
     features.push({
-      icon: 'Sliders',
+      icon: 'SlidersHorizontal',
       title: 'Re-encode with control',
       description: `Set a target bitrate for the new ${target} file rather than accepting a default.`,
     });

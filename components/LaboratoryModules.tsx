@@ -4,8 +4,8 @@ import Link from 'next/link';
 import {
   ImageIcon,
   FileText,
-  Music,
-  Video,
+  AudioLines,
+  Clapperboard,
   Database,
   Type,
   ArrowRight,
@@ -26,7 +26,7 @@ const MODULES = [
     href: '/audio',
     label: 'Audio Studio',
     desc: 'Transcode MP3, WAV, FLAC and more',
-    icon: Music,
+    icon: AudioLines,
     color:
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
     hover:
@@ -37,7 +37,7 @@ const MODULES = [
     href: '/video',
     label: 'Video Studio',
     desc: 'Convert MP4, WebM, clip and compress',
-    icon: Video,
+    icon: Clapperboard,
     color:
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
     hover:

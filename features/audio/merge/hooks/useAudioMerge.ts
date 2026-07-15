@@ -11,7 +11,7 @@ import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
   getAudioDuration,
-} from '@/features/audio/shared/lib/ffmpegUtils';
+} from '@/features/shared/lib/ffmpegUtils';
 import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
 import { MergeFileItem, MergeStatus } from '../types/merge';
 

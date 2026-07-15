@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AudioFileItem } from '@/features/audio/shared/types/audioFile';
 import { getFormatByExtension } from '@/features/audio/shared/config/formats';
-import { getAudioDuration } from '@/features/audio/shared/lib/ffmpegUtils';
+import { getAudioDuration } from '@/features/shared/lib/ffmpegUtils';
 import toast from 'react-hot-toast';
 
 const MAX_FILES = 20;

@@ -1,3 +1,5 @@
+import { icons, LucideIcon } from 'lucide-react';
+
 interface FeatureGridItem {
   icon: string;
   title: string;
@@ -43,7 +45,15 @@ export const FeatureGrid = ({
             className={`group flex gap-4 p-4 bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-xl transition-all duration-200 ${hoverClasses}`}
           >
             <div className="shrink-0 w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-lg transition-colors">
-              {feature.icon}
+              {(() => {
+                // Dynamically lookup the component. Ensure we cast it to LucideIcon.
+                const IconComponent = (icons[
+                  feature.icon as keyof typeof icons
+                ] || icons.CircleQuestionMark) as LucideIcon;
+                return (
+                  <IconComponent className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                );
+              })()}
             </div>
             <div className="min-w-0">
               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 mb-0.5">

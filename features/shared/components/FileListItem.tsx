@@ -8,15 +8,21 @@ import {
   Download,
   Trash2,
   Music2,
+  type LucideIcon,
 } from 'lucide-react';
-import { AudioFileItem } from '@/features/audio/shared/types/audioFile';
+import {
+  MediaFileItem,
+  MediaFormatLike,
+} from '@/features/shared/types/mediaFile';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 
-interface FileListItemProps {
-  item: AudioFileItem;
+interface FileListItemProps<TFormat extends MediaFormatLike = MediaFormatLike> {
+  item: MediaFileItem<TFormat>;
   isConvertingAll: boolean;
-  onDownload: (item: AudioFileItem) => void;
+  onDownload: (item: MediaFileItem<TFormat>) => void;
   onRemove: (id: string) => void;
+  icon?: LucideIcon;
+  mediaType?: 'audio' | 'video';
 }
 
 const STATUS_CONFIG = {
@@ -42,12 +48,16 @@ const STATUS_CONFIG = {
   },
 };
 
-export const FileListItem = ({
+export const FileListItem = <
+  TFormat extends MediaFormatLike = MediaFormatLike,
+>({
   item,
   isConvertingAll,
   onDownload,
   onRemove,
-}: FileListItemProps) => {
+  icon: Icon = Music2,
+  mediaType = 'audio',
+}: FileListItemProps<TFormat>) => {
   const cfg = STATUS_CONFIG[item.status];
 
   return (
@@ -64,7 +74,7 @@ export const FileListItem = ({
           ) : item.status === 'processing' ? (
             <Loader2 className="w-4 h-4 text-slate-300 dark:text-slate-600 animate-spin" />
           ) : (
-            <Music2 className="w-5 h-5 text-slate-400 dark:text-slate-500 stroke-[1.5]" />
+            <Icon className="w-5 h-5 text-slate-400 dark:text-slate-500 stroke-[1.5]" />
           )}
 
           {item.status === 'processing' && (
@@ -113,7 +123,9 @@ export const FileListItem = ({
           {item.status === 'processing' && (
             <span className="flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-1 rounded-lg tabular-nums">
               <Loader2 className="w-3 h-3 animate-spin" />
-              {item.progress ? `${Math.round(item.progress * 100)}%` : 'Converting'}
+              {item.progress
+                ? `${Math.round(item.progress * 100)}%`
+                : 'Converting'}
             </span>
           )}
 
@@ -159,17 +171,29 @@ export const FileListItem = ({
       )}
 
       {/* -- Playback preview once converted --------------------------------- */}
-      {item.status === 'success' && item.convertedUrl && (
-        <audio
-          controls
-          preload="none"
-          src={item.convertedUrl}
-          className="w-full h-9"
-        >
-          Your browser doesn&apos;t support inline audio playback - use the
-          download button above instead.
-        </audio>
-      )}
+      {item.status === 'success' &&
+        item.convertedUrl &&
+        (mediaType === 'video' ? (
+          <video
+            controls
+            preload="metadata"
+            src={item.convertedUrl}
+            className="w-full max-h-56 rounded-lg bg-black"
+          >
+            Your browser doesn&apos;t support inline video playback - use the
+            download button above instead.
+          </video>
+        ) : (
+          <audio
+            controls
+            preload="none"
+            src={item.convertedUrl}
+            className="w-full h-9"
+          >
+            Your browser doesn&apos;t support inline audio playback - use the
+            download button above instead.
+          </audio>
+        ))}
 
       {item.status === 'error' && item.errorMessage && (
         <p className="text-[10px] text-red-500 dark:text-red-400 leading-relaxed">

@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { BaseConverterProps, BITRATE_PRESETS, BitratePresetId } from '@/features/audio/convert/types/converter';
-import { useFFmpegEngine } from '@/features/audio/shared/hooks/useFFmpegEngine';
+import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useFileQueue } from '../hooks/useFileQueue';
 import { useAudioConverter } from '../hooks/useAudioConverter';
-import { FileListItem } from '@/features/audio/shared/components/FileListItem';
-import { ProcessToolbar } from '@/features/audio/shared/components/ProcessToolbar';
+import { FileListItem } from '@/features/shared/components/FileListItem';
+import { ProcessToolbar } from '@/features/shared/components/ProcessToolbar';
 import { BitrateSelector } from '@/features/audio/shared/components/BitrateSelector';
 import {
   EngineStatusBar,

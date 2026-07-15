@@ -9,6 +9,10 @@ import {
   ALL_CONVERSION_PAIRS as ALL_AUDIO_CONVERSION_PAIRS,
   HIGH_TRAFFIC_PAIRS as AUDIO_HIGH_TRAFFIC_PAIRS,
 } from '@/features/audio/convert/config/formats';
+import {
+  ALL_CONVERSION_PAIRS as ALL_VIDEO_CONVERSION_PAIRS,
+  HIGH_TRAFFIC_PAIRS as VIDEO_HIGH_TRAFFIC_PAIRS,
+} from '@/features/video/convert/config/formats';
 
 const BASE_URL = SITE_URL;
 
@@ -39,6 +43,33 @@ const AUDIO_STUDIO_SLUGS = new Set([
   'merge',
 ]);
 
+const VIDEO_STUDIO_SLUGS = new Set([
+  'convert',
+  'trim',
+  'compress',
+  'extract-audio',
+  'to-gif',
+]);
+
+const DOCUMENT_STUDIO_SLUGS = new Set([
+  'pdf-merge',
+  'pdf-split',
+  'pdf-compress',
+  'pdf-rotate',
+  'office-to-pdf',
+  'pdf-watermark',
+]);
+
+const DATA_STUDIO_SLUGS = new Set([
+  'csv-json',
+  'json-xml',
+  'yaml-json',
+  'excel-json',
+  'toml-json',
+  'json-formatter',
+  'base64-text',
+]);
+
 const CHARACTER_STUDIO_SLUGS = new Set([
   'word-counter',
   'case-converter',
@@ -52,25 +83,6 @@ const CHARACTER_STUDIO_SLUGS = new Set([
   'hash-generator',
   'unicode-inspector',
   'number-base',
-]);
-
-const DATA_STUDIO_SLUGS = new Set([
-  'csv-json',
-  'json-xml',
-  'yaml-json',
-  'excel-json',
-  'toml-json',
-  'json-formatter',
-  'base64-text',
-]);
-
-const DOCUMENT_STUDIO_SLUGS = new Set([
-  'pdf-merge',
-  'pdf-split',
-  'pdf-compress',
-  'pdf-rotate',
-  'office-to-pdf',
-  'pdf-watermark',
 ]);
 
 // --- Sitemap ------------------------------------------------------------------
@@ -171,23 +183,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // -- Chargecter Studio Tool --------------------------------------------------
+  // -- Video Studio Tools -------------------------------------------------------
 
-  const characterStudioTools: MetadataRoute.Sitemap = Array.from(
-    CHARACTER_STUDIO_SLUGS,
+  const videoStudioTools: MetadataRoute.Sitemap = Array.from(
+    VIDEO_STUDIO_SLUGS,
   ).map((slug) => ({
-    url: `${BASE_URL}/character/${slug}`,
-    lastModified: now,
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }));
-
-  // -- Data Studio Tools -------------------------------------------------------
-
-  const dataStudioTools: MetadataRoute.Sitemap = Array.from(
-    DATA_STUDIO_SLUGS,
-  ).map((slug) => ({
-    url: `${BASE_URL}/data/${slug}`,
+    url: `${BASE_URL}/video/${slug}`,
     lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.8,
@@ -204,7 +205,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // -- Data Studio Tools -------------------------------------------------------
+
+  const dataStudioTools: MetadataRoute.Sitemap = Array.from(
+    DATA_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/data/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
+  // -- Chargecter Studio Tool --------------------------------------------------
+
+  const characterStudioTools: MetadataRoute.Sitemap = Array.from(
+    CHARACTER_STUDIO_SLUGS,
+  ).map((slug) => ({
+    url: `${BASE_URL}/character/${slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
   // -- Dynamic Image Conversion Routes ----------------------------------------
+
   const imageConversionRoutes: MetadataRoute.Sitemap = [];
 
   for (const { source, target } of ALL_CONVERSION_PAIRS) {
@@ -212,7 +236,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const isHigh = HIGH_TRAFFIC_PAIRS.has(key);
     const isMedium = MEDIUM_TRAFFIC_PAIRS.has(key);
 
-    if (!isHigh && !isMedium) continue;
+    // if (!isHigh && !isMedium) continue;
 
     imageConversionRoutes.push({
       url: `${BASE_URL}/image/convert/${key}`,
@@ -223,18 +247,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // -- Dynamic Audio Conversion Routes ------------------------------------------
+
   const audioConversionRoutes: MetadataRoute.Sitemap = [];
 
   for (const { source, target } of ALL_AUDIO_CONVERSION_PAIRS) {
     const key = `${source}-to-${target}`;
     const isHigh = AUDIO_HIGH_TRAFFIC_PAIRS.has(key);
-    if (!isHigh) continue;
+    // if (!isHigh) continue;
 
     audioConversionRoutes.push({
       url: `${BASE_URL}/audio/convert/${key}`,
       lastModified: now,
       changeFrequency: 'weekly',
-      priority: 0.8,
+      priority: isHigh ? 0.8 : 0.7,
+    });
+  }
+
+  // -- Dynamic Video Conversion Routes ------------------------------------------
+
+  const videoConversionRoutes: MetadataRoute.Sitemap = [];
+
+  for (const { source, target } of ALL_VIDEO_CONVERSION_PAIRS) {
+    const key = `${source}-to-${target}`;
+    const isHigh = VIDEO_HIGH_TRAFFIC_PAIRS.has(key);
+    // if (!isHigh) continue;
+
+    videoConversionRoutes.push({
+      url: `${BASE_URL}/video/convert/${key}`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: isHigh ? 0.8 : 0.7,
     });
   }
 
@@ -242,10 +284,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages,
     ...imageStudioTools,
     ...audioStudioTools,
+    ...videoStudioTools,
     ...documentStudioTools,
     ...dataStudioTools,
     ...characterStudioTools,
     ...imageConversionRoutes,
     ...audioConversionRoutes,
+    ...videoConversionRoutes,
   ];
 }

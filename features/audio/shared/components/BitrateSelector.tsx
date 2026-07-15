@@ -1,4 +1,7 @@
-import { BITRATE_PRESETS, BitratePresetId } from '@/features/audio/convert/types/converter';
+import {
+  BITRATE_PRESETS,
+  BitratePresetId,
+} from '@/features/audio/convert/types/converter';
 
 interface BitrateSelectorProps {
   value: BitratePresetId;
@@ -22,7 +25,7 @@ export const BitrateSelector = ({
           type="button"
           disabled={disabled}
           onClick={() => onChange(preset.id)}
-          className={`flex flex-col items-center gap-0.5 px-2 py-2 rounded-xl border text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed
+          className={`flex flex-col items-center gap-0.5 px-2 py-2 rounded-xl border text-xs font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
             ${
               value === preset.id
                 ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'

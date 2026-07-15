@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useFFmpegEngine } from '@/features/audio/shared/hooks/useFFmpegEngine';
+import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useAudioFileQueue } from '@/features/audio/shared/hooks/useAudioFileQueue';
 import { useAudioCompress } from '../hooks/useAudioCompress';
 import { BITRATE_PRESETS, BitratePresetId } from '@/features/audio/convert/types/converter';
@@ -11,8 +11,8 @@ import {
   MultiFileDropZone,
   UnsupportedFormatDialog,
 } from '@/features/shared/components';
-import { FileListItem } from '@/features/audio/shared/components/FileListItem';
-import { ProcessToolbar } from '@/features/audio/shared/components/ProcessToolbar';
+import { FileListItem } from '@/features/shared/components/FileListItem';
+import { ProcessToolbar } from '@/features/shared/components/ProcessToolbar';
 import { Music2 } from 'lucide-react';
 
 const FORMAT_PILLS = ['MP3', 'WAV', 'OGG', 'FLAC', 'AAC', 'M4A', 'OPUS'];
