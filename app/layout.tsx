@@ -244,6 +244,31 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-sans bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-500 selection:text-white">
+        {/* 1. INITIALIZE GOOGLE CONSENT MODE DEFAULT STATES */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              
+              // If consent is already saved in localStorage, default to that to prevent state jumps
+              var savedConsent = null;
+              try {
+                savedConsent = window.localStorage.getItem('swiftconverterhub-consent');
+              } catch (e) {}
+
+              var defaultState = (savedConsent === 'accepted') ? 'granted' : 'denied';
+
+              gtag('consent', 'default', {
+                'ad_storage': defaultState,
+                'ad_user_data': defaultState,
+                'ad_personalization': defaultState,
+                'analytics_storage': defaultState
+              });
+            `,
+          }}
+        />
+
         <JsonLd
           data={[
             {

@@ -9,9 +9,12 @@ import {
   Music2,
   Play,
 } from 'lucide-react';
-import { useFFmpegEngine } from '@/features/audio/shared/hooks/useFFmpegEngine';
+import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useAudioTrim } from '../hooks/useAudioTrim';
-import { SingleFileDropZone, EngineStatusBar } from '@/features/shared/components';
+import {
+  SingleFileDropZone,
+  EngineStatusBar,
+} from '@/features/shared/components';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 
 const FORMAT_PILLS = ['MP3', 'WAV', 'OGG', 'FLAC', 'AAC', 'M4A', 'OPUS'];
@@ -51,7 +54,7 @@ function TimeField({
       <button
         type="button"
         onClick={onUseCurrent}
-        className="flex items-center gap-1 text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+        className="flex items-center gap-1 text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors"
       >
         <Play className="w-2.5 h-2.5" />
         Use current position
@@ -124,7 +127,7 @@ export default function AudioTrimTool() {
               </div>
               <button
                 onClick={handleReset}
-                className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors shrink-0"
+                className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors shrink-0"
               >
                 Change file
               </button>
@@ -156,7 +159,9 @@ export default function AudioTrimTool() {
                 label="Start"
                 seconds={state.startTime}
                 max={state.duration}
-                onChange={(s) => setRange(Math.min(s, state.endTime), state.endTime)}
+                onChange={(s) =>
+                  setRange(Math.min(s, state.endTime), state.endTime)
+                }
                 onUseCurrent={() =>
                   setRange(
                     Math.min(audioRef.current?.currentTime ?? 0, state.endTime),
@@ -168,11 +173,16 @@ export default function AudioTrimTool() {
                 label="End"
                 seconds={state.endTime}
                 max={state.duration}
-                onChange={(s) => setRange(state.startTime, Math.max(s, state.startTime))}
+                onChange={(s) =>
+                  setRange(state.startTime, Math.max(s, state.startTime))
+                }
                 onUseCurrent={() =>
                   setRange(
                     state.startTime,
-                    Math.max(audioRef.current?.currentTime ?? 0, state.startTime),
+                    Math.max(
+                      audioRef.current?.currentTime ?? 0,
+                      state.startTime,
+                    ),
                   )
                 }
               />
@@ -185,34 +195,33 @@ export default function AudioTrimTool() {
           </div>
 
           {/* Trim action */}
-          {state.status !== 'success' && (
-            <button
-              disabled={
-                state.status === 'processing' ||
-                !isFFmpegLoaded ||
-                state.endTime <= state.startTime
-              }
-              onClick={trim}
-              className={`w-full flex items-center justify-center gap-2 text-sm font-bold px-5 py-3 rounded-xl cursor-pointer transition-all
+
+          <button
+            disabled={
+              state.status === 'processing' ||
+              !isFFmpegLoaded ||
+              state.endTime <= state.startTime
+            }
+            onClick={trim}
+            className={`w-full flex items-center justify-center gap-2 text-sm font-bold px-5 py-3 rounded-xl cursor-pointer transition-all
                 ${
                   isFFmpegLoaded && state.status !== 'processing'
                     ? 'bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white shadow-sm shadow-blue-500/20'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
                 }`}
-            >
-              {state.status === 'processing' ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Trimming… {Math.round(state.progress * 100)}%
-                </>
-              ) : (
-                <>
-                  <Scissors className="w-4 h-4" />
-                  Trim audio
-                </>
-              )}
-            </button>
-          )}
+          >
+            {state.status === 'processing' ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Trimming… {Math.round(state.progress * 100)}%
+              </>
+            ) : (
+              <>
+                <Scissors className="w-4 h-4" />
+                Trim audio
+              </>
+            )}
+          </button>
 
           {state.status === 'error' && state.errorMessage && (
             <p className="text-xs text-red-500 dark:text-red-400">
@@ -229,7 +238,7 @@ export default function AudioTrimTool() {
                 </p>
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                  className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 cursor-pointer transition-colors"
                 >
                   <RotateCcw className="w-3 h-3" />
                   Trim another

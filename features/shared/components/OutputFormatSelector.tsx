@@ -18,7 +18,7 @@ export const OutputFormatSelector = ({
         <button
           key={fmt}
           onClick={() => onChange(fmt)}
-          className={`flex-1 py-2 rounded-xl border text-xs font-black uppercase transition-all
+          className={`flex-1 py-2 rounded-xl border text-xs font-black uppercase cursor-pointer transition-all
             ${
               selected === fmt
                 ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300'

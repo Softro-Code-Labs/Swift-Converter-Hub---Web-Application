@@ -1,14 +1,13 @@
 'use client';
 
 import {
-  Video,
-  Film,
+  Clapperboard,
+  RefreshCw,
   Scissors,
-  Tv,
-  Zap,
+  Minimize2,
+  AudioLines,
   Shield,
-  AlertTriangle,
-  Cpu,
+  Zap,
 } from 'lucide-react';
 import { StudioPageLayout } from '@/features/shared/studio/components/StudioPageLayout';
 import type {
@@ -20,98 +19,102 @@ import type {
 // --- Tools --------------------------------------------------------------------
 
 const TOOLS: StudioTool[] = [
-  // --- Process group ------------------------------------------------------------
+  // -- Convert group -------------------------------------------------
   {
-    id: 'video-converter',
-    icon: Film,
+    id: 'convert',
+    icon: RefreshCw,
     title: 'Video Format Converter',
-    desc: 'Convert between MP4, WebM, MOV, and AVI containers - powered by a WebAssembly FFmpeg engine.',
-    color:
-      'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    desc: 'Convert between MP4, WEBM, MOV, AVI and MKV - batch process and download.',
+    color: 'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
     href: '/video/convert',
-    status: 'soon',
-    group: 'process',
+    status: 'live',
+    group: 'convert',
     featured: true,
-    tags: ['mp4', 'webm', 'mov', 'avi', 'convert', 'format', 'video'],
-  },
-  {
-    id: 'video-trimmer',
-    icon: Scissors,
-    title: 'Video Trimmer',
-    desc: 'Cut a clip to an exact start and end timestamp with a visual timeline scrubber.',
-    color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
-    accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
-    accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
-    href: '/video/trim',
-    status: 'soon',
-    group: 'process',
-    featured: true,
-    tags: ['trim', 'cut', 'clip', 'timestamp', 'split', 'video'],
-  },
-  {
-    id: 'video-compressor',
-    icon: Tv,
-    title: 'Video Compressor',
-    desc: 'Reduce file size to fit email or messaging app limits without noticeable quality loss.',
-    color:
-      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
-    accentBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
-    accentText:
-      'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
-    href: '/video/compress',
-    status: 'soon',
-    group: 'process',
-    featured: false,
-    tags: ['compress', 'reduce', 'size', 'optimize', 'shrink', 'video'],
+    tags: ['mp4', 'webm', 'mov', 'avi', 'mkv', 'convert', 'format'],
   },
 
-  // --- Export group ------------------------------------------------------------
+  // -- Edit group ------------------------------------------------------
   {
-    id: 'video-to-gif',
-    icon: Zap,
-    title: 'Video to GIF',
-    desc: 'Export any clip as a looping GIF with custom frame rate and resolution controls.',
-    color:
-      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
-    accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
-    accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
-    href: '/video/gif',
-    status: 'soon',
-    group: 'export',
-    featured: false,
-    tags: ['gif', 'animate', 'loop', 'export', 'frame rate', 'video'],
-  },
-  {
-    id: 'video-to-audio',
-    icon: Cpu,
-    title: 'Extract Audio from Video',
-    desc: 'Pull the audio track out of any MP4, MOV, or WebM file as MP3 or WAV.',
+    id: 'trim',
+    icon: Scissors,
+    title: 'Trim Video',
+    desc: 'Cut a clip from any video file - set a start and end point, preview, and download.',
     color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
     accentBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
     accentText: 'group-hover:text-rose-600 dark:group-hover:text-rose-400',
+    href: '/video/trim',
+    status: 'live',
+    group: 'edit',
+    featured: true,
+    tags: ['trim', 'cut', 'clip', 'crop video', 'shorten'],
+  },
+  {
+    id: 'to-gif',
+    icon: Clapperboard,
+    title: 'Video to GIF',
+    desc: 'Turn a clip into a high-quality animated GIF - set the range, frame rate, and size.',
+    color: 'bg-pink-100 dark:bg-pink-950/50 text-pink-600 dark:text-pink-400',
+    accentBorder: 'hover:border-pink-300 dark:hover:border-pink-700',
+    accentText: 'group-hover:text-pink-600 dark:group-hover:text-pink-400',
+    href: '/video/to-gif',
+    status: 'live',
+    group: 'edit',
+    featured: true,
+    tags: ['gif', 'animated gif', 'gif maker', 'meme', 'clip to gif'],
+  },
+  {
+    id: 'extract-audio',
+    icon: AudioLines,
+    title: 'Extract Audio',
+    desc: 'Pull the audio track out of a video and save it as MP3, WAV, or another format.',
+    color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    accentBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
+    accentText: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
     href: '/video/extract-audio',
-    status: 'soon',
-    group: 'export',
+    status: 'live',
+    group: 'edit',
     featured: false,
-    tags: ['audio', 'extract', 'mp3', 'wav', 'soundtrack', 'video'],
+    tags: ['extract audio', 'video to mp3', 'audio track', 'rip audio', 'sound'],
+  },
+
+  // -- Optimize group --------------------------------------------------
+  {
+    id: 'compress',
+    icon: Minimize2,
+    title: 'Compress Video',
+    desc: 'Shrink file size with a resolution cap and quality preset - batch process up to 5 files.',
+    color: 'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    accentBorder: 'hover:border-amber-300 dark:hover:border-amber-700',
+    accentText: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
+    href: '/video/compress',
+    status: 'live',
+    group: 'optimize',
+    featured: false,
+    tags: ['compress', 'resolution', 'shrink', 'reduce size', 'optimize'],
   },
 ];
 
-// --- Groups ------------------------------------------------------------------
+// --- Groups -------------------------------------------------------------------
 
 const GROUPS: StudioGroup[] = [
   {
-    id: 'process',
-    label: 'Process & Edit',
-    desc: 'Convert formats, trim clips, and compress videos',
+    id: 'convert',
+    label: 'Format Conversion',
+    desc: 'Convert between MP4, WEBM, MOV, AVI and MKV',
     dot: 'bg-purple-400',
   },
   {
-    id: 'export',
-    label: 'Export & Extract',
-    desc: 'Turn videos into GIFs or pull out the audio track',
+    id: 'edit',
+    label: 'Trim, GIF & Extract',
+    desc: 'Cut clips, make GIFs, and pull out audio',
+    dot: 'bg-rose-400',
+  },
+  {
+    id: 'optimize',
+    label: 'Compress',
+    desc: 'Reduce file size for sharing and storage',
     dot: 'bg-amber-400',
   },
 ];
@@ -119,17 +122,16 @@ const GROUPS: StudioGroup[] = [
 // --- Hero config --------------------------------------------------------------
 
 const HERO: StudioHeroConfig = {
-  icon: Video,
+  icon: Clapperboard,
   iconColor: 'text-purple-600 dark:text-purple-400',
   iconBg:
     'bg-purple-100 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800',
   title: 'Video Studio',
-  subtitle:
-    'WebAssembly-powered · Files stay on device · Best for clips under 10 min',
+  subtitle: 'Client-side video processing · No file uploads · Any size',
   description:
-    "Video processing is heavier than image work, so we're building these tools carefully on a high-performance WebAssembly engine to ensure they run smoothly even on lower-powered devices.",
+    'Every Video Studio tool runs entirely in your browser using FFmpeg compiled to WebAssembly - no server round-trips, no upload wait, no size limit beyond your own device memory.',
   privacyNote:
-    '⚠️ Large video files may be slower in-browser than desktop software - best for clips under a few minutes.',
+    '🔒 Your video files never leave your device - processed entirely in-browser.',
   accentFrom: 'from-purple-400',
   accentTo: 'to-purple-500',
   badgeColor:
@@ -137,21 +139,21 @@ const HERO: StudioHeroConfig = {
   pills: [
     {
       icon: Shield,
-      label: 'Videos never leave your device',
+      label: 'Files stay on your device',
       color:
         'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800',
     },
     {
       icon: Zap,
-      label: 'Powered by WebAssembly',
-      color:
-        'text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800',
-    },
-    {
-      icon: AlertTriangle,
-      label: 'Best for clips under 10 min',
+      label: 'No file size limits',
       color:
         'text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800',
+    },
+    {
+      icon: Clapperboard,
+      label: '5 video tools',
+      color:
+        'text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800',
     },
   ],
 };
@@ -164,12 +166,12 @@ export default function VideoStudioClient() {
       tools={TOOLS}
       groups={GROUPS}
       hero={HERO}
-      searchPlaceholder="Search tools - try 'convert', 'trim', 'gif'…"
+      searchPlaceholder="Search tools - try 'mp4', 'trim', 'gif'…"
       backHref="/"
       backLabel="Back to home"
       accentHover="hover:text-purple-600 dark:hover:text-purple-400"
-      footerNote="Curious about progress?"
-      footerCta={{ label: 'Ask us', href: '/contact' }}
+      footerNote="Need a specific video tool?"
+      footerCta={{ label: 'Let us know', href: '/contact' }}
     />
   );
 }

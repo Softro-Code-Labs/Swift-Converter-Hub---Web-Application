@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Volume2, Wand2 } from 'lucide-react';
-import { useFFmpegEngine } from '@/features/audio/shared/hooks/useFFmpegEngine';
+import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useAudioFileQueue } from '@/features/audio/shared/hooks/useAudioFileQueue';
 import { useAudioVolume, VolumeSettings } from '../hooks/useAudioVolume';
 import {
@@ -10,8 +10,8 @@ import {
   MultiFileDropZone,
   UnsupportedFormatDialog,
 } from '@/features/shared/components';
-import { FileListItem } from '@/features/audio/shared/components/FileListItem';
-import { ProcessToolbar } from '@/features/audio/shared/components/ProcessToolbar';
+import { FileListItem } from '@/features/shared/components/FileListItem';
+import { ProcessToolbar } from '@/features/shared/components/ProcessToolbar';
 import { Music2 } from 'lucide-react';
 
 const FORMAT_PILLS = ['MP3', 'WAV', 'OGG', 'FLAC', 'AAC', 'M4A', 'OPUS'];
@@ -36,7 +36,7 @@ function VolumeControl({
           type="button"
           disabled={disabled}
           onClick={() => onChange({ ...settings, mode: 'normalize' })}
-          className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-bold transition-all disabled:opacity-40
+          className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all disabled:opacity-40
             ${
               settings.mode === 'normalize'
                 ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'
@@ -50,7 +50,7 @@ function VolumeControl({
           type="button"
           disabled={disabled}
           onClick={() => onChange({ ...settings, mode: 'manual' })}
-          className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-bold transition-all disabled:opacity-40
+          className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all disabled:opacity-40
             ${
               settings.mode === 'manual'
                 ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'
@@ -65,8 +65,8 @@ function VolumeControl({
       {settings.mode === 'normalize' ? (
         <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">
           Automatically brings audio to a consistent, broadcast-standard
-          loudness level (EBU R128) - good for uneven recordings or
-          preparing audio for podcasts/video.
+          loudness level (EBU R128) - good for uneven recordings or preparing
+          audio for podcasts/video.
         </p>
       ) : (
         <div className="space-y-2">
@@ -118,8 +118,13 @@ export default function AudioVolumeTool() {
     updateFile,
   } = useAudioFileQueue();
 
-  const { isProcessingAll, isZipping, processAll, downloadAll, downloadSingle } =
-    useAudioVolume(files, updateFile, settings, ffmpeg, isFFmpegLoaded);
+  const {
+    isProcessingAll,
+    isZipping,
+    processAll,
+    downloadAll,
+    downloadSingle,
+  } = useAudioVolume(files, updateFile, settings, ffmpeg, isFFmpegLoaded);
 
   return (
     <div className="space-y-4">

@@ -51,9 +51,9 @@ const SECTIONS = [
           We use Microsoft Clarity to understand how the tools are used and
           improve them - this includes page views, clicks, scrolling, and
           anonymized session recordings/heatmaps of on-page interactions.
-          Clarity masks the content of text input fields by default, so what
-          you type is not captured. Files you convert are never involved,
-          since they never leave your browser in the first place. See{' '}
+          Clarity masks the content of text input fields by default, so what you
+          type is not captured. Files you convert are never involved, since they
+          never leave your browser in the first place. See{' '}
           <a
             href="https://privacy.microsoft.com/en-us/privacystatement"
             target="_blank"
@@ -104,12 +104,20 @@ const SECTIONS = [
           any way.
         </p>
         <p className="mt-3">
-          You can block ads using any standard browser extension without
-          affecting the functionality of our conversion tools. For analytics,
-          we use Microsoft Clarity (see &quot;What we collect&quot; above for what it
-          records). On your first visit you&apos;ll be asked to accept or decline
-          non-essential cookies for ads and analytics - you can change that
-          choice at any time from the cookie preferences link in the footer.
+          We use <strong>Google Consent Mode v2</strong> to respect your choice.
+          When you first visit our site, non-essential storage (for ads and
+          analytics) is set to &quot;denied&quot; by default. Google AdSense
+          runs in a restricted, privacy-safe state without dropping
+          personalization cookies. Only if you click &quot;Accept&quot; will
+          these tracking states update to &quot;granted.&quot;
+        </p>
+        <p className="mt-3">
+          For analytics, we use Microsoft Clarity (see &quot;What we
+          collect&quot; above for what it records), which also stays disabled
+          until you opt in. You can block ads using any standard browser
+          extension without affecting the functionality of our conversion tools,
+          and you can change your consent preferences at any time using the link
+          in the footer.
         </p>
       </>
     ),

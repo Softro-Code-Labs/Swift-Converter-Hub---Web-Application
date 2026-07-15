@@ -10,14 +10,46 @@ import {
 } from '@/features/audio/convert/config/formats';
 
 const POPULAR_CONVERSIONS = [
-  { href: '/audio/convert/mp3-to-wav', label: 'MP3 → WAV', desc: 'Uncompress for editing' },
-  { href: '/audio/convert/wav-to-mp3', label: 'WAV → MP3', desc: 'Shrink for sharing' },
-  { href: '/audio/convert/m4a-to-mp3', label: 'M4A → MP3', desc: 'iPhone voice memos to MP3' },
-  { href: '/audio/convert/mp3-to-flac', label: 'MP3 → FLAC', desc: 'Lossless container' },
-  { href: '/audio/convert/wav-to-flac', label: 'WAV → FLAC', desc: 'Compress, keep quality' },
-  { href: '/audio/convert/mp3-to-ogg', label: 'MP3 → OGG', desc: 'Open-source format' },
-  { href: '/audio/convert/aac-to-mp3', label: 'AAC → MP3', desc: 'Universal compatibility' },
-  { href: '/audio/convert/mp3-to-opus', label: 'MP3 → OPUS', desc: 'Modern, efficient codec' },
+  {
+    href: '/audio/convert/mp3-to-wav',
+    label: 'MP3 → WAV',
+    desc: 'Uncompress for editing',
+  },
+  {
+    href: '/audio/convert/wav-to-mp3',
+    label: 'WAV → MP3',
+    desc: 'Shrink for sharing',
+  },
+  {
+    href: '/audio/convert/m4a-to-mp3',
+    label: 'M4A → MP3',
+    desc: 'iPhone voice memos to MP3',
+  },
+  {
+    href: '/audio/convert/mp3-to-flac',
+    label: 'MP3 → FLAC',
+    desc: 'Lossless container',
+  },
+  {
+    href: '/audio/convert/wav-to-flac',
+    label: 'WAV → FLAC',
+    desc: 'Compress, keep quality',
+  },
+  {
+    href: '/audio/convert/mp3-to-ogg',
+    label: 'MP3 → OGG',
+    desc: 'Open-source format',
+  },
+  {
+    href: '/audio/convert/aac-to-mp3',
+    label: 'AAC → MP3',
+    desc: 'Universal compatibility',
+  },
+  {
+    href: '/audio/convert/mp3-to-opus',
+    label: 'MP3 → OPUS',
+    desc: 'Modern, efficient codec',
+  },
 ];
 
 export default function AudioFormatsClient() {
@@ -77,8 +109,8 @@ export default function AudioFormatsClient() {
               Audio Format Converter
             </h1>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              {AUDIO_FORMATS.length} formats - pick a source, then a target,
-              to open the converter
+              {AUDIO_FORMATS.length} formats - pick a source, then a target, to
+              open the converter
             </p>
           </div>
         </div>
@@ -112,7 +144,7 @@ export default function AudioFormatsClient() {
                     key={format.extension}
                     onClick={() => handleGridClick(format.extension)}
                     title={format.description}
-                    className={`py-3 px-2 rounded-xl text-center transition-all text-xs font-bold border
+                    className={`py-3 px-2 rounded-xl text-center cursor-pointer transition-all text-xs font-bold border
                       ${
                         state === 'source'
                           ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300'

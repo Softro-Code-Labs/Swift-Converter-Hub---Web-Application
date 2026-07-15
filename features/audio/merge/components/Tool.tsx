@@ -11,7 +11,7 @@ import {
   Music2,
   RotateCcw,
 } from 'lucide-react';
-import { useFFmpegEngine } from '@/features/audio/shared/hooks/useFFmpegEngine';
+import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useAudioMerge } from '../hooks/useAudioMerge';
 import {
   AUDIO_FORMATS,
@@ -79,11 +79,12 @@ export default function AudioMergeTool() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                Merge order ({items.length} files · {formatDuration(totalDuration)} total)
+                Merge order ({items.length} files ·{' '}
+                {formatDuration(totalDuration)} total)
               </p>
               <button
                 onClick={clearAll}
-                className="text-[10px] font-semibold text-slate-400 hover:text-red-500 transition-colors"
+                className="text-[10px] font-semibold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
               >
                 Clear all
               </button>
@@ -112,7 +113,7 @@ export default function AudioMergeTool() {
                     disabled={index === 0}
                     onClick={() => moveItem(item.id, -1)}
                     aria-label="Move up"
-                    className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+                    className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer transition-all"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
                   </button>
@@ -120,14 +121,14 @@ export default function AudioMergeTool() {
                     disabled={index === items.length - 1}
                     onClick={() => moveItem(item.id, 1)}
                     aria-label="Move down"
-                    className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+                    className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer transition-all"
                   >
                     <ChevronDown className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => removeItem(item.id)}
                     aria-label="Remove"
-                    className="p-1.5 text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-all"
+                    className="p-1.5 text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg cursor-pointer transition-all"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -143,7 +144,9 @@ export default function AudioMergeTool() {
           />
 
           <button
-            disabled={status === 'processing' || !isFFmpegLoaded || items.length < 2}
+            disabled={
+              status === 'processing' || !isFFmpegLoaded || items.length < 2
+            }
             onClick={() => merge(targetFormat)}
             className={`w-full flex items-center justify-center gap-2 text-sm font-bold px-5 py-3 rounded-xl cursor-pointer transition-all
               ${
@@ -168,7 +171,9 @@ export default function AudioMergeTool() {
           </button>
 
           {status === 'error' && errorMessage && (
-            <p className="text-xs text-red-500 dark:text-red-400">{errorMessage}</p>
+            <p className="text-xs text-red-500 dark:text-red-400">
+              {errorMessage}
+            </p>
           )}
         </>
       )}
@@ -181,7 +186,7 @@ export default function AudioMergeTool() {
             </p>
             <button
               onClick={clearAll}
-              className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+              className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 cursor-pointer transition-colors"
             >
               <RotateCcw className="w-3 h-3" />
               Start over

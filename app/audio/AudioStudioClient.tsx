@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Music,
   AudioLines,
   RefreshCw,
   Scissors,
@@ -139,7 +138,7 @@ const GROUPS: StudioGroup[] = [
 // --- Hero config --------------------------------------------------------------
 
 const HERO: StudioHeroConfig = {
-  icon: Music,
+  icon: AudioLines,
   iconColor: 'text-emerald-600 dark:text-emerald-400',
   iconBg:
     'bg-emerald-100 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800',

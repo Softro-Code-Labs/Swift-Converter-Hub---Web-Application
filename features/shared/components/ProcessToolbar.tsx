@@ -1,8 +1,8 @@
 import { Download, Trash2, Wand2, Loader2, Archive } from 'lucide-react';
-import { AudioFileItem } from '@/features/audio/shared/types/audioFile';
+import { MediaFileItem } from '@/features/shared/types/mediaFile';
 
 interface ProcessToolbarProps {
-  files: AudioFileItem[];
+  files: MediaFileItem[];
   isProcessing: boolean;
   isZipping: boolean;
   isEngineLoaded: boolean;

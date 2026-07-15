@@ -13,7 +13,7 @@ export const FileInfoBar = ({
   meta,
   onChangeFile,
   icon: Icon = ImageIcon,
-  changeLabel = 'Change image',
+  changeLabel = 'Change file',
 }: FileInfoBarProps) => (
   <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
     <div className="flex items-center gap-2 min-w-0">
