@@ -43,6 +43,7 @@ export async function generateMetadata({
   const target = conversion.slice(dashToIndex + 4);
   if (!source || !target) return {};
   const route = getConversionRoute(source, target);
+  const isCurated = HIGH_TRAFFIC_PAIRS.has(conversion);
   return {
     title: route.title,
     description: route.description,
@@ -56,6 +57,11 @@ export async function generateMetadata({
       url: `${SITE_URL}/audio/convert/${conversion}`,
       type: 'website',
     },
+    // Keep only the curated, hand-reviewed pairs indexable; the long tail of
+    // auto-generated pairs stays usable but out of the search/ad index.
+    robots: isCurated
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
   };
 }
 

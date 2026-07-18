@@ -236,7 +236,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const isHigh = HIGH_TRAFFIC_PAIRS.has(key);
     const isMedium = MEDIUM_TRAFFIC_PAIRS.has(key);
 
-    // if (!isHigh && !isMedium) continue;
+    // Only submit the curated, hand-reviewed pairs. The remaining
+    // auto-generated combinations are marked noindex on-page (see
+    // app/image/convert/[conversion]/page.tsx) and are intentionally left
+    // out of the sitemap so they aren't presented as bulk "content" to
+    // search engines / ad review.
+    if (!isHigh && !isMedium) continue;
 
     imageConversionRoutes.push({
       url: `${BASE_URL}/image/convert/${key}`,
@@ -253,13 +258,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const { source, target } of ALL_AUDIO_CONVERSION_PAIRS) {
     const key = `${source}-to-${target}`;
     const isHigh = AUDIO_HIGH_TRAFFIC_PAIRS.has(key);
-    // if (!isHigh) continue;
+    if (!isHigh) continue;
 
     audioConversionRoutes.push({
       url: `${BASE_URL}/audio/convert/${key}`,
       lastModified: now,
       changeFrequency: 'weekly',
-      priority: isHigh ? 0.8 : 0.7,
+      priority: 0.8,
     });
   }
 
@@ -270,13 +275,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const { source, target } of ALL_VIDEO_CONVERSION_PAIRS) {
     const key = `${source}-to-${target}`;
     const isHigh = VIDEO_HIGH_TRAFFIC_PAIRS.has(key);
-    // if (!isHigh) continue;
+    if (!isHigh) continue;
 
     videoConversionRoutes.push({
       url: `${BASE_URL}/video/convert/${key}`,
       lastModified: now,
       changeFrequency: 'weekly',
-      priority: isHigh ? 0.8 : 0.7,
+      priority: 0.8,
     });
   }
 
