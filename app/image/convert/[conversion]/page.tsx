@@ -49,6 +49,8 @@ export async function generateMetadata({
   const target = conversion.slice(dashToIndex + 4);
   if (!source || !target) return {};
   const route = getConversionRoute(source, target);
+  const isCurated =
+    HIGH_TRAFFIC_PAIRS.has(conversion) || MEDIUM_TRAFFIC_PAIRS.has(conversion);
   return {
     title: route.title,
     description: route.description,
@@ -62,6 +64,14 @@ export async function generateMetadata({
       url: `${SITE_URL}/image/convert/${conversion}`,
       type: 'website',
     },
+    // Only the curated, hand-reviewed conversion pairs are meant to be indexed.
+    // The long tail of auto-generated format pairs stays crawlable (so the
+    // tool still works and links resolve) but is excluded from the index to
+    // avoid presenting thousands of near-duplicate template pages to search
+    // engines and ad review.
+    robots: isCurated
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
   };
 }
 

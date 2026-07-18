@@ -72,29 +72,19 @@ function MobileBanner({ slot }: { slot: string }) {
 }
 
 function Sidebar({ slot }: { slot: string }) {
+  // Single sticky unit per side (was two stacked units) so ad presence stays
+  // proportionate to the amount of actual page content, per AdSense's ad
+  // density / "valuable inventory" guidance.
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <AdLabel>Advertisement</AdLabel>
-        <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[600px]">
-          <AdSlot
-            slot={slot}
-            format="vertical"
-            style={{ display: 'inline-block', width: '100%', height: '600px' }}
-            responsive={false}
-          />
-        </div>
-      </div>
-      <div>
-        <AdLabel>Sponsored</AdLabel>
-        <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[280px]">
-          <AdSlot
-            slot={slot}
-            format="rectangle"
-            style={{ display: 'inline-block', width: '100%', height: '280px' }}
-            responsive={false}
-          />
-        </div>
+    <div>
+      <AdLabel>Advertisement</AdLabel>
+      <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[280px]">
+        <AdSlot
+          slot={slot}
+          format="rectangle"
+          style={{ display: 'inline-block', width: '100%', height: '280px' }}
+          responsive={false}
+        />
       </div>
     </div>
   );
@@ -108,21 +98,6 @@ function InContentRectangle({ slot }: { slot: string }) {
         <AdSlot
           slot={slot}
           format="rectangle"
-          style={{ display: 'block', width: '100%' }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function BottomAnchor({ slot }: { slot: string }) {
-  return (
-    <div>
-      <AdLabel>Sponsored content</AdLabel>
-      <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[100px]">
-        <AdSlot
-          slot={slot}
-          format="autorelax"
           style={{ display: 'block', width: '100%' }}
         />
       </div>
@@ -192,7 +167,6 @@ export default function StudioAdLayout({
               {children}
             </main>
             <InContentRectangle slot={resolvedSlots.BOTTOM} />
-            <BottomAnchor slot={resolvedSlots.BOTTOM} />
           </div>
 
           <aside
