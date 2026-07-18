@@ -15,73 +15,14 @@ export const metadata: Metadata = {
   description:
     'Shrink image file size without losing visual quality. Adjustable quality presets, metadata stripping, and batch compression. 100% browser-based, no uploads.',
   keywords: [
-    // Original high-volume core keywords
     'compress image online',
     'reduce image file size',
     'jpg compressor online',
     'png compressor free',
     'shrink photo size online',
     'webp compression tool free',
-
-    // Bulk workflow keywords
     'batch image compression tool',
     'bulk image optimizer online',
-    'compress multiple images at once',
-    'zip compress photos browser',
-
-    // Web performance keywords
-    'optimize images for web',
-    'image optimizer free',
-    'lossless image compressor online',
-    'lossy image compression online',
-    'strip image metadata online',
-
-    // Privacy & local engine keywords
-    'browser image compression',
-    'no upload image compressor',
-    'completely private photo shrinker',
-    'secure local image optimizer',
-    'offline image size reducer',
-
-    // Specific asset format optimizations
-    'compress jpeg to 100kb',
-    'reduce png size without quality loss',
-    'heic compression tool browser',
-    'svg file size optimizer online',
-    'compress avif images free',
-    'convert and compress photos online',
-
-    // Core web vitals & site speed intent
-    'improve page speed image optimizer',
-    'compress images for wordpress',
-    'shopify product image compressor',
-    'nextjs image optimization alternative',
-    'lighthouse page speed image fix',
-    'optimize website images for seo',
-    'reduce layout shift image compression',
-
-    // Technical utility & stripping variants
-    'remove exif data from images online',
-    'strip camera metadata from photos',
-    'remove image location tracking data',
-    'compress image keep resolution',
-    'downscale image dimensions and size',
-    'change image quality percentage online',
-
-    // Industry and professional use cases
-    'compress photos for email attachment',
-    'passport photo size reducer online',
-    'resume picture compressor free',
-    'compress real estate listing photos',
-    'graphic designer portfolio optimizer',
-    'bulk compression for content creators',
-
-    // Secure edge and performance mechanics
-    'wasm client side image compressor',
-    'html5 canvas image quality reducer',
-    'zero tracking website asset optimizer',
-    'instant local image cruncher',
-    'browser engine image file shrinker',
   ],
   alternates: { canonical: `${SITE_URL}/image/compress` },
   openGraph: {

@@ -14,72 +14,14 @@ export const metadata: Metadata = {
   description:
     'View camera settings, GPS location, and embedded metadata from your photos. See exposure, lens, and date info without uploading anything anywhere.',
   keywords: [
-    // Original core viewing & extraction keywords
     'exif viewer online',
     'photo metadata viewer',
     'image exif extractor free',
     'view jpeg exif data',
     'browser based exif reader',
     'online image metadata extractor',
-
-    // GPS & location tracking keywords
     'gps location from photo',
     'check photo gps data',
-    'extract coordinates from image',
-    'find map location of picture',
-    'photo geolocation finder free',
-
-    // Camera & photography mechanics
-    'camera settings viewer online',
-    'read camera data from photo',
-    'view shutter speed and iso online',
-    'lens information lookup tool',
-    'check original photo capture date',
-
-    // Security, privacy, & utility tags
-    'remove or view exif metadata',
-    'free exif data tool',
-    'no upload photo metadata reader',
-    'secure private exif analyzer',
-
-    // Long-tail file format targets
-    'raw file metadata viewer online',
-    'read tiff exif tags browser',
-    'png chunk metadata analyzer',
-    'heic metadata viewer online',
-    'webp image profile reader',
-    'dng file camera settings lookup',
-
-    // Digital forensics, security, & OSINT markers
-    'osint photo investigator online',
-    'check if image has hidden tracking',
-    'photo forensic analyzer free',
-    'image profile inspector browser',
-    'verify image modification date',
-    'detect edited photo metadata',
-
-    // Advanced photography attributes
-    'view focal length from image online',
-    'check aperture settings of photo',
-    'read exposure bias from exif tag',
-    'flash firing status photo viewer',
-    'camera sensor serial number finder',
-    'color space profile srgb checker',
-    'icc profile extractor online',
-
-    // Software & Device specific tracking queries
-    'view lightroom metadata online',
-    'iphone photo details inspector',
-    'check android picture resolution info',
-    'photoshop metadata tag parser',
-    'view drone image altitude coordinates',
-
-    // Client-side and engineering properties
-    'pure javascript exif reader tool',
-    'client side metadata parser html5',
-    'zero tracking image header analyzer',
-    'local file binary stream inspector',
-    'wasm accelerated exif decoder browser',
   ],
   alternates: { canonical: `${SITE_URL}/image/metadata` },
   openGraph: {

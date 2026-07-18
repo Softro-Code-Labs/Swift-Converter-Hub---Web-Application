@@ -230,7 +230,7 @@ ${html}
           {isEmpty && (
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { syntax: '# Heading', desc: 'H1 – H6 with #' },
+                { syntax: '# Heading', desc: 'H1 - H6 with #' },
                 { syntax: '**bold**', desc: 'Bold text' },
                 { syntax: '*italic*', desc: 'Italic text' },
                 { syntax: '`code`', desc: 'Inline code' },
