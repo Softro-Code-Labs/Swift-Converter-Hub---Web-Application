@@ -32,7 +32,7 @@ function buildSentence(words: string[], minLen = 6, maxLen = 18): string {
 }
 
 function buildParagraph(words: string[], sentenceCount = 4): string {
-  const count = sentenceCount + Math.floor(Math.random() * 3); // 4–6 sentences
+  const count = sentenceCount + Math.floor(Math.random() * 3); // 4-6 sentences
   return Array.from({ length: count }, () => buildSentence(words)).join(' ');
 }
 

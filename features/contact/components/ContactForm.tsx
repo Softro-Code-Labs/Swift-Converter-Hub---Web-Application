@@ -107,7 +107,7 @@ export default function ContactForm() {
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg">
             Report a bug, suggest a feature, or ask anything about our tools. We
-            typically respond within 1–2 business days.
+            typically respond within 1-2 business days.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function ContactForm() {
                     <span className="font-semibold text-slate-700 dark:text-slate-300">
                       {email}
                     </span>{' '}
-                    within 1–2 business days.
+                    within 1-2 business days.
                   </p>
                 </div>
                 <button
@@ -375,7 +375,7 @@ export default function ContactForm() {
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 We aim to respond to all messages within{' '}
                 <strong className="text-slate-700 dark:text-slate-300">
-                  1–2 business days
+                  1-2 business days
                 </strong>
                 . Bug reports are prioritised.
               </p>

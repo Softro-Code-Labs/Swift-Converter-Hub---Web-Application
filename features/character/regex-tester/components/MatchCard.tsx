@@ -41,7 +41,7 @@ export function MatchCard({ match, active, onClick }: MatchCardProps) {
           </code>
         </div>
         <span className="text-[10px] text-slate-400 tabular-nums shrink-0">
-          {match.start}–{match.end}
+          {match.start}-{match.end}
         </span>
       </div>
 
