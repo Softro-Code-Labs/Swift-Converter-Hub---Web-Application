@@ -67,7 +67,7 @@ const TOOLS: StudioTool[] = [
     id: 'text-sorter',
     icon: ArrowUpDown,
     title: 'Text Sorter & Deduplicator',
-    desc: 'Sort lines A–Z, by length, or shuffle. Remove duplicates and blank lines instantly.',
+    desc: 'Sort lines A-Z, by length, or shuffle. Remove duplicates and blank lines instantly.',
     color: 'bg-teal-100 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400',
     accentBorder: 'hover:border-teal-300 dark:hover:border-teal-700',
     accentText: 'group-hover:text-teal-600 dark:group-hover:text-teal-400',

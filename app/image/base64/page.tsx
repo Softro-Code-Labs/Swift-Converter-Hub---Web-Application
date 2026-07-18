@@ -14,72 +14,14 @@ export const metadata: Metadata = {
   description:
     'Convert images to Base64 strings or decode Base64 back to images. Get raw text, Data URI, CSS, or HTML output. 100% browser-based, nothing uploaded.',
   keywords: [
-    // Original core encoding keywords
     'image to base64',
     'convert image to base64 string',
     'base64 encoder online',
     'image string converter free',
     'jpeg to base64 converter',
     'png to base64 online',
-
-    // Decoding keywords
     'base64 to image converter',
     'base64 decoder online',
-    'convert base64 back to image',
-    'render base64 string as image',
-
-    // Web development implementation
-    'data uri converter',
-    'base64 image embed css',
-    'html img base64 generator',
-    'convert image to data url',
-    'inline image generator browser',
-
-    // Privacy & performance
-    'free base64 image tool',
-    'browser base64 converter',
-    'no upload base64 encoder',
-    'secure local image encoding',
-    'offline base64 data uri tool',
-
-    // Advanced development formats
-    'svg to base64 string converter',
-    'webp to base64 encoder',
-    'ico to base64 data url',
-    'gif to base64 text generator',
-    'base64 string to png free',
-    'convert binary image to text',
-
-    // Specific developer use cases
-    'embed images in html email',
-    'inline css background image base64',
-    'react image to base64 payload',
-    'json image property generator',
-    'webpack url loader alternative',
-    'vite asset inline tool',
-    'nextjs base64 blur placeholder',
-
-    // Mobile & API development contexts
-    'ios swift image base64 string',
-    'android bitmap to base64 online',
-    'convert image for api request',
-    'upload image as base64 string',
-    'base64 string image data payload',
-    'postman image base64 test utility',
-
-    // Output types & performance variations
-    'base64 raw text extractor',
-    'clean data uri scheme generator',
-    'optimized inline image markup',
-    'unlimited file size base64 encoder',
-    'speed asset optimizer browser',
-
-    // Security & privacy architectural tags
-    'zero server data uri tool',
-    'client side canvas base64 encoder',
-    'secure sandbox string compiler',
-    'local file reader api converter',
-    'private script image tokenizer',
   ],
   alternates: { canonical: `${SITE_URL}/image/base64` },
   openGraph: {

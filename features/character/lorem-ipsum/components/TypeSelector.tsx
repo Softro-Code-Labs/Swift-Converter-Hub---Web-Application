@@ -6,8 +6,8 @@ interface TypeSelectorProps {
 }
 
 const OPTIONS: { id: GenerateType; label: string; hint: string }[] = [
-  { id: 'paragraphs', label: 'Paragraphs', hint: '4–6 sentences each' },
-  { id: 'sentences', label: 'Sentences', hint: '6–18 words each' },
+  { id: 'paragraphs', label: 'Paragraphs', hint: '4-6 sentences each' },
+  { id: 'sentences', label: 'Sentences', hint: '6-18 words each' },
   { id: 'words', label: 'Words', hint: 'as a single block' },
 ];
 
