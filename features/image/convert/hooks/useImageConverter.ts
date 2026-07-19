@@ -12,6 +12,7 @@ import {
 } from './useHeicConverter';
 import { FileItem } from '@/features/image/convert/types/converter';
 import { formatBytes } from '../../shared/utils/bytes';
+import { getFileExtension } from '@/features/shared/lib/format';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import toast from 'react-hot-toast';
@@ -301,7 +302,7 @@ export const useImageConverter = (
     const uint8Array = new Uint8Array(arrayBuffer.slice(0));
     const target = item.targetFormat ?? selectedTarget;
     const targetExt = target.extension.toLowerCase();
-    const sourceExt = item.file.name.split('.').pop()?.toLowerCase() ?? '';
+    const sourceExt = getFileExtension(item.file.name);
 
     // -- Detect real format from magic bytes -----------------------------------
     const actualFormat = detectActualFormat(uint8Array);

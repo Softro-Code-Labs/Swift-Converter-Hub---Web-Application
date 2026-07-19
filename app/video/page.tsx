@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: 'Video Studio - Free Online Video Tools',
   description:
-    'Convert, trim, compress, and extract audio from video files, or turn a clip into a GIF - entirely in your browser. MP4, WEBM, MOV, AVI, MKV - no uploads, no account required.',
+    'Convert, trim, compress, and extract audio from video files, or turn a clip into a GIF - entirely in your browser. MP4, WEBM, MOV, AVI, MKV, WMV, 3GP and more - no uploads, no account required.',
   keywords: [
     'video converter online free',
     'free browser video converter',

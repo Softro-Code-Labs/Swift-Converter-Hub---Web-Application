@@ -7,7 +7,10 @@ export {
 } from '@/features/video/shared/config/formats';
 export type { VideoFormat } from '@/features/video/shared/config/formats';
 
-import { getFormatByExtension } from '@/features/video/shared/config/formats';
+import {
+  VIDEO_FORMATS,
+  getFormatByExtension,
+} from '@/features/video/shared/config/formats';
 
 // --- SEO route content ------------------------------------------------------
 
@@ -21,13 +24,13 @@ export interface ConversionRoute {
   faqs: { q: string; a: string }[];
 }
 
-const VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov', 'avi', 'mkv'];
-
-export const ALL_CONVERSION_PAIRS = VIDEO_EXTENSIONS.flatMap((source) =>
-  VIDEO_EXTENSIONS.filter((target) => target !== source).map((target) => ({
-    source,
-    target,
-  })),
+// Derived from VIDEO_FORMATS (rather than a hardcoded extension list) so
+// every newly supported format is automatically covered here, in the
+// sitemap, and in generateStaticParams - nothing to remember to keep in sync.
+export const ALL_CONVERSION_PAIRS = VIDEO_FORMATS.flatMap((source) =>
+  VIDEO_FORMATS.filter((target) => target.extension !== source.extension).map(
+    (target) => ({ source: source.extension, target: target.extension }),
+  ),
 );
 
 // Pre-rendered at build time via generateStaticParams
@@ -42,6 +45,30 @@ export const HIGH_TRAFFIC_PAIRS = new Set([
   'mp4-to-mkv',
   'mov-to-webm',
   'webm-to-mov',
+]);
+
+// Pre-rendered (and kept indexable) alongside HIGH_TRAFFIC_PAIRS, but ranked
+// a notch below it - see app/video/convert/[conversion]/page.tsx and
+// app/sitemap.ts.
+export const MEDIUM_TRAFFIC_PAIRS = new Set([
+  'mp4-to-m4v',
+  'm4v-to-mp4',
+  'mp4-to-3gp',
+  '3gp-to-mp4',
+  'mp4-to-flv',
+  'flv-to-mp4',
+  'mp4-to-ts',
+  'ts-to-mp4',
+  'mp4-to-wmv',
+  'wmv-to-mp4',
+  'mp4-to-ogv',
+  'ogv-to-mp4',
+  'mp4-to-mpg',
+  'mpg-to-mp4',
+  'webm-to-mkv',
+  'mkv-to-webm',
+  'mov-to-mkv',
+  'mkv-to-mov',
 ]);
 
 const DEFAULT_FEATURES = (source: string, target: string) => [
@@ -117,6 +144,24 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'mp4 webm no upload',
       'compress mp4 to webm',
       'mp4 to webm private converter',
+    ],
+  },
+  'mp4-to-3gp': {
+    keywords: [
+      'mp4 to 3gp converter',
+      'convert mp4 to 3gp online free',
+      'mp4 to 3gp for old phones',
+      '3gp mobile video converter',
+      'batch mp4 to 3gp',
+    ],
+  },
+  'mp4-to-wmv': {
+    keywords: [
+      'mp4 to wmv converter',
+      'convert mp4 to wmv online',
+      'windows media video converter',
+      'mp4 wmv no upload',
+      'batch mp4 to wmv',
     ],
   },
 };

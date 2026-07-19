@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Video to GIF Converter',
   description:
-    'Turn a clip from any MP4, WEBM, MOV, AVI or MKV file into a high-quality animated GIF. Set the range, frame rate, and size - no uploads, 100% browser-based.',
+    'Turn a clip from any MP4, WEBM, MOV, AVI, MKV or other video file into a high-quality animated GIF. Set the range, frame rate, and size - no uploads, 100% browser-based.',
   keywords: [
     'video to gif converter online',
     'mp4 to gif free',

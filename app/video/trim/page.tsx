@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Trim Video Online',
   description:
-    'Cut a clip out of an MP4, WEBM, MOV, AVI or MKV file. Set a start and end point and download instantly - no uploads, 100% browser-based.',
+    'Cut a clip out of an MP4, WEBM, MOV, AVI, MKV or other video file. Set a start and end point and download instantly - no uploads, 100% browser-based.',
   keywords: [
     'trim video online free',
     'cut mp4 online browser',

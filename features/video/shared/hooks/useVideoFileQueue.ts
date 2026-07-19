@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { VideoFileItem } from '@/features/video/shared/types/videoFile';
 import { getFormatByExtension } from '@/features/video/shared/config/formats';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
+import { getFileExtension } from '@/features/shared/lib/format';
 import toast from 'react-hot-toast';
 
 const MAX_FILES = 5;
@@ -25,7 +26,7 @@ export const useVideoFileQueue = () => {
     let foundInvalid = false;
 
     for (const file of incoming) {
-      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      const ext = getFileExtension(file.name);
       if (!getFormatByExtension(ext)) {
         if (!foundInvalid) {
           setInvalidFileDetails({

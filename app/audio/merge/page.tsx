@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Merge Audio Files Online',
   description:
-    'Combine multiple MP3, WAV, OGG, FLAC, AAC, M4A or OPUS files into one, in any order you choose. No uploads, 100% browser-based.',
+    'Combine multiple MP3, WAV, OGG, FLAC, AAC, M4A, OPUS or other audio files into one, in any order you choose. No uploads, 100% browser-based.',
   keywords: [
     'merge audio files online',
     'combine mp3 files free',

@@ -25,7 +25,7 @@ const TOOLS: StudioTool[] = [
     id: 'convert',
     icon: RefreshCw,
     title: 'Audio Format Converter',
-    desc: 'Convert between MP3, WAV, OGG, FLAC, AAC, M4A and OPUS - batch process and adjust bitrate.',
+    desc: 'Convert between MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF, AC3, AU and MP2 - batch process and adjust bitrate.',
     color:
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
     accentBorder: 'hover:border-emerald-300 dark:hover:border-emerald-700',
@@ -43,6 +43,9 @@ const TOOLS: StudioTool[] = [
       'aac',
       'm4a',
       'opus',
+      'wma',
+      'aiff',
+      'ac3',
       'convert',
       'format',
     ],

@@ -10,7 +10,11 @@ import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
-import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
+import {
+  formatBytes,
+  toStandaloneBuffer,
+  getFileExtension,
+} from '@/features/shared/lib/format';
 
 export const useVideoConverter = (
   files: VideoFileItem[],
@@ -27,7 +31,7 @@ export const useVideoConverter = (
     engine: FFmpeg,
   ): Promise<{ url: string; size: string }> => {
     const target = item.outputFormat ?? selectedTarget;
-    const sourceExt = item.file.name.split('.').pop()?.toLowerCase() ?? 'bin';
+    const sourceExt = getFileExtension(item.file.name) || 'bin';
     const inputPath = `vinput_${item.id}.${sourceExt}`;
     const outputPath = `voutput_${item.id}.${target.extension}`;
 

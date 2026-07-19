@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: 'Audio Studio - Free Browser-Based Audio Tools',
   description:
-    'Convert, trim, merge, compress, and adjust the volume of audio files entirely in your browser. MP3, WAV, OGG, FLAC, AAC, M4A and OPUS - no uploads, no account required.',
+    'Convert, trim, merge, compress, and adjust the volume of audio files entirely in your browser. MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF and more - no uploads, no account required.',
   keywords: [
     'audio converter online',
     'free audio converter',
