@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AudioFileItem } from '@/features/audio/convert/types/converter';
 import { getFormatByExtension } from '@/features/audio/convert/config/formats';
 import { getAudioDuration } from '@/features/shared/lib/ffmpegUtils';
+import { getFileExtension } from '@/features/shared/lib/format';
 import toast from 'react-hot-toast';
 
 const MAX_FILES = 20;
@@ -27,7 +28,7 @@ export const useFileQueue = (sourceExtension: string) => {
     let foundInvalid = false;
 
     for (const file of incoming) {
-      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      const ext = getFileExtension(file.name);
 
       if (!getFormatByExtension(ext)) {
         if (!foundInvalid) {

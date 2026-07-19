@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Adjust Audio Volume',
   description:
-    'Boost, lower, or auto-normalize audio volume to a consistent loudness level. Batch process MP3, WAV, OGG, FLAC, AAC, M4A and OPUS - 100% browser-based, no uploads.',
+    'Boost, lower, or auto-normalize audio volume to a consistent loudness level. Batch process MP3, WAV, OGG, FLAC, AAC, M4A, OPUS and more - 100% browser-based, no uploads.',
   keywords: [
     'audio volume adjuster online',
     'increase mp3 volume free',

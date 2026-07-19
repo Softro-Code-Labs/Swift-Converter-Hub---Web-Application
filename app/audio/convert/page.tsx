@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: 'Audio Format Converter',
   description:
-    'Convert between MP3, WAV, OGG, FLAC, AAC, M4A and OPUS instantly in your browser. Batch convert, adjust bitrate, and download - no uploads, no account, powered by WebAssembly.',
+    'Convert between MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF, AC3, AU and MP2 instantly in your browser. Batch convert, adjust bitrate, and download - no uploads, no account, powered by WebAssembly.',
   keywords: [
     'audio format converter online',
     'convert audio formats free',
@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     'batch audio converter online',
     'audio file format changer',
     'mp3 wav flac converter',
+    'wma to mp3 converter',
     'webassembly audio converter',
     'private audio converter no upload',
   ],
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Audio Format Converter | Audio Studio',
     description:
-      'Convert between MP3, WAV, OGG, FLAC, AAC, M4A and OPUS - instant, private, no server.',
+      'Convert between 12 audio formats - MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF, AC3, AU, MP2 - instant, private, no server.',
     url: `${SITE_URL}/audio/convert`,
     type: 'website',
   },
@@ -46,7 +47,7 @@ export default function AudioFormatsPage() {
           softwareApplicationJsonLd({
             name: 'Audio Format Converter',
             description:
-              'Convert between MP3, WAV, OGG, FLAC, AAC, M4A and OPUS entirely in your browser.',
+              'Convert between 12 audio formats, including MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, and AIFF, entirely in your browser.',
             path: '/audio/convert',
             category: 'MultimediaApplication',
           }),

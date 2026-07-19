@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Trim Audio Online',
   description:
-    'Cut a clip out of an MP3, WAV, OGG, FLAC, AAC, M4A or OPUS file. Set a start and end point and download instantly - no uploads, 100% browser-based.',
+    'Cut a clip out of an MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF or other audio file. Set a start and end point and download instantly - no uploads, 100% browser-based.',
   keywords: [
     'trim audio online free',
     'cut mp3 online browser',

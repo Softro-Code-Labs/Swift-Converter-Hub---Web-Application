@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { AudioLines, Shield, Zap, FileAudio } from 'lucide-react';
 import ExtractAudioTool from '@/features/video/extract-audio/components';
+import { AUDIO_FORMATS } from '@/features/audio/shared/config/formats';
 import {
   StepList,
   TechnicalNote,
@@ -18,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: 'Extract Audio from Video',
   description:
-    'Pull the audio track out of MP4, WEBM, MOV, AVI or MKV files and save it as MP3, WAV, OGG, FLAC, AAC, M4A or OPUS. Batch process, no uploads, 100% browser-based.',
+    'Pull the audio track out of MP4, WEBM, MOV, AVI, MKV and other video files and save it as MP3, WAV, OGG, FLAC, AAC, M4A, OPUS and more. Batch process, no uploads, 100% browser-based.',
   keywords: [
     'extract audio from video online',
     'video to mp3 converter free',
@@ -40,7 +41,11 @@ export const metadata: Metadata = {
 };
 
 const FEATURES = [
-  { icon: FileAudio, label: '7 audio formats', desc: 'MP3, WAV, OGG, FLAC, AAC, M4A, OPUS' },
+  {
+    icon: FileAudio,
+    label: `${AUDIO_FORMATS.length} audio formats`,
+    desc: AUDIO_FORMATS.map((f) => f.label).join(', '),
+  },
   { icon: AudioLines, label: 'Adjustable bitrate', desc: 'Control quality vs. file size' },
   { icon: Zap, label: 'Batch processing', desc: 'Extract from up to 5 videos at once' },
   { icon: Shield, label: '100% private', desc: 'Files never leave your browser' },

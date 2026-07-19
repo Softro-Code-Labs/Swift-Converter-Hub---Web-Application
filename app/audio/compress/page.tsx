@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Compress Audio Files',
   description:
-    'Shrink audio file size by re-encoding at a lower bitrate - MP3, WAV, OGG, FLAC, AAC, M4A and OPUS. Batch compress up to 20 files, 100% browser-based, no uploads.',
+    'Shrink audio file size by re-encoding at a lower bitrate - MP3, WAV, OGG, FLAC, AAC, M4A, OPUS and more. Batch compress up to 20 files, 100% browser-based, no uploads.',
   keywords: [
     'compress audio online',
     'reduce audio file size',
