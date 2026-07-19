@@ -8,10 +8,12 @@ import {
 import {
   ALL_CONVERSION_PAIRS as ALL_AUDIO_CONVERSION_PAIRS,
   HIGH_TRAFFIC_PAIRS as AUDIO_HIGH_TRAFFIC_PAIRS,
+  MEDIUM_TRAFFIC_PAIRS as AUDIO_MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/audio/convert/config/formats';
 import {
   ALL_CONVERSION_PAIRS as ALL_VIDEO_CONVERSION_PAIRS,
   HIGH_TRAFFIC_PAIRS as VIDEO_HIGH_TRAFFIC_PAIRS,
+  MEDIUM_TRAFFIC_PAIRS as VIDEO_MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/video/convert/config/formats';
 
 const BASE_URL = SITE_URL;
@@ -258,13 +260,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const { source, target } of ALL_AUDIO_CONVERSION_PAIRS) {
     const key = `${source}-to-${target}`;
     const isHigh = AUDIO_HIGH_TRAFFIC_PAIRS.has(key);
-    if (!isHigh) continue;
+    const isMedium = AUDIO_MEDIUM_TRAFFIC_PAIRS.has(key);
+    if (!isHigh && !isMedium) continue;
 
     audioConversionRoutes.push({
       url: `${BASE_URL}/audio/convert/${key}`,
       lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
+      changeFrequency: isHigh ? 'weekly' : 'monthly',
+      priority: isHigh ? 0.8 : 0.7,
     });
   }
 
@@ -275,13 +278,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const { source, target } of ALL_VIDEO_CONVERSION_PAIRS) {
     const key = `${source}-to-${target}`;
     const isHigh = VIDEO_HIGH_TRAFFIC_PAIRS.has(key);
-    if (!isHigh) continue;
+    const isMedium = VIDEO_MEDIUM_TRAFFIC_PAIRS.has(key);
+    if (!isHigh && !isMedium) continue;
 
     videoConversionRoutes.push({
       url: `${BASE_URL}/video/convert/${key}`,
       lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
+      changeFrequency: isHigh ? 'weekly' : 'monthly',
+      priority: isHigh ? 0.8 : 0.7,
     });
   }
 

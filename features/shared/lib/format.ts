@@ -1,3 +1,17 @@
+/**
+ * Extracts a lowercase file extension from a filename, e.g. "Track.WAV" -> "wav".
+ * Returns '' for names with no extension (e.g. "README") rather than the
+ * whole filename, which `.pop()` alone would do.
+ *
+ * Centralizing this avoids each converter/queue hook re-implementing its own
+ * slightly-different `file.name.split('.').pop()?.toLowerCase() ?? ''`.
+ */
+export function getFileExtension(filename: string): string {
+  const lastDot = filename.lastIndexOf('.');
+  if (lastDot <= 0 || lastDot === filename.length - 1) return '';
+  return filename.slice(lastDot + 1).toLowerCase();
+}
+
 /** Converts a file size in bytes to a human-readable string. */
 export function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 Bytes';

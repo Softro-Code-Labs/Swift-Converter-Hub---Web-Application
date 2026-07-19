@@ -10,7 +10,11 @@ import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
-import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
+import {
+  formatBytes,
+  toStandaloneBuffer,
+  getFileExtension,
+} from '@/features/shared/lib/format';
 
 export const useAudioConverter = (
   files: AudioFileItem[],
@@ -28,7 +32,7 @@ export const useAudioConverter = (
     engine: FFmpeg,
   ): Promise<{ url: string; size: string }> => {
     const target = item.targetFormat ?? selectedTarget;
-    const sourceExt = item.file.name.split('.').pop()?.toLowerCase() ?? 'bin';
+    const sourceExt = getFileExtension(item.file.name) || 'bin';
 
     const inputPath = `input_${item.id}.${sourceExt}`;
     const outputPath = `output_${item.id}.${target.extension}`;

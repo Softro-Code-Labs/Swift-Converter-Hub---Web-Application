@@ -9,6 +9,7 @@ import {
   getConversionRoute,
   isConversionAllowed,
   HIGH_TRAFFIC_PAIRS,
+  MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/audio/convert/config/formats';
 import {
   StepList,
@@ -30,7 +31,11 @@ export const dynamicParams = true;
 
 // Pre-render the highest-traffic pairs at build time
 export async function generateStaticParams() {
-  return Array.from(HIGH_TRAFFIC_PAIRS).map((conversion) => ({ conversion }));
+  const priorityPairs = new Set([
+    ...HIGH_TRAFFIC_PAIRS,
+    ...MEDIUM_TRAFFIC_PAIRS,
+  ]);
+  return Array.from(priorityPairs).map((conversion) => ({ conversion }));
 }
 
 export async function generateMetadata({
@@ -43,7 +48,8 @@ export async function generateMetadata({
   const target = conversion.slice(dashToIndex + 4);
   if (!source || !target) return {};
   const route = getConversionRoute(source, target);
-  const isCurated = HIGH_TRAFFIC_PAIRS.has(conversion);
+  const isCurated =
+    HIGH_TRAFFIC_PAIRS.has(conversion) || MEDIUM_TRAFFIC_PAIRS.has(conversion);
   return {
     title: route.title,
     description: route.description,

@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Compress Video Files',
   description:
-    'Shrink video file size by re-encoding with a resolution cap and quality preset - MP4, WEBM, MOV, AVI and MKV. Batch compress, 100% browser-based, no uploads.',
+    'Shrink video file size by re-encoding with a resolution cap and quality preset - MP4, WEBM, MOV, AVI, MKV and more. Batch compress, 100% browser-based, no uploads.',
   keywords: [
     'compress video online',
     'reduce video file size',

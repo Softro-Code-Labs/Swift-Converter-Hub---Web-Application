@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FileItem } from '@/features/image/convert/types/converter';
 import { isAcceptedByFormat } from '@/features/image/convert/config/formats';
+import { getFileExtension } from '@/features/shared/lib/format';
 import toast from 'react-hot-toast';
 
 export const useFileQueue = (sourceExtension: string) => {
@@ -24,7 +25,7 @@ export const useFileQueue = (sourceExtension: string) => {
     let foundInvalid = false;
 
     for (const file of incoming) {
-      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      const ext = getFileExtension(file.name);
       if (!isAcceptedByFormat(ext, sourceExtension)) {
         if (!foundInvalid) {
           setInvalidFileDetails({

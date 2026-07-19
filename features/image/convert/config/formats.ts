@@ -1571,17 +1571,29 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
 };
 
 // --- Helpers ------------------------------------------------------------------
+// Extension lookups happen on every file drop, every route render, and every
+// static-param/sitemap build pass. A Map built once at module load keeps that
+// O(1) regardless of how large IMAGE_FORMATS grows, instead of re-scanning the
+// full array (Array.find) on every single call.
+
+const IMAGE_FORMAT_BY_EXT: ReadonlyMap<string, ImageFormat> = new Map(
+  IMAGE_FORMATS.map((f) => [f.extension, f]),
+);
+
+const ALL_IMAGE_EXTENSIONS: ReadonlySet<string> = new Set(
+  IMAGE_FORMATS.map((f) => f.extension),
+);
 
 export const getFormatByExtension = (ext: string): ImageFormat | undefined =>
-  IMAGE_FORMATS.find((f) => f.extension === ext.toLowerCase());
+  IMAGE_FORMAT_BY_EXT.get(ext.toLowerCase());
 
 export const getAllowedTargetFormats = (
   sourceExtension: string,
 ): ImageFormat[] => {
   const allowed = getAllowedTargets(sourceExtension);
+  const sourceExt = sourceExtension.toLowerCase();
   return IMAGE_FORMATS.filter(
-    (f) =>
-      f.extension !== sourceExtension.toLowerCase() && allowed.has(f.extension),
+    (f) => f.extension !== sourceExt && allowed.has(f.extension),
   );
 };
 
@@ -1598,25 +1610,36 @@ export const isAcceptedByFormat = (
   return extensions.includes(fileExt.toLowerCase());
 };
 
-export function getAllowedTargets(sourceExt: string): Set<string> {
-  const rule = CONVERSION_MATRIX[sourceExt.toLowerCase()];
+// getAllowedTargets is called once per source format when ALL_CONVERSION_PAIRS
+// is built, and again on every dynamic /image/convert/[conversion] page render
+// (via isConversionAllowed / getAllowedTargetFormats). CONVERSION_MATRIX is
+// static, so the resulting Set is cached per source extension after first
+// computation - callers only ever read from it (.has()), never mutate it.
+const allowedTargetsCache = new Map<string, ReadonlySet<string>>();
 
-  // No rule defined - default to all (safe fallback)
-  if (!rule) return new Set(IMAGE_FORMATS.map((f) => f.extension));
+export function getAllowedTargets(sourceExt: string): ReadonlySet<string> {
+  const key = sourceExt.toLowerCase();
+  const cached = allowedTargetsCache.get(key);
+  if (cached) return cached;
 
-  if (rule.mode === 'all') {
-    return new Set(IMAGE_FORMATS.map((f) => f.extension));
+  const rule = CONVERSION_MATRIX[key];
+  let result: ReadonlySet<string>;
+
+  if (!rule || rule.mode === 'all') {
+    // No rule defined, or explicitly unrestricted - default to all (safe fallback)
+    result = ALL_IMAGE_EXTENSIONS;
+  } else if (rule.mode === 'allow') {
+    result = new Set(rule.formats);
+  } else {
+    // mode === 'block'
+    const blocked = new Set(rule.formats);
+    result = new Set(
+      [...ALL_IMAGE_EXTENSIONS].filter((ext) => !blocked.has(ext)),
+    );
   }
 
-  if (rule.mode === 'allow') {
-    return new Set(rule.formats);
-  }
-
-  // mode === 'block'
-  const blocked = new Set(rule.formats);
-  return new Set(
-    IMAGE_FORMATS.map((f) => f.extension).filter((ext) => !blocked.has(ext)),
-  );
+  allowedTargetsCache.set(key, result);
+  return result;
 }
 
 export function isConversionAllowed(source: string, target: string): boolean {
@@ -1627,205 +1650,210 @@ export function isConversionAllowed(source: string, target: string): boolean {
 
 // --- Format category detection ------------------------------------------------
 
-const isLossless = (ext: string) =>
-  [
-    // PNG family
-    'png',
-    'png8',
-    'png24',
-    'png32',
-    'png48',
-    'png64',
-    'png00',
-    // TIFF family
-    'tiff',
-    'tif',
-    'tiff64',
-    'ptif',
-    // Bitmap
-    'bmp',
-    'bmp2',
-    'bmp3',
-    // Photoshop / GIMP
-    'psd',
-    'psb',
-    'xcf',
-    // Modern web (lossless modes)
-    'webp',
-    'avif',
-    'jxl',
-    // HDR / scientific
-    'exr',
-    'hdr',
-    'rgbe',
-    'dpx',
-    'cin',
-    'fits',
-    'fts',
-    'fl32',
-    // Portable bitmap/pixmap
-    'pam',
-    'pbm',
-    'pgm',
-    'ppm',
-    'pnm',
-    'pfm',
-    'phm',
-    // Raw color spaces
-    'rgb',
-    'rgba',
-    'rgbo',
-    'gray',
-    'graya',
-    'cmyk',
-    'cmyka',
-    'mono',
-    // Icon & system
-    'ico',
-    'cur',
-    // Other lossless
-    'qoi',
-    'miff',
-    'mpc',
-    'sgi',
-    'tga',
-    'dds',
-    'farbfeld',
-    'xbm',
-    'xpm',
-    'wbmp',
-    'sun',
-    'ras',
-    'avs',
-    'viff',
-    'aai',
-    'vicar',
-    'otb',
-    'picon',
-    'hrz',
-    'wpg',
-    'fax',
-    'g3',
-    'g4',
-    'group4',
-    'cals',
-  ].includes(ext.toLowerCase());
+// Each category below is a module-level Set built once, rather than an array
+// literal re-allocated and linearly scanned (.includes()) on every call. With
+// 200+ formats and these helpers running per-feature/per-FAQ on every
+// conversion page render, this keeps category checks O(1) instead of O(n).
 
-const isCompressed = (ext: string) =>
-  [
-    // Lossy photo
-    'jpg',
-    'jpeg',
-    'jpe',
-    'jfif',
-    'pjpeg',
-    'jps',
-    // Modern lossy
-    'webp',
-    'avif',
-    'jxl',
-    'heic',
-    'heif',
-    // Legacy compressed
-    'gif',
+const LOSSLESS_EXTS = new Set([
+  // PNG family
+  'png',
+  'png8',
+  'png24',
+  'png32',
+  'png48',
+  'png64',
+  'png00',
+  // TIFF family
+  'tiff',
+  'tif',
+  'tiff64',
+  'ptif',
+  // Bitmap
+  'bmp',
+  'bmp2',
+  'bmp3',
+  // Photoshop / GIMP
+  'psd',
+  'psb',
+  'xcf',
+  // Modern web (lossless modes)
+  'webp',
+  'avif',
+  'jxl',
+  // HDR / scientific
+  'exr',
+  'hdr',
+  'rgbe',
+  'dpx',
+  'cin',
+  'fits',
+  'fts',
+  'fl32',
+  // Portable bitmap/pixmap
+  'pam',
+  'pbm',
+  'pgm',
+  'ppm',
+  'pnm',
+  'pfm',
+  'phm',
+  // Raw color spaces
+  'rgb',
+  'rgba',
+  'rgbo',
+  'gray',
+  'graya',
+  'cmyk',
+  'cmyka',
+  'mono',
+  // Icon & system
+  'ico',
+  'cur',
+  // Other lossless
+  'qoi',
+  'miff',
+  'mpc',
+  'sgi',
+  'tga',
+  'dds',
+  'farbfeld',
+  'xbm',
+  'xpm',
+  'wbmp',
+  'sun',
+  'ras',
+  'avs',
+  'viff',
+  'aai',
+  'vicar',
+  'otb',
+  'picon',
+  'hrz',
+  'wpg',
+  'fax',
+  'g3',
+  'g4',
+  'group4',
+  'cals',
+]);
+const isLossless = (ext: string) => LOSSLESS_EXTS.has(ext.toLowerCase());
 
-    // Other compressed
-    'mng',
-    'jng',
-    'pcx',
-    'dcx',
-    'art',
-    'dcm',
-  ].includes(ext.toLowerCase());
+const COMPRESSED_EXTS = new Set([
+  // Lossy photo
+  'jpg',
+  'jpeg',
+  'jpe',
+  'jfif',
+  'pjpeg',
+  'jps',
+  // Modern lossy
+  'webp',
+  'avif',
+  'jxl',
+  'heic',
+  'heif',
+  // Legacy compressed
+  'gif',
+  // Other compressed
+  'mng',
+  'jng',
+  'pcx',
+  'dcx',
+  'art',
+  'dcm',
+]);
+const isCompressed = (ext: string) => COMPRESSED_EXTS.has(ext.toLowerCase());
 
-const isVector = (ext: string) =>
-  [
-    'svg',
-    'svgz',
-    'eps',
-    'eps2',
-    'eps3',
-    'epsf',
-    'epsi',
-    'epi',
-    'ept',
-    'epdf',
-    'ai',
-    'ps',
-    'ps2',
-    'ps3',
-    'mvg',
-    'pdf',
-    'pcl',
-  ].includes(ext.toLowerCase());
+const VECTOR_EXTS = new Set([
+  'svg',
+  'svgz',
+  'eps',
+  'eps2',
+  'eps3',
+  'epsf',
+  'epsi',
+  'epi',
+  'ept',
+  'epdf',
+  'ai',
+  'ps',
+  'ps2',
+  'ps3',
+  'mvg',
+  'pdf',
+  'pcl',
+]);
+const isVector = (ext: string) => VECTOR_EXTS.has(ext.toLowerCase());
 
-const isRaw = (ext: string) =>
-  [
-    // Canon
-    'cr2',
-    'cr3',
-    'crw',
-    // Adobe
-    'dng',
-    // Nikon
-    'nef',
-    'nrw',
-    // Sony
-    'arw',
-    'srf',
-    'sr2',
-    // Fujifilm
-    'raf',
-    // Olympus
-    'orf',
-    // Panasonic
-    'rw2',
-    // Pentax
-    'pef',
-    // Samsung
-    'srw',
-    // Sigma
-    'x3f',
-    // Minolta
-    'mrw',
-    'mdc',
-    // Kodak
-    'dcr',
-    'kdc',
-    // Hasselblad
-    '3fr',
-    // Leica
-    'rwl',
-    'raw',
-    // Phase One
-    'iiq',
-    // Mamiya
-    'mef',
-    // Generic
-    'erf',
-    'mos',
-  ].includes(ext.toLowerCase());
+const RAW_EXTS = new Set([
+  // Canon
+  'cr2',
+  'cr3',
+  'crw',
+  // Adobe
+  'dng',
+  // Nikon
+  'nef',
+  'nrw',
+  // Sony
+  'arw',
+  'srf',
+  'sr2',
+  // Fujifilm
+  'raf',
+  // Olympus
+  'orf',
+  // Panasonic
+  'rw2',
+  // Pentax
+  'pef',
+  // Samsung
+  'srw',
+  // Sigma
+  'x3f',
+  // Minolta
+  'mrw',
+  'mdc',
+  // Kodak
+  'dcr',
+  'kdc',
+  // Hasselblad
+  '3fr',
+  // Leica
+  'rwl',
+  'raw',
+  // Phase One
+  'iiq',
+  // Mamiya
+  'mef',
+  // Generic
+  'erf',
+  'mos',
+]);
+const isRaw = (ext: string) => RAW_EXTS.has(ext.toLowerCase());
 
-const isDocument = (ext: string) =>
-  [
-    'pdf',
-    'epdf',
-    'eps',
-    'eps2',
-    'eps3',
-    'epsf',
-    'epsi',
-    'ept',
-    'ps',
-    'ps2',
-    'ps3',
-    'ai',
-    'pcl',
-    'pict',
-  ].includes(ext.toLowerCase());
+const DOCUMENT_EXTS = new Set([
+  'pdf',
+  'epdf',
+  'eps',
+  'eps2',
+  'eps3',
+  'epsf',
+  'epsi',
+  'ept',
+  'ps',
+  'ps2',
+  'ps3',
+  'ai',
+  'pcl',
+  'pict',
+]);
+const isDocument = (ext: string) => DOCUMENT_EXTS.has(ext.toLowerCase());
 
+const WEB_OPTIMIZED_EXTS = new Set(['webp', 'avif', 'jxl', 'heic', 'heif']);
 const isWebOptimized = (ext: string) =>
-  ['webp', 'avif', 'jxl', 'heic', 'heif'].includes(ext.toLowerCase());
+  WEB_OPTIMIZED_EXTS.has(ext.toLowerCase());
 
 // --- Smart feature generation -------------------------------------------------
 
@@ -1836,18 +1864,18 @@ const DEFAULT_FEATURES = (source: string, target: string) => {
   const qualityFeature = () => {
     if (isLossless(tgt))
       return {
-        icon: '💎',
+        icon: 'Gem',
         title: 'Lossless Output Quality',
         description: `${target} is a lossless format - every pixel from your ${source} file is preserved exactly with no compression artifacts.`,
       };
     if (isCompressed(tgt))
       return {
-        icon: '💎',
+        icon: 'Gem',
         title: 'Optimized Compression',
         description: `${target} uses advanced compression to keep file sizes small while maintaining excellent visual quality.`,
       };
     return {
-      icon: '💎',
+      icon: 'Gem',
       title: 'High Quality Output',
       description: `Powered by a professional WASM engine for accurate ${source} to ${target} conversion every time.`,
     };
@@ -1856,30 +1884,30 @@ const DEFAULT_FEATURES = (source: string, target: string) => {
   const purposeFeature = () => {
     if (isWebOptimized(tgt))
       return {
-        icon: '🌐',
+        icon: 'Globe',
         title: 'Web Performance Ready',
         description: `${target} is designed for the modern web - smaller file sizes mean faster page loads and better Core Web Vitals scores.`,
       };
     if (isDocument(tgt))
       return {
-        icon: '📄',
+        icon: 'FileText',
         title: 'Document Ready Output',
         description: `Convert your ${source} image into a print-ready ${target} document, preserving dimensions and quality for professional use.`,
       };
     if (isRaw(src))
       return {
-        icon: '📷',
+        icon: 'Camera',
         title: 'Camera RAW Supported',
         description: `Upload ${source} files straight from your camera - no need to pre-convert. The engine reads RAW data directly.`,
       };
     if (isVector(src))
       return {
-        icon: '🔷',
+        icon: 'Diamond',
         title: 'Vector Rasterization',
         description: `${source} vector graphics are rendered at full quality into ${target} raster pixels - scalable to any resolution.`,
       };
     return {
-      icon: '⚡',
+      icon: 'Zap',
       title: 'Instant Conversion',
       description: `Your ${source} files convert to ${target} in seconds using WebAssembly - no waiting, no queues.`,
     };
@@ -1887,12 +1915,12 @@ const DEFAULT_FEATURES = (source: string, target: string) => {
 
   return [
     {
-      icon: '🔒',
+      icon: 'Lock',
       title: '100% Private - Nothing Uploaded',
       description: `Your ${source} files never leave your device. All conversion happens locally inside your browser using WebAssembly. Zero server contact.`,
     },
     {
-      icon: '📦',
+      icon: 'Package',
       title: 'Batch + ZIP Download',
       description: `Convert up to 20 ${source} files to ${target} at once and download them all as a single ZIP archive in one click.`,
     },

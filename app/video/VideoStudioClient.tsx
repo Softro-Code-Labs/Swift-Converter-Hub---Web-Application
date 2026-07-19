@@ -24,7 +24,7 @@ const TOOLS: StudioTool[] = [
     id: 'convert',
     icon: RefreshCw,
     title: 'Video Format Converter',
-    desc: 'Convert between MP4, WEBM, MOV, AVI and MKV - batch process and download.',
+    desc: 'Convert between MP4, WEBM, MOV, AVI, MKV, M4V, 3GP, FLV, WMV and more - batch process and download.',
     color: 'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
     accentBorder: 'hover:border-purple-300 dark:hover:border-purple-700',
     accentText: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
@@ -32,7 +32,7 @@ const TOOLS: StudioTool[] = [
     status: 'live',
     group: 'convert',
     featured: true,
-    tags: ['mp4', 'webm', 'mov', 'avi', 'mkv', 'convert', 'format'],
+    tags: ['mp4', 'webm', 'mov', 'avi', 'mkv', 'wmv', '3gp', 'convert', 'format'],
   },
 
   // -- Edit group ------------------------------------------------------

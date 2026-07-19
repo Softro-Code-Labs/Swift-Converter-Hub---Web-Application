@@ -53,6 +53,36 @@ export const HIGH_TRAFFIC_PAIRS = new Set([
   'opus-to-mp3',
 ]);
 
+// Pre-rendered (and kept indexable) at build time alongside HIGH_TRAFFIC_PAIRS,
+// but ranked a notch below it - see app/audio/convert/[conversion]/page.tsx
+// and app/sitemap.ts.
+export const MEDIUM_TRAFFIC_PAIRS = new Set([
+  'wma-to-mp3',
+  'mp3-to-wma',
+  'wma-to-wav',
+  'wav-to-wma',
+  'aiff-to-mp3',
+  'mp3-to-aiff',
+  'aiff-to-wav',
+  'wav-to-aiff',
+  'aiff-to-flac',
+  'ac3-to-mp3',
+  'mp3-to-ac3',
+  'ac3-to-wav',
+  'au-to-mp3',
+  'au-to-wav',
+  'mp2-to-mp3',
+  'mp3-to-mp2',
+  'm4a-to-flac',
+  'flac-to-m4a',
+  'ogg-to-flac',
+  'flac-to-ogg',
+  'opus-to-wav',
+  'wav-to-opus',
+  'aac-to-flac',
+  'flac-to-aac',
+]);
+
 const DEFAULT_FEATURES = (source: string, target: string) => {
   const sourceFmt = getFormatByExtension(source.toLowerCase());
   const targetFmt = getFormatByExtension(target.toLowerCase());
@@ -182,6 +212,25 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'mp3 to lossless flac',
       'batch mp3 to flac',
       'mp3 flac private converter',
+    ],
+  },
+  'wma-to-mp3': {
+    keywords: [
+      'wma to mp3 converter',
+      'convert wma to mp3 online free',
+      'old windows media audio to mp3',
+      'wma mp3 no upload',
+      'batch wma to mp3',
+      'wma to mp3 private converter',
+    ],
+  },
+  'aiff-to-wav': {
+    keywords: [
+      'aiff to wav converter',
+      'convert aiff to wav online',
+      'apple lossless aiff to wav',
+      'aiff wav no upload',
+      'batch aiff to wav',
     ],
   },
 };
