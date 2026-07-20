@@ -134,7 +134,7 @@ export default function MetadataTool() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={previewUrl}
-                alt="Preview"
+                alt={`Preview of ${file.name}`}
                 className="max-w-full max-h-[280px] object-contain rounded-xl"
               />
             </div>

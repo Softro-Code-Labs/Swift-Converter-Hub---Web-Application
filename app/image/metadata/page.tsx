@@ -8,6 +8,12 @@ import {
   TechnicalNote,
   FaqAccordion,
 } from '@/features/image/shared/components/page-sections';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+  faqPageJsonLd,
+} from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'EXIF Metadata Viewer',
@@ -22,6 +28,10 @@ export const metadata: Metadata = {
     'online image metadata extractor',
     'gps location from photo',
     'check photo gps data',
+    'remove exif data online',
+    'photo location metadata viewer',
+    'camera settings from photo',
+    'jpeg exif data extractor',
   ],
   alternates: { canonical: `${SITE_URL}/image/metadata` },
   openGraph: {
@@ -111,6 +121,23 @@ const METADATA_FAQS = [
 export default function MetadataPage() {
   return (
     <div className="space-y-0">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Image Studio', path: '/image' },
+            { name: 'EXIF Metadata Viewer', path: '/image/metadata' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'EXIF Metadata Viewer',
+            description:
+              'View camera settings, GPS location, and embedded metadata from your photos, entirely in your browser.',
+            path: '/image/metadata',
+            category: 'MultimediaApplication',
+          }),
+          faqPageJsonLd(METADATA_FAQS),
+        ]}
+      />
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
           <Link

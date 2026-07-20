@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import JsonFormatterTool from '@/features/data/json-formatter/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'format json free tool',
     'json beautify no upload',
     'json formatter instant',
+    'json pretty printer online',
+    'json syntax checker free',
+    'validate json online free',
+    'json key sorter tool',
   ],
   alternates: {
     canonical: `${SITE_URL}/data/json-formatter`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function JsonFormatterPage() {
-  return <JsonFormatterTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Data Studio', path: '/data' },
+            { name: 'JSON Formatter & Validator', path: '/data/json-formatter' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'JSON Formatter & Validator',
+            description:
+              'Beautify, minify, and validate JSON instantly in your browser. Sort keys, escape ASCII, inspect structure stats - no server, no upload, 100% private.',
+            path: '/data/json-formatter',
+            category: 'DeveloperApplication',
+          }),
+        ]}
+      />
+      <JsonFormatterTool />
+    </>
+  );
 }

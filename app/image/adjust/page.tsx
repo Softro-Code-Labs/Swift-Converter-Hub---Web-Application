@@ -9,6 +9,13 @@ import {
   TechnicalNote,
   FaqAccordion,
 } from '@/features/image/shared/components/page-sections';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+  faqPageJsonLd,
+  howToJsonLd,
+} from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Adjust & Filter Images',
@@ -23,6 +30,10 @@ export const metadata: Metadata = {
     'fix dark photos online',
     'photo filter editor online',
     'free photo filter tool',
+    'photo brightness fixer online',
+    'vintage photo filter online',
+    'noir filter online free',
+    'image color grading tool',
   ],
   alternates: { canonical: `${SITE_URL}/image/adjust` },
   openGraph: {
@@ -90,9 +101,50 @@ const ADJUST_FAQS = [
   },
 ];
 
+const ADJUST_STEPS = [
+  {
+    step: '01',
+    title: 'Upload an image',
+    desc: 'Drop any photo to start editing.',
+  },
+  {
+    step: '02',
+    title: 'Adjust or pick a filter',
+    desc: 'Use sliders or one-tap presets - preview updates live.',
+  },
+  {
+    step: '03',
+    title: 'Apply & download',
+    desc: 'Process the final image and save it instantly.',
+  },
+];
+
 export default function AdjustPage() {
   return (
     <div className="space-y-0">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Image Studio', path: '/image' },
+            { name: 'Adjust & Filter', path: '/image/adjust' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Image Adjust & Filter Tool',
+            description:
+              'Adjust brightness, contrast, saturation and apply photo filters, entirely in your browser.',
+            path: '/image/adjust',
+            category: 'MultimediaApplication',
+          }),
+          howToJsonLd({
+            name: 'How to adjust and filter an image online',
+            description:
+              'Fine-tune brightness, contrast and saturation, or apply a filter preset - all with a live preview.',
+            steps: ADJUST_STEPS.map((s) => ({ title: s.title, desc: s.desc })),
+          }),
+          faqPageJsonLd(ADJUST_FAQS),
+        ]}
+      />
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
           <Link
@@ -150,23 +202,7 @@ export default function AdjustPage() {
       <StepList
         title="How it works"
         accentColor="bg-blue-500"
-        steps={[
-          {
-            step: '01',
-            title: 'Upload an image',
-            desc: 'Drop any photo to start editing.',
-          },
-          {
-            step: '02',
-            title: 'Adjust or pick a filter',
-            desc: 'Use sliders or one-tap presets - preview updates live.',
-          },
-          {
-            step: '03',
-            title: 'Apply & download',
-            desc: 'Process the final image and save it instantly.',
-          },
-        ]}
+        steps={ADJUST_STEPS}
       />
 
       <InfoCardGrid

@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     'webassembly video converter',
     'private video converter no upload',
     'batch video converter online',
+    'mov to mp4 converter free',
+    'mkv to mp4 converter online',
+    'video codec converter free',
+    'convert video no signup',
   ],
   alternates: { canonical: `${SITE_URL}/video/convert` },
   openGraph: {

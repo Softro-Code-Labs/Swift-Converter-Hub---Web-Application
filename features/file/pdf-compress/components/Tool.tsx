@@ -30,6 +30,7 @@ export default function PdfCompressTool() {
     level,
     setLevel,
     isCompressing,
+    progress,
     result,
     error,
     loadFile,
@@ -174,7 +175,7 @@ export default function PdfCompressTool() {
                 ))}
               </div>
 
-              {/* What gets removed */}
+              {/* What happens at this level */}
               {(() => {
                 const preset = PRESETS.find((p) => p.id === level)!;
                 const stripped: string[] = [];
@@ -182,17 +183,31 @@ export default function PdfCompressTool() {
                 if (preset.removeAnnotations) stripped.push('annotations');
                 if (preset.removeBookmarks) stripped.push('bookmarks');
                 if (preset.removeAttachments) stripped.push('attachments');
-                return stripped.length > 0 ? (
+                return (
                   <div className="flex items-start gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl">
                     <Info className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
-                      Will remove:{' '}
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                      Re-encodes embedded photos at{' '}
                       <span className="font-bold text-slate-700 dark:text-slate-300">
-                        {stripped.join(', ')}
+                        {Math.round(preset.imageQuality * 100)}% quality
                       </span>
+                      , capped at{' '}
+                      <span className="font-bold text-slate-700 dark:text-slate-300">
+                        {preset.maxImageDimension}px
+                      </span>
+                      {stripped.length > 0 && (
+                        <>
+                          {' '}
+                          and removes{' '}
+                          <span className="font-bold text-slate-700 dark:text-slate-300">
+                            {stripped.join(', ')}
+                          </span>
+                        </>
+                      )}
+                      .
                     </p>
                   </div>
-                ) : null;
+                );
               })()}
             </div>
 
@@ -200,10 +215,11 @@ export default function PdfCompressTool() {
             <div className="flex items-start gap-2 px-4 py-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 rounded-xl">
               <Info className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
               <p className="text-[11px] text-amber-700 dark:text-amber-400 font-semibold leading-relaxed">
-                Browser-based compression works best on PDFs with heavy
-                metadata, annotations, or bookmarks. Image-heavy PDFs may see
-                minimal reduction - for those, desktop tools like Acrobat or
-                Ghostscript give better results.
+                Works best on PDFs with embedded JPEG photos or scans - the
+                usual source of a bloated file. Text-only PDFs, and images
+                using less common encodings (CCITT fax scans, JPEG2000),
+                won&rsquo;t shrink much further since there&rsquo;s no bitmap
+                left to compress.
               </p>
             </div>
 
@@ -235,7 +251,12 @@ export default function PdfCompressTool() {
             >
               {isCompressing ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Compressing…
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  {progress?.stage === 'images' && progress.total > 0
+                    ? `Compressing image ${progress.current} of ${progress.total}…`
+                    : progress?.stage === 'saving'
+                      ? 'Saving…'
+                      : 'Compressing…'}
                 </>
               ) : (
                 <>
@@ -287,8 +308,16 @@ export default function PdfCompressTool() {
                     </div>
                     {result.savedPct === 0 && (
                       <p className="text-[10px] text-slate-400 italic">
-                        This PDF was already well-optimised - try Maximum level
-                        or a desktop tool for further reduction.
+                        {result.imagesFound === 0
+                          ? "This PDF doesn't contain any recompressible images (likely text-only, or uses scan/fax encodings this tool leaves untouched) - try Maximum level for extra metadata stripping, or a desktop tool for further reduction."
+                          : 'This PDF was already well-optimised - try Maximum level or a desktop tool for further reduction.'}
+                      </p>
+                    )}
+                    {result.imagesFound > 0 && (
+                      <p className="text-[10px] text-slate-400">
+                        {result.imagesRecompressed} of {result.imagesFound}{' '}
+                        embedded image
+                        {result.imagesFound === 1 ? '' : 's'} recompressed
                       </p>
                     )}
                   </div>

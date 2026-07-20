@@ -23,6 +23,10 @@ export const metadata: Metadata = {
     'gdpr compliant file converter',
     'local processing data protection policy',
     'private webassembly converter safety',
+    'file converter data policy',
+    'no server file storage policy',
+    'cookie policy file converter',
+    'user data protection online tool',
   ],
   alternates: { canonical: `${SITE_URL}/privacy` },
   openGraph: {

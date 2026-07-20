@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import PdfWatermarkTool from '@/features/file/pdf-watermark/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'pdf watermark no server',
     'pdf stamp tool browser',
     'confidential watermark pdf',
+    'add logo to pdf online',
+    'pdf stamp watermark tool',
+    'confidential stamp pdf free',
+    'watermark opacity pdf tool',
   ],
   alternates: {
     canonical: `${SITE_URL}/file/pdf-watermark`,
@@ -29,5 +38,25 @@ export const metadata: Metadata = {
 };
 
 export default function PdfWatermarkPage() {
-  return <PdfWatermarkTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Document Suite', path: '/file' },
+            { name: 'PDF Watermark', path: '/file/pdf-watermark' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'PDF Watermark',
+            description:
+              'Add text or image watermarks to every page of a PDF - set opacity, angle, position, and size. Live preview before applying. No server, no upload, 100% private. Powered by pdf-lib.',
+            path: '/file/pdf-watermark',
+            category: 'BusinessApplication',
+          }),
+        ]}
+      />
+      <PdfWatermarkTool />
+    </>
+  );
 }

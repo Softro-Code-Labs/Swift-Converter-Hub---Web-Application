@@ -21,6 +21,11 @@ export const metadata: Metadata = {
     'wma to mp3 converter',
     'webassembly audio converter',
     'private audio converter no upload',
+    'aiff to wav converter',
+    'convert audio no signup',
+    'multi format audio converter',
+    'ac3 to mp3 converter',
+    'convert podcast audio format',
   ],
   alternates: {
     canonical: `${SITE_URL}/audio/convert`,

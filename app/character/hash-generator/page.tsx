@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import HashGeneratorTool from '@/features/character/hash-generator/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'generate hash from text',
     'text hash calculator online',
     'hash string online free',
+    'hmac generator online',
+    'checksum generator online',
+    'file hash calculator browser',
+    'web crypto api hash tool',
   ],
   alternates: {
     canonical: `${SITE_URL}/character/hash-generator`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function HashGeneratorPage() {
-  return <HashGeneratorTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Character Studio', path: '/character' },
+            { name: 'Hash Generator', path: '/character/hash-generator' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Hash Generator',
+            description:
+              'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text or files using the Web Crypto API - with optional HMAC signing. Instant, private, nothing leaves your browser.',
+            path: '/character/hash-generator',
+            category: 'UtilitiesApplication',
+          }),
+        ]}
+      />
+      <HashGeneratorTool />
+    </>
+  );
 }

@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     'cut video clip browser',
     'trim mov file online',
     'video cutter private',
+    'video trimmer no signup',
+    'cut video clip free online',
+    'shorten video file online',
+    'extract video segment online',
   ],
   alternates: { canonical: `${SITE_URL}/video/trim` },
   openGraph: {

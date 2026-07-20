@@ -258,6 +258,9 @@ export const getConversionRoute = (
     `browser based ${source} to ${target} converter`,
     `private ${source} to ${target} conversion`,
     `${source} to ${target} converter no upload`,
+    `how to convert ${source} to ${target}`,
+    `${source} to ${target} converter no signup`,
+    `best ${source} to ${target} converter online`,
   ];
 
   return {
@@ -267,10 +270,12 @@ export const getConversionRoute = (
     description:
       override.description ??
       `Convert ${sourceLabel} audio to ${targetLabel} instantly in your browser. Batch convert multiple files, adjust bitrate, and download - zero uploads, 100% private.`,
+    // Hand-crafted override keywords go first so they always survive the cap;
+    // the templated base keywords fill in behind them and get deduped.
     keywords: override.keywords
-      ? Array.from(new Set([...baseKeywords, ...override.keywords])).slice(
+      ? Array.from(new Set([...override.keywords, ...baseKeywords])).slice(
           0,
-          14,
+          20,
         )
       : baseKeywords,
     features: override.features ?? DEFAULT_FEATURES(sourceLabel, targetLabel),
