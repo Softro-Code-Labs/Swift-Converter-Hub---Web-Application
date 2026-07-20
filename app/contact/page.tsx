@@ -13,6 +13,10 @@ export const metadata: Metadata = {
     'feature request browser utility',
     'swift converter hub help',
     'contact webassembly tool team',
+    'swift converter hub contact form',
+    'file converter customer support',
+    'submit feature request tool',
+    'report file converter issue',
   ],
   alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: {

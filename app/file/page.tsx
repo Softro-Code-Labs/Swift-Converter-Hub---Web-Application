@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     'pdf tools no server',
     'private pdf tools browser',
     'offline pdf toolkit online',
+    'free pdf editor online',
+    'pdf tools no signup',
+    'edit pdf in browser free',
+    'pdf toolkit online free',
   ],
   alternates: { canonical: `${SITE_URL}/file` },
   openGraph: {

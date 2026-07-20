@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import ExcelJsonTool from '@/features/data/excel-json/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'excel json no upload',
     'xlsx json online tool',
     'excel to json instant',
+    'xlsx parser online free',
+    'multi sheet excel converter',
+    'spreadsheet to json online',
+    'convert ods to json',
   ],
   alternates: {
     canonical: `${SITE_URL}/data/excel-json`,
@@ -29,5 +38,25 @@ export const metadata: Metadata = {
 };
 
 export default function ExcelJsonPage() {
-  return <ExcelJsonTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Data Studio', path: '/data' },
+            { name: 'Excel to JSON Converter', path: '/data/excel-json' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Excel to JSON Converter',
+            description:
+              'Convert Excel .xlsx, .xls, and .ods spreadsheets to JSON in your browser. Multi-sheet support, header row detection, date formatting, and empty cell control - no server, no upload, 100% private.',
+            path: '/data/excel-json',
+            category: 'DeveloperApplication',
+          }),
+        ]}
+      />
+      <ExcelJsonTool />
+    </>
+  );
 }

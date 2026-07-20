@@ -8,6 +8,12 @@ import {
   TechnicalNote,
   FaqAccordion,
 } from '@/features/image/shared/components/page-sections';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+  faqPageJsonLd,
+} from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Image to Base64 Converter',
@@ -22,6 +28,10 @@ export const metadata: Metadata = {
     'png to base64 online',
     'base64 to image converter',
     'base64 decoder online',
+    'data uri image converter',
+    'css background image base64',
+    'html embed image base64',
+    'svg to base64 converter',
   ],
   alternates: { canonical: `${SITE_URL}/image/base64` },
   openGraph: {
@@ -97,6 +107,23 @@ const BASE64_FAQS = [
 export default function Base64Page() {
   return (
     <div className="space-y-0">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Image Studio', path: '/image' },
+            { name: 'Image to Base64 Converter', path: '/image/base64' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Image to Base64 Converter',
+            description:
+              'Convert images to Base64 strings or decode Base64 back to images, entirely in your browser.',
+            path: '/image/base64',
+            category: 'MultimediaApplication',
+          }),
+          faqPageJsonLd(BASE64_FAQS),
+        ]}
+      />
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
           <Link

@@ -28,6 +28,11 @@ export const metadata: Metadata = {
     'lower audio bitrate online',
     'browser audio compressor no upload',
     'compress podcast audio free',
+    'audio bitrate reducer',
+    'mp3 file size reducer',
+    'compress voice recording online',
+    'reduce podcast file size',
+    'audio compressor no signup',
   ],
   alternates: { canonical: `${SITE_URL}/audio/compress` },
   openGraph: {

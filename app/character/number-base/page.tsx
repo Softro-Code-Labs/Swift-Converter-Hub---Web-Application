@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import NumberBaseTool from '@/features/character/number-base/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'decimal to binary converter',
     'hex to decimal converter',
     'decimal to hex converter',
+    'binary octal decimal hex converter',
+    'bit pattern visualizer online',
+    'byte size calculator online',
+    'programmer number converter',
   ],
   alternates: {
     canonical: `${SITE_URL}/character/number-base`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function NumberBasePage() {
-  return <NumberBaseTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Character Studio', path: '/character' },
+            { name: 'Number Base Converter', path: '/character/number-base' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Number Base Converter',
+            description:
+              'Convert numbers between binary, octal, decimal, and hexadecimal simultaneously as you type. Includes bit pattern visualiser, byte size, and common value reference - instant, private, no server.',
+            path: '/character/number-base',
+            category: 'UtilitiesApplication',
+          }),
+        ]}
+      />
+      <NumberBaseTool />
+    </>
+  );
 }

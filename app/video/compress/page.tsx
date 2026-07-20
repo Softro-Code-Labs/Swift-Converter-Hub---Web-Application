@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     'lower video resolution online',
     'browser video compressor no upload',
     'compress video for email free',
+    'shrink mp4 for email free',
+    'video compressor no signup',
+    'reduce 4k video size online',
+    'video bitrate reducer free',
   ],
   alternates: { canonical: `${SITE_URL}/video/compress` },
   openGraph: {

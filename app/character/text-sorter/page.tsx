@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import TextSorterTool from '@/features/character/text-sorter/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'online line sorter free',
     'text line organiser tool',
     'sort list online free',
+    'remove duplicate lines online',
+    'shuffle text lines online',
+    'reverse line order tool',
+    'trim whitespace from text online',
   ],
   alternates: {
     canonical: `${SITE_URL}/character/text-sorter`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function TextSorterPage() {
-  return <TextSorterTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Sorter & Deduplicator', path: '/character/text-sorter' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Text Sorter & Deduplicator',
+            description:
+              'Sort lines A-Z, Z-A, by length, or numerically. Shuffle, reverse, remove duplicates, strip blank lines, and trim whitespace - instantly in your browser. No server, 100% private.',
+            path: '/character/text-sorter',
+            category: 'UtilitiesApplication',
+          }),
+        ]}
+      />
+      <TextSorterTool />
+    </>
+  );
 }

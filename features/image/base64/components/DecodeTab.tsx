@@ -93,7 +93,7 @@ export const DecodeTab = () => {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={decodeResult.blobUrl}
-              alt="Decoded"
+              alt="Image decoded from Base64 string"
               className="max-w-full max-h-[240px] object-contain rounded-xl"
             />
           ) : (

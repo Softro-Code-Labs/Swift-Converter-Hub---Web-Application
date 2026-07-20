@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     'create gif from clip free',
     'gif maker private browser',
     'video clip to animated gif',
+    'mp4 clip to gif maker',
+    'looping gif maker online',
+    'video snippet to gif free',
+    'convert clip to gif no watermark',
   ],
   alternates: { canonical: `${SITE_URL}/video/to-gif` },
   openGraph: {

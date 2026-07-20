@@ -24,6 +24,10 @@ export const metadata: Metadata = {
     'no upload audio converter',
     'private audio tools browser',
     'batch audio converter online',
+    'online audio editor free',
+    'audio studio no install',
+    'audio tools no signup',
+    'convert and edit audio browser',
   ],
   alternates: { canonical: `${SITE_URL}/audio` },
   openGraph: {

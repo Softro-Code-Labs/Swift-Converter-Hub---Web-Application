@@ -2359,6 +2359,9 @@ export const getConversionRoute = (
     `browser based ${source} to ${target} converter`,
     `private ${source} to ${target} conversion`,
     `${source} to ${target} converter no upload`,
+    `how to convert ${source} to ${target}`,
+    `${source} to ${target} converter no signup`,
+    `best ${source} to ${target} converter online`,
   ];
 
   return {
@@ -2368,8 +2371,10 @@ export const getConversionRoute = (
     description:
       override.description ??
       `Convert ${sourceLabel} images to ${targetLabel} format free, fast, and privately in your browser.`,
+    // Hand-crafted override keywords go first since they're more specific and
+    // valuable; templated base keywords fill in behind them and get deduped.
     keywords: override.keywords
-      ? [...new Set([...baseKeywords, ...override.keywords])]
+      ? [...new Set([...override.keywords, ...baseKeywords])]
       : baseKeywords,
     features: override.features ?? DEFAULT_FEATURES(sourceLabel, targetLabel),
     faqs: override.faqs ?? DEFAULT_FAQS(sourceLabel, targetLabel),

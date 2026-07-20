@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import JsonXmlTool from '@/features/data/json-xml/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'json xml bidirectional',
     'json xml no upload',
     'json xml instant',
+    'json xml attribute converter',
+    'convert api response to xml',
+    'xml pretty print online',
+    'json to xml with root element',
   ],
   alternates: {
     canonical: `${SITE_URL}/data/json-xml`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function JsonXmlPage() {
-  return <JsonXmlTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Data Studio', path: '/data' },
+            { name: 'JSON to XML Converter', path: '/data/json-xml' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'JSON to XML Converter',
+            description:
+              'Convert JSON to XML or XML to JSON instantly in your browser. Supports XML attributes, custom root elements, pretty printing, and auto type coercion - no server, no upload, 100% private.',
+            path: '/data/json-xml',
+            category: 'DeveloperApplication',
+          }),
+        ]}
+      />
+      <JsonXmlTool />
+    </>
+  );
 }

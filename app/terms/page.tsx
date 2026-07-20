@@ -23,6 +23,10 @@ export const metadata: Metadata = {
     'browser utility usage guidelines',
     'client side tool liability policy',
     'webassembly application terms of use',
+    'file converter acceptable use policy',
+    'online tool disclaimer',
+    'free tool terms and conditions',
+    'converter software license terms',
   ],
   alternates: { canonical: `${SITE_URL}/terms` },
   openGraph: {
