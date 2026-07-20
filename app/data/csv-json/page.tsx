@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import CsvJsonTool from '@/features/data/csv-json/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'csv json tool no upload',
     'csv to json instant',
     'json to csv instant',
+    'csv parser online free',
+    'json to csv download',
+    'custom delimiter csv converter',
+    'csv to json with headers',
   ],
   alternates: {
     canonical: `${SITE_URL}/data/csv-json`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function CsvJsonPage() {
-  return <CsvJsonTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Data Studio', path: '/data' },
+            { name: 'CSV to JSON Converter', path: '/data/csv-json' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'CSV to JSON Converter',
+            description:
+              'Convert CSV to JSON or JSON to CSV instantly in your browser. Supports custom delimiters, header rows, pretty printing, and auto type coercion - no server, no upload, 100% private.',
+            path: '/data/csv-json',
+            category: 'DeveloperApplication',
+          }),
+        ]}
+      />
+      <CsvJsonTool />
+    </>
+  );
 }

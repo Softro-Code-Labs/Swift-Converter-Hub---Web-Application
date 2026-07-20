@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import RegexTesterTool from '@/features/character/regex-tester/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'regex flags online',
     'regex debugger browser',
     'regex match highlighter',
+    'regex pattern tester online',
+    'regex online sandbox',
+    'test regular expression online free',
+    'regex validator browser',
   ],
   alternates: {
     canonical: `${SITE_URL}/character/regex-tester`,
@@ -29,5 +38,25 @@ export const metadata: Metadata = {
 };
 
 export default function RegexTesterPage() {
-  return <RegexTesterTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Character Studio', path: '/character' },
+            { name: 'Regex Tester', path: '/character/regex-tester' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Regex Tester',
+            description:
+              'Test regular expressions live with match highlighting, capture group inspection, and flag controls (i, m, s, u). Powered by the JavaScript RegExp engine - instant, private, no server.',
+            path: '/character/regex-tester',
+            category: 'UtilitiesApplication',
+          }),
+        ]}
+      />
+      <RegexTesterTool />
+    </>
+  );
 }

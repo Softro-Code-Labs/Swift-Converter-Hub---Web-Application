@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     'no upload data converter',
     'private data conversion browser',
     'offline data converter online',
+    'developer data tools online',
+    'structured data converter free',
+    'no signup data tools',
+    'api data format converter',
   ],
   alternates: { canonical: `${SITE_URL}/data` },
   openGraph: {

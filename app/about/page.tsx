@@ -25,6 +25,11 @@ export const metadata: Metadata = {
     'webassembly local file processing',
     'no upload file converter',
     'secure client side conversion',
+    'webassembly image converter explained',
+    'zero data collection file tool',
+    'client side processing explained',
+    'how browser file conversion works',
+    'free privacy focused converter',
   ],
   alternates: { canonical: `${SITE_URL}/about` },
   openGraph: {

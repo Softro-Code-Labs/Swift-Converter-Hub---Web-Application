@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     'loudness normalization online free',
     'audio gain adjuster browser',
     'private volume booster no upload',
+    'audio normalizer online free',
+    'fix quiet audio online',
+    'increase volume of audio file',
+    'audio loudness fixer browser',
   ],
   alternates: { canonical: `${SITE_URL}/audio/volume` },
   openGraph: {

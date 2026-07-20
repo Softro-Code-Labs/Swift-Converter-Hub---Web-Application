@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     'word counter free tool',
     'character count online',
     'accurate word tracker browser',
+    'text tools online free',
+    'browser text utilities',
+    'no signup text tools',
+    'developer text tools online',
   ],
   alternates: { canonical: `${SITE_URL}/character` },
   openGraph: {

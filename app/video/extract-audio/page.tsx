@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     'rip audio from video free',
     'video sound extractor online',
     'convert video to audio private',
+    'mp4 to wav converter free',
+    'strip audio from video online',
+    'video audio track saver',
+    'podcast audio extractor free',
   ],
   alternates: { canonical: `${SITE_URL}/video/extract-audio` },
   openGraph: {

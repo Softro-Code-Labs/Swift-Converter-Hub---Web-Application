@@ -12,6 +12,72 @@ import {
   Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+import { SITE_URL } from '@/config/site';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
+
+export const metadata: Metadata = {
+  title: 'Free Online File Converter - Image, Audio, Video, PDF & Data Tools',
+  description:
+    'Convert images, audio, video, PDFs, and data files entirely in your browser. 150+ image formats, no uploads, no accounts, no limits - powered by WebAssembly for complete privacy.',
+  keywords: [
+    // brand
+    'swift converter hub',
+    'swift converter hub online',
+    'swift converter hub free',
+
+    // core value proposition
+    'free online file converter',
+    'file converter no upload',
+    'browser based file converter',
+    'private file converter online',
+    'convert files without uploading',
+    'client side file conversion tool',
+    'webassembly file converter',
+    'offline capable file converter',
+    'no signup file converter',
+    'unlimited free file converter',
+    'secure file conversion online',
+    'gdpr compliant file converter',
+
+    // category entry points
+    'image audio video converter',
+    'all in one file converter',
+    'convert image audio video pdf',
+    'online image converter free',
+    'online audio converter free',
+    'online video converter free',
+    'online pdf converter free',
+    'online data format converter',
+    'text and string tools online',
+
+    // high-intent long tail
+    'convert heic to jpg online',
+    'convert mp4 to mp3 online',
+    'convert pdf to word online',
+    'convert csv to json online',
+    'compress image without losing quality',
+    'compress video file size online',
+  ],
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    title: 'Swift Converter Hub - Free Online File Converter',
+    description:
+      'Convert images, audio, video, PDFs, and data files entirely in your browser. No uploads, no accounts, no limits.',
+    url: SITE_URL,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Swift Converter Hub - Free Online File Converter',
+    description:
+      'Convert images, audio, video, PDFs, and data files entirely in your browser. No uploads, no accounts, no limits.',
+  },
+};
 
 const STUDIOS = [
   {
@@ -136,6 +202,29 @@ const STATS = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([{ name: 'Home', path: '/' }]),
+          softwareApplicationJsonLd({
+            name: 'Swift Converter Hub',
+            description:
+              'Convert images, audio, video, PDFs, and data files entirely in your browser - no uploads, no accounts, no limits.',
+            path: '/',
+            category: 'MultimediaApplication',
+          }),
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Swift Converter Hub Studios',
+            itemListElement: STUDIOS.map((studio, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              name: studio.label,
+              url: `${SITE_URL}${studio.href}`,
+            })),
+          },
+        ]}
+      />
       {/* -- Hero ------------------------------------------------------------ */}
       <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">

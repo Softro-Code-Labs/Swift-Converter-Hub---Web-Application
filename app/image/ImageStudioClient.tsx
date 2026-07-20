@@ -44,7 +44,7 @@ const TOOLS: StudioTool[] = [
       'heic',
       'svg',
       'format',
-      '120 formats',
+      '150+ formats',
     ],
   },
   {

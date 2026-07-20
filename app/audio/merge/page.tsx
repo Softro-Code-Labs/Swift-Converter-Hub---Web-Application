@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     'merge multiple audio tracks',
     'combine wav files free',
     'audio merger private browser',
+    'audio concatenator online',
+    'combine voice recordings free',
+    'stitch audio clips together',
+    'merge podcast segments online',
   ],
   alternates: { canonical: `${SITE_URL}/audio/merge` },
   openGraph: {

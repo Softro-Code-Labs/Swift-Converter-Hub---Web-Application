@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import FindReplaceTool from '@/features/character/find-replace/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'regex tester replace',
     'case sensitive find replace',
     'whole word replace tool',
+    'multiline find replace tool',
+    'batch text replace online',
+    'regex substitution tool',
+    'search and replace text online',
   ],
   alternates: {
     canonical: `${SITE_URL}/character/find-replace`,
@@ -29,5 +38,25 @@ export const metadata: Metadata = {
 };
 
 export default function FindReplacePage() {
-  return <FindReplaceTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Character Studio', path: '/character' },
+            { name: 'Find & Replace', path: '/character/find-replace' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Find & Replace',
+            description:
+              'Find and replace text with live match highlighting. Supports plain text and regular expressions with case-sensitive, whole-word, and regex modes - all in your browser, 100% private.',
+            path: '/character/find-replace',
+            category: 'UtilitiesApplication',
+          }),
+        ]}
+      />
+      <FindReplaceTool />
+    </>
+  );
 }

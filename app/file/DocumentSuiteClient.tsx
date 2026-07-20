@@ -64,7 +64,7 @@ const TOOLS: StudioTool[] = [
     status: 'live',
     group: 'pdf',
     featured: false,
-    tags: ['compress', 'reduce', 'size', 'optimize', 'pdf', 'shrink'],
+    tags: ['compress', 'reduce', 'size', 'optimize', 'pdf', 'shrink', 'images', 'photos'],
   },
   {
     id: 'pdf-rotate',
@@ -97,6 +97,22 @@ const TOOLS: StudioTool[] = [
     group: 'convert',
     featured: true,
     tags: ['word', 'excel', 'docx', 'xlsx', 'pdf', 'convert', 'office'],
+  },
+  {
+    id: 'pdf-to-word',
+    icon: RefreshCw,
+    title: 'PDF to Word Converter',
+    desc: 'Turn a PDF into an editable .docx - automatic paragraph and heading detection.',
+    color:
+      'bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400',
+    accentBorder: 'hover:border-orange-300 dark:hover:border-orange-700',
+    accentText:
+      'group-hover:text-orange-600 dark:group-hover:text-orange-400',
+    href: '/file/pdf-to-word',
+    status: 'live',
+    group: 'convert',
+    featured: true,
+    tags: ['pdf', 'word', 'docx', 'convert', 'editable', 'text', 'office'],
   },
   {
     id: 'pdf-watermark',
@@ -149,7 +165,7 @@ const HERO: StudioHeroConfig = {
   title: 'Document Suite',
   subtitle: 'PDF tools · Office conversion · Sensitive docs stay private',
   description:
-    "We're building PDF manipulation using pdf-lib - merge, split, compress, and rotate pages without a server. Document conversion to PDF reuses the same engine that powers our Word and Excel rendering.",
+    "We're building PDF manipulation using pdf-lib - merge, split, compress, and rotate pages without a server. Convert Word and Excel to PDF, or bring a PDF back into an editable Word document - all without a server.",
   privacyNote:
     '🔒 Sensitive documents never leave your browser - processed entirely client-side.',
   accentFrom: 'from-cyan-400',
@@ -171,7 +187,7 @@ const HERO: StudioHeroConfig = {
     },
     {
       icon: FileText,
-      label: '6 document tools',
+      label: '7 document tools',
       color:
         'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800',
     },

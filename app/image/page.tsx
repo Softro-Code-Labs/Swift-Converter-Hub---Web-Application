@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     'online image workshop free',
     'web image processing tools',
     'image utility suite browser',
+    'free photo editor online',
+    'no signup image tools',
+    'batch photo processing online',
+    'image editing suite free',
   ],
   alternates: { canonical: `${SITE_URL}/image` },
   openGraph: {

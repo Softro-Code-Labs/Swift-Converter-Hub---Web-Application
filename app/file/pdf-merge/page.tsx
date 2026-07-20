@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import PdfMergeTool from '@/features/file/pdf-merge/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'combine multiple pdfs browser',
     'pdf joiner online free',
     'merge pdf files instantly',
+    'combine pdf documents free',
+    'pdf lib merge tool',
+    'reorder pdf pages before merge',
+    'append pdf files online',
   ],
   alternates: {
     canonical: `${SITE_URL}/file/pdf-merge`,
@@ -29,5 +38,25 @@ export const metadata: Metadata = {
 };
 
 export default function PdfMergePage() {
-  return <PdfMergeTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Document Suite', path: '/file' },
+            { name: 'Merge PDF Files', path: '/file/pdf-merge' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Merge PDF Files',
+            description:
+              'Combine multiple PDF files into a single document in your browser. Drag to reorder pages before merging - no server, no upload, 100% private. Powered by pdf-lib.',
+            path: '/file/pdf-merge',
+            category: 'BusinessApplication',
+          }),
+        ]}
+      />
+      <PdfMergeTool />
+    </>
+  );
 }

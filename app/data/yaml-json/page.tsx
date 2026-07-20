@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import YamlJsonTool from '@/features/data/yaml-json/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'yaml json bidirectional',
     'yaml json no upload',
     'yaml converter free',
+    'kubernetes yaml to json',
+    'docker compose converter online',
+    'yaml validator online free',
+    'convert ci config to json',
   ],
   alternates: {
     canonical: `${SITE_URL}/data/yaml-json`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function YamlJsonPage() {
-  return <YamlJsonTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Data Studio', path: '/data' },
+            { name: 'YAML to JSON Converter', path: '/data/yaml-json' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'YAML to JSON Converter',
+            description:
+              'Convert YAML to JSON or JSON to YAML instantly in your browser. Supports multi-document YAML, Kubernetes manifests, Docker Compose, CI configs, and API specs - no server, no upload, 100% private.',
+            path: '/data/yaml-json',
+            category: 'DeveloperApplication',
+          }),
+        ]}
+      />
+      <YamlJsonTool />
+    </>
+  );
 }

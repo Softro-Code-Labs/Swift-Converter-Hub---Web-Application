@@ -9,6 +9,13 @@ import {
   TechnicalNote,
   FaqAccordion,
 } from '@/features/image/shared/components/page-sections';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+  faqPageJsonLd,
+  howToJsonLd,
+} from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Image Crop & Resize',
@@ -23,6 +30,10 @@ export const metadata: Metadata = {
     'crop image to circle browser',
     'resize image free',
     'image resize tool free',
+    'aspect ratio image cropper',
+    'square image cropper online',
+    'crop photo for social media free',
+    'resize image without losing quality',
   ],
   alternates: { canonical: `${SITE_URL}/image/crop` },
   openGraph: {
@@ -87,9 +98,50 @@ const CROP_FAQS = [
   },
 ];
 
+const CROP_STEPS = [
+  {
+    step: '01',
+    title: 'Upload your image',
+    desc: 'Drop any image file - PNG, JPG, WebP, HEIC and more.',
+  },
+  {
+    step: '02',
+    title: 'Crop or resize',
+    desc: 'Drag the crop handles, pick an aspect ratio, or enter exact pixel dimensions.',
+  },
+  {
+    step: '03',
+    title: 'Download the result',
+    desc: 'Choose your output format and download. Nothing is stored or uploaded.',
+  },
+];
+
 export default function CropPage() {
   return (
     <div className="space-y-0">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Image Studio', path: '/image' },
+            { name: 'Crop & Resize', path: '/image/crop' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Image Crop & Resize Tool',
+            description:
+              'Crop and resize images to any dimension or aspect ratio with a visual drag editor, entirely in your browser.',
+            path: '/image/crop',
+            category: 'MultimediaApplication',
+          }),
+          howToJsonLd({
+            name: 'How to crop and resize an image online',
+            description:
+              'Visually crop images with drag handles, lock aspect ratios, and resize to any pixel dimension.',
+            steps: CROP_STEPS.map((s) => ({ title: s.title, desc: s.desc })),
+          }),
+          faqPageJsonLd(CROP_FAQS),
+        ]}
+      />
       {/* Header */}
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
@@ -168,23 +220,7 @@ export default function CropPage() {
       <StepList
         title="How it works"
         accentColor="bg-blue-500"
-        steps={[
-          {
-            step: '01',
-            title: 'Upload your image',
-            desc: 'Drop any image file - PNG, JPG, WebP, HEIC and more.',
-          },
-          {
-            step: '02',
-            title: 'Crop or resize',
-            desc: 'Drag the crop handles, pick an aspect ratio, or enter exact pixel dimensions.',
-          },
-          {
-            step: '03',
-            title: 'Download the result',
-            desc: 'Choose your output format and download. Nothing is stored or uploaded.',
-          },
-        ]}
+        steps={CROP_STEPS}
       />
 
       <InfoCardGrid

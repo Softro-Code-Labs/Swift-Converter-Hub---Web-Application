@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import LoremIpsumTool from '@/features/character/lorem-ipsum/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'random text generator free',
     'lorem ipsum paragraphs',
     'lorem ipsum sentences',
+    'lorem ipsum by paragraph',
+    'sample text generator for design',
+    'placeholder copy generator',
+    'ipsum text generator free',
   ],
   alternates: {
     canonical: `${SITE_URL}/character/lorem-ipsum`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function LoremIpsumPage() {
-  return <LoremIpsumTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Character Studio', path: '/character' },
+            { name: 'Lorem Ipsum Generator', path: '/character/lorem-ipsum' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Lorem Ipsum Generator',
+            description:
+              'Generate classic Lorem Ipsum or random English placeholder text by words, sentences, or paragraphs - instantly in your browser. No server, 100% private.',
+            path: '/character/lorem-ipsum',
+            category: 'UtilitiesApplication',
+          }),
+        ]}
+      />
+      <LoremIpsumTool />
+    </>
+  );
 }

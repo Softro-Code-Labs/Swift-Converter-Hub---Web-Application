@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import PdfSplitTool from '@/features/file/pdf-split/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'extract pages from pdf online',
     'pdf split by range',
     'pdf split every n pages',
+    'divide pdf into parts online',
+    'pdf page extractor tool',
+    'separate pdf pages free',
+    'pdf splitter no signup',
   ],
   alternates: {
     canonical: `${SITE_URL}/file/pdf-split`,
@@ -30,5 +39,25 @@ export const metadata: Metadata = {
 };
 
 export default function PdfSplitPage() {
-  return <PdfSplitTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Document Suite', path: '/file' },
+            { name: 'Split PDF Pages', path: '/file/pdf-split' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Split PDF Pages',
+            description:
+              'Extract specific pages, split by custom ranges, or divide a PDF into equal parts - all in your browser. No server, no upload, 100% private. Powered by pdf-lib.',
+            path: '/file/pdf-split',
+            category: 'BusinessApplication',
+          }),
+        ]}
+      />
+      <PdfSplitTool />
+    </>
+  );
 }

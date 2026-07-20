@@ -9,6 +9,13 @@ import {
   TechnicalNote,
   FaqAccordion,
 } from '@/features/image/shared/components/page-sections';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+  faqPageJsonLd,
+  howToJsonLd,
+} from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Compress Images',
@@ -23,6 +30,10 @@ export const metadata: Metadata = {
     'webp compression tool free',
     'batch image compression tool',
     'bulk image optimizer online',
+    'compress photo for web online',
+    'no watermark image compressor',
+    'lossless image compressor free',
+    'reduce jpg size online',
   ],
   alternates: { canonical: `${SITE_URL}/image/compress` },
   openGraph: {
@@ -97,9 +108,50 @@ const COMPRESS_FAQS = [
   },
 ];
 
+const COMPRESS_STEPS = [
+  {
+    step: '01',
+    title: 'Upload images',
+    desc: 'Drop up to 20 images at once.',
+  },
+  {
+    step: '02',
+    title: 'Choose quality',
+    desc: 'Pick a preset or set a custom quality level.',
+  },
+  {
+    step: '03',
+    title: 'Download savings',
+    desc: 'Get individually compressed files or a ZIP bundle.',
+  },
+];
+
 export default function CompressPage() {
   return (
     <div className="space-y-0">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Image Studio', path: '/image' },
+            { name: 'Compress & Optimize', path: '/image/compress' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'Image Compressor',
+            description:
+              'Shrink image file size without losing visual quality, entirely in your browser.',
+            path: '/image/compress',
+            category: 'MultimediaApplication',
+          }),
+          howToJsonLd({
+            name: 'How to compress an image online',
+            description:
+              'Reduce image file size with adjustable quality presets - all processed locally in your browser.',
+            steps: COMPRESS_STEPS.map((s) => ({ title: s.title, desc: s.desc })),
+          }),
+          faqPageJsonLd(COMPRESS_FAQS),
+        ]}
+      />
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
           <Link
@@ -157,23 +209,7 @@ export default function CompressPage() {
       <StepList
         title="How it works"
         accentColor="bg-blue-500"
-        steps={[
-          {
-            step: '01',
-            title: 'Upload images',
-            desc: 'Drop up to 20 images at once.',
-          },
-          {
-            step: '02',
-            title: 'Choose quality',
-            desc: 'Pick a preset or set a custom quality level.',
-          },
-          {
-            step: '03',
-            title: 'Download savings',
-            desc: 'Get individually compressed files or a ZIP bundle.',
-          },
-        ]}
+        steps={COMPRESS_STEPS}
       />
 
       <InfoCardGrid

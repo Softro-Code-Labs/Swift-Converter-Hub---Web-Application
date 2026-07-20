@@ -1,5 +1,10 @@
 import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from '@/components/seo/JsonLd';
 import PdfRotateTool from '@/features/file/pdf-rotate/components';
 
 export const metadata: Metadata = {
@@ -15,6 +20,10 @@ export const metadata: Metadata = {
     'pdf rotate individual pages',
     'pdf page orientation fix',
     'rotate pdf browser tool',
+    'fix pdf orientation online',
+    'rotate single pdf page',
+    'pdf landscape to portrait',
+    'pdf rotate tool free',
   ],
   alternates: {
     canonical: `${SITE_URL}/file/pdf-rotate`,
@@ -29,5 +38,25 @@ export const metadata: Metadata = {
 };
 
 export default function PdfRotatePage() {
-  return <PdfRotateTool />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Document Suite', path: '/file' },
+            { name: 'PDF Page Rotator', path: '/file/pdf-rotate' },
+          ]),
+          softwareApplicationJsonLd({
+            name: 'PDF Page Rotator',
+            description:
+              'Rotate individual PDF pages or all pages at once - 90°, 180°, or 270°. Visual page grid with live rotation preview. No server, no upload, 100% private. Powered by pdf-lib.',
+            path: '/file/pdf-rotate',
+            category: 'BusinessApplication',
+          }),
+        ]}
+      />
+      <PdfRotateTool />
+    </>
+  );
 }

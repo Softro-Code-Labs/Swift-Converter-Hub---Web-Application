@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     'cut audio clip browser',
     'trim wav file online',
     'audio cutter private',
+    'audio trimmer no signup',
+    'cut audio clip free online',
+    'shorten audio file online',
+    'extract audio segment online',
   ],
   alternates: { canonical: `${SITE_URL}/audio/trim` },
   openGraph: {

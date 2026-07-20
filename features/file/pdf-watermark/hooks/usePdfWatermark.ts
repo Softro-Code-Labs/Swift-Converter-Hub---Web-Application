@@ -180,7 +180,11 @@ export function usePdfWatermark() {
       // Render first page thumbnail for preview
       try {
         const pdfjsLib = await import('pdfjs-dist');
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+          'pdfjs-dist/build/pdf.worker.min.mjs',
+          import.meta.url,
+        ).toString();
+
         const pdf = await pdfjsLib.getDocument({ data: buf.slice(0) }).promise;
         const page = await pdf.getPage(1);
         const viewport = page.getViewport({ scale: 0.6 });
