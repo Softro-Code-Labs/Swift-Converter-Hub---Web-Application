@@ -5,7 +5,11 @@ import { Providers } from './providers';
 import { ADSENSE } from '@/lib/adsense';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { JsonLd } from '@/components/seo/JsonLd';
+import {
+  JsonLd,
+  organizationJsonLd,
+  websiteJsonLd,
+} from '@/components/seo/JsonLd';
 import './globals.css';
 
 // 1. FONT CONFIGURATIONS
@@ -179,15 +183,15 @@ export const metadata: Metadata = {
     'hex to string converter',
   ],
   authors: [{ name: 'SwiftConverterHub Team' }],
-  creator: 'Swift Converter Hub',
-  publisher: 'Swift Converter Hub',
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
 
   // Open Graph metadata for rich link previews across social and messaging platforms
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
-    siteName: 'Swift Converter Hub',
+    siteName: SITE_NAME,
     title: 'Swift Converter Hub | Secure Local File Converters',
     description:
       'Convert images and files instantly inside your browser. Zero cloud uploads.',
@@ -196,7 +200,7 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Swift Converter Hub',
+        alt: SITE_NAME,
       },
     ],
   },
@@ -269,22 +273,7 @@ export default function RootLayout({
           }}
         />
 
-        <JsonLd
-          data={[
-            {
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: SITE_NAME,
-              url: SITE_URL,
-            },
-            {
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: SITE_NAME,
-              url: SITE_URL,
-            },
-          ]}
-        />
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <Providers>
           <Navbar />
           <div className="flex flex-col min-h-screen">{children}</div>

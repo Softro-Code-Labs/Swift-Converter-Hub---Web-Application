@@ -48,6 +48,47 @@ export function breadcrumbJsonLd(
   };
 }
 
+/**
+ * Organization schema for the site publisher. Only includes fields backed
+ * by real, verifiable info (no invented founding dates, ratings, or social
+ * profiles) - accuracy matters more than checklist completeness here, since
+ * this is exactly the kind of data an AI system may quote directly.
+ */
+export function organizationJsonLd(): JsonLdValue {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo-icon.png`,
+    description:
+      'Swift Converter Hub builds free, browser-based file conversion tools for images, audio, video, PDFs, structured data, and text - all processed locally via WebAssembly, with no file ever uploaded to a server.',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: 'support@swiftconverterhub.com',
+      url: `${SITE_URL}/contact`,
+    },
+  };
+}
+
+/** WebSite schema for the root domain. */
+export function websiteJsonLd(): JsonLdValue {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      'Free, browser-based tools to convert and edit images, audio, video, PDFs, spreadsheets, and text - no uploads, no accounts, no limits.',
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+}
+
 /** FAQPage schema from the { q, a } shape already used across the site. */
 export function faqPageJsonLd(faqs: { q: string; a: string }[]): JsonLdValue {
   return {

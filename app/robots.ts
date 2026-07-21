@@ -7,7 +7,12 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        // Main crawlers - full access to all conversion pages
+        // Search engines, plus AI *search & retrieval* crawlers - these build
+        // the live index/answer AI assistants cite from, and are distinct
+        // from the training crawlers blocked below. Blocking these is what
+        // actually removes a site from ChatGPT Search, Claude's answers,
+        // Perplexity, and similar - allowing them is the whole point of
+        // being visible in AI-driven discovery.
         userAgent: [
           'Googlebot',
           'Bingbot',
@@ -15,8 +20,15 @@ export default function robots(): MetadataRoute.Robots {
           'DuckDuckBot',
           'Baiduspider',
           'YandexBot',
+          // OpenAI - search index + user-triggered fetches (NOT training)
           'OAI-SearchBot',
+          'ChatGPT-User',
+          // Anthropic - search index + user-triggered fetches (NOT training)
+          'Claude-SearchBot',
+          'Claude-User',
+          // Perplexity - search index + user-triggered fetches
           'PerplexityBot',
+          'Perplexity-User',
         ],
         allow: [
           '/',
@@ -30,23 +42,32 @@ export default function robots(): MetadataRoute.Robots {
           '/contact',
           '/privacy',
           '/terms',
+          '/llms.txt',
         ],
         disallow: ['/api/', '/_next/', '/admin/', '*.json$'],
       },
       {
-        // AI training crawlers - block entirely
+        // AI *training* crawlers - block entirely. Each of these has a
+        // separate, already-allowed sibling above for search/retrieval
+        // (OAI-SearchBot vs GPTBot, Claude-SearchBot vs ClaudeBot), so
+        // blocking training does not remove this site from AI answers -
+        // it only opts out of having content used as raw training data.
+        // (Google-Extended is the same idea for Gemini/Vertex training and
+        // does not affect Google Search or AI Overviews eligibility.)
         userAgent: [
           'GPTBot',
-          'ChatGPT-User',
+          'ClaudeBot',
           'CCBot',
-          'anthropic-ai',
-          'Claude-Web',
           'Google-Extended',
           'cohere-ai',
           'Amazonbot',
           'FacebookBot',
+          'meta-externalagent',
           'Omgilibot',
           'YouBot',
+          // Documented history of ignoring robots.txt - blocked as a matter
+          // of record even though it may not honor this file.
+          'Bytespider',
         ],
         disallow: ['/'],
       },

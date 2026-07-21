@@ -87,7 +87,7 @@ const HOW_IT_WORKS = [
 
 const TRUST_BADGES = [
   'GDPR compliant',
-  'HIPAA data safe',
+  'No PHI ever transmitted',
   'Zero server logging',
   'Works offline',
   'No account required',
