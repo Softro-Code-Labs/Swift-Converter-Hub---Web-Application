@@ -37,10 +37,11 @@ export default function TrackingScripts() {
 
   return (
     <>
-      {/* 
-        -- AD-DELIVERY ENGINE INJECTION ------------------------------------- 
-        This tag is now ALWAYS rendered in the DOM. 
-        Google's approval crawler will easily find it here 100% of the time.
+      {/*
+        AdSense script tag - always rendered (regardless of consent) so
+        Google's site-review crawler can find it during account approval.
+        Consent Mode above controls what data it's allowed to use, not
+        whether the tag itself loads.
       */}
       <Script
         id="google-adsense"
@@ -50,10 +51,7 @@ export default function TrackingScripts() {
         strategy="afterInteractive"
       />
 
-      {/* 
-        -- MICROSOFT CLARITY ------------------------------------------------- 
-        Only loaded if the user has explicitly accepted.
-      */}
+      {/* Microsoft Clarity - only loaded after explicit consent. */}
       {isLoaded && consent === 'accepted' && (
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`

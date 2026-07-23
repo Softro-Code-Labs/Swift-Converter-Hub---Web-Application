@@ -27,14 +27,9 @@ const STORAGE_KEY = 'swiftconverterhub-consent';
 const ConsentContext = createContext<ConsentContextValue | null>(null);
 
 /**
- * Gates non-essential (ads + analytics) scripts behind an explicit choice.
- *
- * Controls loading of non-essential scripts like ads and analytics
- * based on user consent.
- *
- * Shows a consent banner before loading tracking scripts.
- * Essential features work normally, but optional services only load
- * after the user accepts.
+ * Gates non-essential scripts (ads + analytics) behind an explicit user
+ * choice. Shows a consent banner first; essential features are unaffected,
+ * but optional services only load once the user accepts.
  */
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
   const [consent, setConsentState] = useState<ConsentChoice | null>(null);

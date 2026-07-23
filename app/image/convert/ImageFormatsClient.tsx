@@ -344,7 +344,7 @@ export default function ImageFormatsClient() {
     return getAllowedTargets(sourceFormat);
   }, [sourceFormat]);
 
-  // Disabled target extensions = all formats MINUS allowed MINUS source itself
+  // Disabled targets = all formats minus the allowed set minus the source itself
   const disabledTargetExtensions = useMemo(() => {
     if (!sourceFormat) return new Set<string>();
     const all = new Set(IMAGE_FORMATS.map((f) => f.extension));

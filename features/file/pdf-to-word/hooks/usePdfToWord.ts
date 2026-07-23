@@ -14,18 +14,12 @@ function formatBytes(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
 }
 
-// --- Text extraction ----------------------------------------------------------
+// --- Text extraction ------------------------------------------------------
 //
-// This is a *text-reflow* conversion, not a pixel-perfect layout clone: it
-// reads every text run pdf.js can find, reconstructs lines and paragraphs
-// from their position on the page, makes a light guess at headings/bold/
-// italic from font size and font name, and writes that out as a normal,
-// editable Word document. Tables, columns, and exact positioning are not
-// preserved - that's a deliberate tradeoff. Most people who want to convert
-// a PDF to Word want to *edit the text*, which this gives them; a
-// pixel-perfect clone would need a full desktop-grade layout engine.
-//
-// Embedded images are not carried over in this version.
+// This is a text-reflow conversion, not a pixel-perfect layout clone: text
+// runs are reassembled into lines/paragraphs with headings and bold/italic
+// inferred from font size and name, favoring an editable document over
+// exact positioning. Tables, columns, and embedded images are not preserved.
 
 interface RawTextItem {
   str: string;
@@ -34,12 +28,9 @@ interface RawTextItem {
   width: number;
   fontSize: number;
   /**
-   * Best-effort readable font description for this glyph run. pdf.js's
-   * `item.fontName` is usually just an internal lookup key (e.g. "g_d0_f1"),
-   * not the real font name, so this combines it with `styles[fontName]
-   * .fontFamily` (which sometimes echoes the real name, sometimes falls back
-   * to a generic CSS family) - whichever pdf.js gives us. Bold/italic
-   * detection from this is inherently best-effort, not guaranteed.
+   * Best-effort readable font description for this glyph run, combining
+   * pdf.js's internal font key with its resolved font family. Used only for
+   * bold/italic detection, which is heuristic rather than guaranteed.
    */
   fontDescriptor: string;
 }
