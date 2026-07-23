@@ -12,7 +12,6 @@ import {
   X,
   RefreshCw,
   Layers,
-  AlertTriangle,
   Lock,
 } from 'lucide-react';
 import {

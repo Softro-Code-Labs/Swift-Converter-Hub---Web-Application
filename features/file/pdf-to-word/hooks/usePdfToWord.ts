@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import type { PDFPageProxy } from 'pdfjs-dist';
 import type {
   ConvertProgress,
   ConvertResult,
@@ -35,18 +36,23 @@ interface RawTextItem {
   fontDescriptor: string;
 }
 
-async function extractPageItems(page: any): Promise<RawTextItem[]> {
+async function extractPageItems(page: PDFPageProxy): Promise<RawTextItem[]> {
   const content = await page.getTextContent();
   const styles: Record<string, { fontFamily?: string }> = content.styles ?? {};
   const items: RawTextItem[] = [];
 
   for (const item of content.items) {
+    // Guard against TextMarkedContent items
+    if (!('str' in item)) continue;
+
+    // TypeScript now knows 'item' is a TextItem
     if (typeof item.str !== 'string' || item.str.trim() === '') continue;
-    const t = item.transform as number[];
+
+    const t = item.transform;
     // Magnitude of the vertical basis vector of the text matrix approximates
     // font size in PDF points, and holds up for rotated text too.
     const fontSize = Math.hypot(t[2], t[3]) || Math.hypot(t[0], t[1]) || 10;
-    const style = styles[item.fontName as string];
+    const style = styles[item.fontName];
 
     items.push({
       str: item.str,

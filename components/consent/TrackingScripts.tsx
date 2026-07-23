@@ -12,9 +12,9 @@ export default function TrackingScripts() {
     if (!isLoaded) return;
 
     // Standard gtag helper
-    const gtag = (...args: any[]) => {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push(args);
+    const gtag = (...args: unknown[]) => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(args);
     };
 
     // Update Google Consent Mode states based on user choice

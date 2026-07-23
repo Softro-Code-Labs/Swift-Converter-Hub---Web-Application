@@ -160,7 +160,7 @@ export default function PdfSplitTool() {
       const fromGrid = selectedPages.size > 0;
       const fromRange =
         rangeString.trim().length > 0 &&
-        !validateRangeStringHelper(rangeString, pageCount);
+        parseRangeString(rangeString, pageCount).length > 0;
       return fromGrid || fromRange;
     }
     if (splitMode === 'ranges')
@@ -284,6 +284,11 @@ export default function PdfSplitTool() {
                     thumbs={thumbs}
                     selectedPages={
                       rangeString.trim() ? new Set() : selectedPages
+                    }
+                    rangeSummary={
+                      rangeString.trim()
+                        ? ''
+                        : rangeGroupToString(Array.from(selectedPages))
                     }
                     onToggle={(idx) => {
                       setRangeString(''); // clear range when clicking grid
@@ -502,20 +507,6 @@ export default function PdfSplitTool() {
       </div>
     </main>
   );
-}
-
-// Helper to avoid importing from hook in component
-function validateRangeStringHelper(
-  raw: string,
-  maxPage: number,
-): string | null {
-  if (!raw.trim()) return null;
-  const parts = raw
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (!parts.length) return 'No pages specified';
-  return null;
 }
 
 function rangeGroupToString(pages: number[]): string {

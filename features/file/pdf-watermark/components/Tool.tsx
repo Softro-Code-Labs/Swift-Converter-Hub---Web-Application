@@ -26,7 +26,6 @@ function Slider({
   step,
   display,
   onChange,
-  accent = 'rose',
 }: {
   label: string;
   value: number;
@@ -35,7 +34,6 @@ function Slider({
   step: number;
   display: string;
   onChange: (v: number) => void;
-  accent?: string;
 }) {
   return (
     <div className="space-y-1.5">

@@ -4,8 +4,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
+  useSyncExternalStore,
 } from 'react';
 
 export type ConsentChoice = 'accepted' | 'declined';
@@ -26,50 +25,75 @@ const STORAGE_KEY = 'swiftconverterhub-consent';
 
 const ConsentContext = createContext<ConsentContextValue | null>(null);
 
+// --- localStorage as an external store ---------------------------------
+// Read via useSyncExternalStore instead of useEffect+useState: localStorage
+// isn't available during SSR, and this keeps the read/write in sync with
+// React without a setState-in-effect render cascade.
+
+let listeners: (() => void)[] = [];
+
+function notifyListeners() {
+  listeners.forEach((l) => l());
+}
+
+function subscribe(listener: () => void) {
+  listeners.push(listener);
+  window.addEventListener('storage', listener);
+  return () => {
+    listeners = listeners.filter((l) => l !== listener);
+    window.removeEventListener('storage', listener);
+  };
+}
+
+function readConsent(): ConsentChoice | null {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored === 'accepted' || stored === 'declined' ? stored : null;
+  } catch {
+    // localStorage unavailable (private browsing, disabled, etc). Treat
+    // as undecided - non-essential scripts simply stay off this session.
+    return null;
+  }
+}
+
+function writeConsent(value: ConsentChoice | null) {
+  try {
+    if (value === null) {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } else {
+      window.localStorage.setItem(STORAGE_KEY, value);
+    }
+  } catch {
+    // Choice still applies for this session even if it can't be saved.
+  }
+  notifyListeners();
+}
+
+function subscribeOnce() {
+  return () => {};
+}
+
 /**
  * Gates non-essential scripts (ads + analytics) behind an explicit user
  * choice. Shows a consent banner first; essential features are unaffected,
  * but optional services only load once the user accepts.
  */
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
-  const [consent, setConsentState] = useState<ConsentChoice | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const consent = useSyncExternalStore(
+    subscribe,
+    readConsent,
+    () => null,
+  );
+  // True once hydrated on the client - the server snapshot is always false.
+  const isLoaded = useSyncExternalStore(
+    subscribeOnce,
+    () => true,
+    () => false,
+  );
 
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === 'accepted' || stored === 'declined') {
-        // Standard hydration-safe pattern: localStorage can't be read
-        // during SSR, so this snapshot-on-mount runs once client-side.
-        setConsentState(stored);
-      }
-    } catch {
-      // localStorage unavailable (private browsing, disabled, etc). Treat
-      // as undecided - non-essential scripts simply stay off this session.
-    } finally {
-      setIsLoaded(true);
-    }
-  }, []);
-
-  const persist = useCallback((value: ConsentChoice) => {
-    setConsentState(value);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, value);
-    } catch {
-      // Choice still applies for this session even if it can't be saved.
-    }
-  }, []);
-
-  const accept = useCallback(() => persist('accepted'), [persist]);
-  const decline = useCallback(() => persist('declined'), [persist]);
-  const reset = useCallback(() => {
-    setConsentState(null);
-    try {
-      window.localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // no-op
-    }
-  }, []);
+  const accept = useCallback(() => writeConsent('accepted'), []);
+  const decline = useCallback(() => writeConsent('declined'), []);
+  const reset = useCallback(() => writeConsent(null), []);
 
   return (
     <ConsentContext.Provider
