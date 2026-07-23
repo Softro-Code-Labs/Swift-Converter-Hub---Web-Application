@@ -75,7 +75,11 @@ export default function RegexTesterTool() {
     setActiveFlags((prev) => {
       const next = new Set(prev);
       // 'g' is always on - we force it internally but hide it visually
-      next.has(flag) ? next.delete(flag) : next.add(flag);
+      if (next.has(flag)) {
+        next.delete(flag);
+      } else {
+        next.add(flag);
+      }
       return next;
     });
   }, []);

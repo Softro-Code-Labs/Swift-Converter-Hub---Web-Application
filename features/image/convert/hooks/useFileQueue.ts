@@ -4,6 +4,7 @@ import { isAcceptedByFormat } from '@/features/image/convert/config/formats';
 import { getFileExtension } from '@/features/shared/lib/format';
 import toast from 'react-hot-toast';
 
+/** Manages the queued file list for the image converter: add, validate, update, and remove. */
 export const useFileQueue = (sourceExtension: string) => {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -60,6 +61,7 @@ export const useFileQueue = (sourceExtension: string) => {
     setFiles((prev) => {
       const target = prev.find((f) => f.id === id);
       if (target) {
+        // Revoke blob URLs so removed files don't leak memory.
         if (target.previewUrl) URL.revokeObjectURL(target.previewUrl);
         if (target.convertedUrl) URL.revokeObjectURL(target.convertedUrl);
       }

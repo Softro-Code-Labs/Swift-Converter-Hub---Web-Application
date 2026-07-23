@@ -1571,10 +1571,8 @@ export const CONVERSION_MATRIX: Record<string, ConversionRule> = {
 };
 
 // --- Helpers ------------------------------------------------------------------
-// Extension lookups happen on every file drop, every route render, and every
-// static-param/sitemap build pass. A Map built once at module load keeps that
-// O(1) regardless of how large IMAGE_FORMATS grows, instead of re-scanning the
-// full array (Array.find) on every single call.
+// Map built once at module load for O(1) extension lookups instead of
+// scanning IMAGE_FORMATS on every call.
 
 const IMAGE_FORMAT_BY_EXT: ReadonlyMap<string, ImageFormat> = new Map(
   IMAGE_FORMATS.map((f) => [f.extension, f]),
@@ -1610,11 +1608,8 @@ export const isAcceptedByFormat = (
   return extensions.includes(fileExt.toLowerCase());
 };
 
-// getAllowedTargets is called once per source format when ALL_CONVERSION_PAIRS
-// is built, and again on every dynamic /image/convert/[conversion] page render
-// (via isConversionAllowed / getAllowedTargetFormats). CONVERSION_MATRIX is
-// static, so the resulting Set is cached per source extension after first
-// computation - callers only ever read from it (.has()), never mutate it.
+// CONVERSION_MATRIX is static, so the resolved allow-set is cached per
+// source extension - read-only after first computation.
 const allowedTargetsCache = new Map<string, ReadonlySet<string>>();
 
 export function getAllowedTargets(sourceExt: string): ReadonlySet<string> {
@@ -1649,11 +1644,7 @@ export function isConversionAllowed(source: string, target: string): boolean {
 }
 
 // --- Format category detection ------------------------------------------------
-
-// Each category below is a module-level Set built once, rather than an array
-// literal re-allocated and linearly scanned (.includes()) on every call. With
-// 200+ formats and these helpers running per-feature/per-FAQ on every
-// conversion page render, this keeps category checks O(1) instead of O(n).
+// Each category is a module-level Set built once for O(1) membership checks.
 
 const LOSSLESS_EXTS = new Set([
   // PNG family

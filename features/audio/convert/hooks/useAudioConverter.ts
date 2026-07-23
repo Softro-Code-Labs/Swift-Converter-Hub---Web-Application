@@ -16,6 +16,11 @@ import {
   getFileExtension,
 } from '@/features/shared/lib/format';
 
+/**
+ * Converts a batch of audio files to a target format using FFmpeg (WASM),
+ * with per-file progress, ZIP download of all results, and single-file
+ * download.
+ */
 export const useAudioConverter = (
   files: AudioFileItem[],
   updateFile: (id: string, patch: Partial<AudioFileItem>) => void,
@@ -77,6 +82,8 @@ export const useAudioConverter = (
     }
     setIsConvertingAll(true);
 
+    // Processed one at a time - the shared FFmpeg WASM instance can only
+    // run a single job at once.
     for (const item of files) {
       if (item.status !== 'idle') continue;
       updateFile(item.id, { status: 'processing', progress: 0 });

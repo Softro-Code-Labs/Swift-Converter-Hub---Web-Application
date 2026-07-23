@@ -6,7 +6,6 @@ import { ArrowLeft, Cpu, Group, Minus, Plus } from 'lucide-react';
 import { useBaseConverter } from '../hooks/useBaseConverter';
 import { BaseInput } from './BaseInput';
 import { BitPattern } from './BitPattern';
-import { BASE_INFO } from '../types/numberBase';
 import type { Base } from '../types/numberBase';
 
 const BASES: Base[] = [2, 8, 10, 16];

@@ -143,7 +143,6 @@ function nodeToJson(
   opts: JsonXmlOptions,
 ): Record<string, unknown> | string | number | boolean | null {
   const result: Record<string, unknown> = {};
-  let nodeCount = 0;
 
   // Attributes → prefixed keys
   for (const attr of Array.from(node.attributes)) {
@@ -174,7 +173,6 @@ function nodeToJson(
   });
 
   elementChildren.forEach((child) => {
-    nodeCount++;
     const childJson = nodeToJson(child, opts);
     if (tagCounts[child.tagName] > 1) {
       if (!result[child.tagName]) result[child.tagName] = [];

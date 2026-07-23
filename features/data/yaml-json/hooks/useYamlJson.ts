@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import * as yaml from 'js-yaml';
 import type { YamlJsonOptions, ConvertResult } from '../types/yamlJson';
 
+/** Recursively counts object/array keys across nested values. */
 function countKeys(obj: unknown): number {
   if (typeof obj !== 'object' || obj === null) return 0;
   if (Array.isArray(obj)) return obj.reduce((s, v) => s + countKeys(v), 0);
@@ -14,6 +15,7 @@ function countKeys(obj: unknown): number {
   );
 }
 
+// Multi-doc mode reads/writes YAML's "---" document separators.
 function yamlToJson(raw: string, opts: YamlJsonOptions): ConvertResult {
   try {
     const docs = opts.multiDoc ? yaml.loadAll(raw) : [yaml.load(raw)];
@@ -92,6 +94,7 @@ function jsonToYaml(raw: string, opts: YamlJsonOptions): ConvertResult {
   }
 }
 
+/** Converts between YAML and JSON in either direction, based on `opts.direction`. */
 export function useYamlJson(
   input: string,
   opts: YamlJsonOptions,

@@ -63,6 +63,8 @@ const JSON_EXAMPLE = `{
   }
 }`;
 
+const JSON_EXAMPLES = [{ label: 'package.json', content: JSON_EXAMPLE }];
+
 const TOML_EXAMPLES = [
   { label: 'Cargo.toml', content: TOML_EXAMPLE },
   {
@@ -315,8 +317,7 @@ export default function TomlJsonTool() {
             />
 
             {/* Examples dropdown */}
-            {isTomlMode && (
-              <div className="relative">
+            <div className="relative">
                 <button
                   onClick={() => setShowExamples((v) => !v)}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold text-slate-500 hover:border-orange-300 hover:text-orange-600 dark:hover:border-orange-700 dark:hover:text-orange-400 cursor-pointer transition-all"
@@ -326,22 +327,23 @@ export default function TomlJsonTool() {
                 </button>
                 {showExamples && (
                   <div className="absolute top-full mt-1 left-0 z-20 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg overflow-hidden min-w-[180px]">
-                    {TOML_EXAMPLES.map(({ label, content }) => (
-                      <button
-                        key={label}
-                        onClick={() => {
-                          setInput(content);
-                          setShowExamples(false);
-                        }}
-                        className="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:text-orange-700 dark:hover:text-orange-400 cursor-pointer transition-colors border-b border-slate-100 dark:border-slate-800 last:border-b-0"
-                      >
-                        {label}
-                      </button>
-                    ))}
+                    {(isTomlMode ? TOML_EXAMPLES : JSON_EXAMPLES).map(
+                      ({ label, content }) => (
+                        <button
+                          key={label}
+                          onClick={() => {
+                            setInput(content);
+                            setShowExamples(false);
+                          }}
+                          className="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:text-orange-700 dark:hover:text-orange-400 cursor-pointer transition-colors border-b border-slate-100 dark:border-slate-800 last:border-b-0"
+                        >
+                          {label}
+                        </button>
+                      ),
+                    )}
                   </div>
                 )}
               </div>
-            )}
           </div>
 
           {/* Options */}
