@@ -8,6 +8,7 @@ import { CropRegion, ResizeDimensions, ProcessedResult } from '../types/crop';
 import { formatBytes } from '../../shared/utils/bytes';
 import toast from 'react-hot-toast';
 
+/** Crops and/or resizes an image via ImageMagick (WASM) and produces a downloadable result. */
 export const useCropEngine = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<ProcessedResult | null>(null);
@@ -43,6 +44,8 @@ export const useCropEngine = () => {
                   Math.round(crop.height),
                 );
                 image.crop(geometry);
+                // Without this, ImageMagick keeps the original canvas size
+                // as the image's virtual "page", which some viewers respect.
                 image.resetPage();
               }
 

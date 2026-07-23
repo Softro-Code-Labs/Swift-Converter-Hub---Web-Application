@@ -222,6 +222,7 @@ export default function CropTool() {
                     onCropChange={setCropRegion}
                   />
                 ) : (
+                  // eslint-disable-next-line @next/next/no-img-element -- local blob URL preview, not a static/remote asset
                   <img
                     src={previewUrl}
                     alt="Preview"

@@ -56,6 +56,7 @@ function decodeJwtPart(part: string): Record<string, unknown> | null {
   }
 }
 
+/** Decodes a JWT's header/payload for inspection - does not verify the signature. */
 export function inspectJwt(token: string): JwtPayload {
   const parts = token.trim().split('.');
   if (parts.length !== 3) {
@@ -78,6 +79,7 @@ export function inspectJwt(token: string): JwtPayload {
   let isExpired: boolean | null = null;
 
   if (payload) {
+    // exp/iat are Unix seconds per the JWT spec; Date expects milliseconds.
     if (typeof payload.exp === 'number') {
       expiresAt = new Date(payload.exp * 1000);
       isExpired = expiresAt < new Date();

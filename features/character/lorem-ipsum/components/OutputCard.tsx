@@ -5,10 +5,9 @@ import { Copy, Check, Download } from 'lucide-react';
 
 interface OutputCardProps {
   text: string;
-  onRegenerate: () => void;
 }
 
-export function OutputCard({ text, onRegenerate }: OutputCardProps) {
+export function OutputCard({ text }: OutputCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {

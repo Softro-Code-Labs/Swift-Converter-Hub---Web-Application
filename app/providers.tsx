@@ -25,6 +25,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Split out from Providers because useTheme() only works inside
+// NextThemesProvider's context.
 function ThemeToaster() {
   const { resolvedTheme } = useTheme();
 

@@ -48,6 +48,10 @@ const STATUS_CONFIG = {
   },
 };
 
+/**
+ * Shared file-queue row for audio/video tools: shows status, progress,
+ * download, playback preview, and removal for a single queued file.
+ */
 export const FileListItem = <
   TFormat extends MediaFormatLike = MediaFormatLike,
 >({
