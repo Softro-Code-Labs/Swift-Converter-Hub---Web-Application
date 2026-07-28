@@ -74,10 +74,15 @@ export default function Navbar() {
   const [dropOpen, setDropOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // Close the mobile menu/dropdown on navigation. Adjusted directly during
+  // render (rather than in an effect) to avoid an extra post-navigation
+  // render pass - see https://react.dev/learn/you-might-not-need-an-effect
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMobileOpen(false);
     setDropOpen(false);
-  }, [pathname]);
+  }
 
   // Close dropdown on outside click
   useEffect(() => {

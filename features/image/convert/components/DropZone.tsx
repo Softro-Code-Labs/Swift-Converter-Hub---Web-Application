@@ -23,6 +23,8 @@ export const DropZone = ({
   }, []);
 
   const onDragLeave = useCallback((e: React.DragEvent) => {
+    // Ignore drag-leave fired when the pointer moves over a child element -
+    // only clear dragging state when it actually leaves the drop zone.
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
       setIsDragging(false);
     }
@@ -148,7 +150,7 @@ export const DropZone = ({
             </div>
           </div>
 
-          {/* Inline CSS Animation keyframe definition since this runs in a pure server/component module */}
+          {/* Loading-bar keyframe, scoped locally via styled-jsx */}
           <style jsx global>{`
             @keyframes loading {
               0% {

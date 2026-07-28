@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import type { TextStats } from '../types/wordCounter';
 
+// Average adult reading/speaking speeds, used to estimate time-to-consume.
 const READING_WPM = 238;
 const SPEAKING_WPM = 130;
 
@@ -94,6 +95,7 @@ function formatMinutes(minutes: number): string {
   return `${Math.round(minutes)} min`;
 }
 
+/** Computes word/character/sentence counts, reading time, and top keywords for text. */
 export function useTextStats(text: string): TextStats {
   return useMemo(() => {
     if (!text.trim()) {
@@ -137,6 +139,7 @@ export function useTextStats(text: string): TextStats {
       '',
     );
 
+    // Top keywords: skip short/common words so results are meaningful.
     const freq: Record<string, number> = {};
     for (const w of cleanWords) {
       const key = w.toLowerCase();

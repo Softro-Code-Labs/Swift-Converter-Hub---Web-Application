@@ -123,6 +123,7 @@ export default function StudioAdLayout({
   const resolvedSlots = { ...ADSENSE.SLOTS, ...slots };
 
   useEffect(() => {
+    // Debounced so rapid route changes don't fire overlapping pushes.
     if (timerRef.current) clearTimeout(timerRef.current);
 
     timerRef.current = setTimeout(() => {

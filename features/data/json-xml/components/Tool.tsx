@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { useJsonXml } from '../hooks/useJsonXml';
 import type { ConvertDirection, JsonXmlOptions } from '../types/jsonXml';
-import { DEFAULT_OPTIONS } from '../types/jsonXml';
 
 // --- Option chip --------------------------------------------------------------
 

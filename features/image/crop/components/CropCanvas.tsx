@@ -56,9 +56,9 @@ export const CropCanvas = ({
     Math.min(Math.max(v, min), max);
 
   // Convert natural pixels → display pixels
-  const toDisplay = (v: number) => v * scale;
+  const toDisplay = useCallback((v: number) => v * scale, [scale]);
   // Convert display pixels → natural pixels
-  const toNatural = (v: number) => Math.round(v / scale);
+  const toNatural = useCallback((v: number) => Math.round(v / scale), [scale]);
 
   // Display crop derived from natural crop
   const dc = {
@@ -68,55 +68,68 @@ export const CropCanvas = ({
     h: toDisplay(cropRegion.height),
   };
 
-  const enforceAspect = (
-    x: number,
-    y: number,
-    w: number,
-    h: number,
-  ): { x: number; y: number; w: number; h: number } => {
-    const ratio = ASPECT_RATIOS[aspectRatio];
-    if (!ratio) return { x, y, w, h };
-    const newH = w / ratio;
-    const clampedH = Math.min(newH, displayH - y);
-    return { x, y, w, h: clampedH };
-  };
+  const enforceAspect = useCallback(
+    (
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+    ): { x: number; y: number; w: number; h: number } => {
+      const ratio = ASPECT_RATIOS[aspectRatio];
+      if (!ratio) return { x, y, w, h };
+      const newH = w / ratio;
+      const clampedH = Math.min(newH, displayH - y);
+      return { x, y, w, h: clampedH };
+    },
+    [aspectRatio, displayH],
+  );
 
-  const emitNatural = (x: number, y: number, w: number, h: number) => {
-    onCropChange({
-      x: toNatural(x),
-      y: toNatural(y),
-      width: toNatural(w),
-      height: toNatural(h),
-    });
-  };
+  const emitNatural = useCallback(
+    (x: number, y: number, w: number, h: number) => {
+      onCropChange({
+        x: toNatural(x),
+        y: toNatural(y),
+        width: toNatural(w),
+        height: toNatural(h),
+      });
+    },
+    [onCropChange, toNatural],
+  );
 
   const getClientPos = (e: MouseEvent | TouchEvent) => ({
     clientX: 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX,
     clientY: 'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY,
   });
 
-  const onHandleMouseDown = (e: React.MouseEvent, type: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const rect = containerRef.current!.getBoundingClientRect();
-    dragging.current = {
-      type,
-      startX: e.clientX - rect.left,
-      startY: e.clientY - rect.top,
-      initCrop: { ...cropRegion },
-    };
-  };
+  const onHandleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const type = e.currentTarget.dataset.handleType!;
+      const rect = containerRef.current!.getBoundingClientRect();
+      dragging.current = {
+        type,
+        startX: e.clientX - rect.left,
+        startY: e.clientY - rect.top,
+        initCrop: { ...cropRegion },
+      };
+    },
+    [cropRegion],
+  );
 
-  const onBoxMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const rect = containerRef.current!.getBoundingClientRect();
-    dragging.current = {
-      type: 'move',
-      startX: e.clientX - rect.left,
-      startY: e.clientY - rect.top,
-      initCrop: { ...cropRegion },
-    };
-  };
+  const onBoxMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      const rect = containerRef.current!.getBoundingClientRect();
+      dragging.current = {
+        type: 'move',
+        startX: e.clientX - rect.left,
+        startY: e.clientY - rect.top,
+        initCrop: { ...cropRegion },
+      };
+    },
+    [cropRegion],
+  );
 
   const onMouseMove = useCallback(
     (e: MouseEvent | TouchEvent) => {
@@ -177,7 +190,15 @@ export const CropCanvas = ({
       const enforced = enforceAspect(x, y, w, h);
       emitNatural(enforced.x, enforced.y, enforced.w, enforced.h);
     },
-    [scale, displayW, displayH, aspectRatio],
+    [
+      scale,
+      displayW,
+      displayH,
+      aspectRatio,
+      emitNatural,
+      enforceAspect,
+      toDisplay,
+    ],
   );
 
   const onMouseUp = useCallback(() => {
@@ -210,6 +231,7 @@ export const CropCanvas = ({
       style={{ width: '100%' }}
     >
       {/* Base image */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- exact display pixel size drives crop math directly */}
       <img
         src={imageUrl}
         alt="Crop preview"
@@ -300,8 +322,9 @@ export const CropCanvas = ({
           <div
             key={h.type}
             className={handleBase}
+            data-handle-type={h.type}
             style={{ ...h.style, position: 'absolute' } as React.CSSProperties}
-            onMouseDown={(e) => onHandleMouseDown(e, h.type)}
+            onMouseDown={onHandleMouseDown}
           />
         ))}
 

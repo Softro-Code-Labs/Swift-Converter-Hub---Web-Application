@@ -49,7 +49,7 @@ export const TechnicalNote = ({
           </h2>
           {collapsible && (
             <ChevronDown
-              className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? `rotate-180 ${iconColor}` : ''}`}
             />
           )}
         </button>

@@ -22,26 +22,17 @@ function formatBytes(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
 }
 
-// --- Image recompression -----------------------------------------------------
+// --- Image recompression ---------------------------------------------------
 //
-// Metadata/annotation/bookmark stripping (kept below) only ever saves a few
-// KB - the actual size of most real-world PDFs comes from embedded raster
-// images (scans, photos, screenshots). This walks every indirect object in
-// the document, finds image XObjects that are already JPEG-encoded
-// (Filter = DCTDecode - by far the most common case for photos/scans), and
-// replaces each one in place with a smaller re-encode: downsampled to the
-// preset's max dimension and re-compressed at the preset's JPEG quality.
+// Embedded raster images account for most of a real-world PDF's size, so
+// this walks every indirect object, finds JPEG-encoded image XObjects
+// (Filter = DCTDecode), and replaces each with a downsampled, re-compressed
+// version at the preset's max dimension/quality.
 //
-// Deliberately left untouched:
-//  - Images with an SMask (alpha channel) - JPEG has no alpha channel, so
-//    recompressing would silently destroy transparency. Safety over savings.
-//  - Non-JPEG filters (FlateDecode raw bitmaps, CCITTFaxDecode fax scans,
-//    JPXDecode/JBIG2Decode) - decoding these correctly needs filter-specific
-//    logic beyond what a browser's native image decoder handles for free.
-//    Left as-is rather than risking a corrupted image.
-//  - Chained/multiple filters - rare for images, skipped for safety.
-//  - Any image that errors out while decoding/re-encoding, or where the
-//    "recompressed" result would end up *larger* than the original.
+// Skipped for safety: images with an SMask (JPEG has no alpha channel),
+// non-JPEG filters (FlateDecode, CCITTFax, JPX/JBIG2 - need filter-specific
+// decoding we don't have), chained filters, and any image that errors out
+// or would end up larger after recompression.
 
 interface ImageWorkItem {
   ref: PDFRef;

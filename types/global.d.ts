@@ -6,5 +6,7 @@ declare global {
      * script has executed; absent (undefined) before that, or if the
      * script never loads (e.g. consent not yet given, ad blocker). */
     adsbygoogle?: unknown[] & { push: (params: object) => void };
+    /** gtag.js's command queue, used here for Google Consent Mode updates. */
+    dataLayer?: unknown[];
   }
 }

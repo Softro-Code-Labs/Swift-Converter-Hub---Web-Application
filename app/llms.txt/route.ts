@@ -3,19 +3,13 @@ import { SITE_URL, SITE_NAME } from '@/config/site';
 /**
  * llms.txt - https://llmstxt.org
  *
- * A proposed (not yet formally standardized) convention that sits alongside
- * robots.txt: where robots.txt controls crawler *access*, llms.txt gives an
- * LLM a short, curated map of what's actually worth reading - a brand
- * summary plus links to the highest-value pages, rather than every URL on
- * the site. No AI provider has publicly confirmed using this to rank or
- * select citations, but it's a near-zero-cost, purely additive signal that
- * costs nothing to keep in sync, so it's served here as a live route
- * (reusing SITE_URL/SITE_NAME) rather than a hand-maintained static file.
+ * An emerging convention alongside robots.txt: instead of controlling
+ * crawler access, it gives LLMs a curated map of the site's highest-value
+ * pages. Served as a live route (not a static file) so it stays in sync
+ * with SITE_URL/SITE_NAME automatically.
  *
- * Deliberately NOT included: a per-page llms-full.txt mirroring every URL
- * as Markdown. That pattern creates large-scale duplicate content with the
- * real HTML pages for comparatively little benefit - the curated index
- * below is the actually-recommended shape of this file.
+ * Deliberately excludes a per-page llms-full.txt mirror, which would
+ * duplicate the real HTML pages for little benefit.
  */
 
 function buildLlmsTxt(): string {

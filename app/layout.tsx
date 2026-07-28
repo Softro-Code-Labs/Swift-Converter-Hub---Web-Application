@@ -12,7 +12,6 @@ import {
 } from '@/components/seo/JsonLd';
 import './globals.css';
 
-// 1. FONT CONFIGURATIONS
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -25,7 +24,6 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
-// 2. HIGH-PERFORMANCE VIEWPORT CONFIGURATION
 export const viewport: Viewport = {
   themeColor: '#2563EB',
   width: 'device-width',
@@ -33,7 +31,6 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-// 3. SEO & METADATA CONFIGURATION
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -186,7 +183,7 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
 
-  // Open Graph metadata for rich link previews across social and messaging platforms
+  // Open Graph metadata for social link previews
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -205,7 +202,7 @@ export const metadata: Metadata = {
     ],
   },
 
-  // Twitter card definitions for optimized media card rendering profiles
+  // Twitter/X card metadata
   twitter: {
     card: 'summary_large_image',
     title: 'Swift Converter Hub | Free Online File Converters',
@@ -214,14 +211,14 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
 
-  // Asset configuration paths for app icons, tab shortcut graphics, and Apple touch variants
+  // Favicon and touch icons
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
 
-  // Explicit robot routing controls instructing search engines to index views and evaluate paths
+  // Explicit indexing directives for search engine crawlers
   robots: {
     index: true,
     follow: true,
@@ -235,7 +232,6 @@ export const metadata: Metadata = {
   },
 };
 
-// 4. CORE PLATFORM ROOT LAYOUT
 export default function RootLayout({
   children,
 }: {
@@ -248,7 +244,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-sans bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-500 selection:text-white">
-        {/* 1. INITIALIZE GOOGLE CONSENT MODE DEFAULT STATES */}
+        {/* Initialize Google Consent Mode default states */}
         <script
           dangerouslySetInnerHTML={{
             __html: `

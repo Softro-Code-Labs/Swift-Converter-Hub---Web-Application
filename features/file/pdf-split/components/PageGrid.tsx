@@ -4,6 +4,8 @@ import type { PageThumb } from '../types/pdfSplit';
 interface PageGridProps {
   thumbs: PageThumb[];
   selectedPages: Set<number>;
+  /** Human-readable page ranges for the current selection, e.g. "1-3, 5" */
+  rangeSummary?: string;
   onToggle: (idx: number) => void;
   onSelectAll: () => void;
   onSelectNone: () => void;
@@ -12,6 +14,7 @@ interface PageGridProps {
 export function PageGrid({
   thumbs,
   selectedPages,
+  rangeSummary,
   onToggle,
   onSelectAll,
   onSelectNone,
@@ -26,6 +29,7 @@ export function PageGrid({
           Select pages
           <span className="ml-2 normal-case font-normal text-slate-300 dark:text-slate-600 tabular-nums">
             {selectedPages.size} of {thumbs.length} selected
+            {rangeSummary ? ` (${rangeSummary})` : ''}
           </span>
         </p>
         <div className="flex items-center gap-2">

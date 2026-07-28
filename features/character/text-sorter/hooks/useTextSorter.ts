@@ -7,6 +7,7 @@ import type {
   SorterResult,
 } from '../types/textSorter';
 
+/** Fisher-Yates shuffle. */
 function seededShuffle<T>(arr: T[]): T[] {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -16,6 +17,7 @@ function seededShuffle<T>(arr: T[]): T[] {
   return copy;
 }
 
+// Non-numeric lines sort to the end rather than the start.
 function parseNumeric(s: string): number {
   const n = parseFloat(s.replace(/[^0-9.\-]/g, ''));
   return isNaN(n) ? Infinity : n;
@@ -65,6 +67,7 @@ function applyOperation(
   }
 }
 
+/** Applies a sequence of line-based sort/filter/transform operations to text. */
 export function useTextSorter(text: string, opts: SorterOptions): SorterResult {
   return useMemo(() => {
     const inputLines = text.split('\n');

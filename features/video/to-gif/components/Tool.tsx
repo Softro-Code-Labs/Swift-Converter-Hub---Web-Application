@@ -305,6 +305,7 @@ export default function VideoToGifTool() {
                   Make another
                 </button>
               </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={state.outputUrl}
                 alt="Generated GIF preview"

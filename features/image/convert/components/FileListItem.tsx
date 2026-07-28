@@ -6,7 +6,7 @@ import {
   Clock,
   Download,
   Trash2,
-  Image,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { FileItem } from '@/features/image/convert/types/converter';
 import { formatBytes } from '../../shared/utils/bytes';
@@ -60,6 +60,7 @@ export const FileListItem = ({
       <div className="h-11 w-11 shrink-0 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 relative flex items-center justify-center">
         {item.previewUrl ? (
           !hasError ? (
+            // eslint-disable-next-line @next/next/no-img-element -- short-lived local blob preview, not worth next/image's overhead
             <img
               src={item.previewUrl}
               alt=""
@@ -67,7 +68,7 @@ export const FileListItem = ({
               onError={() => setHasError(true)}
             />
           ) : (
-            <Image className="w-5 h-5 text-slate-400 dark:text-slate-500 stroke-[1.5]" />
+            <ImageIcon className="w-5 h-5 text-slate-400 dark:text-slate-500 stroke-[1.5]" />
           )
         ) : item.status === 'success' ? (
           <CheckCircle className="w-5 h-5 text-emerald-500" />

@@ -22,8 +22,8 @@ export interface ImageWatermarkConfig {
   imageFile: File | null;
   imageDataUrl: string | null;
   scale: number; // 0.1 - 1.0
-  opacity: number;
-  angle: number;
+  opacity: number; // 0-1
+  angle: number; // degrees
   position: WatermarkPosition;
 }
 

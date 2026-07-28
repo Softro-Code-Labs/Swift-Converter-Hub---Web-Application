@@ -1,3 +1,4 @@
+// Minimal type declarations for 'heic2any', which ships without its own types.
 declare module 'heic2any' {
   interface Heic2AnyOptions {
     blob: Blob;

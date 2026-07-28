@@ -6,6 +6,7 @@ import { useConsent } from './ConsentContext';
 export default function CookieConsentBanner() {
   const { consent, isLoaded, accept, decline } = useConsent();
 
+  // Hidden until consent state is read from storage, and after any choice is made.
   if (!isLoaded || consent !== null) return null;
 
   return (

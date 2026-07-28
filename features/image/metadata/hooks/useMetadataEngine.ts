@@ -71,7 +71,6 @@ const FILE_KEYS = [
   'exif:ExifVersion',
 ];
 const OWNER_KEYS = ['exif:Artist', 'exif:Copyright', 'exif:ImageDescription'];
-const GPS_KEYS = ['exif:GPSLatitude', 'exif:GPSLongitude', 'exif:GPSAltitude'];
 
 const dmsToDecimal = (dms: string, ref: string): number | null => {
   // EXIF GPS values often come as "DD/1, MM/1, SS/100" or decimal already

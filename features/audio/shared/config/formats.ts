@@ -7,17 +7,13 @@ export interface AudioFormat {
 }
 
 // --- Supported formats ------------------------------------------------------
-// Every format below is fully round-trippable: FFmpeg (compiled to
-// WebAssembly) can both decode it as a source and encode it as a target using
-// codecs that ship in the standard ffmpeg.wasm core (native codecs like PCM,
-// AAC, FLAC, AC-3, MP2, and WMA/WMV, plus the bundled libmp3lame, libvorbis,
-// libopus, and libtheora). Formats that only FFmpeg can *decode* (e.g. AMR
-// voice memos, WavPack, Monkey's Audio) are deliberately left out rather than
-// offered as a half-working target - see getFFmpegArgsForTarget below.
+// Every format below is fully round-trippable with the codecs ffmpeg.wasm
+// ships (PCM, AAC, FLAC, AC-3, MP2, WMA plus libmp3lame/vorbis/opus/theora).
+// Decode-only formats (AMR, WavPack, Monkey's Audio) are excluded rather
+// than offered as a half-working target - see getFFmpegArgsForTarget below.
 //
-// NOTE: keep 'mp3' as the first entry - a couple of call sites
-// (features/audio/merge, features/video/extract-audio) fall back to
-// AUDIO_FORMATS[0] as the default output format.
+// NOTE: keep 'mp3' first - features/audio/merge and features/video/extract-audio
+// fall back to AUDIO_FORMATS[0] as the default output format.
 
 export const AUDIO_FORMATS: AudioFormat[] = [
   {
@@ -107,11 +103,8 @@ export const AUDIO_FORMATS: AudioFormat[] = [
 ];
 
 // --- Lookup helpers ----------------------------------------------------------
-// Built once at module load so every lookup (file-queue validation, route
-// generation, sitemap/static-param builds) is an O(1) Map read instead of an
-// Array.find scan - cheap either way at this size, but this keeps the pattern
-// consistent with the much larger image format table and scales for free as
-// more formats are added.
+// Map built once at module load for O(1) lookups, mirroring the pattern
+// used by the larger image format table.
 
 const AUDIO_FORMAT_BY_EXT: ReadonlyMap<string, AudioFormat> = new Map(
   AUDIO_FORMATS.map((f) => [f.extension, f]),

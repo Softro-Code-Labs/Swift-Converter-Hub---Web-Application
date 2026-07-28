@@ -75,7 +75,7 @@ const DEFAULT_FEATURES = (source: string, target: string) => [
   {
     icon: 'Lock',
     title: '100% private',
-    description: `Your ${source} files convert entirely in your browser - nothing is ever uploaded to a server.`,
+    description: `Your ${source} files convert to ${target} entirely in your browser - nothing is ever uploaded to a server.`,
   },
   {
     icon: 'Film',

@@ -16,6 +16,11 @@ import {
   getFileExtension,
 } from '@/features/shared/lib/format';
 
+/**
+ * Converts a batch of video files to a target format using FFmpeg (WASM),
+ * with per-file progress, ZIP download of all results, and single-file
+ * download.
+ */
 export const useVideoConverter = (
   files: VideoFileItem[],
   updateFile: (id: string, patch: Partial<VideoFileItem>) => void,
@@ -75,6 +80,8 @@ export const useVideoConverter = (
     }
     setIsConvertingAll(true);
 
+    // Processed one at a time - the shared FFmpeg WASM instance can only
+    // run a single job at once.
     for (const item of files) {
       if (item.status !== 'idle') continue;
       updateFile(item.id, { status: 'processing', progress: 0 });

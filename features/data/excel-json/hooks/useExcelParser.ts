@@ -57,7 +57,6 @@ function parseSheet(
   opts: ParseOptions,
 ): SheetData {
   const range = XLSX.utils.decode_range(ws['!ref'] ?? 'A1');
-  const numRows = range.e.r - range.s.r + 1;
   const numCols = range.e.c - range.s.c + 1;
 
   // Build raw rows first

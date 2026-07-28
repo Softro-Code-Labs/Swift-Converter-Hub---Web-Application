@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, AlignLeft, RefreshCw } from 'lucide-react';
 import { useLoremGenerator } from '../hooks/useLoremGenerator';
@@ -22,18 +22,20 @@ export default function LoremIpsumTool() {
   const [count, setCount] = useState(3);
   const [corpus, setCorpus] = useState<CorpusType>('classic');
   const [startWithLorem, setStart] = useState(true);
-  const [output, setOutput] = useState('');
   const [spinning, setSpinning] = useState(false);
+  // Bumped to force fresh random output on manual "Regenerate" clicks,
+  // since the generator itself is random and wouldn't otherwise recompute
+  // when none of the other settings have changed.
+  const [regenKey, setRegenKey] = useState(0);
 
   const { generate } = useLoremGenerator();
 
-  const run = useCallback(() => {
-    setOutput(generate({ type, count, corpus, startWithLorem }));
-  }, [generate, type, count, corpus, startWithLorem]);
-
-  useEffect(() => {
-    run();
-  }, [run]);
+  // Derived directly during render instead of via effect+state, avoiding
+  // an extra post-settings-change render pass.
+  const output = useMemo(() => {
+    void regenKey; // referenced only to force recomputation on manual regenerate
+    return generate({ type, count, corpus, startWithLorem });
+  }, [generate, type, count, corpus, startWithLorem, regenKey]);
 
   // Adjust count when type switches
   const handleTypeChange = (newType: GenerateType) => {
@@ -41,11 +43,11 @@ export default function LoremIpsumTool() {
     setCount(COUNT_LIMITS[newType].default);
   };
 
-  const handleRegenerate = () => {
+  const handleRegenerate = useCallback(() => {
     setSpinning(true);
-    run();
+    setRegenKey((k) => k + 1);
     setTimeout(() => setSpinning(false), 400);
-  };
+  }, []);
 
   const limits = COUNT_LIMITS[type];
 
@@ -172,7 +174,7 @@ export default function LoremIpsumTool() {
         </div>
 
         {/* Output */}
-        {output && <OutputCard text={output} onRegenerate={handleRegenerate} />}
+        {output && <OutputCard text={output} />}
 
         {/* Live indicator */}
         <div className="mt-5 flex items-center gap-1.5">

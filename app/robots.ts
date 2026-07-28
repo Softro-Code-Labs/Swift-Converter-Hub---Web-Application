@@ -7,12 +7,8 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        // Search engines, plus AI *search & retrieval* crawlers - these build
-        // the live index/answer AI assistants cite from, and are distinct
-        // from the training crawlers blocked below. Blocking these is what
-        // actually removes a site from ChatGPT Search, Claude's answers,
-        // Perplexity, and similar - allowing them is the whole point of
-        // being visible in AI-driven discovery.
+        // Search engines, plus AI search/retrieval crawlers that power live
+        // answers (distinct from the training crawlers blocked below).
         userAgent: [
           'Googlebot',
           'Bingbot',
@@ -47,13 +43,10 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/', '/admin/', '*.json$'],
       },
       {
-        // AI *training* crawlers - block entirely. Each of these has a
-        // separate, already-allowed sibling above for search/retrieval
-        // (OAI-SearchBot vs GPTBot, Claude-SearchBot vs ClaudeBot), so
-        // blocking training does not remove this site from AI answers -
-        // it only opts out of having content used as raw training data.
-        // (Google-Extended is the same idea for Gemini/Vertex training and
-        // does not affect Google Search or AI Overviews eligibility.)
+        // AI training crawlers - blocked entirely. Each has a separate,
+        // already-allowed sibling above for search/retrieval (e.g.
+        // GPTBot vs OAI-SearchBot), so this only opts out of training
+        // data collection without affecting AI-answer visibility.
         userAgent: [
           'GPTBot',
           'ClaudeBot',

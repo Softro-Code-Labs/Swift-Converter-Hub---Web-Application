@@ -19,6 +19,8 @@ const MAX_LENGTHS = {
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 const RATE_LIMIT_MAX_REQUESTS = 5;
+// In-memory only - resets on redeploy and isn't shared across serverless
+// instances. Good enough to blunt basic spam, not a hard guarantee.
 const requestLog = new Map<string, number[]>();
 
 function isRateLimited(ip: string): boolean {

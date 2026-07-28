@@ -54,7 +54,7 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  webpack: (config: any) => {
+  webpack: (config) => {
     // Disable Node.js modules that are not required in the browser
     config.resolve.fallback = {
       ...config.resolve.fallback,
