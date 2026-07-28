@@ -1638,9 +1638,11 @@ export function getAllowedTargets(sourceExt: string): ReadonlySet<string> {
 }
 
 export function isConversionAllowed(source: string, target: string): boolean {
-  if (source === target) return false;
-  const allowed = getAllowedTargets(source);
-  return allowed.has(target.toLowerCase());
+  const src = source.toLowerCase();
+  const tgt = target.toLowerCase();
+  if (src === tgt) return false;
+  const allowed = getAllowedTargets(src);
+  return allowed.has(tgt);
 }
 
 // --- Format category detection ------------------------------------------------
