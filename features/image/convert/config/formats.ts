@@ -2261,7 +2261,6 @@ const ROUTE_OVERRIDES: Partial<Record<string, Partial<ConversionRoute>>> = {
       'avif to png converter free',
       'batch avif to transparent png',
       'offline avif decoder script',
-      'assembly container framework pipeline extraction',
     ],
   },
   'pdf-to-png': {

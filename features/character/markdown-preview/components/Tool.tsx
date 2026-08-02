@@ -155,7 +155,7 @@ ${html}
         <button
           onClick={() => setFullscreen((v) => !v)}
           title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-          className="ml-auto flex items-center p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all"
+          className="ml-auto flex items-center p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 cursor-pointer transition-all"
         >
           {fullscreen ? (
             <X className="w-3.5 h-3.5" />
