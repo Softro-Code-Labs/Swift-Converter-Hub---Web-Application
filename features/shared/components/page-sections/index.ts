@@ -3,3 +3,4 @@ export { StepList } from './StepList';
 export { InfoCardGrid } from './InfoCardGrid';
 export { TechnicalNote } from './TechnicalNote';
 export { FeatureGrid } from './FeatureGrid';
+export { ToolPageHeader } from './ToolPageHeader';
