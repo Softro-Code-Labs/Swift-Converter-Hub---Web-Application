@@ -6,4 +6,5 @@ export const ADSENSE = {
     RIGHT: '9067185857',
     BOTTOM: '5372654282',
   },
+  ADS_ENABLED: process.env.NEXT_PUBLIC_ADS_ENABLED !== 'false',
 } as const;

@@ -72,19 +72,33 @@ function MobileBanner({ slot }: { slot: string }) {
 }
 
 function Sidebar({ slot }: { slot: string }) {
-  // Single sticky unit per side (was two stacked units) so ad presence stays
-  // proportionate to the amount of actual page content, per AdSense's ad
-  // density / "valuable inventory" guidance.
   return (
-    <div>
-      <AdLabel>Advertisement</AdLabel>
-      <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[280px]">
-        <AdSlot
-          slot={slot}
-          format="rectangle"
-          style={{ display: 'inline-block', width: '100%', height: '280px' }}
-          responsive={false}
-        />
+    <div className="flex flex-col gap-4">
+      <div>
+        <AdLabel>Advertisement</AdLabel>
+        <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[600px]">
+          <AdSlot
+            slot={slot}
+            format="vertical"
+            style={{ display: 'inline-block', width: '100%', height: '600px' }}
+            responsive={false}
+          />
+        </div>
+      </div>
+      <div>
+        <AdLabel>Sponsored</AdLabel>
+        <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[280px]">
+          <AdSlot
+            slot={slot}
+            format="rectangle"
+            style={{
+              display: 'inline-block',
+              width: '100%',
+              height: '280px',
+            }}
+            responsive={false}
+          />
+        </div>
       </div>
     </div>
   );
@@ -98,6 +112,21 @@ function InContentRectangle({ slot }: { slot: string }) {
         <AdSlot
           slot={slot}
           format="rectangle"
+          style={{ display: 'block', width: '100%' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function BottomAnchor({ slot }: { slot: string }) {
+  return (
+    <div>
+      <AdLabel>Sponsored content</AdLabel>
+      <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[100px]">
+        <AdSlot
+          slot={slot}
+          format="autorelax"
           style={{ display: 'block', width: '100%' }}
         />
       </div>
@@ -123,6 +152,8 @@ export default function StudioAdLayout({
   const resolvedSlots = { ...ADSENSE.SLOTS, ...slots };
 
   useEffect(() => {
+    if (!ADSENSE.ADS_ENABLED) return;
+
     // Debounced so rapid route changes don't fire overlapping pushes.
     if (timerRef.current) clearTimeout(timerRef.current);
 
@@ -149,6 +180,18 @@ export default function StudioAdLayout({
     };
   }, [pathname]);
 
+  if (!ADSENSE.ADS_ENABLED) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <main className="w-full min-w-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden">
+            {children}
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
       <TopLeaderboard slot={resolvedSlots.TOP} />
@@ -168,6 +211,7 @@ export default function StudioAdLayout({
               {children}
             </main>
             <InContentRectangle slot={resolvedSlots.BOTTOM} />
+            <BottomAnchor slot={resolvedSlots.BOTTOM} />
           </div>
 
           <aside
