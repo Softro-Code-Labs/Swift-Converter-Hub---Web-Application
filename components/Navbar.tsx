@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
+import StudioSpotlight from './StudioSpotlight';
 import {
   ChevronDown,
   Menu,
@@ -20,13 +21,15 @@ import {
   Mail,
 } from 'lucide-react';
 
-const STUDIOS = [
+export const STUDIOS = [
   {
     name: 'Image Studio',
     href: '/image',
     icon: ImageIcon,
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    dot: 'bg-blue-500',
     desc: 'Convert WebP, PNG, JPEG and 150+ formats.',
+    hook: 'Convert 150+ image formats',
   },
   {
     name: 'Audio Studio',
@@ -34,7 +37,9 @@ const STUDIOS = [
     icon: AudioLines,
     color:
       'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+    dot: 'bg-emerald-500',
     desc: 'Transcode MP3, WAV, FLAC and more.',
+    hook: 'Transcode MP3, WAV & FLAC',
   },
   {
     name: 'Video Studio',
@@ -42,14 +47,18 @@ const STUDIOS = [
     icon: Clapperboard,
     color:
       'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    dot: 'bg-purple-500',
     desc: 'Convert MP4, WebM, clip and compress.',
+    hook: 'Compress & clip MP4 video',
   },
   {
     name: 'Document Suite',
     href: '/file',
     icon: FileText,
     color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+    dot: 'bg-cyan-500',
     desc: 'PDF, Word, Excel and document tools.',
+    hook: 'Merge, split & convert PDFs',
   },
   {
     name: 'Data Studio',
@@ -57,14 +66,18 @@ const STUDIOS = [
     icon: Database,
     color:
       'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    dot: 'bg-amber-500',
     desc: 'JSON, CSV, XML conversion and parsing.',
+    hook: 'Convert JSON, CSV & XML',
   },
   {
     name: 'Character Studio',
     href: '/character',
     icon: Type,
     color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
+    dot: 'bg-rose-500',
     desc: 'Text encoding, case and regex tools.',
+    hook: 'Text case, regex & hashing',
   },
 ];
 
@@ -100,7 +113,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-15 items-center justify-between gap-4 py-3">
+        <div className="relative flex h-15 items-center justify-between gap-4 py-3">
           {/* -- Logo ------------------------------------------------------ */}
           <Link
             href="/"
@@ -123,6 +136,11 @@ export default function Navbar() {
               </span>
             </span>
           </Link>
+
+          {/* Spotlight, always visible, centered in the bar on desktop */}
+          <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <StudioSpotlight />
+          </div>
 
           {/* -- Desktop nav ----------------------------------------------- */}
           <div className="hidden md:flex items-center gap-1">
@@ -251,6 +269,11 @@ export default function Navbar() {
               )}
             </button>
           </div>
+        </div>
+
+        {/* Spotlight, always visible, own row under the bar on mobile/tablet */}
+        <div className="lg:hidden flex justify-center pb-2.5 -mt-0.5">
+          <StudioSpotlight />
         </div>
       </div>
 

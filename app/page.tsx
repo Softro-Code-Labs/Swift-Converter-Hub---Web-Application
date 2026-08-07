@@ -14,6 +14,7 @@ import {
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/config/site';
+import HeroDropZone from '@/components/home/HeroDropZone';
 import {
   JsonLd,
   breadcrumbJsonLd,
@@ -133,52 +134,51 @@ const STUDIOS = [
 const ACCENT = {
   blue: {
     bg: 'bg-blue-50 dark:bg-blue-950/40',
+    glow: 'bg-blue-500/15 dark:bg-blue-500/20',
     icon: 'text-blue-600 dark:text-blue-400',
-    iconHover: 'group-hover:bg-blue-600',
-    border: 'group-hover:border-blue-200 dark:group-hover:border-blue-800',
-    link: 'text-blue-600 dark:text-blue-400',
-    pill: 'bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
+    iconHover: 'group-hover:bg-blue-600 group-hover:text-white',
+    border: 'hover:border-blue-300 dark:hover:border-blue-700',
+    pill: 'bg-blue-50/80 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40',
   },
   emerald: {
     bg: 'bg-emerald-50 dark:bg-emerald-950/40',
+    glow: 'bg-emerald-500/15 dark:bg-emerald-500/20',
     icon: 'text-emerald-600 dark:text-emerald-400',
-    iconHover: 'group-hover:bg-emerald-600',
-    border:
-      'group-hover:border-emerald-200 dark:group-hover:border-emerald-800',
-    link: 'text-emerald-600 dark:text-emerald-400',
-    pill: 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
+    iconHover: 'group-hover:bg-emerald-600 group-hover:text-white',
+    border: 'hover:border-emerald-300 dark:hover:border-emerald-700',
+    pill: 'bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40',
   },
   purple: {
     bg: 'bg-purple-50 dark:bg-purple-950/40',
+    glow: 'bg-purple-500/15 dark:bg-purple-500/20',
     icon: 'text-purple-600 dark:text-purple-400',
-    iconHover: 'group-hover:bg-purple-600',
-    border: 'group-hover:border-purple-200 dark:group-hover:border-purple-800',
-    link: 'text-purple-600 dark:text-purple-400',
-    pill: 'bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
+    iconHover: 'group-hover:bg-purple-600 group-hover:text-white',
+    border: 'hover:border-purple-300 dark:hover:border-purple-700',
+    pill: 'bg-purple-50/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-100 dark:border-purple-900/40',
   },
   cyan: {
     bg: 'bg-cyan-50 dark:bg-cyan-950/40',
+    glow: 'bg-cyan-500/15 dark:bg-cyan-500/20',
     icon: 'text-cyan-600 dark:text-cyan-400',
-    iconHover: 'group-hover:bg-cyan-600',
-    border: 'group-hover:border-cyan-200 dark:group-hover:border-cyan-800',
-    link: 'text-cyan-600 dark:text-cyan-400',
-    pill: 'bg-cyan-50 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
+    iconHover: 'group-hover:bg-cyan-600 group-hover:text-white',
+    border: 'hover:border-cyan-300 dark:hover:border-cyan-700',
+    pill: 'bg-cyan-50/80 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-900/40',
   },
   amber: {
     bg: 'bg-amber-50 dark:bg-amber-950/40',
+    glow: 'bg-amber-500/15 dark:bg-amber-500/20',
     icon: 'text-amber-600 dark:text-amber-400',
-    iconHover: 'group-hover:bg-amber-600',
-    border: 'group-hover:border-amber-200 dark:group-hover:border-amber-800',
-    link: 'text-amber-600 dark:text-amber-400',
-    pill: 'bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
+    iconHover: 'group-hover:bg-amber-600 group-hover:text-white',
+    border: 'hover:border-amber-300 dark:hover:border-amber-700',
+    pill: 'bg-amber-50/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900/40',
   },
   rose: {
     bg: 'bg-rose-50 dark:bg-rose-950/40',
+    glow: 'bg-rose-500/15 dark:bg-rose-500/20',
     icon: 'text-rose-600 dark:text-rose-400',
-    iconHover: 'group-hover:bg-rose-600',
-    border: 'group-hover:border-rose-200 dark:group-hover:border-rose-800',
-    link: 'text-rose-600 dark:text-rose-400',
-    pill: 'bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
+    iconHover: 'group-hover:bg-rose-600 group-hover:text-white',
+    border: 'hover:border-rose-300 dark:hover:border-rose-700',
+    pill: 'bg-rose-50/80 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-100 dark:border-rose-900/40',
   },
 } as const;
 
@@ -252,8 +252,16 @@ export default function HomePage() {
             </p>
           </div>
 
+          {/* Drop zone - primary action: recognizes the file, routes to the right studio */}
+          <HeroDropZone />
+
           {/* CTA row */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+          <div className="flex items-center justify-center gap-3 mt-5 text-xs text-slate-400 dark:text-slate-500">
+            <span className="h-px flex-1 max-w-16 bg-slate-200 dark:bg-slate-800" />
+            or
+            <span className="h-px flex-1 max-w-16 bg-slate-200 dark:bg-slate-800" />
+          </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
             <Link
               href="/image"
               className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white text-sm font-bold rounded-xl transition-all shadow-sm shadow-blue-500/20"
@@ -327,7 +335,7 @@ export default function HomePage() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {STUDIOS.map((studio) => {
             const Icon = studio.icon;
             const a = ACCENT[studio.accent as keyof typeof ACCENT];
@@ -335,41 +343,43 @@ export default function HomePage() {
               <Link
                 key={studio.label}
                 href={studio.href}
-                className={`group relative flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 hover:shadow-md transition-all duration-200 ${a.border}`}
+                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border-2 border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-none transition-all duration-300 ${a.border}`}
               >
-                {/* Icon */}
-                <div
-                  className={`flex h-11 w-11 items-center justify-center rounded-xl ${a.bg} ${a.icon} ${a.iconHover} group-hover:text-white transition-all duration-200 mb-4`}
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
-
-                {/* Content */}
-                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1.5">
-                  {studio.label}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-1">
-                  {studio.desc}
-                </p>
-
-                {/* Tool pills */}
-                <div className="flex flex-wrap gap-1.5 mt-4">
-                  {studio.tools.map((tool) => (
-                    <span
-                      key={tool}
-                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${a.pill}`}
+                <div>
+                  {/* Card Header: Icon + Arrow CTA */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${a.bg} ${a.icon} ${a.iconHover} group-hover:scale-105 group-hover:shadow-sm transition-all duration-300`}
                     >
-                      {tool}
-                    </span>
-                  ))}
+                      <Icon className="w-6 h-6 transition-transform duration-300 group-hover:rotate-3" />
+                    </div>
+
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 group-hover:bg-slate-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900 transition-all duration-300">
+                      <ArrowRight className="w-4 h-4 -translate-x-0.5 group-hover:translate-x-0 transition-transform duration-300" />
+                    </div>
+                  </div>
+
+                  {/* Title & Description */}
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors mb-1.5">
+                    {studio.label}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    {studio.desc}
+                  </p>
                 </div>
 
-                {/* Footer link */}
-                <div
-                  className={`flex items-center gap-1 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-bold ${a.link} group-hover:gap-2 transition-all`}
-                >
-                  Open {studio.label}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                {/* Feature Tools Pills */}
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                  <div className="flex flex-wrap gap-1.5">
+                    {studio.tools.map((tool) => (
+                      <span
+                        key={tool}
+                        className={`text-[10px] font-medium px-2.5 py-1 rounded-md transition-transform duration-200 group-hover:scale-[1.02] ${a.pill}`}
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Link>
             );
