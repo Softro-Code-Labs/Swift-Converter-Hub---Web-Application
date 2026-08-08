@@ -105,23 +105,25 @@ const SECTIONS = [
           To keep our tools free, we show ads through Google AdSense. Google may
           use cookies to show relevant ads based on your general browsing
           activity. These cookies cannot access your files or conversion data in
-          any way.
+          any way. We also use Google Analytics to understand traffic and usage
+          patterns across the site - it never sees the content of your files
+          either, only page views and general usage events.
         </p>
         <p className="mt-3">
           We use <strong>Google Consent Mode v2</strong> to respect your choice.
           When you first visit our site, non-essential storage (for ads and
-          analytics) is set to &quot;denied&quot; by default. Google AdSense
-          runs in a restricted, privacy-safe state without dropping
-          personalization cookies. Only if you click &quot;Accept&quot; will
-          these tracking states update to &quot;granted.&quot;
+          analytics) is set to &quot;denied&quot; by default. Google AdSense and
+          Google Analytics both run in a restricted, privacy-safe state without
+          dropping personalization or analytics cookies. Only if you click
+          &quot;Accept&quot; will these tracking states update to
+          &quot;granted.&quot;
         </p>
         <p className="mt-3">
-          For analytics, we use Microsoft Clarity (see &quot;What we
-          collect&quot; above for what it records), which also stays disabled
-          until you opt in. You can block ads using any standard browser
-          extension without affecting the functionality of our conversion tools,
-          and you can change your consent preferences at any time using the link
-          in the footer.
+          We also use Microsoft Clarity (see &quot;What we collect&quot; above
+          for what it records), which stays disabled until you opt in. You can
+          block ads using any standard browser extension without affecting the
+          functionality of our conversion tools, and you can change your consent
+          preferences at any time using the link in the footer.
         </p>
       </>
     ),

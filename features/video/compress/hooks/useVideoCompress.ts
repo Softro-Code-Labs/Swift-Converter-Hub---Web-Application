@@ -14,6 +14,7 @@ import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
+import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
 import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
 
 export const useVideoCompress = (
@@ -36,15 +37,31 @@ export const useVideoCompress = (
 
     const inputPath = `vcompress_input_${item.id}.${sourceExt}`;
     // Compression always outputs MP4 regardless of source format - H.264
-    // + faststart MP4 is the safest universally-playable choice, and
-    // mixing "compress" with "also convert container" would make the
-    // size/quality trade-off harder to reason about for users.
     const outputPath = `vcompress_output_${item.id}.mp4`;
 
     try {
       await engine.writeFile(inputPath, await fetchFile(item.file));
 
-      const args = ['-i', inputPath, ...getCompressArgs(preset), outputPath];
+      // Figure out how compressed the source already is, so the encoder
+      // can be capped relative to it instead of blindly chasing a fixed
+      // quality level - see getCompressArgs for why this is necessary.
+      let sourceBitrateKbps: number | undefined;
+      try {
+        const { duration } = await getVideoMetadata(item.file);
+        if (duration > 0) {
+          sourceBitrateKbps = (item.file.size * 8) / duration / 1000;
+        }
+      } catch {
+        // Falls back to CRF-only encoding below - rare (e.g. a codec the
+        // browser's native decoder can't read metadata for).
+      }
+
+      const args = [
+        '-i',
+        inputPath,
+        ...getCompressArgs(preset, sourceBitrateKbps),
+        outputPath,
+      ];
 
       const exitCode = await runFFmpegWithProgress(engine, args, (ratio) => {
         updateFile(item.id, { progress: ratio });
@@ -57,8 +74,16 @@ export const useVideoCompress = (
       }
 
       const data = await engine.readFile(outputPath);
-      const bytes = typeof data === 'string' ? new TextEncoder().encode(data) : data;
+      const bytes =
+        typeof data === 'string' ? new TextEncoder().encode(data) : data;
       const blob = new Blob([toStandaloneBuffer(bytes)], { type: 'video/mp4' });
+
+      if (blob.size > item.file.size) {
+        toast(
+          `${item.file.name} was already efficiently compressed - little extra savings were possible.`,
+          { icon: 'ℹ️' },
+        );
+      }
 
       return { url: URL.createObjectURL(blob), size: formatBytes(blob.size) };
     } finally {
@@ -86,7 +111,8 @@ export const useVideoCompress = (
         });
       } catch (err) {
         console.error(`Compression failed for ${item.file.name}:`, err);
-        const message = err instanceof Error ? err.message : 'Compression failed';
+        const message =
+          err instanceof Error ? err.message : 'Compression failed';
         updateFile(item.id, { status: 'error', errorMessage: message });
       }
     }
@@ -106,7 +132,10 @@ export const useVideoCompress = (
       toast.loading('Building ZIP...', { id: 'zip' });
       for (const item of ready) {
         const blob = await fetch(item.convertedUrl!).then((r) => r.blob());
-        const name = item.file.name.substring(0, item.file.name.lastIndexOf('.'));
+        const name = item.file.name.substring(
+          0,
+          item.file.name.lastIndexOf('.'),
+        );
         zip.file(`${name}_compressed.mp4`, blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
@@ -128,5 +157,11 @@ export const useVideoCompress = (
     link.click();
   };
 
-  return { isProcessingAll, isZipping, compressAll, downloadAll, downloadSingle };
+  return {
+    isProcessingAll,
+    isZipping,
+    compressAll,
+    downloadAll,
+    downloadSingle,
+  };
 };
