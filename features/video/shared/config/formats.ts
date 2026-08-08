@@ -53,37 +53,43 @@ export const VIDEO_FORMATS: VideoFormat[] = [
     label: '3GP',
     extension: '3gp',
     mimeType: 'video/3gpp',
-    description: 'Compact mobile video format for older phones and low bandwidth',
+    description:
+      'Compact mobile video format for older phones and low bandwidth',
   },
   {
     label: 'FLV',
     extension: 'flv',
     mimeType: 'video/x-flv',
-    description: 'Flash Video - legacy web format, still used in some streaming pipelines',
+    description:
+      'Flash Video - legacy web format, still used in some streaming pipelines',
   },
   {
     label: 'TS',
     extension: 'ts',
     mimeType: 'video/mp2t',
-    description: 'MPEG transport stream - used for broadcast and HLS video segments',
+    description:
+      'MPEG transport stream - used for broadcast and HLS video segments',
   },
   {
     label: 'WMV',
     extension: 'wmv',
     mimeType: 'video/x-ms-wmv',
-    description: 'Windows Media Video - the classic Windows Media Player format',
+    description:
+      'Windows Media Video - the classic Windows Media Player format',
   },
   {
     label: 'OGV',
     extension: 'ogv',
     mimeType: 'video/ogg',
-    description: 'Open, royalty-free format built on Theora video and Vorbis audio',
+    description:
+      'Open, royalty-free format built on Theora video and Vorbis audio',
   },
   {
     label: 'MPG',
     extension: 'mpg',
     mimeType: 'video/mpeg',
-    description: 'Classic MPEG-1 video - maximum compatibility with legacy software',
+    description:
+      'Classic MPEG-1 video - maximum compatibility with legacy software',
   },
 ];
 
@@ -96,7 +102,10 @@ const VIDEO_FORMAT_BY_EXT: ReadonlyMap<string, VideoFormat> = new Map(
 export const getFormatByExtension = (ext: string): VideoFormat | undefined =>
   VIDEO_FORMAT_BY_EXT.get(ext.toLowerCase());
 
-export const isConversionAllowed = (source: string, target: string): boolean => {
+export const isConversionAllowed = (
+  source: string,
+  target: string,
+): boolean => {
   const s = source.toLowerCase();
   const t = target.toLowerCase();
   return s !== t && VIDEO_FORMAT_BY_EXT.has(s) && VIDEO_FORMAT_BY_EXT.has(t);
@@ -117,7 +126,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '-c:v',
         'libx264',
         '-preset',
-        'ultrafast',
+        'veryfast',
         '-crf',
         '23',
         '-c:a',
@@ -145,7 +154,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '-c:v',
         'libx264',
         '-preset',
-        'ultrafast',
+        'veryfast',
         '-crf',
         '23',
         '-c:a',
@@ -171,7 +180,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '-c:v',
         'libx264',
         '-preset',
-        'ultrafast',
+        'veryfast',
         '-crf',
         '23',
         '-c:a',
@@ -190,7 +199,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '-level',
         '3.0',
         '-preset',
-        'ultrafast',
+        'veryfast',
         '-crf',
         '23',
         '-c:a',
@@ -205,7 +214,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '-c:v',
         'libx264',
         '-preset',
-        'ultrafast',
+        'veryfast',
         '-crf',
         '23',
         '-c:a',
@@ -220,7 +229,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '-c:v',
         'libx264',
         '-preset',
-        'ultrafast',
+        'veryfast',
         '-crf',
         '23',
         '-c:a',
@@ -234,16 +243,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
       // wmv2/wmav2 are native FFmpeg encoders (the msmpeg4/Windows Media
       // family) - bitrate-based rate control rather than CRF, matching how
       // these codecs are conventionally driven.
-      return [
-        '-c:v',
-        'wmv2',
-        '-b:v',
-        '2M',
-        '-c:a',
-        'wmav2',
-        '-b:a',
-        '192k',
-      ];
+      return ['-c:v', 'wmv2', '-b:v', '2M', '-c:a', 'wmav2', '-b:a', '192k'];
     case 'ogv':
       return [
         '-c:v',
@@ -256,16 +256,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         '5',
       ];
     case 'mpg':
-      return [
-        '-c:v',
-        'mpeg1video',
-        '-q:v',
-        '5',
-        '-c:a',
-        'mp2',
-        '-b:a',
-        '192k',
-      ];
+      return ['-c:v', 'mpeg1video', '-q:v', '5', '-c:a', 'mp2', '-b:a', '192k'];
     default:
       throw new Error(`Unsupported target format: ${target}`);
   }
@@ -292,6 +283,9 @@ export interface QualityPreset {
   hint: string;
   maxHeight: number | null; // null = no resize, keep original resolution
   crf: number; // lower = higher quality/larger file
+  bitrateRatio: number; // cap = this fraction of the source's own overall bitrate
+  minVideoKbps: number; // floor so an already-tiny source isn't crushed further
+  audioKbps: number; // this preset's target audio bitrate
 }
 
 export const QUALITY_PRESETS: QualityPreset[] = [
@@ -301,6 +295,9 @@ export const QUALITY_PRESETS: QualityPreset[] = [
     hint: 'Smallest file, 480p cap',
     maxHeight: 480,
     crf: 30,
+    bitrateRatio: 0.4,
+    minVideoKbps: 400,
+    audioKbps: 64,
   },
   {
     id: 'balanced',
@@ -308,6 +305,9 @@ export const QUALITY_PRESETS: QualityPreset[] = [
     hint: '720p cap, good quality',
     maxHeight: 720,
     crf: 26,
+    bitrateRatio: 0.6,
+    minVideoKbps: 800,
+    audioKbps: 96,
   },
   {
     id: 'high',
@@ -315,26 +315,56 @@ export const QUALITY_PRESETS: QualityPreset[] = [
     hint: 'Original resolution',
     maxHeight: null,
     crf: 20,
+    bitrateRatio: 0.85,
+    minVideoKbps: 1500,
+    audioKbps: 128,
   },
 ];
 
-export function getCompressArgs(preset: QualityPreset): string[] {
+/**
+ * @param sourceBitrateKbps - the SOURCE file's own overall bitrate
+ * (fileSizeBytes*8 / durationSeconds / 1000), if known. Pass this whenever
+ * possible - without it, encoding falls back to plain CRF with no ceiling,
+ * which cannot guarantee the output is smaller than the input.
+ */
+export function getCompressArgs(
+  preset: QualityPreset,
+  sourceBitrateKbps?: number,
+): string[] {
   const args = [
     '-c:v',
     'libx264',
     '-preset',
-    'ultrafast',
+    'veryfast',
     '-crf',
     String(preset.crf),
+  ];
+
+  if (sourceBitrateKbps && Number.isFinite(sourceBitrateKbps)) {
+    const targetTotalKbps = Math.max(
+      preset.minVideoKbps + preset.audioKbps,
+      sourceBitrateKbps * preset.bitrateRatio,
+    );
+    const videoCeilingKbps = Math.round(targetTotalKbps - preset.audioKbps);
+    args.push(
+      '-maxrate',
+      `${videoCeilingKbps}k`,
+      '-bufsize',
+      `${videoCeilingKbps * 2}k`,
+    );
+  }
+
+  args.push(
     '-c:a',
     'aac',
     '-b:a',
-    '96k',
+    `${preset.audioKbps}k`,
     '-pix_fmt',
     'yuv420p',
     '-movflags',
     '+faststart',
-  ];
+  );
+
   if (preset.maxHeight !== null) {
     // -2 keeps width even (required by yuv420p) while preserving aspect ratio
     args.push('-vf', `scale=-2:'min(${preset.maxHeight},ih)'`);

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Providers } from './providers';
 import { ADSENSE } from '@/lib/adsense';
+import { ANALYTICS } from '@/lib/analytics';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import {
@@ -265,6 +266,21 @@ export default function RootLayout({
                 'ad_personalization': defaultState,
                 'analytics_storage': defaultState
               });
+
+              ${
+                ANALYTICS.ANALYTICS_ENABLED
+                  ? `
+              // Google Analytics - config call only. Consent Mode above
+              // already told gtag whether analytics_storage is granted or
+              // denied, so this is safe to run unconditionally: denied
+              // visitors still get cookieless, consent-aware pings, not a
+              // full tracking session. The actual gtag.js library is loaded
+              // separately in TrackingScripts.tsx.
+              gtag('js', new Date());
+              gtag('config', '${ANALYTICS.GA_MEASUREMENT_ID}');
+              `
+                  : ''
+              }
             `,
           }}
         />
