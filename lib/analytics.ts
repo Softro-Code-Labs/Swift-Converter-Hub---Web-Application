@@ -1,0 +1,4 @@
+export const ANALYTICS = {
+  GA_MEASUREMENT_ID: 'G-0L4YN0WP75',
+  ANALYTICS_ENABLED: process.env.NEXT_PUBLIC_ANALYTICS_ENABLED !== 'false',
+} as const;

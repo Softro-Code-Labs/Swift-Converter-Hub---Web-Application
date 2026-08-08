@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Script from 'next/script';
 import { ADSENSE } from '@/lib/adsense';
+import { ANALYTICS } from '@/lib/analytics';
 import { useConsent } from './ConsentContext';
 
 export default function TrackingScripts() {
@@ -50,6 +51,22 @@ export default function TrackingScripts() {
         crossOrigin="anonymous"
         strategy="afterInteractive"
       />
+
+      {/*
+        Google Analytics (gtag.js) - same "always load, let Consent Mode
+        gate the data" reasoning as AdSense above. The gtag('config', ...)
+        call itself lives in layout.tsx's pre-hydration script since it
+        just needs window.dataLayer/gtag to exist, not this file to have
+        mounted - it queues fine before this script finishes loading.
+      */}
+      {ANALYTICS.ANALYTICS_ENABLED && (
+        <Script
+          id="google-analytics"
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+      )}
 
       {/* Microsoft Clarity - only loaded after explicit consent. */}
       {isLoaded && consent === 'accepted' && (
