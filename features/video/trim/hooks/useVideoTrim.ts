@@ -2,7 +2,10 @@ import { useState, useCallback } from 'react';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import toast from 'react-hot-toast';
-import { getFormatByExtension } from '@/features/video/shared/config/formats';
+import {
+  getFormatByExtension,
+  getVideoCodecArgsForContainer,
+} from '@/features/video/shared/config/formats';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
 import {
   runFFmpegWithProgress,
@@ -20,7 +23,10 @@ const INITIAL_STATE: VideoTrimState = {
   progress: 0,
 };
 
-export const useVideoTrim = (ffmpeg: FFmpeg | null, isFFmpegLoaded: boolean) => {
+export const useVideoTrim = (
+  ffmpeg: FFmpeg | null,
+  isFFmpegLoaded: boolean,
+) => {
   const [state, setState] = useState<VideoTrimState>(INITIAL_STATE);
 
   const loadFile = useCallback(async (file: File) => {
@@ -78,17 +84,19 @@ export const useVideoTrim = (ffmpeg: FFmpeg | null, isFFmpegLoaded: boolean) => 
     try {
       await ffmpeg.writeFile(inputPath, await fetchFile(state.file));
 
-      // -c copy: fast, lossless stream copy. Unlike audio, video streams
-      // are structured around keyframes (GOPs), so the actual cut point
-      // can snap to the nearest preceding keyframe rather than landing
-      // exactly on the requested start time - typically within a couple
-      // of seconds depending on the source's keyframe interval. Trading
-      // that imprecision for speed is deliberate here, same as Trim Audio.
+      // Re-encoding the video stream builds a proper keyframe at the true
+      // cut point, so there's nothing missing to freeze on. Audio stays a
+      // fast lossless copy since it never had this problem.
       const args = [
-        '-i', inputPath,
-        '-ss', state.startTime.toFixed(3),
-        '-t', durationSec.toFixed(3),
-        '-c', 'copy',
+        '-i',
+        inputPath,
+        '-ss',
+        state.startTime.toFixed(3),
+        '-t',
+        durationSec.toFixed(3),
+        ...getVideoCodecArgsForContainer(ext),
+        '-c:a',
+        'copy',
         outputPath,
       ];
 
@@ -101,8 +109,11 @@ export const useVideoTrim = (ffmpeg: FFmpeg | null, isFFmpegLoaded: boolean) => 
       }
 
       const data = await ffmpeg.readFile(outputPath);
-      const bytes = typeof data === 'string' ? new TextEncoder().encode(data) : data;
-      const blob = new Blob([toStandaloneBuffer(bytes)], { type: format.mimeType });
+      const bytes =
+        typeof data === 'string' ? new TextEncoder().encode(data) : data;
+      const blob = new Blob([toStandaloneBuffer(bytes)], {
+        type: format.mimeType,
+      });
 
       setState((prev) => ({
         ...prev,
