@@ -275,6 +275,66 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
+// --- Video-only codec lookup (used by Trim) ----------------------------------
+export function getVideoCodecArgsForContainer(ext: string): string[] {
+  switch (ext) {
+    case 'mp4':
+    case 'm4v':
+    case 'mov':
+    case 'mkv':
+    case 'flv':
+    case 'ts':
+      return [
+        '-c:v',
+        'libx264',
+        '-preset',
+        'veryfast',
+        '-crf',
+        '20',
+        '-pix_fmt',
+        'yuv420p',
+      ];
+    case '3gp':
+      return [
+        '-c:v',
+        'libx264',
+        '-profile:v',
+        'baseline',
+        '-level',
+        '3.0',
+        '-preset',
+        'veryfast',
+        '-crf',
+        '20',
+        '-pix_fmt',
+        'yuv420p',
+      ];
+    case 'webm':
+      return ['-c:v', 'libvpx', '-crf', '10', '-b:v', '1M'];
+    case 'avi':
+      return ['-c:v', 'mpeg4', '-q:v', '5'];
+    case 'wmv':
+      return ['-c:v', 'wmv2', '-b:v', '2M'];
+    case 'ogv':
+      return ['-c:v', 'libtheora', '-qscale:v', '7'];
+    case 'mpg':
+      return ['-c:v', 'mpeg1video', '-q:v', '5'];
+    default:
+      // getFormatByExtension() in the caller already guards against
+      // genuinely unrecognized extensions before this is ever reached.
+      return [
+        '-c:v',
+        'libx264',
+        '-preset',
+        'veryfast',
+        '-crf',
+        '20',
+        '-pix_fmt',
+        'yuv420p',
+      ];
+  }
+}
+
 // --- Quality/size presets (used by the Compress tool) ------------------------
 
 export interface QualityPreset {
