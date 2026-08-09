@@ -3,6 +3,7 @@ import {
   ImageMagick,
   MagickColor,
   MagickFormat,
+  Orientation,
 } from '@imagemagick/magick-wasm';
 import {
   isHeicSource,
@@ -10,6 +11,11 @@ import {
   toStandaloneBuffer,
   detectActualFormat,
 } from './useHeicConverter';
+import {
+  isRawSource,
+  extractLargestEmbeddedPreview,
+  getTiffOrientation,
+} from '@/features/image/shared/utils/rawPreview';
 import { FileItem } from '@/features/image/convert/types/converter';
 import { formatBytes } from '../../shared/utils/bytes';
 import { getFileExtension } from '@/features/shared/lib/format';
@@ -306,6 +312,47 @@ export const useImageConverter = (
 
     // -- Detect real format from magic bytes -----------------------------------
     const actualFormat = detectActualFormat(uint8Array);
+
+    // -- Case 0: RAW camera source → extract the real embedded preview --------
+    // magick-wasm can't demosaic RAW files, so a direct read grabs the tiny
+    // IFD0 thumbnail. Pull the real embedded preview instead.
+    if (isRawSource(sourceExt)) {
+      const preview = extractLargestEmbeddedPreview(uint8Array);
+      if (preview) {
+        const orientation = getTiffOrientation(uint8Array);
+        const magickFormat = getMagickFormat(target);
+
+        return new Promise((resolve, reject) => {
+          try {
+            ImageMagick.read(preview, (image) => {
+              if (orientation) {
+                image.orientation = orientation as Orientation;
+                image.autoOrient();
+              }
+
+              const resizeTo = RESIZE_ON_WRITE[magickFormat];
+              if (resizeTo) image.resize(resizeTo.w, resizeTo.h);
+              if (magickFormat === MagickFormat.Pdf)
+                image.backgroundColor = new MagickColor(255, 255, 255, 255);
+
+              image.write(magickFormat, (outputBytes) => {
+                const blob = new Blob(
+                  [toStandaloneBuffer(new Uint8Array(outputBytes))],
+                  { type: target.mimeType },
+                );
+                resolve({
+                  url: URL.createObjectURL(blob),
+                  size: formatBytes(blob.size),
+                });
+              });
+            });
+          } catch (err) {
+            reject(err);
+          }
+        });
+      }
+      // No preview found - fall through to Case 3 and let ImageMagick try directly.
+    }
 
     // -- Case 1: Real HEIC/HEIF source → decode with heic2any -----------------
     if (isHeicSource(sourceExt) && actualFormat === 'heic') {
