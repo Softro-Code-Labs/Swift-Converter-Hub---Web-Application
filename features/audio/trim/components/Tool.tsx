@@ -14,6 +14,7 @@ import { useAudioTrim } from '../hooks/useAudioTrim';
 import {
   SingleFileDropZone,
   EngineStatusBar,
+  TrimRangeBar,
 } from '@/features/shared/components';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 
@@ -84,11 +85,6 @@ export default function AudioTrimTool() {
     reset();
   };
 
-  const selectionPct = {
-    start: state.duration ? (state.startTime / state.duration) * 100 : 0,
-    end: state.duration ? (state.endTime / state.duration) * 100 : 100,
-  };
-
   return (
     <div className="space-y-4">
       <EngineStatusBar
@@ -142,16 +138,13 @@ export default function AudioTrimTool() {
               />
             )}
 
-            {/* Visual trim region indicator */}
-            <div className="relative h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div
-                className="absolute inset-y-0 bg-blue-400 dark:bg-blue-600"
-                style={{
-                  left: `${selectionPct.start}%`,
-                  right: `${100 - selectionPct.end}%`,
-                }}
-              />
-            </div>
+            <TrimRangeBar
+              startTime={state.startTime}
+              endTime={state.endTime}
+              duration={state.duration}
+              onChange={setRange}
+              accent="blue"
+            />
 
             {/* Start/end controls */}
             <div className="flex flex-col sm:flex-row gap-4">

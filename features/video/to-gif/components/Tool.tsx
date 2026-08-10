@@ -19,6 +19,7 @@ import {
 import {
   SingleFileDropZone,
   EngineStatusBar,
+  TrimRangeBar,
 } from '@/features/shared/components';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 
@@ -97,10 +98,6 @@ export default function VideoToGifTool() {
     reset();
   };
 
-  const selectionPct = {
-    start: state.duration ? (state.startTime / state.duration) * 100 : 0,
-    end: state.duration ? (state.endTime / state.duration) * 100 : 100,
-  };
   const isBusy = state.status === 'palette' || state.status === 'encoding';
 
   return (
@@ -156,15 +153,13 @@ export default function VideoToGifTool() {
               />
             )}
 
-            <div className="relative h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div
-                className="absolute inset-y-0 bg-purple-400 dark:bg-purple-600"
-                style={{
-                  left: `${selectionPct.start}%`,
-                  right: `${100 - selectionPct.end}%`,
-                }}
-              />
-            </div>
+            <TrimRangeBar
+              startTime={state.startTime}
+              endTime={state.endTime}
+              duration={state.duration}
+              onChange={setRange}
+              accent="purple"
+            />
 
             <div className="flex flex-col sm:flex-row gap-4">
               <TimeField

@@ -5,3 +5,4 @@ export { SingleFileDropZone } from './SingleFileDropZone';
 export { OutputFormatSelector } from './OutputFormatSelector';
 export { ToolActions } from './ToolActions';
 export { UnsupportedFormatDialog } from './UnsupportedFormatDialog';
+export { TrimRangeBar } from './TrimRangeBar';

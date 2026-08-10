@@ -15,6 +15,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/config/site';
 import HeroDropZone from '@/components/home/HeroDropZone';
+import HomeTour from '@/components/onboarding/HomeTour';
 import {
   JsonLd,
   breadcrumbJsonLd,
@@ -202,6 +203,7 @@ const STATS = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+      <HomeTour />
       <JsonLd
         data={[
           breadcrumbJsonLd([{ name: 'Home', path: '/' }]),
