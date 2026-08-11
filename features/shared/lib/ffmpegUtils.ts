@@ -1,4 +1,5 @@
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/util';
 
 // Gets audio duration using the fast native browser decoder instead of FFmpeg.
 export function getAudioDuration(file: File): Promise<number> {
@@ -61,4 +62,54 @@ export async function cleanupFFmpegFiles(
   await Promise.all(
     paths.map((path) => ffmpeg.deleteFile(path).catch(() => undefined)),
   );
+}
+
+export interface ProbedMediaInfo {
+  duration: number;
+  width?: number;
+  height?: number;
+}
+
+// Fallback for getVideoMetadata/getAudioDuration above, for formats the
+// browser's own decoder can't open at all.
+export async function probeMediaWithFFmpeg(
+  ffmpeg: FFmpeg,
+  file: File,
+  ext: string,
+): Promise<ProbedMediaInfo> {
+  const inputPath = `probe_${Math.random().toString(36).slice(2)}.${ext || 'bin'}`;
+  await ffmpeg.writeFile(inputPath, await fetchFile(file));
+
+  let log = '';
+  const handleLog = ({ message }: { message: string }) => {
+    log += message + '\n';
+  };
+
+  ffmpeg.on('log', handleLog);
+  try {
+    await ffmpeg.exec(['-i', inputPath]);
+  } finally {
+    ffmpeg.off('log', handleLog);
+    await cleanupFFmpegFiles(ffmpeg, [inputPath]);
+  }
+
+  const durationMatch = log.match(
+    /Duration:\s*(\d{2}):(\d{2}):(\d{2})\.(\d{2})/,
+  );
+  if (!durationMatch) {
+    throw new Error("FFmpeg couldn't read this file's duration either.");
+  }
+  const [, hh, mm, ss, cs] = durationMatch;
+  const duration =
+    Number(hh) * 3600 + Number(mm) * 60 + Number(ss) + Number(cs) / 100;
+
+  // Only present for video streams - absent (and fine to be absent) for
+  // audio-only files.
+  const dimsMatch = log.match(/Video:.*?(\d{2,5})x(\d{2,5})/);
+
+  return {
+    duration,
+    width: dimsMatch ? Number(dimsMatch[1]) : undefined,
+    height: dimsMatch ? Number(dimsMatch[2]) : undefined,
+  };
 }

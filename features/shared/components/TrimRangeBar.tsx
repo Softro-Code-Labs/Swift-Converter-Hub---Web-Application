@@ -29,6 +29,9 @@ interface TrimRangeBarProps {
   endTime: number;
   duration: number;
   onChange: (start: number, end: number) => void;
+  /** Fires continuously during drag with the position under the pointer, so a
+   * connected preview player can seek live as the user adjusts the range. */
+  onScrub?: (time: number) => void;
   accent?: Accent;
 }
 
@@ -45,6 +48,7 @@ export function TrimRangeBar({
   endTime,
   duration,
   onChange,
+  onScrub,
   accent = 'purple',
 }: TrimRangeBarProps) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -80,6 +84,7 @@ export function TrimRangeBar({
       initEnd: endTime,
     };
     setDragging(mode);
+    onScrub?.(mode === 'end' ? endTime : startTime);
   };
 
   useEffect(() => {
@@ -105,10 +110,15 @@ export function TrimRangeBar({
           newStart = duration - span;
         }
         onChange(newStart, newEnd);
+        onScrub?.(newStart);
       } else if (drag.mode === 'start') {
-        onChange(Math.min(timeAtClientX(e.clientX), endTime), endTime);
+        const t = Math.min(timeAtClientX(e.clientX), endTime);
+        onChange(t, endTime);
+        onScrub?.(t);
       } else {
-        onChange(startTime, Math.max(timeAtClientX(e.clientX), startTime));
+        const t = Math.max(timeAtClientX(e.clientX), startTime);
+        onChange(startTime, t);
+        onScrub?.(t);
       }
     };
 
@@ -130,13 +140,26 @@ export function TrimRangeBar({
     const step = e.shiftKey ? 1 : 0.1;
     if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      if (mode === 'start') onChange(Math.max(0, startTime - step), endTime);
-      else onChange(startTime, Math.max(startTime, endTime - step));
+      if (mode === 'start') {
+        const t = Math.max(0, startTime - step);
+        onChange(t, endTime);
+        onScrub?.(t);
+      } else {
+        const t = Math.max(startTime, endTime - step);
+        onChange(startTime, t);
+        onScrub?.(t);
+      }
     } else if (e.key === 'ArrowRight') {
       e.preventDefault();
-      if (mode === 'start')
-        onChange(Math.min(endTime, startTime + step), endTime);
-      else onChange(startTime, Math.min(duration, endTime + step));
+      if (mode === 'start') {
+        const t = Math.min(endTime, startTime + step);
+        onChange(t, endTime);
+        onScrub?.(t);
+      } else {
+        const t = Math.min(duration, endTime + step);
+        onChange(startTime, t);
+        onScrub?.(t);
+      }
     }
   };
 

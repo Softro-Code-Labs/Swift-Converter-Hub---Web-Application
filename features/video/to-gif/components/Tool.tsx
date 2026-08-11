@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   Clapperboard,
   Download,
@@ -20,6 +20,8 @@ import {
   SingleFileDropZone,
   EngineStatusBar,
   TrimRangeBar,
+  MediaPreview,
+  type MediaPreviewHandle,
 } from '@/features/shared/components';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 
@@ -71,8 +73,7 @@ function TimeField({
 
 export default function VideoToGifTool() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const previewRef = useRef<MediaPreviewHandle>(null);
 
   const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
   const {
@@ -87,14 +88,10 @@ export default function VideoToGifTool() {
   } = useVideoToGif(ffmpeg, isFFmpegLoaded);
 
   const handleFile = async (file: File) => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(URL.createObjectURL(file));
     await loadFile(file);
   };
 
   const handleReset = () => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
     reset();
   };
 
@@ -143,21 +140,19 @@ export default function VideoToGifTool() {
               </button>
             </div>
 
-            {previewUrl && (
-              <video
-                ref={videoRef}
-                controls
-                preload="metadata"
-                src={previewUrl}
-                className="w-full max-h-64 rounded-lg bg-black"
-              />
-            )}
+            <MediaPreview
+              ref={previewRef}
+              kind="video"
+              file={state.file}
+              className="w-full max-h-64 rounded-lg bg-black"
+            />
 
             <TrimRangeBar
               startTime={state.startTime}
               endTime={state.endTime}
               duration={state.duration}
               onChange={setRange}
+              onScrub={(t) => previewRef.current?.seek(t)}
               accent="purple"
             />
 
@@ -171,7 +166,10 @@ export default function VideoToGifTool() {
                 }
                 onUseCurrent={() =>
                   setRange(
-                    Math.min(videoRef.current?.currentTime ?? 0, state.endTime),
+                    Math.min(
+                      previewRef.current?.getCurrentTime() ?? 0,
+                      state.endTime,
+                    ),
                     state.endTime,
                   )
                 }
@@ -187,7 +185,7 @@ export default function VideoToGifTool() {
                   setRange(
                     state.startTime,
                     Math.max(
-                      videoRef.current?.currentTime ?? 0,
+                      previewRef.current?.getCurrentTime() ?? 0,
                       state.startTime,
                     ),
                   )

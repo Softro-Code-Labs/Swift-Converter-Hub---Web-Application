@@ -9,6 +9,12 @@ interface QualityPresetSelectorProps {
   disabled?: boolean;
 }
 
+const CUSTOM_OPTION = {
+  id: 'custom' as const,
+  label: 'Custom',
+  hint: 'Pick your own settings',
+};
+
 export const QualityPresetSelector = ({
   value,
   onChange,
@@ -18,8 +24,8 @@ export const QualityPresetSelector = ({
     <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
       Output quality
     </p>
-    <div className="grid grid-cols-3 gap-2">
-      {QUALITY_PRESETS.map((preset) => (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      {[...QUALITY_PRESETS, CUSTOM_OPTION].map((preset) => (
         <button
           key={preset.id}
           type="button"

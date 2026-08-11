@@ -10,8 +10,13 @@ import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
 import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
+  probeMediaWithFFmpeg,
 } from '@/features/shared/lib/ffmpegUtils';
-import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
+import {
+  formatBytes,
+  toStandaloneBuffer,
+  getFileExtension,
+} from '@/features/shared/lib/format';
 import { VideoTrimState } from '../types/trim';
 
 const INITIAL_STATE: VideoTrimState = {
@@ -29,23 +34,33 @@ export const useVideoTrim = (
 ) => {
   const [state, setState] = useState<VideoTrimState>(INITIAL_STATE);
 
-  const loadFile = useCallback(async (file: File) => {
-    try {
-      const { duration } = await getVideoMetadata(file);
-      setState({
-        file,
-        status: 'ready',
-        duration,
-        startTime: 0,
-        endTime: duration,
-        progress: 0,
-      });
-    } catch {
-      toast.error(
-        "Couldn't read this file - it may be corrupted or an unsupported format.",
-      );
-    }
-  }, []);
+  const loadFile = useCallback(
+    async (file: File) => {
+      try {
+        let duration: number;
+        try {
+          duration = (await getVideoMetadata(file)).duration;
+        } catch {
+          if (!ffmpeg) throw new Error('Video engine not ready');
+          const ext = getFileExtension(file.name);
+          duration = (await probeMediaWithFFmpeg(ffmpeg, file, ext)).duration;
+        }
+        setState({
+          file,
+          status: 'ready',
+          duration,
+          startTime: 0,
+          endTime: duration,
+          progress: 0,
+        });
+      } catch {
+        toast.error(
+          "Couldn't read this file - it may be corrupted or an unsupported format.",
+        );
+      }
+    },
+    [ffmpeg],
+  );
 
   const setRange = useCallback((startTime: number, endTime: number) => {
     setState((prev) => ({ ...prev, startTime, endTime }));
@@ -84,6 +99,14 @@ export const useVideoTrim = (
     try {
       await ffmpeg.writeFile(inputPath, await fetchFile(state.file));
 
+      // Video can't be stream-copied here the way audio can. Video is
+      // structured around keyframes (GOPs): a copied stream can only
+      // *start* at an actual keyframe, so when the requested start time
+      // falls mid-GOP, ffmpeg is forced to hand back frames that depend on
+      // reference pictures which don't exist in the trimmed file. Players
+      // then have nothing valid to decode until the next real keyframe -
+      // which shows up as a frozen/corrupted start while audio (where
+      // every frame decodes independently) plays normally right away.
       // Re-encoding the video stream builds a proper keyframe at the true
       // cut point, so there's nothing missing to freeze on. Audio stays a
       // fast lossless copy since it never had this problem.

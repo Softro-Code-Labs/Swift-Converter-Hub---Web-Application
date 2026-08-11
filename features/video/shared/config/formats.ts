@@ -338,7 +338,7 @@ export function getVideoCodecArgsForContainer(ext: string): string[] {
 // --- Quality/size presets (used by the Compress tool) ------------------------
 
 export interface QualityPreset {
-  id: 'low' | 'balanced' | 'high';
+  id: 'low' | 'balanced' | 'high' | 'custom';
   label: string;
   hint: string;
   maxHeight: number | null; // null = no resize, keep original resolution
@@ -380,6 +380,61 @@ export const QUALITY_PRESETS: QualityPreset[] = [
     audioKbps: 128,
   },
 ];
+
+// --- Custom mode --------------------------------------------------------------
+
+export const CUSTOM_CRF_MIN = 16; // a little higher quality than "High quality"
+export const CUSTOM_CRF_MAX = 34; // a little smaller than "Small"
+export const CUSTOM_CRF_DEFAULT = 26;
+
+export const CUSTOM_RESOLUTION_OPTIONS: {
+  label: string;
+  maxHeight: number | null;
+}[] = [
+  { label: 'Original', maxHeight: null },
+  { label: '1080p', maxHeight: 1080 },
+  { label: '720p', maxHeight: 720 },
+  { label: '480p', maxHeight: 480 },
+  { label: '360p', maxHeight: 360 },
+];
+
+export function buildCustomPreset(
+  crf: number,
+  maxHeight: number | null,
+): QualityPreset {
+  const anchors = [...QUALITY_PRESETS].sort((a, b) => a.crf - b.crf);
+  const clampedCrf = Math.min(
+    Math.max(crf, anchors[0].crf),
+    anchors[anchors.length - 1].crf,
+  );
+
+  let lower = anchors[0];
+  let upper = anchors[anchors.length - 1];
+  for (let i = 0; i < anchors.length - 1; i++) {
+    if (clampedCrf >= anchors[i].crf && clampedCrf <= anchors[i + 1].crf) {
+      lower = anchors[i];
+      upper = anchors[i + 1];
+      break;
+    }
+  }
+
+  const t =
+    upper.crf === lower.crf
+      ? 0
+      : (clampedCrf - lower.crf) / (upper.crf - lower.crf);
+  const lerp = (a: number, b: number) => a + (b - a) * t;
+
+  return {
+    id: 'custom',
+    label: 'Custom',
+    hint: 'Pick your own settings',
+    maxHeight,
+    crf,
+    bitrateRatio: lerp(lower.bitrateRatio, upper.bitrateRatio),
+    minVideoKbps: Math.round(lerp(lower.minVideoKbps, upper.minVideoKbps)),
+    audioKbps: Math.round(lerp(lower.audioKbps, upper.audioKbps)),
+  };
+}
 
 /**
  * @param sourceBitrateKbps - the SOURCE file's own overall bitrate

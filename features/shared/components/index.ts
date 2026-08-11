@@ -6,3 +6,5 @@ export { OutputFormatSelector } from './OutputFormatSelector';
 export { ToolActions } from './ToolActions';
 export { UnsupportedFormatDialog } from './UnsupportedFormatDialog';
 export { TrimRangeBar } from './TrimRangeBar';
+export { MediaPreview } from './MediaPreview';
+export type { MediaPreviewHandle } from './MediaPreview';
