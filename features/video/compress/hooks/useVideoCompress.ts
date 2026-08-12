@@ -9,6 +9,7 @@ import {
   getFormatByExtension,
   getCompressArgs,
   QualityPreset,
+  CustomEncodeOptions,
 } from '@/features/video/shared/config/formats';
 import {
   runFFmpegWithProgress,
@@ -23,6 +24,7 @@ export const useVideoCompress = (
   preset: QualityPreset,
   ffmpeg: FFmpeg | null,
   isFFmpegLoaded: boolean,
+  customOptions?: CustomEncodeOptions,
 ) => {
   const [isProcessingAll, setIsProcessingAll] = useState(false);
   const [isZipping, setIsZipping] = useState(false);
@@ -37,6 +39,9 @@ export const useVideoCompress = (
 
     const inputPath = `vcompress_input_${item.id}.${sourceExt}`;
     // Compression always outputs MP4 regardless of source format - H.264
+    // + faststart MP4 is the safest universally-playable choice, and
+    // mixing "compress" with "also convert container" would make the
+    // size/quality trade-off harder to reason about for users.
     const outputPath = `vcompress_output_${item.id}.mp4`;
 
     try {
@@ -59,7 +64,7 @@ export const useVideoCompress = (
       const args = [
         '-i',
         inputPath,
-        ...getCompressArgs(preset, sourceBitrateKbps),
+        ...getCompressArgs(preset, sourceBitrateKbps, customOptions),
         outputPath,
       ];
 
@@ -78,6 +83,10 @@ export const useVideoCompress = (
         typeof data === 'string' ? new TextEncoder().encode(data) : data;
       const blob = new Blob([toStandaloneBuffer(bytes)], { type: 'video/mp4' });
 
+      // The bitrate cap above makes this very rare, but on a source that's
+      // already extremely efficiently encoded there may be little to no
+      // room left - be honest about it rather than silently handing back
+      // a "compressed" file that's actually bigger.
       if (blob.size > item.file.size) {
         toast(
           `${item.file.name} was already efficiently compressed - little extra savings were possible.`,

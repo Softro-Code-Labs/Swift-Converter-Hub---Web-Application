@@ -69,7 +69,8 @@ export const AUDIO_FORMATS: AudioFormat[] = [
     label: 'WMA',
     extension: 'wma',
     mimeType: 'audio/x-ms-wma',
-    description: 'Windows Media Audio - the classic Windows Media Player default',
+    description:
+      'Windows Media Audio - the classic Windows Media Player default',
     kind: 'lossy',
   },
   {
@@ -83,7 +84,8 @@ export const AUDIO_FORMATS: AudioFormat[] = [
     label: 'AC3',
     extension: 'ac3',
     mimeType: 'audio/ac3',
-    description: 'Dolby Digital - surround-capable format used for DVD and broadcast',
+    description:
+      'Dolby Digital - surround-capable format used for DVD and broadcast',
     kind: 'lossy',
   },
   {
@@ -97,7 +99,8 @@ export const AUDIO_FORMATS: AudioFormat[] = [
     label: 'MP2',
     extension: 'mp2',
     mimeType: 'audio/mpeg',
-    description: 'MPEG Layer II - MP3\u2019s predecessor, still used in broadcast',
+    description:
+      'MPEG Layer II - MP3\u2019s predecessor, still used in broadcast',
     kind: 'lossy',
   },
 ];
@@ -113,7 +116,10 @@ const AUDIO_FORMAT_BY_EXT: ReadonlyMap<string, AudioFormat> = new Map(
 export const getFormatByExtension = (ext: string): AudioFormat | undefined =>
   AUDIO_FORMAT_BY_EXT.get(ext.toLowerCase());
 
-export const isConversionAllowed = (source: string, target: string): boolean => {
+export const isConversionAllowed = (
+  source: string,
+  target: string,
+): boolean => {
   const s = source.toLowerCase();
   const t = target.toLowerCase();
   return s !== t && AUDIO_FORMAT_BY_EXT.has(s) && AUDIO_FORMAT_BY_EXT.has(t);
@@ -163,6 +169,56 @@ export function getFFmpegArgsForTarget(
       throw new Error(`Unsupported target format: ${target}`);
   }
 }
+
+// --- Compress-specific bitrate clamping --------------------------------------
+// getFFmpegArgsForTarget above always encodes at exactly the requested
+// bitrate, which is correct for Convert/Volume/Merge/Extract-Audio - the
+// user explicitly asked for that bitrate. But blindly doing the same thing
+// for "Compress" means re-encoding a file at a preset *higher* than its
+// current bitrate doesn't compress it at all - it just adds a second lossy
+// pass on top of a bigger target for zero real quality gain. Mirrors the
+// video compressor's sourceBitrateKbps/bitrateRatio approach (see
+// video/shared/config/formats.ts -> getCompressArgs) so a "compress" always
+// actually shrinks the file.
+const AUDIO_COMPRESS_RATIO = 0.9; // cap = this fraction of the source's own bitrate
+const AUDIO_COMPRESS_FLOOR_KBPS = 48; // floor so a low-bitrate source isn't crushed further
+const AUDIO_COMPRESS_OPUS_FLOOR_KBPS = 32; // opus stays intelligible much lower than that
+
+/**
+ * @param sourceBitrateKbps - the SOURCE file's own overall bitrate
+ * (fileSizeBytes*8 / durationSeconds / 1000), if known. Pass this whenever
+ * possible - without it, this falls back to the plain preset bitrate with
+ * no ceiling, which cannot guarantee the output is smaller than the input.
+ */
+export function getAudioCompressArgs(
+  target: string,
+  presetKbps: number,
+  sourceBitrateKbps?: number,
+): string[] {
+  let effectiveKbps = presetKbps;
+
+  if (sourceBitrateKbps && Number.isFinite(sourceBitrateKbps)) {
+    const floor =
+      target === 'opus'
+        ? AUDIO_COMPRESS_OPUS_FLOOR_KBPS
+        : AUDIO_COMPRESS_FLOOR_KBPS;
+    effectiveKbps = Math.max(
+      floor,
+      Math.min(presetKbps, sourceBitrateKbps * AUDIO_COMPRESS_RATIO),
+    );
+  }
+
+  return getFFmpegArgsForTarget(target, Math.round(effectiveKbps));
+}
+
+// --- Custom mode (Compress tool) ----------------------------------------------
+// Mirrors video/shared/config/formats.ts's CUSTOM_CRF_* constants: Low/
+// Standard/High (from BITRATE_PRESETS in audio/convert/types/converter.ts)
+// cover the common cases, and Custom lets the bitrate slider range a bit
+// past both ends of those presets.
+export const CUSTOM_BITRATE_MIN = 32; // lower than "Low" (96) - fine for spoken word
+export const CUSTOM_BITRATE_MAX = 384; // higher than "High" (320)
+export const CUSTOM_BITRATE_DEFAULT = 192; // matches "Standard"
 
 // --- Dev-mode consistency check ----------------------------------------------
 // Catches drift between AUDIO_FORMATS and getFFmpegArgsForTarget early - the

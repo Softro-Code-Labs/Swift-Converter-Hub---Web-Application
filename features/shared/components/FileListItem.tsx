@@ -184,7 +184,7 @@ export const FileListItem = <
           className={
             mediaType === 'video'
               ? 'w-full max-h-56 rounded-lg bg-black'
-              : 'w-full h-9'
+              : 'w-full'
           }
         />
       )}

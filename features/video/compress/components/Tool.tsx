@@ -9,9 +9,12 @@ import {
   QualityPreset,
   buildCustomPreset,
   CUSTOM_CRF_DEFAULT,
+  CUSTOM_BITRATE_DEFAULT_KBPS,
+  CustomEncodeMode,
+  CustomEncodeOptions,
 } from '@/features/video/shared/config/formats';
-import { QualityPresetSelector } from '@/features/video/compress/components/QualityPresetSelector';
-import { CustomQualityControls } from '@/features/video/compress/components/CustomQualityControls';
+import { QualityPresetSelector } from './QualityPresetSelector';
+import { CustomQualityControls } from './CustomQualityControls';
 import {
   EngineStatusBar,
   MultiFileDropZone,
@@ -27,10 +30,23 @@ export default function VideoCompressTool() {
   const [presetId, setPresetId] = useState<QualityPreset['id']>('balanced');
   const [customCrf, setCustomCrf] = useState(CUSTOM_CRF_DEFAULT);
   const [customMaxHeight, setCustomMaxHeight] = useState<number | null>(720);
+  const [customFps, setCustomFps] = useState<number | null>(null);
+  const [customMode, setCustomMode] = useState<CustomEncodeMode>('quality');
+  const [customBitrateKbps, setCustomBitrateKbps] = useState(
+    CUSTOM_BITRATE_DEFAULT_KBPS,
+  );
   const preset =
     presetId === 'custom'
       ? buildCustomPreset(customCrf, customMaxHeight)
       : (QUALITY_PRESETS.find((p) => p.id === presetId) ?? QUALITY_PRESETS[1]);
+  const customOptions: CustomEncodeOptions | undefined =
+    presetId === 'custom'
+      ? {
+          fps: customFps,
+          mode: customMode,
+          targetBitrateKbps: customBitrateKbps,
+        }
+      : undefined;
 
   const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
 
@@ -52,7 +68,14 @@ export default function VideoCompressTool() {
     compressAll,
     downloadAll,
     downloadSingle,
-  } = useVideoCompress(files, updateFile, preset, ffmpeg, isFFmpegLoaded);
+  } = useVideoCompress(
+    files,
+    updateFile,
+    preset,
+    ffmpeg,
+    isFFmpegLoaded,
+    customOptions,
+  );
 
   const successCount = files.filter((f) => f.status === 'success').length;
   const errorCount = files.filter((f) => f.status === 'error').length;
@@ -111,8 +134,14 @@ export default function VideoCompressTool() {
         <CustomQualityControls
           crf={customCrf}
           maxHeight={customMaxHeight}
+          fps={customFps}
+          mode={customMode}
+          bitrateKbps={customBitrateKbps}
           onCrfChange={setCustomCrf}
           onMaxHeightChange={setCustomMaxHeight}
+          onFpsChange={setCustomFps}
+          onModeChange={setCustomMode}
+          onBitrateChange={setCustomBitrateKbps}
           disabled={isProcessingAll}
         />
       )}

@@ -6,10 +6,26 @@ import {
   useImperativeHandle,
   useRef,
   useState,
+  useSyncExternalStore,
 } from 'react';
 import { Loader2, AlertTriangle } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
+import {
+  MediaPlayer,
+  MediaProvider,
+  type MediaPlayerInstance,
+} from '@vidstack/react';
+import {
+  DefaultAudioLayout,
+  DefaultVideoLayout,
+  defaultLayoutIcons,
+} from '@vidstack/react/player/layouts/default';
+import '@vidstack/react/player/styles/base.css';
+import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/layouts/video.css';
+import '@vidstack/react/player/styles/default/layouts/audio.css';
 import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import {
   runFFmpegWithProgress,
@@ -19,6 +35,11 @@ import {
   getFileExtension,
   toStandaloneBuffer,
 } from '@/features/shared/lib/format';
+import { cn } from '@/lib/utils';
+
+// SSR-safe subscribe used only to gate the very first client render - see
+// the `mounted` guard below for why this needs to match `resolvedTheme`.
+const emptySubscribe = () => () => {};
 
 export interface MediaPreviewHandle {
   seek: (time: number) => void;
@@ -120,19 +141,32 @@ async function transcodePreview(
 export const MediaPreview = forwardRef<MediaPreviewHandle, MediaPreviewProps>(
   function MediaPreview({ kind, file, src, srcExt, className }, ref) {
     const { ffmpeg, isFFmpegLoaded } = useFFmpegEngine();
-    const videoElRef = useRef<HTMLVideoElement>(null);
-    const audioElRef = useRef<HTMLAudioElement>(null);
+    const playerRef = useRef<MediaPlayerInstance>(null);
     const [state, setState] = useState<PlayState>('idle');
     const [playableUrl, setPlayableUrl] = useState<string | null>(null);
     const ownedUrlsRef = useRef<string[]>([]);
 
+    // `resolvedTheme` is undefined during SSR/first paint, so the player's
+    // color scheme is pinned to 'default' until we know the real theme -
+    // matches the pattern already used by ThemeToggle to dodge a hydration
+    // mismatch.
+    const { resolvedTheme } = useTheme();
+    const themeMounted = useSyncExternalStore(
+      emptySubscribe,
+      () => true,
+      () => false,
+    );
+    const colorScheme = !themeMounted
+      ? 'default'
+      : resolvedTheme === 'dark'
+        ? 'dark'
+        : 'light';
+
     useImperativeHandle(ref, () => ({
       seek: (time: number) => {
-        const el = videoElRef.current ?? audioElRef.current;
-        if (el) el.currentTime = time;
+        if (playerRef.current) playerRef.current.currentTime = time;
       },
-      getCurrentTime: () =>
-        (videoElRef.current ?? audioElRef.current)?.currentTime ?? 0,
+      getCurrentTime: () => playerRef.current?.currentTime ?? 0,
     }));
 
     useEffect(() => {
@@ -218,22 +252,38 @@ export const MediaPreview = forwardRef<MediaPreviewHandle, MediaPreviewProps>(
       );
     }
 
-    return kind === 'video' ? (
-      <video
-        ref={videoElRef}
-        controls
-        preload="metadata"
-        src={playableUrl ?? undefined}
-        className={className ?? 'w-full max-h-64 rounded-lg bg-black'}
-      />
-    ) : (
-      <audio
-        ref={audioElRef}
-        controls
-        preload="metadata"
-        src={playableUrl ?? undefined}
-        className={className ?? 'w-full h-9'}
-      />
+    if (!playableUrl) return null;
+
+    return (
+      <MediaPlayer
+        ref={playerRef}
+        title={file?.name}
+        src={{
+          src: playableUrl,
+          type: kind === 'video' ? 'video/mp4' : 'audio/mpeg',
+        }}
+        viewType={kind}
+        playsInline
+        className={cn(
+          kind === 'video'
+            ? 'w-full rounded-lg bg-black overflow-hidden'
+            : 'w-full overflow-visible rounded-lg',
+          className,
+        )}
+      >
+        <MediaProvider />
+        {kind === 'video' ? (
+          <DefaultVideoLayout
+            icons={defaultLayoutIcons}
+            colorScheme={colorScheme}
+          />
+        ) : (
+          <DefaultAudioLayout
+            icons={defaultLayoutIcons}
+            colorScheme={colorScheme}
+          />
+        )}
+      </MediaPlayer>
     );
   },
 );

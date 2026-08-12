@@ -8,11 +8,12 @@ import { AudioFileItem } from '@/features/audio/shared/types/audioFile';
 import {
   AudioFormat,
   getFormatByExtension,
-  getFFmpegArgsForTarget,
+  getAudioCompressArgs,
 } from '@/features/audio/shared/config/formats';
 import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
+  getAudioDuration,
 } from '@/features/shared/lib/ffmpegUtils';
 import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
 
@@ -52,10 +53,29 @@ export const useAudioCompress = (
     try {
       await engine.writeFile(inputPath, await fetchFile(item.file));
 
+      // Figure out how compressed the source already is, so the encoder
+      // can be capped relative to it instead of blindly re-encoding at a
+      // fixed preset bitrate - see getAudioCompressArgs for why this is
+      // necessary (mirrors the video compressor's same approach).
+      let sourceBitrateKbps: number | undefined;
+      try {
+        const duration = item.duration ?? (await getAudioDuration(item.file));
+        if (duration > 0) {
+          sourceBitrateKbps = (item.file.size * 8) / duration / 1000;
+        }
+      } catch {
+        // Falls back to the plain preset bitrate below - rare (e.g. a
+        // codec the browser's native decoder can't read metadata for).
+      }
+
       const args = [
         '-i',
         inputPath,
-        ...getFFmpegArgsForTarget(outputFormat.extension, bitrateKbps),
+        ...getAudioCompressArgs(
+          outputFormat.extension,
+          bitrateKbps,
+          sourceBitrateKbps,
+        ),
         outputPath,
       ];
 
@@ -75,6 +95,13 @@ export const useAudioCompress = (
       const blob = new Blob([toStandaloneBuffer(bytes)], {
         type: outputFormat.mimeType,
       });
+
+      if (blob.size > item.file.size) {
+        toast(
+          `${item.file.name} was already efficiently compressed - little extra savings were possible.`,
+          { icon: 'ℹ️' },
+        );
+      }
 
       return {
         url: URL.createObjectURL(blob),

@@ -130,7 +130,7 @@ export default function AudioTrimTool() {
               ref={previewRef}
               kind="audio"
               file={state.file}
-              className="w-full h-9"
+              className="w-full"
             />
 
             <TrimRangeBar
@@ -239,7 +239,7 @@ export default function AudioTrimTool() {
               <MediaPreview
                 kind="audio"
                 src={state.outputUrl}
-                className="w-full h-9"
+                className="w-full"
               />
               <button
                 onClick={downloadResult}
