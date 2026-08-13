@@ -13,13 +13,9 @@ import toast from 'react-hot-toast';
 
 interface FFmpegEngineContextValue {
   isFFmpegLoaded: boolean;
-  /** Engine #0, for single-job tools (Trim, Merge, to-GIF, the preview
-   * transcoder) that only ever need one engine at a time - see the pool
-   * note below for why using this directly is safe. */
+  /** Engine #0, for single-job tools (Trim, Merge, to-GIF, preview transcoder). */
   ffmpeg: FFmpeg | null;
-  /** For batch tools (Compress/Convert/Volume/Extract-Audio): reserves a
-   * free engine from the pool, growing it lazily up to POOL_SIZE, or
-   * queues until one frees up. Always pair with releaseEngine. */
+  /** Reserves a free engine for batch tools; grows the pool lazily. Pair with releaseEngine. */
   acquireEngine: () => Promise<FFmpeg>;
   releaseEngine: (engine: FFmpeg) => void;
 }
@@ -32,22 +28,23 @@ const FFmpegEngineContext = createContext<FFmpegEngineContextValue>({
   releaseEngine: () => {},
 });
 
-// --- Engine pool (module-scoped singleton) ------------------------------------
-// A pool of independent FFmpeg WASM instances (each its own Web Worker) so
-// batch tools can process several files at once instead of strictly one at
-// a time. The pool is shared by every route (module-level state persists
-// for the tab's lifetime, same as the old single-instance version), and
-// grows lazily - only as batch jobs actually demand more than one engine -
-// rather than eagerly fetching POOL_SIZE x ~30MB of wasm on every page load.
+// --- Engine pool (module-scoped singleton) ---------------------------------
+// Pool of independent FFmpeg WASM instances (one Web Worker each), grown
+// lazily so batch tools can process multiple files concurrently. Engine #0
+// doubles as the direct `ffmpeg` export for single-job tools (Trim, Merge,
+// to-GIF) - safe since only one tool/route is ever mounted per tab.
 //
-// Engine #0 is also handed out directly as `ffmpeg` for single-job tools
-// (Trim, Merge, to-GIF, the preview transcoder), bypassing the busy/free
-// bookkeeping below. That's safe because this app only ever has one tool
-// mounted per tab (each tool is its own route) - a single-job tool and a
-// batch job's pool usage never run at the same time.
+// POOL_SIZE = floor(cores / 2), same formula on mobile and desktop, leaving
+// headroom for the UI thread. Clamped to [1, MAX_POOL_SIZE]; the ceiling
+// exists because each engine is its own ~30MB WASM instance, so memory -
+// not CPU - is the limiting factor at high core counts.
+const MAX_POOL_SIZE = 6;
 const POOL_SIZE =
   typeof navigator !== 'undefined' && navigator.hardwareConcurrency
-    ? Math.max(1, Math.min(navigator.hardwareConcurrency, 4))
+    ? Math.max(
+        1,
+        Math.min(Math.floor(navigator.hardwareConcurrency / 2), MAX_POOL_SIZE),
+      )
     : 2;
 
 interface PooledEngine {
@@ -83,8 +80,7 @@ function growPool(): Promise<PooledEngine> {
       return entry;
     })
     .catch((error) => {
-      // Free the slot so a later call can retry, instead of everyone
-      // getting stuck reusing this one rejected promise forever.
+      // Free the slot so a later call can retry instead of reusing this rejection.
       pendingLoads.delete(slot);
       throw error;
     });
@@ -114,8 +110,7 @@ async function acquireEngine(): Promise<FFmpeg> {
     return entry.ffmpeg;
   }
 
-  // Every engine (loaded or loading) is spoken for - queue and wait for
-  // whichever one frees up first.
+  // All engines spoken for - queue and wait for one to free up.
   return new Promise<FFmpeg>((resolve) => {
     waiters.push((entry) => resolve(entry.ffmpeg));
   });
@@ -127,7 +122,7 @@ function releaseEngine(ffmpeg: FFmpeg): void {
 
   const nextWaiter = waiters.shift();
   if (nextWaiter) {
-    // Hand off directly - stays "busy", just for a different job.
+    // Hand off directly - stays busy, just for a different job.
     nextWaiter(entry);
   } else {
     entry.busy = false;
