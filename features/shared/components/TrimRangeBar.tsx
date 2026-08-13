@@ -75,7 +75,7 @@ export function TrimRangeBar({
     [duration],
   );
 
-  const beginDrag = (mode: DragMode) => (e: React.PointerEvent) => {
+  const beginDrag = (mode: DragMode, e: React.PointerEvent) => {
     e.preventDefault();
     dragRef.current = {
       mode,
@@ -172,14 +172,14 @@ export function TrimRangeBar({
 
       {/* Filled selection - drag anywhere on it to shift the whole range */}
       <div
-        onPointerDown={beginDrag('range')}
+        onPointerDown={(e) => beginDrag('range', e)}
         className={`absolute h-2 rounded-full ${colors.fill} cursor-grab active:cursor-grabbing`}
         style={{ left: `${pct.start}%`, right: `${100 - pct.end}%` }}
       />
 
       {/* Start handle */}
       <div
-        onPointerDown={beginDrag('start')}
+        onPointerDown={(e) => beginDrag('start', e)}
         onKeyDown={nudge('start')}
         role="slider"
         aria-label="Trim start"
@@ -197,7 +197,7 @@ export function TrimRangeBar({
 
       {/* End handle */}
       <div
-        onPointerDown={beginDrag('end')}
+        onPointerDown={(e) => beginDrag('end', e)}
         onKeyDown={nudge('end')}
         role="slider"
         aria-label="Trim end"
