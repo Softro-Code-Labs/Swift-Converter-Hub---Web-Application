@@ -73,6 +73,19 @@ export default function HomeTour() {
   const [active, setActive] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
 
+  // Declared before the effects that call them so both are fully
+  // initialized before use.
+  const finish = () => {
+    setActive(false);
+    try {
+      localStorage.setItem(STORAGE_KEY, '1');
+    } catch {
+      // Private browsing etc. - the tour just replays next visit, harmless.
+    }
+  };
+
+  const skipStep = () => setStepIndex((i) => i + 1);
+
   // Only auto-start once per browser, and only if a previous visit hasn't
   // already dismissed it.
   useEffect(() => {
@@ -91,16 +104,19 @@ export default function HomeTour() {
   useEffect(() => {
     if (!active) return;
 
+    // Deferred rather than called synchronously - same "callback" shape as
+    // the auto-start timer above - so these updates happen from within a
+    // callback instead of directly in the effect body.
     const step = STEPS[stepIndex];
     if (!step) {
-      finish();
-      return;
+      const timer = setTimeout(() => finish(), 0);
+      return () => clearTimeout(timer);
     }
 
     const el = getVisibleTarget(step.target);
     if (!el) {
-      setStepIndex((i) => i + 1);
-      return;
+      const timer = setTimeout(() => skipStep(), 0);
+      return () => clearTimeout(timer);
     }
 
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -117,17 +133,7 @@ export default function HomeTour() {
       window.removeEventListener('resize', updateRect);
       window.removeEventListener('scroll', updateRect, true);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, stepIndex]);
-
-  const finish = () => {
-    setActive(false);
-    try {
-      localStorage.setItem(STORAGE_KEY, '1');
-    } catch {
-      // Private browsing etc. - the tour just replays next visit, harmless.
-    }
-  };
 
   if (!active || !rect) return null;
 
