@@ -148,6 +148,7 @@ export default function Navbar() {
             <div className="relative" ref={dropRef}>
               <button
                 onClick={() => setDropOpen((p) => !p)}
+                data-tour="studios-nav"
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold cursor-pointer transition-all
                   ${
                     isStudioActive || dropOpen

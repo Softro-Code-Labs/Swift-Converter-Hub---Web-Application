@@ -274,6 +274,7 @@ export default function HeroDropZone() {
       <div
         role="button"
         tabIndex={0}
+        data-tour="drop-zone"
         aria-label="Drop a file to see which tools you can use, or press Enter to browse"
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {

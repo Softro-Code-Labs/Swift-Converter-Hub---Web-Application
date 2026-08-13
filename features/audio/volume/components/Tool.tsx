@@ -105,7 +105,7 @@ export default function AudioVolumeTool() {
     percent: 100,
   });
 
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -124,7 +124,14 @@ export default function AudioVolumeTool() {
     processAll,
     downloadAll,
     downloadSingle,
-  } = useAudioVolume(files, updateFile, settings, ffmpeg, isFFmpegLoaded);
+  } = useAudioVolume(
+    files,
+    updateFile,
+    settings,
+    acquireEngine,
+    releaseEngine,
+    isFFmpegLoaded,
+  );
 
   return (
     <div className="space-y-4">

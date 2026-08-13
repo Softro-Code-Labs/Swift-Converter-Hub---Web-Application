@@ -29,7 +29,7 @@ export default function ExtractAudioTool() {
   const [bitratePreset, setBitratePreset] = useState<BitratePresetId>('standard');
   const bitrateKbps = BITRATE_PRESETS.find((p) => p.id === bitratePreset)?.kbps ?? 192;
 
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -44,7 +44,15 @@ export default function ExtractAudioTool() {
   } = useExtractAudioFileQueue();
 
   const { isProcessingAll, isZipping, extractAll, downloadAll, downloadSingle } =
-    useExtractAudio(files, updateFile, targetFormat, bitrateKbps, ffmpeg, isFFmpegLoaded);
+    useExtractAudio(
+      files,
+      updateFile,
+      targetFormat,
+      bitrateKbps,
+      acquireEngine,
+      releaseEngine,
+      isFFmpegLoaded,
+    );
 
   const successCount = files.filter((f) => f.status === 'success').length;
   const errorCount = files.filter((f) => f.status === 'error').length;

@@ -276,6 +276,14 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // --- Video-only codec lookup (used by Trim) ----------------------------------
+// Trim needs to re-encode the video stream to cut cleanly at an arbitrary,
+// non-keyframe point (see useVideoTrim.ts) while keeping the SAME container
+// as the source, so it can't just always reach for libx264 the way a "convert
+// to mp4" target can - every container here only accepts certain codecs
+// (webm can't hold H.264, wmv's own player expects wmv2, etc). This mirrors
+// the codec choice getFFmpegArgsForTarget already uses for each container,
+// just isolated to the video stream so Trim can pair it with '-c:a copy'
+// instead of also re-encoding audio, which never had the keyframe problem.
 export function getVideoCodecArgsForContainer(ext: string): string[] {
   switch (ext) {
     case 'mp4':
@@ -338,11 +346,17 @@ export function getVideoCodecArgsForContainer(ext: string): string[] {
 // --- Quality/size presets (used by the Compress tool) ------------------------
 
 export interface QualityPreset {
-  id: 'low' | 'balanced' | 'high';
+  id: 'low' | 'balanced' | 'high' | 'custom';
   label: string;
   hint: string;
   maxHeight: number | null; // null = no resize, keep original resolution
   crf: number; // lower = higher quality/larger file
+  // The fields below cap the encoder's bitrate relative to the SOURCE
+  // file's own bitrate. CRF alone only targets a perceptual quality level -
+  // it has no idea how compressed the source already is, so on a source
+  // that's already efficiently encoded, CRF can happily ask for *more*
+  // bits than the source used and produce a larger output file. These
+  // fields fix that by giving the encoder a hard ceiling to stay under.
   bitrateRatio: number; // cap = this fraction of the source's own overall bitrate
   minVideoKbps: number; // floor so an already-tiny source isn't crushed further
   audioKbps: number; // this preset's target audio bitrate
@@ -381,37 +395,144 @@ export const QUALITY_PRESETS: QualityPreset[] = [
   },
 ];
 
+// --- Custom mode --------------------------------------------------------------
+//
+// Lets someone pick their own CRF (quality) and resolution cap instead of
+// one of the 3 fixed presets above. It still needs a bitrateRatio/
+// minVideoKbps/audioKbps to plug into the same bitrate-safety-net that the
+// fixed presets use (see getCompressArgs) - rather than making the user
+// tune those directly (far too technical for what should be a simple
+// slider), they're interpolated from the 3 tuned presets above, keyed off
+// wherever the chosen CRF falls between them.
+
+export const CUSTOM_CRF_MIN = 16; // a little higher quality than "High quality"
+export const CUSTOM_CRF_MAX = 34; // a little smaller than "Small"
+export const CUSTOM_CRF_DEFAULT = 26;
+
+export const CUSTOM_RESOLUTION_OPTIONS: {
+  label: string;
+  maxHeight: number | null;
+}[] = [
+  { label: 'Original', maxHeight: null },
+  { label: '1080p', maxHeight: 1080 },
+  { label: '720p', maxHeight: 720 },
+  { label: '480p', maxHeight: 480 },
+  { label: '360p', maxHeight: 360 },
+];
+
+export const CUSTOM_FPS_OPTIONS: { label: string; fps: number | null }[] = [
+  { label: 'Original', fps: null },
+  { label: '30 fps', fps: 30 },
+  { label: '24 fps', fps: 24 },
+  { label: '15 fps', fps: 15 },
+];
+
+export type CustomEncodeMode = 'quality' | 'bitrate';
+
+export const CUSTOM_BITRATE_MIN_KBPS = 300;
+export const CUSTOM_BITRATE_MAX_KBPS = 20000;
+export const CUSTOM_BITRATE_DEFAULT_KBPS = 2500;
+
+export function buildCustomPreset(
+  crf: number,
+  maxHeight: number | null,
+): QualityPreset {
+  const anchors = [...QUALITY_PRESETS].sort((a, b) => a.crf - b.crf);
+  const clampedCrf = Math.min(
+    Math.max(crf, anchors[0].crf),
+    anchors[anchors.length - 1].crf,
+  );
+
+  let lower = anchors[0];
+  let upper = anchors[anchors.length - 1];
+  for (let i = 0; i < anchors.length - 1; i++) {
+    if (clampedCrf >= anchors[i].crf && clampedCrf <= anchors[i + 1].crf) {
+      lower = anchors[i];
+      upper = anchors[i + 1];
+      break;
+    }
+  }
+
+  const t =
+    upper.crf === lower.crf
+      ? 0
+      : (clampedCrf - lower.crf) / (upper.crf - lower.crf);
+  const lerp = (a: number, b: number) => a + (b - a) * t;
+
+  return {
+    id: 'custom',
+    label: 'Custom',
+    hint: 'Pick your own settings',
+    maxHeight,
+    crf,
+    bitrateRatio: lerp(lower.bitrateRatio, upper.bitrateRatio),
+    minVideoKbps: Math.round(lerp(lower.minVideoKbps, upper.minVideoKbps)),
+    audioKbps: Math.round(lerp(lower.audioKbps, upper.audioKbps)),
+  };
+}
+
+export interface CustomEncodeOptions {
+  fps?: number | null;
+  mode?: CustomEncodeMode;
+  targetBitrateKbps?: number;
+}
+
 /**
  * @param sourceBitrateKbps - the SOURCE file's own overall bitrate
  * (fileSizeBytes*8 / durationSeconds / 1000), if known. Pass this whenever
  * possible - without it, encoding falls back to plain CRF with no ceiling,
- * which cannot guarantee the output is smaller than the input.
+ * which cannot guarantee the output is smaller than the input. Ignored
+ * when customOptions specifies bitrate mode, since the target bitrate
+ * itself is already an explicit, user-chosen ceiling.
+ * @param customOptions - only used by Custom mode. `mode: 'bitrate'` swaps
+ * CRF-based encoding for a direct bitrate target (mirrors most editors'
+ * "Constant Quality" vs "Average Bitrate" choice - the two are alternate
+ * strategies, not something you'd combine). `fps` applies to either mode.
  */
 export function getCompressArgs(
   preset: QualityPreset,
   sourceBitrateKbps?: number,
+  customOptions?: CustomEncodeOptions,
 ): string[] {
-  const args = [
-    '-c:v',
-    'libx264',
-    '-preset',
-    'veryfast',
-    '-crf',
-    String(preset.crf),
-  ];
+  const useBitrateMode =
+    customOptions?.mode === 'bitrate' && !!customOptions.targetBitrateKbps;
 
-  if (sourceBitrateKbps && Number.isFinite(sourceBitrateKbps)) {
-    const targetTotalKbps = Math.max(
-      preset.minVideoKbps + preset.audioKbps,
-      sourceBitrateKbps * preset.bitrateRatio,
-    );
-    const videoCeilingKbps = Math.round(targetTotalKbps - preset.audioKbps);
+  const args = ['-c:v', 'libx264', '-preset', 'veryfast'];
+
+  if (useBitrateMode) {
+    const targetKbps = customOptions!.targetBitrateKbps!;
+    // 1.5x target is a standard, widely-used maxrate ratio (same guidance
+    // YouTube's own encoding recommendations use) - gives the encoder
+    // headroom for complex scenes while keeping the average near target.
     args.push(
+      '-b:v',
+      `${targetKbps}k`,
       '-maxrate',
-      `${videoCeilingKbps}k`,
+      `${Math.round(targetKbps * 1.5)}k`,
       '-bufsize',
-      `${videoCeilingKbps * 2}k`,
+      `${targetKbps * 2}k`,
     );
+  } else {
+    args.push('-crf', String(preset.crf));
+
+    if (sourceBitrateKbps && Number.isFinite(sourceBitrateKbps)) {
+      // -maxrate/-bufsize is a ceiling layered on top of CRF, not a target -
+      // it only ever pulls the bitrate DOWN when CRF would otherwise exceed
+      // it, never pushes it up. So it's always safe to apply: on a source
+      // that's already efficient it forces real compression, and on a source
+      // with room to spare it simply never binds.
+      const targetTotalKbps = Math.max(
+        preset.minVideoKbps + preset.audioKbps,
+        sourceBitrateKbps * preset.bitrateRatio,
+      );
+      const videoCeilingKbps = Math.round(targetTotalKbps - preset.audioKbps);
+      args.push(
+        '-maxrate',
+        `${videoCeilingKbps}k`,
+        '-bufsize',
+        `${videoCeilingKbps * 2}k`,
+      );
+    }
   }
 
   args.push(
@@ -424,6 +545,10 @@ export function getCompressArgs(
     '-movflags',
     '+faststart',
   );
+
+  if (customOptions?.fps) {
+    args.push('-r', String(customOptions.fps));
+  }
 
   if (preset.maxHeight !== null) {
     // -2 keeps width even (required by yuv420p) while preserving aspect ratio

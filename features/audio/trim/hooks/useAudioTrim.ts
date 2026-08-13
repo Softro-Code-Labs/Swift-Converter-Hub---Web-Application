@@ -7,8 +7,13 @@ import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
   getAudioDuration,
+  probeMediaWithFFmpeg,
 } from '@/features/shared/lib/ffmpegUtils';
-import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
+import {
+  formatBytes,
+  toStandaloneBuffer,
+  getFileExtension,
+} from '@/features/shared/lib/format';
 import { TrimState } from '../types/trim';
 
 const INITIAL_STATE: TrimState = {
@@ -26,25 +31,35 @@ export const useAudioTrim = (
 ) => {
   const [state, setState] = useState<TrimState>(INITIAL_STATE);
 
-  const loadFile = useCallback(async (file: File) => {
-    if (state.outputUrl) URL.revokeObjectURL(state.outputUrl);
-    try {
-      const duration = await getAudioDuration(file);
-      setState({
-        file,
-        status: 'ready',
-        duration,
-        startTime: 0,
-        endTime: duration,
-        progress: 0,
-      });
-    } catch {
-      toast.error(
-        "Couldn't read this file - it may be corrupted or an unsupported format.",
-      );
-    }
+  const loadFile = useCallback(
+    async (file: File) => {
+      if (state.outputUrl) URL.revokeObjectURL(state.outputUrl);
+      try {
+        let duration: number;
+        try {
+          duration = await getAudioDuration(file);
+        } catch {
+          if (!ffmpeg) throw new Error('Audio engine not ready');
+          const ext = getFileExtension(file.name);
+          duration = (await probeMediaWithFFmpeg(ffmpeg, file, ext)).duration;
+        }
+        setState({
+          file,
+          status: 'ready',
+          duration,
+          startTime: 0,
+          endTime: duration,
+          progress: 0,
+        });
+      } catch {
+        toast.error(
+          "Couldn't read this file - it may be corrupted or an unsupported format.",
+        );
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [ffmpeg],
+  );
 
   const setRange = useCallback((startTime: number, endTime: number) => {
     setState((prev) => ({ ...prev, startTime, endTime }));

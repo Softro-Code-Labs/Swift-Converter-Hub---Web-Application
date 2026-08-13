@@ -19,7 +19,7 @@ export default function BaseVideoConverter({
   sourceFormat,
   targetFormat,
 }: BaseConverterProps) {
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -38,7 +38,8 @@ export default function BaseVideoConverter({
       files,
       updateFile,
       targetFormat ?? sourceFormat,
-      ffmpeg,
+      acquireEngine,
+      releaseEngine,
       isFFmpegLoaded,
     );
 

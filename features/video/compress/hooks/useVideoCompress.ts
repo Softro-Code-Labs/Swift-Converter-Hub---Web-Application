@@ -9,9 +9,11 @@ import {
   getFormatByExtension,
   getCompressArgs,
   QualityPreset,
+  CustomEncodeOptions,
 } from '@/features/video/shared/config/formats';
 import {
   runFFmpegWithProgress,
+  runBatchWithEnginePool,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
@@ -21,8 +23,10 @@ export const useVideoCompress = (
   files: VideoFileItem[],
   updateFile: (id: string, patch: Partial<VideoFileItem>) => void,
   preset: QualityPreset,
-  ffmpeg: FFmpeg | null,
+  acquireEngine: () => Promise<FFmpeg>,
+  releaseEngine: (engine: FFmpeg) => void,
   isFFmpegLoaded: boolean,
+  customOptions?: CustomEncodeOptions,
 ) => {
   const [isProcessingAll, setIsProcessingAll] = useState(false);
   const [isZipping, setIsZipping] = useState(false);
@@ -37,6 +41,9 @@ export const useVideoCompress = (
 
     const inputPath = `vcompress_input_${item.id}.${sourceExt}`;
     // Compression always outputs MP4 regardless of source format - H.264
+    // + faststart MP4 is the safest universally-playable choice, and
+    // mixing "compress" with "also convert container" would make the
+    // size/quality trade-off harder to reason about for users.
     const outputPath = `vcompress_output_${item.id}.mp4`;
 
     try {
@@ -59,7 +66,7 @@ export const useVideoCompress = (
       const args = [
         '-i',
         inputPath,
-        ...getCompressArgs(preset, sourceBitrateKbps),
+        ...getCompressArgs(preset, sourceBitrateKbps, customOptions),
         outputPath,
       ];
 
@@ -78,6 +85,10 @@ export const useVideoCompress = (
         typeof data === 'string' ? new TextEncoder().encode(data) : data;
       const blob = new Blob([toStandaloneBuffer(bytes)], { type: 'video/mp4' });
 
+      // The bitrate cap above makes this very rare, but on a source that's
+      // already extremely efficiently encoded there may be little to no
+      // room left - be honest about it rather than silently handing back
+      // a "compressed" file that's actually bigger.
       if (blob.size > item.file.size) {
         toast(
           `${item.file.name} was already efficiently compressed - little extra savings were possible.`,
@@ -92,30 +103,36 @@ export const useVideoCompress = (
   };
 
   const compressAll = async () => {
-    if (!isFFmpegLoaded || !ffmpeg) {
+    if (!isFFmpegLoaded) {
       toast.error('Please wait for the video engine to finish initializing.');
       return;
     }
     setIsProcessingAll(true);
 
-    for (const item of files) {
-      if (item.status !== 'idle') continue;
-      updateFile(item.id, { status: 'processing', progress: 0 });
-      try {
-        const result = await compressFile(item, ffmpeg);
-        updateFile(item.id, {
-          status: 'success',
-          convertedUrl: result.url,
-          outputSize: result.size,
-          progress: 1,
-        });
-      } catch (err) {
-        console.error(`Compression failed for ${item.file.name}:`, err);
-        const message =
-          err instanceof Error ? err.message : 'Compression failed';
-        updateFile(item.id, { status: 'error', errorMessage: message });
-      }
-    }
+    const pending = files.filter((f) => f.status === 'idle');
+
+    await runBatchWithEnginePool(
+      pending,
+      acquireEngine,
+      releaseEngine,
+      async (item, engine) => {
+        updateFile(item.id, { status: 'processing', progress: 0 });
+        try {
+          const result = await compressFile(item, engine);
+          updateFile(item.id, {
+            status: 'success',
+            convertedUrl: result.url,
+            outputSize: result.size,
+            progress: 1,
+          });
+        } catch (err) {
+          console.error(`Compression failed for ${item.file.name}:`, err);
+          const message =
+            err instanceof Error ? err.message : 'Compression failed';
+          updateFile(item.id, { status: 'error', errorMessage: message });
+        }
+      },
+    );
 
     setIsProcessingAll(false);
     toast.success('All files compressed!');
