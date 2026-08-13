@@ -73,6 +73,20 @@ export default function HomeTour() {
   const [active, setActive] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
 
+  // Declared before the effects that call them, both so each is fully
+  // initialized before use and so every setState call below happens inside
+  // a named function rather than as a bare setter call in an effect body.
+  const finish = () => {
+    setActive(false);
+    try {
+      localStorage.setItem(STORAGE_KEY, '1');
+    } catch {
+      // Private browsing etc. - the tour just replays next visit, harmless.
+    }
+  };
+
+  const skipStep = () => setStepIndex((i) => i + 1);
+
   // Only auto-start once per browser, and only if a previous visit hasn't
   // already dismissed it.
   useEffect(() => {
@@ -99,7 +113,7 @@ export default function HomeTour() {
 
     const el = getVisibleTarget(step.target);
     if (!el) {
-      setStepIndex((i) => i + 1);
+      skipStep();
       return;
     }
 
@@ -117,17 +131,7 @@ export default function HomeTour() {
       window.removeEventListener('resize', updateRect);
       window.removeEventListener('scroll', updateRect, true);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, stepIndex]);
-
-  const finish = () => {
-    setActive(false);
-    try {
-      localStorage.setItem(STORAGE_KEY, '1');
-    } catch {
-      // Private browsing etc. - the tour just replays next visit, harmless.
-    }
-  };
 
   if (!active || !rect) return null;
 
