@@ -8,6 +8,7 @@ import { VideoFileItem } from '@/features/video/shared/types/videoFile';
 import { VideoFormat, getFFmpegArgsForTarget } from '../config/formats';
 import {
   runFFmpegWithProgress,
+  runBatchWithEnginePool,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
 import {
@@ -25,7 +26,8 @@ export const useVideoConverter = (
   files: VideoFileItem[],
   updateFile: (id: string, patch: Partial<VideoFileItem>) => void,
   selectedTarget: VideoFormat,
-  ffmpeg: FFmpeg | null,
+  acquireEngine: () => Promise<FFmpeg>,
+  releaseEngine: (engine: FFmpeg) => void,
   isFFmpegLoaded: boolean,
 ) => {
   const [isConvertingAll, setIsConvertingAll] = useState(false);
@@ -74,32 +76,36 @@ export const useVideoConverter = (
   };
 
   const convertAll = async () => {
-    if (!isFFmpegLoaded || !ffmpeg) {
+    if (!isFFmpegLoaded) {
       toast.error('Please wait for the video engine to finish initializing.');
       return;
     }
     setIsConvertingAll(true);
 
-    // Processed one at a time - the shared FFmpeg WASM instance can only
-    // run a single job at once.
-    for (const item of files) {
-      if (item.status !== 'idle') continue;
-      updateFile(item.id, { status: 'processing', progress: 0 });
-      try {
-        const result = await convertFile(item, ffmpeg);
-        updateFile(item.id, {
-          status: 'success',
-          convertedUrl: result.url,
-          outputSize: result.size,
-          progress: 1,
-        });
-      } catch (err) {
-        console.error(`Conversion failed for ${item.file.name}:`, err);
-        const message =
-          err instanceof Error ? err.message : 'Conversion failed';
-        updateFile(item.id, { status: 'error', errorMessage: message });
-      }
-    }
+    const pending = files.filter((f) => f.status === 'idle');
+
+    await runBatchWithEnginePool(
+      pending,
+      acquireEngine,
+      releaseEngine,
+      async (item, engine) => {
+        updateFile(item.id, { status: 'processing', progress: 0 });
+        try {
+          const result = await convertFile(item, engine);
+          updateFile(item.id, {
+            status: 'success',
+            convertedUrl: result.url,
+            outputSize: result.size,
+            progress: 1,
+          });
+        } catch (err) {
+          console.error(`Conversion failed for ${item.file.name}:`, err);
+          const message =
+            err instanceof Error ? err.message : 'Conversion failed';
+          updateFile(item.id, { status: 'error', errorMessage: message });
+        }
+      },
+    );
 
     setIsConvertingAll(false);
     toast.success('All conversions complete!');

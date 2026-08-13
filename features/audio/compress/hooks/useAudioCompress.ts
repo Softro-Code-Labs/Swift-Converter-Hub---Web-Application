@@ -8,11 +8,13 @@ import { AudioFileItem } from '@/features/audio/shared/types/audioFile';
 import {
   AudioFormat,
   getFormatByExtension,
-  getFFmpegArgsForTarget,
+  getAudioCompressArgs,
 } from '@/features/audio/shared/config/formats';
 import {
   runFFmpegWithProgress,
+  runBatchWithEnginePool,
   cleanupFFmpegFiles,
+  getAudioDuration,
 } from '@/features/shared/lib/ffmpegUtils';
 import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
 
@@ -34,7 +36,8 @@ export const useAudioCompress = (
   files: AudioFileItem[],
   updateFile: (id: string, patch: Partial<AudioFileItem>) => void,
   bitrateKbps: number,
-  ffmpeg: FFmpeg | null,
+  acquireEngine: () => Promise<FFmpeg>,
+  releaseEngine: (engine: FFmpeg) => void,
   isFFmpegLoaded: boolean,
 ) => {
   const [isProcessingAll, setIsProcessingAll] = useState(false);
@@ -52,10 +55,29 @@ export const useAudioCompress = (
     try {
       await engine.writeFile(inputPath, await fetchFile(item.file));
 
+      // Figure out how compressed the source already is, so the encoder
+      // can be capped relative to it instead of blindly re-encoding at a
+      // fixed preset bitrate - see getAudioCompressArgs for why this is
+      // necessary (mirrors the video compressor's same approach).
+      let sourceBitrateKbps: number | undefined;
+      try {
+        const duration = item.duration ?? (await getAudioDuration(item.file));
+        if (duration > 0) {
+          sourceBitrateKbps = (item.file.size * 8) / duration / 1000;
+        }
+      } catch {
+        // Falls back to the plain preset bitrate below - rare (e.g. a
+        // codec the browser's native decoder can't read metadata for).
+      }
+
       const args = [
         '-i',
         inputPath,
-        ...getFFmpegArgsForTarget(outputFormat.extension, bitrateKbps),
+        ...getAudioCompressArgs(
+          outputFormat.extension,
+          bitrateKbps,
+          sourceBitrateKbps,
+        ),
         outputPath,
       ];
 
@@ -76,6 +98,13 @@ export const useAudioCompress = (
         type: outputFormat.mimeType,
       });
 
+      if (blob.size > item.file.size) {
+        toast(
+          `${item.file.name} was already efficiently compressed - little extra savings were possible.`,
+          { icon: 'ℹ️' },
+        );
+      }
+
       return {
         url: URL.createObjectURL(blob),
         size: formatBytes(blob.size),
@@ -87,31 +116,37 @@ export const useAudioCompress = (
   };
 
   const compressAll = async () => {
-    if (!isFFmpegLoaded || !ffmpeg) {
+    if (!isFFmpegLoaded) {
       toast.error('Please wait for the audio engine to finish initializing.');
       return;
     }
     setIsProcessingAll(true);
 
-    for (const item of files) {
-      if (item.status !== 'idle') continue;
-      updateFile(item.id, { status: 'processing', progress: 0 });
-      try {
-        const result = await compressFile(item, ffmpeg);
-        updateFile(item.id, {
-          status: 'success',
-          convertedUrl: result.url,
-          outputSize: result.size,
-          outputFormat: result.format,
-          progress: 1,
-        });
-      } catch (err) {
-        console.error(`Compression failed for ${item.file.name}:`, err);
-        const message =
-          err instanceof Error ? err.message : 'Compression failed';
-        updateFile(item.id, { status: 'error', errorMessage: message });
-      }
-    }
+    const pending = files.filter((f) => f.status === 'idle');
+
+    await runBatchWithEnginePool(
+      pending,
+      acquireEngine,
+      releaseEngine,
+      async (item, engine) => {
+        updateFile(item.id, { status: 'processing', progress: 0 });
+        try {
+          const result = await compressFile(item, engine);
+          updateFile(item.id, {
+            status: 'success',
+            convertedUrl: result.url,
+            outputSize: result.size,
+            outputFormat: result.format,
+            progress: 1,
+          });
+        } catch (err) {
+          console.error(`Compression failed for ${item.file.name}:`, err);
+          const message =
+            err instanceof Error ? err.message : 'Compression failed';
+          updateFile(item.id, { status: 'error', errorMessage: message });
+        }
+      },
+    );
 
     setIsProcessingAll(false);
     toast.success('All files compressed!');

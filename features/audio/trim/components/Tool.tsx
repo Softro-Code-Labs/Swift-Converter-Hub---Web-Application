@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   Scissors,
   Download,
@@ -14,6 +14,9 @@ import { useAudioTrim } from '../hooks/useAudioTrim';
 import {
   SingleFileDropZone,
   EngineStatusBar,
+  TrimRangeBar,
+  MediaPreview,
+  type MediaPreviewHandle,
 } from '@/features/shared/components';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 
@@ -65,28 +68,18 @@ function TimeField({
 
 export default function AudioTrimTool() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const previewRef = useRef<MediaPreviewHandle>(null);
 
   const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
   const { state, loadFile, setRange, trim, reset, downloadResult } =
     useAudioTrim(ffmpeg, isFFmpegLoaded);
 
   const handleFile = async (file: File) => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(URL.createObjectURL(file));
     await loadFile(file);
   };
 
   const handleReset = () => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
     reset();
-  };
-
-  const selectionPct = {
-    start: state.duration ? (state.startTime / state.duration) * 100 : 0,
-    end: state.duration ? (state.endTime / state.duration) * 100 : 100,
   };
 
   return (
@@ -133,25 +126,21 @@ export default function AudioTrimTool() {
               </button>
             </div>
 
-            {previewUrl && (
-              <audio
-                ref={audioRef}
-                controls
-                src={previewUrl}
-                className="w-full h-9"
-              />
-            )}
+            <MediaPreview
+              ref={previewRef}
+              kind="audio"
+              file={state.file}
+              className="w-full"
+            />
 
-            {/* Visual trim region indicator */}
-            <div className="relative h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div
-                className="absolute inset-y-0 bg-blue-400 dark:bg-blue-600"
-                style={{
-                  left: `${selectionPct.start}%`,
-                  right: `${100 - selectionPct.end}%`,
-                }}
-              />
-            </div>
+            <TrimRangeBar
+              startTime={state.startTime}
+              endTime={state.endTime}
+              duration={state.duration}
+              onChange={setRange}
+              onScrub={(t) => previewRef.current?.seek(t)}
+              accent="blue"
+            />
 
             {/* Start/end controls */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -164,7 +153,10 @@ export default function AudioTrimTool() {
                 }
                 onUseCurrent={() =>
                   setRange(
-                    Math.min(audioRef.current?.currentTime ?? 0, state.endTime),
+                    Math.min(
+                      previewRef.current?.getCurrentTime() ?? 0,
+                      state.endTime,
+                    ),
                     state.endTime,
                   )
                 }
@@ -180,7 +172,7 @@ export default function AudioTrimTool() {
                   setRange(
                     state.startTime,
                     Math.max(
-                      audioRef.current?.currentTime ?? 0,
+                      previewRef.current?.getCurrentTime() ?? 0,
                       state.startTime,
                     ),
                   )
@@ -244,7 +236,11 @@ export default function AudioTrimTool() {
                   Trim another
                 </button>
               </div>
-              <audio controls src={state.outputUrl} className="w-full h-9" />
+              <MediaPreview
+                kind="audio"
+                src={state.outputUrl}
+                className="w-full"
+              />
               <button
                 onClick={downloadResult}
                 className="w-full flex items-center justify-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white transition-all cursor-pointer"

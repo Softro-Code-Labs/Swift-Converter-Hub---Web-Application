@@ -5,9 +5,14 @@ import toast from 'react-hot-toast';
 import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
+  probeMediaWithFFmpeg,
 } from '@/features/shared/lib/ffmpegUtils';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
-import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
+import {
+  formatBytes,
+  toStandaloneBuffer,
+  getFileExtension,
+} from '@/features/shared/lib/format';
 import { ToGifState, GIF_MAX_DURATION_SEC } from '../types/toGif';
 
 const INITIAL_STATE: ToGifState = {
@@ -27,24 +32,34 @@ export const useVideoToGif = (
 ) => {
   const [state, setState] = useState<ToGifState>(INITIAL_STATE);
 
-  const loadFile = useCallback(async (file: File) => {
-    try {
-      const { duration } = await getVideoMetadata(file);
-      const cappedEnd = Math.min(duration, GIF_MAX_DURATION_SEC);
-      setState({
-        ...INITIAL_STATE,
-        file,
-        status: 'ready',
-        duration,
-        startTime: 0,
-        endTime: cappedEnd,
-      });
-    } catch {
-      toast.error(
-        "Couldn't read this file - it may be corrupted or an unsupported format.",
-      );
-    }
-  }, []);
+  const loadFile = useCallback(
+    async (file: File) => {
+      try {
+        let duration: number;
+        try {
+          duration = (await getVideoMetadata(file)).duration;
+        } catch {
+          if (!ffmpeg) throw new Error('Video engine not ready');
+          const ext = getFileExtension(file.name);
+          duration = (await probeMediaWithFFmpeg(ffmpeg, file, ext)).duration;
+        }
+        const cappedEnd = Math.min(duration, GIF_MAX_DURATION_SEC);
+        setState({
+          ...INITIAL_STATE,
+          file,
+          status: 'ready',
+          duration,
+          startTime: 0,
+          endTime: cappedEnd,
+        });
+      } catch {
+        toast.error(
+          "Couldn't read this file - it may be corrupted or an unsupported format.",
+        );
+      }
+    },
+    [ffmpeg],
+  );
 
   const setRange = useCallback((startTime: number, endTime: number) => {
     setState((prev) => {

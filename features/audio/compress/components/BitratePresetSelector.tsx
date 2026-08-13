@@ -1,25 +1,33 @@
 import {
-  QUALITY_PRESETS,
-  QualityPreset,
-} from '@/features/video/shared/config/formats';
+  BITRATE_PRESETS,
+  BitratePresetId,
+} from '@/features/audio/convert/types/converter';
 
-interface QualityPresetSelectorProps {
-  value: QualityPreset['id'];
-  onChange: (id: QualityPreset['id']) => void;
+export type CompressBitratePresetId = BitratePresetId | 'custom';
+
+interface BitratePresetSelectorProps {
+  value: CompressBitratePresetId;
+  onChange: (id: CompressBitratePresetId) => void;
   disabled?: boolean;
 }
 
-export const QualityPresetSelector = ({
+const CUSTOM_OPTION = {
+  id: 'custom' as const,
+  label: 'Custom',
+  hint: 'Pick your own bitrate',
+};
+
+export const BitratePresetSelector = ({
   value,
   onChange,
   disabled,
-}: QualityPresetSelectorProps) => (
+}: BitratePresetSelectorProps) => (
   <div className="space-y-1.5">
     <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
       Output quality
     </p>
-    <div className="grid grid-cols-3 gap-2">
-      {QUALITY_PRESETS.map((preset) => (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      {[...BITRATE_PRESETS, CUSTOM_OPTION].map((preset) => (
         <button
           key={preset.id}
           type="button"
@@ -28,13 +36,13 @@ export const QualityPresetSelector = ({
           className={`flex flex-col items-center gap-0.5 px-2 py-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
             ${
               value === preset.id
-                ? 'border-purple-400 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400'
+                ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'
                 : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
             }`}
         >
           <span>{preset.label}</span>
           <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 text-center">
-            {preset.hint}
+            {'kbps' in preset ? `${preset.kbps} kbps` : preset.hint}
           </span>
         </button>
       ))}

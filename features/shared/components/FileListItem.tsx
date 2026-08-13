@@ -15,6 +15,7 @@ import {
   MediaFormatLike,
 } from '@/features/shared/types/mediaFile';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
+import { MediaPreview } from './MediaPreview';
 
 interface FileListItemProps<TFormat extends MediaFormatLike = MediaFormatLike> {
   item: MediaFileItem<TFormat>;
@@ -175,29 +176,18 @@ export const FileListItem = <
       )}
 
       {/* -- Playback preview once converted --------------------------------- */}
-      {item.status === 'success' &&
-        item.convertedUrl &&
-        (mediaType === 'video' ? (
-          <video
-            controls
-            preload="metadata"
-            src={item.convertedUrl}
-            className="w-full max-h-56 rounded-lg bg-black"
-          >
-            Your browser doesn&apos;t support inline video playback - use the
-            download button above instead.
-          </video>
-        ) : (
-          <audio
-            controls
-            preload="none"
-            src={item.convertedUrl}
-            className="w-full h-9"
-          >
-            Your browser doesn&apos;t support inline audio playback - use the
-            download button above instead.
-          </audio>
-        ))}
+      {item.status === 'success' && item.convertedUrl && (
+        <MediaPreview
+          kind={mediaType}
+          src={item.convertedUrl}
+          srcExt={item.outputFormat?.extension}
+          className={
+            mediaType === 'video'
+              ? 'w-full max-h-56 rounded-lg bg-black'
+              : 'w-full'
+          }
+        />
+      )}
 
       {item.status === 'error' && item.errorMessage && (
         <p className="text-[10px] text-red-500 dark:text-red-400 leading-relaxed">

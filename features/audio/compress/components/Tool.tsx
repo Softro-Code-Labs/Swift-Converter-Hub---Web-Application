@@ -4,8 +4,13 @@ import { useState } from 'react';
 import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useAudioFileQueue } from '@/features/audio/shared/hooks/useAudioFileQueue';
 import { useAudioCompress } from '../hooks/useAudioCompress';
-import { BITRATE_PRESETS, BitratePresetId } from '@/features/audio/convert/types/converter';
-import { BitrateSelector } from '@/features/audio/shared/components/BitrateSelector';
+import { BITRATE_PRESETS } from '@/features/audio/convert/types/converter';
+import {
+  BitratePresetSelector,
+  CompressBitratePresetId,
+} from '@/features/audio/compress/components/BitratePresetSelector';
+import { CustomBitrateControls } from '@/features/audio/compress/components/CustomBitrateControls';
+import { CUSTOM_BITRATE_DEFAULT } from '@/features/audio/shared/config/formats';
 import {
   EngineStatusBar,
   MultiFileDropZone,
@@ -18,11 +23,14 @@ import { Music2 } from 'lucide-react';
 const FORMAT_PILLS = ['MP3', 'WAV', 'OGG', 'FLAC', 'AAC', 'M4A', 'OPUS'];
 
 export default function AudioCompressTool() {
-  const [bitratePreset, setBitratePreset] = useState<BitratePresetId>('standard');
+  const [presetId, setPresetId] = useState<CompressBitratePresetId>('standard');
+  const [customKbps, setCustomKbps] = useState(CUSTOM_BITRATE_DEFAULT);
   const bitrateKbps =
-    BITRATE_PRESETS.find((p) => p.id === bitratePreset)?.kbps ?? 192;
+    presetId === 'custom'
+      ? customKbps
+      : (BITRATE_PRESETS.find((p) => p.id === presetId)?.kbps ?? 192);
 
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -35,8 +43,20 @@ export default function AudioCompressTool() {
     updateFile,
   } = useAudioFileQueue();
 
-  const { isProcessingAll, isZipping, compressAll, downloadAll, downloadSingle } =
-    useAudioCompress(files, updateFile, bitrateKbps, ffmpeg, isFFmpegLoaded);
+  const {
+    isProcessingAll,
+    isZipping,
+    compressAll,
+    downloadAll,
+    downloadSingle,
+  } = useAudioCompress(
+    files,
+    updateFile,
+    bitrateKbps,
+    acquireEngine,
+    releaseEngine,
+    isFFmpegLoaded,
+  );
 
   const successCount = files.filter((f) => f.status === 'success').length;
   const errorCount = files.filter((f) => f.status === 'error').length;
@@ -85,18 +105,25 @@ export default function AudioCompressTool() {
         </div>
       )}
 
-      <BitrateSelector
-        value={bitratePreset}
-        onChange={setBitratePreset}
+      <BitratePresetSelector
+        value={presetId}
+        onChange={setPresetId}
         disabled={isProcessingAll}
       />
 
+      {presetId === 'custom' && (
+        <CustomBitrateControls
+          kbps={customKbps}
+          onKbpsChange={setCustomKbps}
+          disabled={isProcessingAll}
+        />
+      )}
+
       <p className="text-[11px] text-slate-400 dark:text-slate-500 -mt-2 leading-relaxed">
-        Already-compressed formats (MP3, OGG, AAC, M4A, OPUS) are
-        re-encoded at your chosen bitrate. Lossless sources (WAV, FLAC) are
-        converted to MP3, since compressing lossless audio means becoming
-        lossy - there&apos;s no smaller-but-still-lossless option beyond
-        FLAC&apos;s own compression.
+        Already-compressed formats (MP3, OGG, AAC, M4A, OPUS) are re-encoded at
+        your chosen bitrate. Lossless sources (WAV, FLAC) are converted to MP3,
+        since compressing lossless audio means becoming lossy - there&apos;s no
+        smaller-but-still-lossless option beyond FLAC&apos;s own compression.
       </p>
 
       {files.length < 20 && (
