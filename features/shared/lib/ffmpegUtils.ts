@@ -54,6 +54,32 @@ export async function runFFmpegWithProgress(
   }
 }
 
+/**
+ * Runs `processItem` over every item concurrently, bounded by however many
+ * FFmpeg engines the pool can actually hand out - `acquireEngine` blocks
+ * until one is free, so this naturally caps concurrency at pool size
+ * without a separate limiter. Each item gets its own engine for its
+ * duration and releases it when done (success or failure) so the next
+ * queued item can pick it up.
+ */
+export async function runBatchWithEnginePool<T>(
+  items: T[],
+  acquireEngine: () => Promise<FFmpeg>,
+  releaseEngine: (engine: FFmpeg) => void,
+  processItem: (item: T, engine: FFmpeg) => Promise<void>,
+): Promise<void> {
+  await Promise.all(
+    items.map(async (item) => {
+      const engine = await acquireEngine();
+      try {
+        await processItem(item, engine);
+      } finally {
+        releaseEngine(engine);
+      }
+    }),
+  );
+}
+
 // Deletes temporary files from FFmpeg's virtual memory to prevent browser tab bloat.
 export async function cleanupFFmpegFiles(
   ffmpeg: FFmpeg,

@@ -13,6 +13,7 @@ import {
 } from '@/features/video/shared/config/formats';
 import {
   runFFmpegWithProgress,
+  runBatchWithEnginePool,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
@@ -22,7 +23,8 @@ export const useVideoCompress = (
   files: VideoFileItem[],
   updateFile: (id: string, patch: Partial<VideoFileItem>) => void,
   preset: QualityPreset,
-  ffmpeg: FFmpeg | null,
+  acquireEngine: () => Promise<FFmpeg>,
+  releaseEngine: (engine: FFmpeg) => void,
   isFFmpegLoaded: boolean,
   customOptions?: CustomEncodeOptions,
 ) => {
@@ -101,30 +103,36 @@ export const useVideoCompress = (
   };
 
   const compressAll = async () => {
-    if (!isFFmpegLoaded || !ffmpeg) {
+    if (!isFFmpegLoaded) {
       toast.error('Please wait for the video engine to finish initializing.');
       return;
     }
     setIsProcessingAll(true);
 
-    for (const item of files) {
-      if (item.status !== 'idle') continue;
-      updateFile(item.id, { status: 'processing', progress: 0 });
-      try {
-        const result = await compressFile(item, ffmpeg);
-        updateFile(item.id, {
-          status: 'success',
-          convertedUrl: result.url,
-          outputSize: result.size,
-          progress: 1,
-        });
-      } catch (err) {
-        console.error(`Compression failed for ${item.file.name}:`, err);
-        const message =
-          err instanceof Error ? err.message : 'Compression failed';
-        updateFile(item.id, { status: 'error', errorMessage: message });
-      }
-    }
+    const pending = files.filter((f) => f.status === 'idle');
+
+    await runBatchWithEnginePool(
+      pending,
+      acquireEngine,
+      releaseEngine,
+      async (item, engine) => {
+        updateFile(item.id, { status: 'processing', progress: 0 });
+        try {
+          const result = await compressFile(item, engine);
+          updateFile(item.id, {
+            status: 'success',
+            convertedUrl: result.url,
+            outputSize: result.size,
+            progress: 1,
+          });
+        } catch (err) {
+          console.error(`Compression failed for ${item.file.name}:`, err);
+          const message =
+            err instanceof Error ? err.message : 'Compression failed';
+          updateFile(item.id, { status: 'error', errorMessage: message });
+        }
+      },
+    );
 
     setIsProcessingAll(false);
     toast.success('All files compressed!');

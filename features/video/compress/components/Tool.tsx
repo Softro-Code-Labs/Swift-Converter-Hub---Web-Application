@@ -48,7 +48,7 @@ export default function VideoCompressTool() {
         }
       : undefined;
 
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -72,7 +72,8 @@ export default function VideoCompressTool() {
     files,
     updateFile,
     preset,
-    ffmpeg,
+    acquireEngine,
+    releaseEngine,
     isFFmpegLoaded,
     customOptions,
   );

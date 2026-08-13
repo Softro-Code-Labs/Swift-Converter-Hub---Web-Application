@@ -25,7 +25,7 @@ export default function BaseAudioConverter({
   const bitrateKbps =
     BITRATE_PRESETS.find((p) => p.id === bitratePreset)?.kbps ?? 192;
 
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -49,7 +49,8 @@ export default function BaseAudioConverter({
     updateFile,
     targetFormat ?? sourceFormat,
     bitrateKbps,
-    ffmpeg,
+    acquireEngine,
+    releaseEngine,
     isFFmpegLoaded,
   );
 

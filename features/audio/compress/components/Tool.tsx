@@ -30,7 +30,7 @@ export default function AudioCompressTool() {
       ? customKbps
       : (BITRATE_PRESETS.find((p) => p.id === presetId)?.kbps ?? 192);
 
-  const { isFFmpegLoaded, ffmpeg } = useFFmpegEngine();
+  const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
   const {
     files,
@@ -49,7 +49,14 @@ export default function AudioCompressTool() {
     compressAll,
     downloadAll,
     downloadSingle,
-  } = useAudioCompress(files, updateFile, bitrateKbps, ffmpeg, isFFmpegLoaded);
+  } = useAudioCompress(
+    files,
+    updateFile,
+    bitrateKbps,
+    acquireEngine,
+    releaseEngine,
+    isFFmpegLoaded,
+  );
 
   const successCount = files.filter((f) => f.status === 'success').length;
   const errorCount = files.filter((f) => f.status === 'error').length;
