@@ -73,9 +73,8 @@ export default function HomeTour() {
   const [active, setActive] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
 
-  // Declared before the effects that call them, both so each is fully
-  // initialized before use and so every setState call below happens inside
-  // a named function rather than as a bare setter call in an effect body.
+  // Declared before the effects that call them so both are fully
+  // initialized before use.
   const finish = () => {
     setActive(false);
     try {
@@ -105,16 +104,19 @@ export default function HomeTour() {
   useEffect(() => {
     if (!active) return;
 
+    // Deferred rather than called synchronously - same "callback" shape as
+    // the auto-start timer above - so these updates happen from within a
+    // callback instead of directly in the effect body.
     const step = STEPS[stepIndex];
     if (!step) {
-      finish();
-      return;
+      const timer = setTimeout(() => finish(), 0);
+      return () => clearTimeout(timer);
     }
 
     const el = getVisibleTarget(step.target);
     if (!el) {
-      skipStep();
-      return;
+      const timer = setTimeout(() => skipStep(), 0);
+      return () => clearTimeout(timer);
     }
 
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
