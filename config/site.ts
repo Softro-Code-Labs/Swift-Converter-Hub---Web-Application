@@ -9,7 +9,7 @@
  * deploys) without touching code.
  */
 
-const PRODUCTION_URL = 'https://swiftconverterhub.com';
+const PRODUCTION_URL = 'https://www.swiftconverterhub.com';
 
 export const SITE_URL: string = (
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || PRODUCTION_URL
