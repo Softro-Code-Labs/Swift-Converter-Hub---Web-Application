@@ -74,16 +74,14 @@ function subscribeOnce() {
 }
 
 /**
- * Gates non-essential scripts (ads + analytics) behind an explicit user
+ * Gates optional analytics (Microsoft Clarity) behind an explicit user
  * choice. Shows a consent banner first; essential features are unaffected,
- * but optional services only load once the user accepts.
+ * but Clarity only loads once the user accepts. Ad-related consent
+ * (Google AdSense) is handled separately by Google's own on-page consent
+ * messages configured in Privacy & messaging, not by this context.
  */
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
-  const consent = useSyncExternalStore(
-    subscribe,
-    readConsent,
-    () => null,
-  );
+  const consent = useSyncExternalStore(subscribe, readConsent, () => null);
   // True once hydrated on the client - the server snapshot is always false.
   const isLoaded = useSyncExternalStore(
     subscribeOnce,

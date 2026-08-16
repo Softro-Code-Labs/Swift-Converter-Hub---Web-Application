@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Script from 'next/script';
 import { ADSENSE } from '@/lib/adsense';
 import { ANALYTICS } from '@/lib/analytics';
@@ -9,40 +8,17 @@ import { useConsent } from './ConsentContext';
 export default function TrackingScripts() {
   const { consent, isLoaded } = useConsent();
 
-  useEffect(() => {
-    if (!isLoaded) return;
-
-    // Standard gtag helper
-    const gtag = (...args: unknown[]) => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(args);
-    };
-
-    // Update Google Consent Mode states based on user choice
-    if (consent === 'accepted') {
-      gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-      });
-    } else if (consent === 'declined') {
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied',
-      });
-    }
-  }, [consent, isLoaded]);
-
   return (
     <>
       {/*
         AdSense script tag - always rendered (regardless of consent) so
         Google's site-review crawler can find it during account approval.
-        Consent Mode above controls what data it's allowed to use, not
-        whether the tag itself loads.
+        Ad consent itself (ad_storage / ad_user_data / ad_personalization)
+        is now handled entirely by Google's own on-page consent messages
+        (Privacy & messaging > European regulations / US state regulations),
+        which call gtag('consent','update', ...) automatically when a
+        visitor interacts with them. This file no longer sets those values
+        to avoid two sources fighting over the same Consent Mode signal.
       */}
       <Script
         id="google-adsense"

@@ -18,10 +18,12 @@ export default function CookieConsentBanner() {
     >
       <div className="max-w-3xl mx-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl shadow-slate-900/10 dark:shadow-black/40 p-5 flex flex-col sm:flex-row sm:items-center gap-4">
         <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-          We use cookies for ads (Google AdSense) and analytics (Microsoft
-          Clarity) to keep the tools free and to improve them. Your files never
-          leave your browser either way - that part doesn&apos;t depend on this
-          choice. See our{' '}
+          We use an optional analytics cookie (Microsoft Clarity) to understand
+          usage and improve our tools. Your files never leave your browser
+          either way - that part doesn&apos;t depend on this choice. Ad-related
+          consent for the EU, UK, Switzerland, and US states is handled
+          separately via Google&apos;s own consent prompt where required. See
+          our{' '}
           <Link
             href="/privacy"
             className="underline hover:text-blue-600 dark:hover:text-blue-400"

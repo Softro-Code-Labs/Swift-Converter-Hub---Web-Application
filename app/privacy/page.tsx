@@ -111,12 +111,14 @@ const SECTIONS = [
         </p>
         <p className="mt-3">
           We use <strong>Google Consent Mode v2</strong> to respect your choice.
-          When you first visit our site, non-essential storage (for ads and
-          analytics) is set to &quot;denied&quot; by default. Google AdSense and
-          Google Analytics both run in a restricted, privacy-safe state without
-          dropping personalization or analytics cookies. Only if you click
-          &quot;Accept&quot; will these tracking states update to
-          &quot;granted.&quot;
+          Non-essential storage is set to &quot;denied&quot; by default until
+          consent is given. For visitors in the EEA, UK, Switzerland, and
+          applicable US states, ad-related consent (advertising cookies and
+          personalization) is collected through Google&apos;s own on-page
+          consent prompt, which is shown automatically where required and
+          updates these settings on our behalf. Our own cookie banner separately
+          controls optional analytics (Microsoft Clarity) and only turns it on
+          once you click &quot;Accept.&quot;
         </p>
         <p className="mt-3">
           We also use Microsoft Clarity (see &quot;What we collect&quot; above
