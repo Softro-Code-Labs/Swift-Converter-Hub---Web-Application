@@ -110,15 +110,16 @@ const SECTIONS = [
           either, only page views and general usage events.
         </p>
         <p className="mt-3">
-          We use <strong>Google Consent Mode v2</strong> to respect your choice.
-          Non-essential storage is set to &quot;denied&quot; by default until
-          consent is given. For visitors in the EEA, UK, Switzerland, and
-          applicable US states, ad-related consent (advertising cookies and
-          personalization) is collected through Google&apos;s own on-page
-          consent prompt, which is shown automatically where required and
-          updates these settings on our behalf. Our own cookie banner separately
-          controls optional analytics (Microsoft Clarity) and only turns it on
-          once you click &quot;Accept.&quot;
+          We use <strong>Google Consent Mode v2</strong> to respect your
+          choice. Non-essential storage is set to &quot;denied&quot; by
+          default until consent is given. For visitors in the EEA, UK,
+          Switzerland, and applicable US states, consent for both
+          advertising (Google AdSense) and analytics (Google Analytics)
+          storage is collected through Google&apos;s own on-page consent
+          prompt, which is shown automatically where required and updates
+          these settings on our behalf - one Google tag reads this consent
+          state for both products. Our own cookie banner is separate and
+          only controls Microsoft Clarity.
         </p>
         <p className="mt-3">
           We also use Microsoft Clarity (see &quot;What we collect&quot; above
