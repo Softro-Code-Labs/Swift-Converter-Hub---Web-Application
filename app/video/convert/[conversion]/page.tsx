@@ -89,6 +89,9 @@ export default async function VideoConversionPage({ params }: PageProps) {
   if (!sourceFormat || !targetFormat) notFound();
   if (!isConversionAllowed(sourceExt, targetExt)) notFound();
 
+  const isCurated =
+    HIGH_TRAFFIC_PAIRS.has(conversion) || MEDIUM_TRAFFIC_PAIRS.has(conversion);
+
   const route = getConversionRoute(sourceExt, targetExt);
 
   const howToSteps = [
@@ -106,19 +109,92 @@ export default async function VideoConversionPage({ params }: PageProps) {
     },
   ];
 
+  const breadcrumbItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Video Studio', path: '/video' },
+    { name: 'Format Converter', path: '/video/convert' },
+    {
+      name: `${sourceFormat.label} to ${targetFormat.label}`,
+      path: `/video/convert/${conversion}`,
+    },
+  ];
+
+  // Long tail of format pairs gets a minimal view - breadcrumb + hero + the
+  // working tool only. No templated copy/steps/features/FAQ. See the image
+  // converter's equivalent page for the full rationale.
+  if (!isCurated) {
+    return (
+      <div className="space-y-0">
+        <JsonLd data={[breadcrumbJsonLd(breadcrumbItems)]} />
+        <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
+          <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
+            <Link
+              href="/"
+              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            >
+              Home
+            </Link>
+            <ArrowRight className="w-3 h-3" />
+            <Link
+              href="/video"
+              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            >
+              Video Studio
+            </Link>
+            <ArrowRight className="w-3 h-3" />
+            <Link
+              href="/video/convert"
+              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            >
+              Format Converter
+            </Link>
+            <ArrowRight className="w-3 h-3" />
+            <span className="text-slate-600 dark:text-slate-300 font-medium">
+              {sourceFormat.label} to {targetFormat.label}
+            </span>
+          </nav>
+
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-xs font-bold">
+              {sourceFormat.label}
+            </span>
+            <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+              {targetFormat.label}
+            </span>
+          </div>
+          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
+            {sourceFormat.label} to {targetFormat.label} Converter
+          </h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Converts entirely in your browser - files are never uploaded.
+          </p>
+        </div>
+
+        <div className="px-6 py-6">
+          <BaseVideoConverter
+            sourceFormat={sourceFormat}
+            targetFormat={targetFormat}
+          />
+        </div>
+
+        <div className="px-6 pb-8">
+          <Link
+            href="/video/convert"
+            className="text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline"
+          >
+            Browse all video conversions →
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-0">
       <JsonLd
         data={[
-          breadcrumbJsonLd([
-            { name: 'Home', path: '/' },
-            { name: 'Video Studio', path: '/video' },
-            { name: 'Format Converter', path: '/video/convert' },
-            {
-              name: `${sourceFormat.label} to ${targetFormat.label}`,
-              path: `/video/convert/${conversion}`,
-            },
-          ]),
+          breadcrumbJsonLd(breadcrumbItems),
           howToJsonLd({
             name: `How to convert ${sourceFormat.label} to ${targetFormat.label}`,
             description: route.description,
@@ -130,15 +206,24 @@ export default async function VideoConversionPage({ params }: PageProps) {
       {/* Hero */}
       <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
         <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link href="/" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+          <Link
+            href="/"
+            className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+          >
             Home
           </Link>
           <ArrowRight className="w-3 h-3" />
-          <Link href="/video" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+          <Link
+            href="/video"
+            className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+          >
             Video Studio
           </Link>
           <ArrowRight className="w-3 h-3" />
-          <Link href="/video/convert" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+          <Link
+            href="/video/convert"
+            className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+          >
             Format Converter
           </Link>
           <ArrowRight className="w-3 h-3" />
@@ -171,7 +256,10 @@ export default async function VideoConversionPage({ params }: PageProps) {
 
           <div className="hidden sm:flex flex-col gap-1.5 shrink-0">
             {TRUST_PILLS.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+              <div
+                key={label}
+                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
+              >
                 <Icon className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                 {label}
               </div>
@@ -194,7 +282,10 @@ export default async function VideoConversionPage({ params }: PageProps) {
 
       {/* Converter */}
       <div className="px-6 py-6">
-        <BaseVideoConverter sourceFormat={sourceFormat} targetFormat={targetFormat} />
+        <BaseVideoConverter
+          sourceFormat={sourceFormat}
+          targetFormat={targetFormat}
+        />
       </div>
 
       {/* Steps */}

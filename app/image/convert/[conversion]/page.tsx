@@ -96,6 +96,9 @@ export default async function ConversionPage({ params }: PageProps) {
   if (!sourceFormat || !targetFormat) notFound();
   if (!isConversionAllowed(sourceExt, targetExt)) notFound();
 
+  const isCurated =
+    HIGH_TRAFFIC_PAIRS.has(conversion) || MEDIUM_TRAFFIC_PAIRS.has(conversion);
+
   const route = getConversionRoute(sourceExt, targetExt);
 
   const howToSteps = [
@@ -113,19 +116,96 @@ export default async function ConversionPage({ params }: PageProps) {
     },
   ];
 
+  const breadcrumbItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Image Studio', path: '/image' },
+    { name: 'Format Converter', path: '/image/convert' },
+    {
+      name: `${sourceFormat.label} to ${targetFormat.label}`,
+      path: `/image/convert/${conversion}`,
+    },
+  ];
+
+  // The long tail of format pairs (thousands of combinations) only ever gets
+  // this minimal view: breadcrumb + hero + the working tool. No templated
+  // marketing copy, step list, feature grid, or FAQ - those are reserved for
+  // the ~185 hand-curated pairs below. This keeps every combination usable
+  // and linkable without presenting mass near-duplicate content pages to
+  // anyone browsing the site directly (noindex alone only affects search
+  // indexing, not manual browsing).
+  if (!isCurated) {
+    return (
+      <div className="space-y-0">
+        <JsonLd data={[breadcrumbJsonLd(breadcrumbItems)]} />
+        <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
+          <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
+            <Link
+              href="/"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              Home
+            </Link>
+            <ArrowRight className="w-3 h-3" />
+            <Link
+              href="/image"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              Image Studio
+            </Link>
+            <ArrowRight className="w-3 h-3" />
+            <Link
+              href="/image/convert"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              Format Converter
+            </Link>
+            <ArrowRight className="w-3 h-3" />
+            <span className="text-slate-600 dark:text-slate-300 font-medium">
+              {sourceFormat.label} to {targetFormat.label}
+            </span>
+          </nav>
+
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-bold">
+              {sourceFormat.label}
+            </span>
+            <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+              {targetFormat.label}
+            </span>
+          </div>
+          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
+            {sourceFormat.label} to {targetFormat.label} Converter
+          </h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Converts entirely in your browser - files are never uploaded.
+          </p>
+        </div>
+
+        <div className="px-6 py-6">
+          <BaseImageConverter
+            sourceFormat={sourceFormat}
+            targetFormat={targetFormat}
+          />
+        </div>
+
+        <div className="px-6 pb-8">
+          <Link
+            href="/image/convert"
+            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            Browse all image conversions →
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-0">
       <JsonLd
         data={[
-          breadcrumbJsonLd([
-            { name: 'Home', path: '/' },
-            { name: 'Image Studio', path: '/image' },
-            { name: 'Format Converter', path: '/image/convert' },
-            {
-              name: `${sourceFormat.label} to ${targetFormat.label}`,
-              path: `/image/convert/${conversion}`,
-            },
-          ]),
+          breadcrumbJsonLd(breadcrumbItems),
           howToJsonLd({
             name: `How to convert ${sourceFormat.label} to ${targetFormat.label}`,
             description: route.description,
