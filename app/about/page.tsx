@@ -228,17 +228,17 @@ export default function AboutPage() {
           </h2>
           <p className="text-sm text-slate-300 leading-relaxed">
             WebAssembly (WASM) is a binary instruction format that runs in your
-            browser at near-native speed. It&apos;s the same technology that lets
-            Figma, Google Earth and AutoCAD run in a browser tab. We use it to
-            run a professional-grade image processing engine directly in your
+            browser at near-native speed. It&apos;s the same technology that
+            lets Figma, Google Earth and AutoCAD run in a browser tab. We use it
+            to run a professional-grade image processing engine directly in your
             browser.
           </p>
           <p className="text-sm text-slate-400 leading-relaxed">
             Because all computation happens locally, there is no server involved
-            in the conversion process. We don&apos;t log your files, we don&apos;t store
-            your files, and we can&apos;t access your files - not because we promise
-            not to, but because the architecture makes it technically
-            impossible.
+            in the conversion process. We don&apos;t log your files, we
+            don&apos;t store your files, and we can&apos;t access your files -
+            not because we promise not to, but because the architecture makes it
+            technically impossible.
           </p>
           <div className="pt-2 border-t border-slate-700">
             <p className="text-xs text-slate-500 font-mono">

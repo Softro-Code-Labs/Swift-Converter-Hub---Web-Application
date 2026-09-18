@@ -34,6 +34,7 @@ export default function robots(): MetadataRoute.Robots {
           '/file/',
           '/data/',
           '/character/',
+          '/blog',
           '/about',
           '/contact',
           '/privacy',

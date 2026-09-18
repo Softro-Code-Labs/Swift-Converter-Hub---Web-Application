@@ -19,6 +19,7 @@ import {
   Info,
   ArrowRight,
   Mail,
+  BookOpen,
 } from 'lucide-react';
 
 export const STUDIOS = [
@@ -223,7 +224,20 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* About & Contact */}
+            {/* Blog, About & Contact */}
+            <Link
+              href="/blog"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
+                ${
+                  pathname === '/blog' || pathname?.startsWith('/blog/')
+                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              Blog
+            </Link>
+
             <Link
               href="/about"
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
@@ -280,7 +294,7 @@ export default function Navbar() {
 
       {/* -- Mobile menu --------------------------------------------------- */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 max-h-[calc(100vh-60px)] overflow-y-auto">
+        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 max-h-[calc(100vh-100px)] overflow-y-auto">
           <div className="px-4 py-4 space-y-4">
             {/* Studios */}
             <div>
@@ -319,8 +333,23 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* About & Contact */}
+            {/* Blog, About & Contact */}
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+              <Link
+                href="/blog"
+                className={`flex items-center gap-3 p-3 rounded-xl border transition-all
+                  ${
+                    pathname === '/blog' || pathname?.startsWith('/blog/')
+                      ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400'
+                      : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                  }`}
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500">
+                  <BookOpen className="w-4 h-4" />
+                </div>
+                <span className="text-xs font-bold">Blog</span>
+              </Link>
+
               <Link
                 href="/about"
                 className={`flex items-center gap-3 p-3 rounded-xl border transition-all

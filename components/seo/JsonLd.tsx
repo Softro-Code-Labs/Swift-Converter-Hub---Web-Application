@@ -125,9 +125,45 @@ export function howToJsonLd(params: {
 }
 
 /**
- * SoftwareApplication schema for a studio/tool page. `path` is
- * site-relative, e.g. '/image/convert/jpg-to-png'.
+ * BlogPosting schema for articles/guides. `path` is site-relative,
+ * e.g. '/blog/best-image-format-for-web'. Dates are ISO 8601 strings
+ * (YYYY-MM-DD) - only pass real publish/update dates, never invented ones.
  */
+export function articleJsonLd(params: {
+  title: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified?: string;
+}): JsonLdValue {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: params.title,
+    description: params.description,
+    url: `${SITE_URL}${params.path}`,
+    datePublished: params.datePublished,
+    dateModified: params.dateModified ?? params.datePublished,
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo-icon.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}${params.path}`,
+    },
+  };
+}
 export function softwareApplicationJsonLd(params: {
   name: string;
   description: string;

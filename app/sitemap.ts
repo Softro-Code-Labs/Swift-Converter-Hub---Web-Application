@@ -15,6 +15,7 @@ import {
   HIGH_TRAFFIC_PAIRS as VIDEO_HIGH_TRAFFIC_PAIRS,
   MEDIUM_TRAFFIC_PAIRS as VIDEO_MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/video/convert/config/formats';
+import { BLOG_POSTS } from '@/config/blog';
 
 const BASE_URL = SITE_URL;
 
@@ -138,6 +139,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    ...BLOG_POSTS.map((post) => ({
+      url: `${BASE_URL}${post.path}`,
+      lastModified: new Date(post.datePublished),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
     {
       url: `${BASE_URL}/about`,
       lastModified: now,
