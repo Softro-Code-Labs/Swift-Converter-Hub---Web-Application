@@ -1,4 +1,4 @@
-isnet-general-use-w8-v1.onnx
+isnet-general-use-w8-v2.onnx
 ============================
 
 Background-removal model used by /image/remove-background. It runs entirely
@@ -13,5 +13,9 @@ ONNX export as distributed by rembg (https://github.com/danielgatis/rembg).
 
 Modification: convolution weights stored as 8-bit integers with per-channel
 scales (DequantizeLinear), reducing the file from 178 MB to 47 MB.
-Computation still runs in 32-bit floating point. Measured mask agreement
+Computation still runs in 32-bit floating point. Max-pooling layers use
+explicit end padding instead of ceil_mode (identical output - verified
+bit-for-bit) because the WebGPU backend doesn't support ceil_mode. The six
+single-channel output convolutions keep 32-bit weights (about 3,500 values),
+working around a WebGPU bug with per-channel dequantization of one channel. Measured mask agreement
 with the original model: 99.8% or better (IoU) on the test set used.

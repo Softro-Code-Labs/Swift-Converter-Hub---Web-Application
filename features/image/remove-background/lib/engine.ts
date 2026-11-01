@@ -16,6 +16,8 @@ export interface MaskResult {
   mask: Uint8Array;
   size: number;
   ms: number;
+  /** Where it ran - can change to 'wasm' if the GPU fails mid-session. */
+  backend: Backend;
 }
 
 type Pending = {
@@ -41,7 +43,12 @@ function getWorker() {
       const ratio = d.total ? d.loaded / d.total : 0;
       progressListeners.forEach((l) => l(ratio));
     } else if (d.type === 'mask') {
-      pending.get(d.id)?.resolve({ mask: d.mask, size: d.size, ms: d.ms });
+      pending.get(d.id)?.resolve({
+        mask: d.mask,
+        size: d.size,
+        ms: d.ms,
+        backend: d.backend,
+      });
       pending.delete(d.id);
     } else if (d.type === 'error' && d.id) {
       pending.get(d.id)?.reject(new Error(d.message));
