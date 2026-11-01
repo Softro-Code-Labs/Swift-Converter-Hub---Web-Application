@@ -32,6 +32,25 @@ export function decodeBase64(b64: string, urlSafe: boolean): string {
   return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
 }
 
+/**
+ * True when text pasted into the encoder is almost certainly already Base64
+ * (or a JWT) - i.e. the user probably meant to decode it.
+ */
+export function looksEncoded(input: string): boolean {
+  const t = input.trim();
+  if (t.length < 16) return false;
+  if (isJwtToken(t)) return true;
+  if (!/^[A-Za-z0-9+/_-]+={0,2}$/.test(t)) return false;
+  // Plain words rarely decode to valid UTF-8 with mixed-case + digits.
+  if (!/[0-9]/.test(t) || !/[A-Z]/.test(t) || !/[a-z]/.test(t)) return false;
+  try {
+    decodeBase64(t, /[-_]/.test(t));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function isJwtToken(input: string): boolean {
   const parts = input.trim().split('.');
   return (

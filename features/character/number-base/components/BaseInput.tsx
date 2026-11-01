@@ -65,21 +65,21 @@ export function BaseInput({
       >
         <div className="flex items-center gap-2">
           <span
-            className={`text-xs font-black tracking-wide
+            className={`text-xs font-bold tracking-wide
             ${isActive ? info.color.label : 'text-slate-500 dark:text-slate-400'}`}
           >
             {info.label}
           </span>
           {info.prefix && (
             <span
-              className={`text-[10px] font-bold font-mono
+              className={`text-xs font-bold font-mono
               ${isActive ? info.color.prefix : 'text-slate-300 dark:text-slate-600'}`}
             >
               {info.prefix}
             </span>
           )}
           <span
-            className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md
+            className={`text-[11px] font-bold px-1.5 py-0.5 rounded-md
             ${
               isActive
                 ? 'bg-slate-100 dark:bg-slate-800 text-slate-500'
@@ -92,7 +92,7 @@ export function BaseInput({
         <button
           onClick={handleCopy}
           disabled={!value}
-          className="opacity-0 group-hover:opacity-100 flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer transition-all disabled:cursor-not-allowed"
+          className="opacity-0 group-hover:opacity-100 flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer transition-all disabled:cursor-not-allowed"
         >
           {copied ? (
             <>

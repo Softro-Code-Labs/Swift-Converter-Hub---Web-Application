@@ -22,7 +22,7 @@ function buildLlmsTxt(): string {
   );
   lines.push('');
   lines.push(
-    `${SITE_NAME} is not a wrapper around a cloud API. Conversions run locally in the visitor's own browser tab using WebAssembly ports of established engines (ImageMagick, FFmpeg) plus native browser/JS libraries for PDF, spreadsheet, and text processing. This is stated here directly because it materially changes the privacy and reliability characteristics visitors should expect compared to typical "upload and convert" web tools.`,
+    `${SITE_NAME} is not a wrapper around a cloud API. Conversions run locally in the visitor's own browser tab using WebAssembly ports of established engines (ImageMagick, FFmpeg), an on-device AI model for background removal, plus native browser/JS libraries for PDF, spreadsheet, and text processing. This is stated here directly because it materially changes the privacy and reliability characteristics visitors should expect compared to typical "upload and convert" web tools.`,
   );
   lines.push('');
 
@@ -38,6 +38,9 @@ function buildLlmsTxt(): string {
   );
   lines.push(
     `- [Adjust & filter images](${SITE_URL}/image/adjust): Brightness, contrast, saturation, and one-tap photo filters.`,
+  );
+  lines.push(
+    `- [Background remover](${SITE_URL}/image/remove-background): Remove photo backgrounds with an AI model (IS-Net) that runs on the visitor's device via ONNX Runtime Web and WebGPU - transparent PNG, colour, blur or custom backgrounds, no upload.`,
   );
   lines.push(
     `- [EXIF metadata viewer](${SITE_URL}/image/metadata): Inspect and strip camera/GPS metadata embedded in photos.`,
@@ -85,6 +88,9 @@ function buildLlmsTxt(): string {
 
   lines.push('## Document Suite (PDF & Office)');
   lines.push(
+    `- [Image to PDF](${SITE_URL}/file/image-to-pdf): Combine JPG, PNG, HEIC, WebP and other images into one PDF with page order, rotation, page size and margins.`,
+  );
+  lines.push(
     `- [Word/Excel to PDF](${SITE_URL}/file/office-to-pdf): Convert .docx and .xlsx files to PDF.`,
   );
   lines.push(
@@ -131,7 +137,7 @@ function buildLlmsTxt(): string {
   );
   lines.push('');
 
-  lines.push('## Character Studio (text tools)');
+  lines.push('## Text Studio (text tools)');
   lines.push(
     `- [Word & character counter](${SITE_URL}/character/word-counter): Count words, characters, and estimate reading time.`,
   );
@@ -150,6 +156,10 @@ function buildLlmsTxt(): string {
   lines.push(
     `- [Hash generator](${SITE_URL}/character/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes (with optional HMAC).`,
   );
+  lines.push(
+    `- [Password generator](${SITE_URL}/character/password-generator): Strong random passwords, EFF-wordlist passphrases and PINs with advanced rules, a strength meter and bulk lists, generated with the browser's secure random number generator.`,
+  );
+
   lines.push(
     `- [Text sorter & deduplicator](${SITE_URL}/character/text-sorter): Sort, deduplicate, shuffle, or reverse lines of text.`,
   );

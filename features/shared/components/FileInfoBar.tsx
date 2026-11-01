@@ -21,13 +21,11 @@ export const FileInfoBar = ({
       <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">
         {fileName}
       </p>
-      {meta && (
-        <span className="text-[10px] text-slate-400 shrink-0">{meta}</span>
-      )}
+      {meta && <span className="text-xs text-slate-400 shrink-0">{meta}</span>}
     </div>
     <button
       onClick={onChangeFile}
-      className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors shrink-0"
+      className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors shrink-0"
     >
       {changeLabel}
     </button>

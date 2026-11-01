@@ -19,13 +19,13 @@ export function CaseButton({ option, active, onClick }: CaseButtonProps) {
         }`}
     >
       <span
-        className={`text-[11px] font-black tracking-wide leading-none
+        className={`text-[13px] font-bold tracking-wide leading-none
           ${active ? 'text-blue-700 dark:text-blue-300' : 'text-slate-700 dark:text-slate-300'}`}
       >
         {option.label}
       </span>
       <span
-        className={`text-[10px] font-mono leading-none truncate
+        className={`text-xs font-mono leading-none truncate
           ${active ? 'text-blue-500 dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'}`}
       >
         {option.example}

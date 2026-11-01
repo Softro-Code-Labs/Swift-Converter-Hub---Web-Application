@@ -14,38 +14,37 @@ export default function CookieConsentBanner() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6"
+      className="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-6"
     >
-      <div className="max-w-3xl mx-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl shadow-slate-900/10 dark:shadow-black/40 p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-          We use an optional analytics cookie (Microsoft Clarity) to understand
-          usage and improve our tools. Your files never leave your browser
-          either way - that part doesn&apos;t depend on this choice. Ad-related
-          consent for the EU, UK, Switzerland, and US states is handled
-          separately via Google&apos;s own consent prompt where required. See
-          our{' '}
+      <div className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-900/10 sm:flex-row sm:items-center dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40">
+        <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+          <span className="font-semibold text-slate-900 dark:text-white">
+            Allow analytics?
+          </span>{' '}
+          An optional Microsoft Clarity cookie helps us see how the tools are
+          used. Your files stay on your device either way. Ad consent is handled
+          separately by Google where required.{' '}
           <Link
             href="/privacy"
-            className="underline hover:text-blue-600 dark:hover:text-blue-400"
+            className="font-medium text-slate-900 underline underline-offset-4 dark:text-white"
           >
-            Privacy Policy
-          </Link>{' '}
-          for details.
+            Privacy policy
+          </Link>
         </p>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex shrink-0 items-center gap-2">
           <button
             type="button"
             onClick={decline}
-            className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+            className="h-10 flex-1 rounded-lg border border-slate-300 px-4 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 sm:flex-none dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             Decline
           </button>
           <button
             type="button"
             onClick={accept}
-            className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 cursor-pointer transition-colors"
+            className="h-10 flex-1 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:flex-none dark:bg-blue-500 dark:hover:bg-blue-400"
           >
-            Accept
+            Allow
           </button>
         </div>
       </div>

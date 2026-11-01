@@ -66,7 +66,7 @@ export const CustomQualityControls = ({
   return (
     <div className="space-y-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-3">
       <div className="space-y-1.5">
-        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+        <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
           Resolution
         </p>
         <div className="grid grid-cols-5 gap-1.5">
@@ -76,10 +76,10 @@ export const CustomQualityControls = ({
               type="button"
               disabled={disabled}
               onClick={() => onMaxHeightChange(opt.maxHeight)}
-              className={`px-2 py-1.5 rounded-lg border text-[11px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
+              className={`px-2 py-1.5 rounded-lg border text-[13px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
                 ${
                   maxHeight === opt.maxHeight
-                    ? 'border-purple-400 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400'
+                    ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'
                     : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
             >
@@ -90,7 +90,7 @@ export const CustomQualityControls = ({
       </div>
 
       <div className="space-y-1.5">
-        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+        <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
           Frame rate
         </p>
         <div className="grid grid-cols-4 gap-1.5">
@@ -100,10 +100,10 @@ export const CustomQualityControls = ({
               type="button"
               disabled={disabled}
               onClick={() => onFpsChange(opt.fps)}
-              className={`px-2 py-1.5 rounded-lg border text-[11px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
+              className={`px-2 py-1.5 rounded-lg border text-[13px] font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
                 ${
                   fps === opt.fps
-                    ? 'border-purple-400 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400'
+                    ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'
                     : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
             >
@@ -112,7 +112,7 @@ export const CustomQualityControls = ({
           ))}
         </div>
         {fps && (
-          <p className="text-[10px] text-slate-400 dark:text-slate-500">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
             Lower frame rates shrink file size further but can look choppy on
             fast motion.
           </p>
@@ -121,7 +121,7 @@ export const CustomQualityControls = ({
 
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
             Encode by
           </p>
           <div className="inline-flex rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-0.5">
@@ -131,10 +131,10 @@ export const CustomQualityControls = ({
                 type="button"
                 disabled={disabled}
                 onClick={() => onModeChange(m)}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-bold capitalize cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
+                className={`px-2.5 py-1 rounded-md text-[13px] font-bold capitalize cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
                   ${
                     mode === m
-                      ? 'bg-purple-600 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                   }`}
               >
@@ -147,10 +147,10 @@ export const CustomQualityControls = ({
         {mode === 'quality' ? (
           <>
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
                 Quality-based - size varies with content
               </span>
-              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
                 CRF {crf}
               </span>
             </div>
@@ -165,9 +165,9 @@ export const CustomQualityControls = ({
                   CUSTOM_CRF_MAX - Number(e.target.value) + CUSTOM_CRF_MIN,
                 )
               }
-              className="w-full accent-purple-600 disabled:opacity-40 cursor-pointer"
+              className="w-full accent-blue-600 disabled:opacity-40 cursor-pointer"
             />
-            <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
+            <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
               <span>Smaller file</span>
               <span>Higher quality</span>
             </div>
@@ -175,10 +175,10 @@ export const CustomQualityControls = ({
         ) : (
           <>
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
                 Fixed target - predictable size, quality varies with content
               </span>
-              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
                 {formatBitrate(bitrateKbps)}
               </span>
             </div>
@@ -192,9 +192,9 @@ export const CustomQualityControls = ({
               onChange={(e) =>
                 onBitrateChange(sliderPosToBitrate(Number(e.target.value)))
               }
-              className="w-full accent-purple-600 disabled:opacity-40 cursor-pointer"
+              className="w-full accent-blue-600 disabled:opacity-40 cursor-pointer"
             />
-            <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
+            <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
               <span>{formatBitrate(CUSTOM_BITRATE_MIN_KBPS)}</span>
               <span>{formatBitrate(CUSTOM_BITRATE_MAX_KBPS)}</span>
             </div>

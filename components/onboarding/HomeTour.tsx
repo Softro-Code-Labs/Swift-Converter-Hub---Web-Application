@@ -23,23 +23,23 @@ interface TourStep {
 const STEPS: TourStep[] = [
   {
     target: '[data-tour="drop-zone"]',
-    title: 'Start here',
+    title: 'Start with a file',
     description:
-      "Drop any file, or click to browse. We'll show you exactly which tools work with it.",
+      "Drop any file here, or click to choose one. We'll list the tools that can open it - the file stays on your device.",
     placement: 'bottom',
+  },
+  {
+    target: '[data-tour="search"]',
+    title: 'Or search for a tool',
+    description:
+      'Type a format or an action, like "heic" or "merge pdf". Press / or Ctrl K from any page.',
+    placement: 'bottom-end',
   },
   {
     target: '[data-tour="studios-nav"]',
-    title: 'Browse by studio',
-    description:
-      'Prefer to explore? Studios groups every tool by file type - image, audio, video, and more.',
+    title: 'Browse everything',
+    description: 'All tools, grouped by file type, are one click away here.',
     placement: 'bottom',
-  },
-  {
-    target: '[data-tour="theme-toggle"]',
-    title: 'Light or dark',
-    description: 'Switch the whole site between light and dark mode anytime.',
-    placement: 'bottom-end',
   },
 ];
 

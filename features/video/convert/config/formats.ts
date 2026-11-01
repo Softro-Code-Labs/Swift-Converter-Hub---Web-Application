@@ -102,11 +102,11 @@ const DEFAULT_FAQS = (source: string, target: string) => [
   },
   {
     q: `Will converting ${source} to ${target} take a long time?`,
-    a: `Video encoding is more CPU-intensive than audio or image conversion, so larger or longer files take longer - this tool uses a fast encoding preset to keep it as quick as possible, but a multi-minute video may take a couple of minutes.`,
+    a: `Usually not. When the video and audio inside your file already suit ${target}, they are copied straight into the new file - that takes seconds and loses no quality. When re-encoding is needed, the tool uses your device's hardware video encoder (GPU) where the browser allows it, which is several times faster than software encoding. Older browsers fall back to FFmpeg on the CPU, where a multi-minute video can take a few minutes.`,
   },
   {
     q: `Will the quality be reduced?`,
-    a: `Converting between compressed video formats always involves some re-encoding, which has a quality trade-off inherent to any lossy video codec - not specific to this tool. The original resolution is preserved, and default quality settings are tuned to avoid a visible difference for most content.`,
+    a: `Not when the streams can be copied as-is (for example H.264 video moving between MP4, MOV and MKV) - the result is bit-for-bit the same video. When re-encoding is needed there is the small loss any lossy codec has; the original resolution is kept, and the bitrate is matched to your source to avoid a visible difference.`,
   },
   {
     q: `Do you store or see my video files?`,

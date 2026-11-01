@@ -20,7 +20,7 @@ export function KeywordPill({
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className="text-[10px] font-bold text-slate-400 tabular-nums w-4 text-right">
+        <span className="text-xs font-bold text-slate-400 tabular-nums w-4 text-right">
           {count}
         </span>
       </div>

@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { getCharName, getCategory, getUtf8Bytes, INVISIBLE_CHARS } from './unicodeData';
+import {
+  getCharName,
+  getCategory,
+  getUtf8Bytes,
+  INVISIBLE_CHARS,
+} from './unicodeData';
 
 describe('getCharName', () => {
   it('names a known control character', () => {

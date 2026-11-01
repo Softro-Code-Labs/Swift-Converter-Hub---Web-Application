@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Hash, Zap, Shield, KeyRound } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import HashGeneratorTool from '@/features/character/hash-generator/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Hash Generator',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/hash-generator',
+  title: 'Hash Generator - MD5, SHA-1, SHA-256 & SHA-512',
   description:
-    'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text or files using the Web Crypto API - with optional HMAC signing. Instant, private, nothing leaves your browser.',
+    "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes of text or files, with optional HMAC. Uses your browser's Web Crypto - nothing is uploaded.",
   keywords: [
     'hash generator online',
     'sha256 hash generator',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'file hash calculator browser',
     'web crypto api hash tool',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/hash-generator`,
-  },
-  openGraph: {
-    title:
-      'Hash Generator - MD5, SHA-1, SHA-256, SHA-512 & HMAC | Character Studio',
-    description:
-      'Hash text or files with MD5, SHA-1, SHA-256, SHA-512 and HMAC - computed locally, nothing sent to any server.',
-    url: `${SITE_URL}/character/hash-generator`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -119,7 +109,7 @@ export default function HashGeneratorPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Hash Generator', path: '/character/hash-generator' },
           ]),
           softwareApplicationJsonLd({
@@ -142,7 +132,7 @@ export default function HashGeneratorPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Hash Generator', path: '/character/hash-generator' },
         ]}
         badges={[{ label: 'HASH', color: 'purple' }]}
@@ -156,7 +146,7 @@ export default function HashGeneratorPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <HashGeneratorTool />
       </div>
 
@@ -173,8 +163,8 @@ export default function HashGeneratorPage() {
         title="How these hashes are computed"
         accentColor="bg-emerald-500"
         paragraphs={[
-          "SHA-1, SHA-256, and SHA-512 are computed with SubtleCrypto.digest(), the native cryptographic primitive built into every modern browser - the same implementation used by web apps that verify file integrity or generate content checksums. MD5 is not available in SubtleCrypto (browsers dropped it), so this tool includes a small standalone MD5 implementation purely for compatibility with older checksums you might need to verify.",
-          "When HMAC is enabled, your key is imported as a cryptographic key via SubtleCrypto.importKey() and used to sign the input with SubtleCrypto.sign() - a completely different operation from a plain digest, since the output depends on both the input and the secret key.",
+          'SHA-1, SHA-256, and SHA-512 are computed with SubtleCrypto.digest(), the native cryptographic primitive built into every modern browser - the same implementation used by web apps that verify file integrity or generate content checksums. MD5 is not available in SubtleCrypto (browsers dropped it), so this tool includes a small standalone MD5 implementation purely for compatibility with older checksums you might need to verify.',
+          'When HMAC is enabled, your key is imported as a cryptographic key via SubtleCrypto.importKey() and used to sign the input with SubtleCrypto.sign() - a completely different operation from a plain digest, since the output depends on both the input and the secret key.',
         ]}
       />
 

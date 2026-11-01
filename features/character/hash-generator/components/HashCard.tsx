@@ -32,14 +32,14 @@ export function HashCard({ result }: HashCardProps) {
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-black text-slate-800 dark:text-slate-200 font-mono">
+          <span className="text-sm font-bold text-slate-800 dark:text-slate-200 font-mono">
             {result.algorithm}
           </span>
-          <span className="text-[10px] text-slate-400 font-semibold">
+          <span className="text-xs text-slate-400 font-semibold">
             {meta.bits}-bit · {meta.desc}
           </span>
           {meta.warning && (
-            <span className="hidden sm:flex items-center gap-1 text-[10px] font-bold text-amber-600 dark:text-amber-400">
+            <span className="hidden @xl:flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
               <AlertTriangle className="w-3 h-3" />
               {meta.warning}
             </span>
@@ -48,7 +48,7 @@ export function HashCard({ result }: HashCardProps) {
         <button
           onClick={handleCopy}
           disabled={!result.hex || result.status !== 'done'}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-[10px] font-bold text-slate-500 hover:border-red-300 hover:text-red-600 dark:hover:border-red-700 dark:hover:text-red-400 cursor-pointer transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-500 hover:border-red-300 hover:text-red-600 dark:hover:border-red-700 dark:hover:text-red-400 cursor-pointer transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           {copied ? (
             <>
@@ -84,9 +84,9 @@ export function HashCard({ result }: HashCardProps) {
 
       {/* Mobile warning */}
       {meta.warning && (
-        <div className="sm:hidden flex items-center gap-1.5 px-4 py-2 border-t border-amber-100 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-950/10">
+        <div className="@xl:hidden flex items-center gap-1.5 px-4 py-2 border-t border-amber-100 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-950/10">
           <AlertTriangle className="w-3 h-3 text-amber-500 shrink-0" />
-          <span className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold">
+          <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold">
             {meta.warning}
           </span>
         </div>

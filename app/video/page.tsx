@@ -1,16 +1,18 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import VideoStudioClient from './VideoStudioClient';
 import {
   JsonLd,
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
+  studioToolsJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Video Studio - Free Online Video Tools',
+export const metadata: Metadata = pageMetadata({
+  path: '/video',
+  title: 'Free Online Video Tools - Convert, Compress & Trim',
   description:
-    'Convert, trim, compress, and extract audio from video files, or turn a clip into a GIF - entirely in your browser. MP4, WEBM, MOV, AVI, MKV, WMV, 3GP and more - no uploads, no account required.',
+    'Convert, compress, trim and turn videos into GIFs free in your browser. MP4, WebM, MOV, MKV, AVI and more. No upload, no watermark, no sign-up.',
   keywords: [
     'video converter online free',
     'free browser video converter',
@@ -26,18 +28,8 @@ export const metadata: Metadata = {
     'batch video converter online',
     'free video editor online',
     'no signup video tools',
-    'video studio browser based',
-    'edit video without software',
   ],
-  alternates: { canonical: `${SITE_URL}/video` },
-  openGraph: {
-    title: 'Video Studio - Free Online Video Tools',
-    description:
-      'Convert, trim, compress, and extract audio from video - or make a GIF - entirely in your browser.',
-    url: `${SITE_URL}/video`,
-    type: 'website',
-  },
-};
+});
 
 export default function VideoStudioPage() {
   return (
@@ -48,6 +40,7 @@ export default function VideoStudioPage() {
             { name: 'Home', path: '/' },
             { name: 'Video Studio', path: '/video' },
           ]),
+          studioToolsJsonLd('video'),
           softwareApplicationJsonLd({
             name: 'Video Studio',
             description:

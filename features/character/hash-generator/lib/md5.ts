@@ -68,7 +68,7 @@ function md5ii(
 }
 
 function binlMD5(x: number[], len: number): number[] {
-  x[len >> 5] |= 0x80 << (len % 32);
+  x[len >> 5] |= 0x80 << len % 32;
   x[(((len + 64) >>> 9) << 4) + 14] = len;
 
   let a = 1732584193;
@@ -162,7 +162,7 @@ function str2binl(str: string): number[] {
   const bin: number[] = [];
   const mask = (1 << 8) - 1;
   for (let i = 0; i < str.length * 8; i += 8) {
-    bin[i >> 5] |= (str.charCodeAt(i / 8) & mask) << (i % 32);
+    bin[i >> 5] |= (str.charCodeAt(i / 8) & mask) << i % 32;
   }
   return bin;
 }

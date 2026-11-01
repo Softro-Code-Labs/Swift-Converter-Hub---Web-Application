@@ -1,7 +1,13 @@
 'use client';
 
+import { BatchSummary } from '@/features/shared/components/BatchSummary';
+
 import { useState } from 'react';
-import { BaseConverterProps, BITRATE_PRESETS, BitratePresetId } from '@/features/audio/convert/types/converter';
+import {
+  BaseConverterProps,
+  BITRATE_PRESETS,
+  BitratePresetId,
+} from '@/features/audio/convert/types/converter';
 import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useFileQueue } from '../hooks/useFileQueue';
 import { useAudioConverter } from '../hooks/useAudioConverter';
@@ -21,7 +27,8 @@ export default function BaseAudioConverter({
   sourceFormat,
   targetFormat,
 }: BaseConverterProps) {
-  const [bitratePreset, setBitratePreset] = useState<BitratePresetId>('standard');
+  const [bitratePreset, setBitratePreset] =
+    useState<BitratePresetId>('standard');
   const bitrateKbps =
     BITRATE_PRESETS.find((p) => p.id === bitratePreset)?.kbps ?? 192;
 
@@ -73,38 +80,12 @@ export default function BaseAudioConverter({
 
       {/* -- Progress summary - shown when files exist -------------------- */}
       {files.length > 0 && (
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            {
-              label: 'Queued',
-              value: idleCount,
-              color: 'text-slate-600 dark:text-slate-300',
-              bg: 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700',
-            },
-            {
-              label: 'Converted',
-              value: successCount,
-              color: 'text-emerald-600 dark:text-emerald-400',
-              bg: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800/50',
-            },
-            {
-              label: 'Failed',
-              value: errorCount,
-              color: 'text-red-500 dark:text-red-400',
-              bg: 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50',
-            },
-          ].map(({ label, value, color, bg }) => (
-            <div
-              key={label}
-              className={`${bg} border rounded-xl px-3 py-2 text-center`}
-            >
-              <p className={`text-lg font-black ${color}`}>{value}</p>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
-                {label}
-              </p>
-            </div>
-          ))}
-        </div>
+        <BatchSummary
+          waiting={idleCount}
+          done={successCount}
+          failed={errorCount}
+          doneLabel="converted"
+        />
       )}
 
       {/* -- Quality control - only meaningful for lossy targets ----------- */}

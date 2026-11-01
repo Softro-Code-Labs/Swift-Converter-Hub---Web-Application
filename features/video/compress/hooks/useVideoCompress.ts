@@ -1,3 +1,4 @@
+import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState } from 'react';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
@@ -8,6 +9,7 @@ import { VideoFileItem } from '@/features/video/shared/types/videoFile';
 import {
   getFormatByExtension,
   getCompressArgs,
+  getCompressBitrates,
   QualityPreset,
   CustomEncodeOptions,
 } from '@/features/video/shared/config/formats';
@@ -17,6 +19,7 @@ import {
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
+import { tryFastVideo } from '@/features/video/shared/lib/fastVideo';
 import { formatBytes, toStandaloneBuffer } from '@/features/shared/lib/format';
 
 export const useVideoCompress = (
@@ -34,7 +37,7 @@ export const useVideoCompress = (
   const compressFile = async (
     item: VideoFileItem,
     engine: FFmpeg,
-  ): Promise<{ url: string; size: string }> => {
+  ): Promise<{ url: string; size: string; accelerated?: boolean }> => {
     const sourceExt = item.file.name.split('.').pop()?.toLowerCase() ?? 'mp4';
     const format = getFormatByExtension(sourceExt);
     if (!format) throw new Error(`Unrecognized format: .${sourceExt}`);
@@ -46,22 +49,51 @@ export const useVideoCompress = (
     // size/quality trade-off harder to reason about for users.
     const outputPath = `vcompress_output_${item.id}.mp4`;
 
+    // Figure out how compressed the source already is, so the encoder can
+    // be capped relative to it instead of blindly chasing a fixed quality
+    // level - see getCompressArgs for why this is necessary.
+    let sourceBitrateKbps: number | undefined;
+    try {
+      const { duration } = await getVideoMetadata(item.file);
+      if (duration > 0) {
+        sourceBitrateKbps = (item.file.size * 8) / duration / 1000;
+      }
+    } catch {
+      // Falls back to CRF-only encoding below - rare (e.g. a codec the
+      // browser's native decoder can't read metadata for).
+    }
+
+    // Hardware path (WebCodecs): needs an explicit bitrate, since hardware
+    // encoders don't offer x264's CRF. Same size budget as the FFmpeg path.
+    const bitrates = getCompressBitrates(
+      preset,
+      sourceBitrateKbps,
+      customOptions,
+    );
+    if (bitrates) {
+      const fast = await tryFastVideo(item.file, {
+        target: 'mp4',
+        maxHeight: preset.maxHeight,
+        videoBitrate: bitrates.videoKbps * 1000,
+        audioBitrate: bitrates.audioKbps * 1000,
+        frameRate: customOptions?.fps ?? null,
+        forceTranscode: true,
+        onProgress: (ratio) => updateFile(item.id, { progress: ratio }),
+      });
+      // Hardware encoders are less efficient per bit than x264; if the
+      // result isn't actually smaller, let FFmpeg do it properly.
+      if (fast && fast.size < item.file.size) {
+        return {
+          url: URL.createObjectURL(fast),
+          size: formatBytes(fast.size),
+          accelerated: true,
+        };
+      }
+      updateFile(item.id, { progress: 0 });
+    }
+
     try {
       await engine.writeFile(inputPath, await fetchFile(item.file));
-
-      // Figure out how compressed the source already is, so the encoder
-      // can be capped relative to it instead of blindly chasing a fixed
-      // quality level - see getCompressArgs for why this is necessary.
-      let sourceBitrateKbps: number | undefined;
-      try {
-        const { duration } = await getVideoMetadata(item.file);
-        if (duration > 0) {
-          sourceBitrateKbps = (item.file.size * 8) / duration / 1000;
-        }
-      } catch {
-        // Falls back to CRF-only encoding below - rare (e.g. a codec the
-        // browser's native decoder can't read metadata for).
-      }
 
       const args = [
         '-i',
@@ -116,13 +148,18 @@ export const useVideoCompress = (
       acquireEngine,
       releaseEngine,
       async (item, engine) => {
-        updateFile(item.id, { status: 'processing', progress: 0 });
+        updateFile(item.id, {
+          status: 'processing',
+          progress: 0,
+          accelerated: undefined,
+        });
         try {
           const result = await compressFile(item, engine);
           updateFile(item.id, {
             status: 'success',
             convertedUrl: result.url,
             outputSize: result.size,
+            accelerated: result.accelerated,
             progress: 1,
           });
         } catch (err) {
@@ -153,7 +190,7 @@ export const useVideoCompress = (
           0,
           item.file.name.lastIndexOf('.'),
         );
-        zip.file(`${name}_compressed.mp4`, blob);
+        zip.file(uniqueZipName(zip, `${name}_compressed.mp4`), blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       saveAs(zipBlob, 'compressed_video_batch.zip');

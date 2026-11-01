@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Type, Zap, Shield, Clock } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import WordCounterTool from '@/features/character/word-counter/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Word & Character Counter',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/word-counter',
+  title: 'Word Counter - Count Words & Characters Online',
   description:
-    'Count words, characters, sentences, and paragraphs in real time. Get reading time, speaking time, and keyword density - all in your browser, nothing sent to any server.',
+    'Count words, characters, sentences and paragraphs as you type, with reading time and keyword density. Free, instant and private - nothing is uploaded.',
   keywords: [
     'word counter online',
     'character counter free',
@@ -35,17 +36,7 @@ export const metadata: Metadata = {
     'essay word counter online',
     'character limit counter tool',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/word-counter`,
-  },
-  openGraph: {
-    title: 'Word & Character Counter - Free Online Tool | Character Studio',
-    description:
-      'Real-time word, character, sentence, and reading time stats - 100% in your browser.',
-    url: `${SITE_URL}/character/word-counter`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -108,7 +99,7 @@ export default function WordCounterPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             {
               name: 'Word & Character Counter',
               path: '/character/word-counter',
@@ -134,7 +125,7 @@ export default function WordCounterPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Word & Character Counter', path: '/character/word-counter' },
         ]}
         badges={[{ label: 'COUNT', color: 'blue' }]}
@@ -148,7 +139,7 @@ export default function WordCounterPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <WordCounterTool />
       </div>
 

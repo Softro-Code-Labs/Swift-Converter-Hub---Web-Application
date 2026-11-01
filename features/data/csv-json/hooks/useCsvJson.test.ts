@@ -26,7 +26,9 @@ describe('csvToJson', () => {
   it('coerces booleans and nulls', () => {
     const csv = 'active,deleted\ntrue,null';
     const result = csvToJson(csv, baseOpts);
-    expect(JSON.parse(result.output)).toEqual([{ active: true, deleted: null }]);
+    expect(JSON.parse(result.output)).toEqual([
+      { active: true, deleted: null },
+    ]);
   });
 
   it('handles quoted fields containing the delimiter', () => {

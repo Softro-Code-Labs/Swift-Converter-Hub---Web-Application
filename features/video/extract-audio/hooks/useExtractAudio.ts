@@ -1,3 +1,4 @@
+import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState } from 'react';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
@@ -126,7 +127,7 @@ export const useExtractAudio = (
           0,
           item.file.name.lastIndexOf('.'),
         );
-        zip.file(`${name}_audio.${ext}`, blob);
+        zip.file(uniqueZipName(zip, `${name}_audio.${ext}`), blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       saveAs(zipBlob, `extracted_audio_${ext}_batch.zip`);

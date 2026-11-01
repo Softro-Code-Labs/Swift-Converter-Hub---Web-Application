@@ -27,7 +27,7 @@ function VolumeControl({
 }) {
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-3">
-      <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+      <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
         Volume adjustment
       </p>
 
@@ -63,7 +63,7 @@ function VolumeControl({
       </div>
 
       {settings.mode === 'normalize' ? (
-        <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">
+        <p className="text-[13px] text-slate-400 dark:text-slate-500 leading-relaxed">
           Automatically brings audio to a consistent, broadcast-standard
           loudness level (EBU R128) - good for uneven recordings or preparing
           audio for podcasts/video.
@@ -88,7 +88,7 @@ function VolumeControl({
             }
             className="w-full accent-blue-600 disabled:opacity-40"
           />
-          <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500">
+          <div className="flex justify-between text-xs text-slate-400 dark:text-slate-500">
             <span>Mute</span>
             <span>100% (original)</span>
             <span>300%</span>

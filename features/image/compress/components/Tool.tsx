@@ -105,22 +105,22 @@ export default function CompressTool() {
       {successCount > 0 && (
         <div className="grid grid-cols-3 gap-2">
           <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-center">
-            <p className="text-lg font-black text-slate-700 dark:text-slate-300">
+            <p className="text-lg font-bold text-slate-700 dark:text-slate-300">
               {formatBytes(totalOriginal)}
             </p>
-            <p className="text-[10px] text-slate-400 font-medium">Original</p>
+            <p className="text-xs text-slate-400 font-medium">Original</p>
           </div>
           <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-xl px-3 py-2 text-center">
-            <p className="text-lg font-black text-emerald-600 dark:text-emerald-400">
+            <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
               {formatBytes(totalCompressed)}
             </p>
-            <p className="text-[10px] text-slate-400 font-medium">Compressed</p>
+            <p className="text-xs text-slate-400 font-medium">Compressed</p>
           </div>
           <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/50 rounded-xl px-3 py-2 text-center">
-            <p className="text-lg font-black text-blue-600 dark:text-blue-400">
+            <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
               -{totalSavings}%
             </p>
-            <p className="text-[10px] text-slate-400 font-medium">Saved</p>
+            <p className="text-xs text-slate-400 font-medium">Saved</p>
           </div>
         </div>
       )}
@@ -137,7 +137,7 @@ export default function CompressTool() {
       )}
 
       {files.length > 0 && (
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-5">
+        <div className="grid grid-cols-1 @3xl:grid-cols-[1fr_300px] gap-5">
           {/* File list */}
           <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
             {files.map((item) => (
@@ -154,7 +154,7 @@ export default function CompressTool() {
           {/* Quality controls */}
           <div className="space-y-4">
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4">
-              <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">
+              <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 mb-3">
                 Compression settings
               </p>
               <QualitySlider

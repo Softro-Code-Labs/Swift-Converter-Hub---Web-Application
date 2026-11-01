@@ -25,7 +25,7 @@ export function PageGrid({
     <div className="space-y-3">
       {/* Selection controls */}
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
           Select pages
           <span className="ml-2 normal-case font-normal text-slate-300 dark:text-slate-600 tabular-nums">
             {selectedPages.size} of {thumbs.length} selected
@@ -35,7 +35,7 @@ export function PageGrid({
         <div className="flex items-center gap-2">
           <button
             onClick={allSelected ? onSelectNone : onSelectAll}
-            className="text-[10px] font-bold text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors"
+            className="text-xs font-bold text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors"
           >
             {allSelected ? 'Deselect all' : 'Select all'}
           </button>
@@ -54,6 +54,8 @@ export function PageGrid({
             <button
               key={thumb.pageIndex}
               onClick={() => onToggle(thumb.pageIndex)}
+              aria-pressed={isSelected}
+              aria-label={`Page ${pageNum}`}
               className={`relative flex flex-col items-center rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-150
                 ${
                   isSelected
@@ -82,7 +84,7 @@ export function PageGrid({
 
               {/* Page number */}
               <div
-                className={`w-full py-1 text-center text-[9px] font-bold transition-colors
+                className={`w-full py-1 text-center text-[11px] font-bold transition-colors
                 ${
                   isSelected
                     ? 'bg-blue-500 text-white'

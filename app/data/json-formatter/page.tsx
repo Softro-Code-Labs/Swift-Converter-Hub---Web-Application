@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Braces, Zap, Shield, BarChart3 } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import JsonFormatterTool from '@/features/data/json-formatter/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'JSON Formatter & Validator',
+export const metadata: Metadata = pageMetadata({
+  path: '/data/json-formatter',
+  title: 'JSON Formatter & Validator - Beautify JSON Online',
   description:
-    'Beautify, minify, and validate JSON instantly in your browser. Sort keys, escape ASCII, inspect structure stats - no server, no upload, 100% private.',
+    'Format, beautify, minify and validate JSON with exact error locations, key sorting and structure stats. Free and private - JSON never leaves your browser.',
   keywords: [
     'json formatter online',
     'json beautifier free',
@@ -34,24 +35,13 @@ export const metadata: Metadata = {
     'validate json online free',
     'json key sorter tool',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/data/json-formatter`,
-  },
-  openGraph: {
-    title:
-      'JSON Formatter & Validator - Beautify, Minify, Validate | Data Studio',
-    description:
-      'Beautify, minify, or validate JSON instantly. Sort keys, ASCII escape, structure stats - no server, no upload.',
-    url: `${SITE_URL}/data/json-formatter`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
     step: '01',
     title: 'Paste your JSON',
-    desc: 'Any valid JSON - or JSON you\'re not sure is valid yet.',
+    desc: "Any valid JSON - or JSON you're not sure is valid yet.",
   },
   {
     step: '02',
@@ -80,7 +70,7 @@ const FAQS = [
   },
   {
     q: 'What do the structure stats tell me?',
-    a: "They break your document down by key count, value types (strings, numbers, booleans, nulls), number of arrays and objects, and maximum nesting depth - useful for quickly sanity-checking an unfamiliar API response or spotting an unexpectedly deep structure.",
+    a: 'They break your document down by key count, value types (strings, numbers, booleans, nulls), number of arrays and objects, and maximum nesting depth - useful for quickly sanity-checking an unfamiliar API response or spotting an unexpectedly deep structure.',
   },
   {
     q: 'Is my JSON sent anywhere?',
@@ -96,7 +86,10 @@ export default function JsonFormatterPage() {
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
             { name: 'Data Studio', path: '/data' },
-            { name: 'JSON Formatter & Validator', path: '/data/json-formatter' },
+            {
+              name: 'JSON Formatter & Validator',
+              path: '/data/json-formatter',
+            },
           ]),
           softwareApplicationJsonLd({
             name: 'JSON Formatter & Validator',
@@ -132,7 +125,7 @@ export default function JsonFormatterPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <JsonFormatterTool />
       </div>
 
@@ -142,7 +135,7 @@ export default function JsonFormatterPage() {
         title="How formatting and stats work"
         accentColor="bg-emerald-500"
         paragraphs={[
-          "Your input is parsed with JSON.parse, so any syntax error surfaces exactly the way it would in your own code. Beautifying re-serializes the parsed result with your chosen indent (spaces or a tab); minifying serializes with no whitespace at all. Structure stats are computed by walking the parsed object tree once, tallying each value by type and tracking the deepest level of nesting reached, then computing before/after byte sizes with TextEncoder to give an accurate size comparison rather than a character count, since multi-byte Unicode characters take up more than one byte.",
+          'Your input is parsed with JSON.parse, so any syntax error surfaces exactly the way it would in your own code. Beautifying re-serializes the parsed result with your chosen indent (spaces or a tab); minifying serializes with no whitespace at all. Structure stats are computed by walking the parsed object tree once, tallying each value by type and tracking the deepest level of nesting reached, then computing before/after byte sizes with TextEncoder to give an accurate size comparison rather than a character count, since multi-byte Unicode characters take up more than one byte.',
         ]}
       />
 

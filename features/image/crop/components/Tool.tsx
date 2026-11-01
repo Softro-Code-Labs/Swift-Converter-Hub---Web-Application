@@ -202,7 +202,7 @@ export default function CropTool() {
             formatPills={formatPills}
           />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-5">
+          <div className="grid grid-cols-1 @3xl:grid-cols-[1fr_300px] gap-5">
             {/* -- Canvas column -------------------------------------------- */}
             <div className="space-y-3">
               <FileInfoBar

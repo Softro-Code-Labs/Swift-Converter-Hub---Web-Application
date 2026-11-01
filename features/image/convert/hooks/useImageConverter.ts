@@ -1,3 +1,4 @@
+import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState } from 'react';
 import {
   ImageMagick,
@@ -482,7 +483,7 @@ export const useImageConverter = (
           0,
           item.file.name.lastIndexOf('.'),
         );
-        zip.file(`${name}_converted.${ext}`, blob);
+        zip.file(uniqueZipName(zip, `${name}_converted.${ext}`), blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       saveAs(zipBlob, `converted_${ext}_batch.zip`);

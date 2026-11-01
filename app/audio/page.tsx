@@ -1,16 +1,18 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import AudioStudioClient from './AudioStudioClient';
 import {
   JsonLd,
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
+  studioToolsJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Audio Studio - Free Browser-Based Audio Tools',
+export const metadata: Metadata = pageMetadata({
+  path: '/audio',
+  title: 'Free Online Audio Tools - Convert, Trim & Merge',
   description:
-    'Convert, trim, merge, compress, and adjust the volume of audio files entirely in your browser. MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF and more - no uploads, no account required.',
+    'Convert, trim, merge, compress and change the volume of audio files free in your browser. MP3, WAV, FLAC, AAC, M4A, OGG and more. No upload, no sign-up.',
   keywords: [
     'audio converter online',
     'free audio converter',
@@ -26,18 +28,8 @@ export const metadata: Metadata = {
     'batch audio converter online',
     'online audio editor free',
     'audio studio no install',
-    'audio tools no signup',
-    'convert and edit audio browser',
   ],
-  alternates: { canonical: `${SITE_URL}/audio` },
-  openGraph: {
-    title: 'Audio Studio - Free Browser-Based Audio Tools',
-    description:
-      'Convert, trim, merge, compress, and adjust audio files entirely in your browser. No uploads, no account.',
-    url: `${SITE_URL}/audio`,
-    type: 'website',
-  },
-};
+});
 
 export default function AudioStudioPage() {
   return (
@@ -48,6 +40,7 @@ export default function AudioStudioPage() {
             { name: 'Home', path: '/' },
             { name: 'Audio Studio', path: '/audio' },
           ]),
+          studioToolsJsonLd('audio'),
           softwareApplicationJsonLd({
             name: 'Audio Studio',
             description:

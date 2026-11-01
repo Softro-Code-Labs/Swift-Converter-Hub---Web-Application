@@ -1,6 +1,4 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { Crop, Shield, Zap, Monitor } from 'lucide-react';
 import CropTool from '@/features/image/crop/components';
 import {
@@ -8,6 +6,7 @@ import {
   InfoCardGrid,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/image/shared/components/page-sections';
 import {
   JsonLd,
@@ -16,11 +15,13 @@ import {
   faqPageJsonLd,
   howToJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Image Crop & Resize',
+export const metadata: Metadata = pageMetadata({
+  path: '/image/crop',
+  title: 'Crop & Resize Images Online - Exact Pixels or Ratio',
   description:
-    'Crop and resize images to any dimension or aspect ratio with a visual drag editor. Works 100% in your browser - no uploads, no account required.',
+    'Crop images to 1:1, 16:9, 4:3 or any size, and resize to exact pixel dimensions. Presets for Instagram, YouTube and more. Free and private in your browser.',
   keywords: [
     'crop image online',
     'image cropper online',
@@ -35,15 +36,7 @@ export const metadata: Metadata = {
     'crop photo for social media free',
     'resize image without losing quality',
   ],
-  alternates: { canonical: `${SITE_URL}/image/crop` },
-  openGraph: {
-    title: 'Image Crop & Resize - Free Online Tool | Image Studio',
-    description:
-      'Crop to any ratio or resize to exact pixel dimensions, processed locally.',
-    url: `${SITE_URL}/image/crop`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
   {
@@ -143,76 +136,21 @@ export default function CropPage() {
         ]}
       />
       {/* Header */}
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <span>›</span>
-          <Link
-            href="/image"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Image Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            Crop & Resize
-          </span>
-        </nav>
-
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-black">
-                CROP
-              </span>
-              <span className="text-slate-300 dark:text-slate-600">+</span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-xs font-black">
-                RESIZE
-              </span>
-            </div>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Crop & Resize Images Online
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Visually crop images with drag handles, lock aspect ratios, and
-              resize to any pixel dimension - all processed locally in your
-              browser.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex sm:hidden gap-2 mt-4 overflow-x-auto pb-1">
-          {FEATURES.map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="flex items-center gap-1.5 shrink-0 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-full text-[10px] font-semibold text-slate-600 dark:text-slate-400"
-            >
-              <Icon className="w-3 h-3 text-blue-500" />
-              {label}
-            </div>
-          ))}
-        </div>
-      </div>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Image Studio', path: '/image' },
+          { name: 'Crop & Resize', path: '/image/crop' },
+        ]}
+        title={'Crop & Resize Images Online'}
+        description={
+          'Visually crop images with drag handles, lock aspect ratios, and resize to any pixel dimension - all processed locally in your browser.'
+        }
+        features={FEATURES}
+      />
 
       {/* Tool */}
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <CropTool />
       </div>
 

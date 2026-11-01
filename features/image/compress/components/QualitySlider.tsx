@@ -76,45 +76,47 @@ export const QualitySlider = ({
   return (
     <div className="space-y-4">
       {/* Preset tabs */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-        {PRESET_TABS.map(({ id, icon: Icon, label, desc, color }) => {
-          const isActive = preset === id;
-          const c = COLOR_MAP[color];
-          return (
-            <button
-              key={id}
-              onClick={() => handlePresetClick(id)}
-              className={`flex flex-col items-start gap-1.5 p-3 rounded-xl border-2 text-left transition-all
+      <div className="@container">
+        <div className="grid grid-cols-1 gap-2 @md:grid-cols-3">
+          {PRESET_TABS.map(({ id, icon: Icon, label, desc, color }) => {
+            const isActive = preset === id;
+            const c = COLOR_MAP[color];
+            return (
+              <button
+                key={id}
+                onClick={() => handlePresetClick(id)}
+                className={`flex flex-col items-start gap-1.5 p-3 rounded-xl border-2 text-left transition-all
                 ${isActive ? `${c.border} ${c.bg}` : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-slate-300'}`}
-            >
-              <div className="flex items-center gap-1.5">
-                <Icon
-                  className={`w-3.5 h-3.5 ${isActive ? c.text : 'text-slate-400'}`}
-                />
-                <span
-                  className={`text-xs font-bold ${isActive ? c.text : 'text-slate-700 dark:text-slate-300'}`}
-                >
-                  {label}
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-snug">
-                {desc}
-              </p>
-            </button>
-          );
-        })}
+              >
+                <div className="flex items-center gap-1.5">
+                  <Icon
+                    className={`w-3.5 h-3.5 ${isActive ? c.text : 'text-slate-400'}`}
+                  />
+                  <span
+                    className={`text-xs font-bold ${isActive ? c.text : 'text-slate-700 dark:text-slate-300'}`}
+                  >
+                    {label}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 dark:text-slate-500 leading-snug">
+                  {desc}
+                </p>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Custom quality slider */}
       <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
         <div className="flex items-center justify-between">
-          <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+          <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
             Quality{' '}
             {preset === 'custom' && (
               <span className="text-blue-500">(custom)</span>
             )}
           </p>
-          <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
             {options.quality}%
           </span>
         </div>
@@ -126,7 +128,7 @@ export const QualitySlider = ({
           onChange={(e) => handleQualityDrag(parseInt(e.target.value))}
           className="w-full h-2 rounded-full appearance-none bg-slate-200 dark:bg-slate-700 accent-blue-600 cursor-pointer"
         />
-        <div className="flex justify-between text-[9px] text-slate-400 dark:text-slate-600">
+        <div className="flex justify-between text-[11px] text-slate-400 dark:text-slate-600">
           <span>Smaller file</span>
           <span>Higher quality</span>
         </div>
@@ -138,7 +140,7 @@ export const QualitySlider = ({
           <p className="text-xs font-bold text-slate-700 dark:text-slate-300">
             Strip metadata
           </p>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
             Remove EXIF, GPS & color profiles
           </p>
         </div>

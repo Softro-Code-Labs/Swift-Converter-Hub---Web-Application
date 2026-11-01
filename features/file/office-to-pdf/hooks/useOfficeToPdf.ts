@@ -21,16 +21,18 @@ async function convertDocx(file: File): Promise<ConvertResult> {
         'i                         => em',
         'u                         => u',
         'strike                    => s',
-        'table                     => table',
-        'tr                        => tr',
-        'td                        => td',
+        // Tables, rows and cells are converted by mammoth by default -
+        // mapping them here is invalid and produced user-facing warnings.
       ],
     },
   );
 
+  // Only surface warnings people can act on; mammoth's internal notes about
+  // unrecognised paragraph styles are expected and harmless.
   const warnings = result.messages
     .filter((m) => m.type === 'warning')
     .map((m) => m.message)
+    .filter((m) => !/Unrecognised (paragraph|run) style|style mapping/i.test(m))
     .slice(0, 5);
 
   // Rough page estimate: ~500 words per page
@@ -49,6 +51,15 @@ async function convertDocx(file: File): Promise<ConvertResult> {
   };
 }
 
+const escapeHtml = (v: string) =>
+  v.replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[
+        c
+      ]!,
+  );
+
 async function convertXlsx(file: File): Promise<ConvertResult> {
   const XLSX = await import('xlsx');
   const arrayBuffer = await file.arrayBuffer();
@@ -56,11 +67,14 @@ async function convertXlsx(file: File): Promise<ConvertResult> {
 
   const sheetsHtml: string[] = wb.SheetNames.map((sheetName) => {
     const ws = wb.Sheets[sheetName];
-    const html = XLSX.utils.sheet_to_html(ws, { editable: false });
-    return `<div class="sheet-section">
-      <h2 class="sheet-name">${sheetName}</h2>
-      ${html}
-    </div>`;
+    const empty = !ws || !ws['!ref'];
+    // sheet_to_html returns a full HTML document; keep only the table.
+    const raw = empty ? '' : XLSX.utils.sheet_to_html(ws, { editable: false });
+    const table = raw.match(/<table[\s\S]*<\/table>/i)?.[0] ?? '';
+    return `<section class="sheet-section">
+      <h2 class="sheet-name">${escapeHtml(sheetName)}</h2>
+      ${table || '<p class="empty">This sheet is empty.</p>'}
+    </section>`;
   });
 
   return {
@@ -73,7 +87,7 @@ async function convertXlsx(file: File): Promise<ConvertResult> {
 }
 
 // Print stylesheet for clean PDF output
-function buildPrintHtml(
+export function buildPrintHtml(
   content: string,
   fileType: OfficeFileType,
   title: string,
@@ -95,7 +109,7 @@ function buildPrintHtml(
     h2 { font-size: 16pt; font-weight: bold; margin: 14pt 0 6pt; }
     h3 { font-size: 14pt; font-weight: bold; margin: 12pt 0 4pt; }
     h4 { font-size: 12pt; font-weight: bold; margin: 10pt 0 4pt; }
-    h1.title { font-size: 24pt; text-align: center; margin-bottom: 24pt; }
+    h1.title { font-size: 24pt; margin-bottom: 18pt; }
     p { margin-bottom: 8pt; orphans: 3; widows: 3; }
     strong, b { font-weight: bold; }
     em, i { font-style: italic; }
@@ -104,7 +118,8 @@ function buildPrintHtml(
     ul, ol { margin: 8pt 0 8pt 24pt; }
     li { margin-bottom: 4pt; }
     table { width: 100%; border-collapse: collapse; margin: 12pt 0; }
-    td, th { border: 1px solid #999; padding: 4pt 8pt; font-size: 10pt; }
+    td, th { border: 1px solid #999; padding: 4pt 8pt; font-size: 10pt; vertical-align: top; }
+    td p, th p { margin: 0; }
     th { background: #eee; font-weight: bold; }
     img { max-width: 100%; height: auto; }
     a { color: #000; text-decoration: underline; }
@@ -116,24 +131,30 @@ function buildPrintHtml(
     body { font-family: Arial, sans-serif; font-size: 10pt; }
     .sheet-section { margin-bottom: 24pt; page-break-after: always; }
     .sheet-section:last-child { page-break-after: avoid; }
+    @page { size: A4 landscape; margin: 1.5cm; }
     .sheet-name { font-size: 14pt; font-weight: bold; margin-bottom: 8pt; border-bottom: 2pt solid #333; padding-bottom: 4pt; }
     table { width: 100%; border-collapse: collapse; }
-    td, th { border: 1px solid #bbb; padding: 3pt 6pt; font-size: 9pt; white-space: nowrap; }
-    th { background: #ddd; font-weight: bold; }
-    tr:nth-child(even) td { background: #f9f9f9; }
+    td, th { border: 1px solid #bbb; padding: 3pt 6pt; font-size: 9pt; vertical-align: top; overflow-wrap: anywhere; }
+    tr:first-child td { background: #e8e8e8; font-weight: bold; }
+    tr:nth-child(even) td { background: #f7f7f7; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; }
+    .empty { color: #666; font-style: italic; }
   `;
 
   return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>${title}</title>
+  <title>${escapeHtml(title.replace(/\.[^.]+$/, ''))}</title>
   <style>
     ${baseStyles}
     ${fileType === 'docx' ? docxStyles : xlsxStyles}
     @media print {
       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
+    /* On screen (the preview), imitate the printed page margins. */
+    @media screen { body { padding: 1.5cm; } }
   </style>
 </head>
 <body>${content}</body>
@@ -183,33 +204,42 @@ export function useOfficeToPdf() {
       result.fileName,
     );
 
-    // Create hidden iframe, write HTML, trigger print dialog
+    // Print from a hidden iframe. The page is written via srcdoc and the
+    // print call waits for it to load (attaching onload after
+    // document.write could miss the event, so nothing happened). The frame is
+    // removed only after printing finishes - removing it early cancels the
+    // dialog in Firefox and Safari, where print() doesn't block.
     const iframe = document.createElement('iframe');
+    iframe.setAttribute('aria-hidden', 'true');
     iframe.style.cssText =
-      'position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:none;';
-    document.body.appendChild(iframe);
+      'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
 
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (!iframeDoc) {
+    let cleaned = false;
+    const cleanup = () => {
+      if (cleaned) return;
+      cleaned = true;
+      iframe.remove();
       setIsPrinting(false);
-      return;
-    }
-
-    iframeDoc.open();
-    iframeDoc.write(printHtml);
-    iframeDoc.close();
+    };
 
     iframe.onload = () => {
-      try {
-        iframe.contentWindow?.focus();
-        iframe.contentWindow?.print();
-      } finally {
-        setTimeout(() => {
-          document.body.removeChild(iframe);
-          setIsPrinting(false);
-        }, 1000);
-      }
+      const win = iframe.contentWindow;
+      if (!win) return cleanup();
+      win.addEventListener('afterprint', () => setTimeout(cleanup, 100));
+      // Give embedded images a moment to decode before printing.
+      setTimeout(() => {
+        try {
+          win.focus();
+          win.print();
+        } catch {
+          cleanup();
+        }
+      }, 150);
+      // Safety net if afterprint never fires.
+      setTimeout(cleanup, 120_000);
     };
+    iframe.srcdoc = printHtml;
+    document.body.appendChild(iframe);
   }, [result]);
 
   const clear = useCallback(() => {

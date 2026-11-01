@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { encodeBase64, decodeBase64, isJwtToken, inspectJwt } from './useBase64';
+import {
+  encodeBase64,
+  decodeBase64,
+  isJwtToken,
+  inspectJwt,
+} from './useBase64';
 
 describe('encodeBase64 / decodeBase64 round-trip', () => {
   it('round-trips plain ASCII text', () => {
@@ -72,10 +77,7 @@ describe('inspectJwt', () => {
 
   it('reports a token as not expired when exp is in the future', () => {
     const futureSeconds = Math.floor(Date.now() / 1000) + 3600;
-    const token = makeToken(
-      { alg: 'HS256' },
-      { sub: '1', exp: futureSeconds },
-    );
+    const token = makeToken({ alg: 'HS256' }, { sub: '1', exp: futureSeconds });
     const result = inspectJwt(token);
     expect(result.isExpired).toBe(false);
   });
@@ -89,5 +91,24 @@ describe('inspectJwt', () => {
 
   it('handles malformed tokens without throwing', () => {
     expect(() => inspectJwt('not.a.jwt')).not.toThrow();
+  });
+});
+
+import { looksEncoded } from './useBase64';
+
+describe('looksEncoded', () => {
+  it('spots Base64 pasted into the encoder', () => {
+    expect(looksEncoded('SMOpbGxvIHfDtnJsZCDwn5GLIOKAlCBzd2lmdA==')).toBe(true);
+  });
+  it('spots a JWT', () => {
+    expect(
+      looksEncoded(
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSJ9.c2lnbmF0dXJl',
+      ),
+    ).toBe(true);
+  });
+  it('ignores ordinary text', () => {
+    expect(looksEncoded('Hello world, this is plain text')).toBe(false);
+    expect(looksEncoded('justonelongwordwithoutdigits')).toBe(false);
   });
 });

@@ -37,7 +37,7 @@ export const FilterPresets = ({
   thumbnailUrl,
 }: FilterPresetsProps) => (
   <div className="space-y-2">
-    <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+    <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
       Filter presets
     </p>
     <div className="grid grid-cols-3 gap-2">
@@ -74,7 +74,7 @@ export const FilterPresets = ({
               )}
             </div>
             <span
-              className={`text-[10px] font-bold ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'}`}
+              className={`text-xs font-bold ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'}`}
             >
               {PRESET_LABELS[preset]}
             </span>

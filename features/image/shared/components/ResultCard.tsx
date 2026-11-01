@@ -26,7 +26,7 @@ export const ResultCard = ({
       {onDismiss && (
         <button
           onClick={onDismiss}
-          className="text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+          className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
         >
           Dismiss
         </button>

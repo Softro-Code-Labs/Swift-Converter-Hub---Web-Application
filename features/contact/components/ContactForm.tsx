@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { PageHeader } from '@/components/site/PageHeader';
 import {
-  ArrowLeft,
   Mail,
   Shield,
   CheckCircle,
@@ -85,32 +85,13 @@ export default function ContactForm() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* -- Back link ------------------------------------------------- */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-8"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-          Back to home
-        </Link>
-
-        {/* -- Header ---------------------------------------------------- */}
-        <div className="mb-8 space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-xs font-bold text-blue-700 dark:text-blue-400 mb-1">
-            <Mail className="w-3 h-3" />
-            Get in touch
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            How can we help?
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg">
-            Report a bug, suggest a feature, or ask anything about our tools. We
-            typically respond within 1-2 business days.
-          </p>
-        </div>
-
+    <main className="flex-1">
+      <PageHeader
+        title="Contact us"
+        lead="Report a bug, suggest a tool, or ask anything about how the site works. We usually reply within one or two business days."
+        width="max-w-5xl"
+      />
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* -- Left - contact form ----------------------------------- */}
           <div className="space-y-5">
@@ -121,7 +102,7 @@ export default function ContactForm() {
                   <CheckCircle className="w-7 h-7" />
                 </div>
                 <div>
-                  <h2 className="text-base font-black text-slate-900 dark:text-white">
+                  <h2 className="text-base font-bold text-slate-900 dark:text-white">
                     Message sent!
                   </h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
@@ -167,7 +148,10 @@ export default function ContactForm() {
                 </div>
 
                 {status === 'error' && (
-                  <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/40 text-xs text-red-700 dark:text-red-400">
+                  <div
+                    role="alert"
+                    className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/40 text-xs text-red-700 dark:text-red-400"
+                  >
                     <span className="font-bold shrink-0">
                       Couldn&apos;t send:
                     </span>
@@ -181,7 +165,7 @@ export default function ContactForm() {
                 {/* Topic selector */}
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
                   <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
-                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
                       What&apos;s this about?
                     </p>
                   </div>
@@ -193,6 +177,7 @@ export default function ContactForm() {
                         <button
                           key={topic.id}
                           type="button"
+                          aria-pressed={isSelected}
                           onClick={() => setSelectedTopic(topic.id)}
                           className={`flex items-center gap-3 p-4 text-left cursor-pointer transition-all
                             ${
@@ -210,7 +195,7 @@ export default function ContactForm() {
                             <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
                               {topic.label}
                             </p>
-                            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
                               {topic.desc}
                             </p>
                           </div>
@@ -226,7 +211,7 @@ export default function ContactForm() {
                 {/* Form fields */}
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
                   <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
-                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
                       Your details
                     </p>
                   </div>
@@ -235,39 +220,62 @@ export default function ContactForm() {
                     {/* Name + Email row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-600 dark:text-slate-400">
-                          Name <span className="text-red-400">*</span>
+                        <label
+                          htmlFor="contact-name"
+                          className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                        >
+                          Name{' '}
+                          <span className="text-rose-600" aria-hidden>
+                            *
+                          </span>
                         </label>
                         <input
+                          id="contact-name"
                           type="text"
                           required
+                          autoComplete="name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Your name"
-                          className="w-full px-3 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500 transition-all"
+                          className="w-full px-3 py-2.5 text-base sm:text-[15px] bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500 transition-all"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-600 dark:text-slate-400">
-                          Email <span className="text-red-400">*</span>
+                        <label
+                          htmlFor="contact-email"
+                          className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                        >
+                          Email{' '}
+                          <span className="text-rose-600" aria-hidden>
+                            *
+                          </span>
                         </label>
                         <input
+                          id="contact-email"
                           type="email"
                           required
+                          autoComplete="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="you@example.com"
-                          className="w-full px-3 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500 transition-all"
+                          className="w-full px-3 py-2.5 text-base sm:text-[15px] bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500 transition-all"
                         />
                       </div>
                     </div>
 
                     {/* Message */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400">
-                        Message <span className="text-red-400">*</span>
+                      <label
+                        htmlFor="contact-message"
+                        className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                      >
+                        Message{' '}
+                        <span className="text-rose-600" aria-hidden>
+                          *
+                        </span>
                       </label>
                       <textarea
+                        id="contact-message"
                         required
                         rows={5}
                         value={message}
@@ -279,9 +287,9 @@ export default function ContactForm() {
                               ? "Describe the feature or improvement you'd like to see..."
                               : 'Write your message here...'
                         }
-                        className="w-full px-3 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500 transition-all resize-none"
+                        className="w-full px-3 py-2.5 text-base sm:text-[15px] bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 dark:focus:border-blue-500 transition-all resize-none"
                       />
-                      <p className="text-[10px] text-slate-400 dark:text-slate-600 text-right">
+                      <p className="text-xs text-slate-400 dark:text-slate-600 text-right">
                         {message.length} characters
                       </p>
                     </div>
@@ -311,7 +319,7 @@ export default function ContactForm() {
                     </button>
 
                     {!canSubmit && (
-                      <p className="text-[10px] text-slate-400 dark:text-slate-600 text-center">
+                      <p className="text-xs text-slate-400 dark:text-slate-600 text-center">
                         Select a topic and fill in all fields to continue
                       </p>
                     )}
@@ -325,7 +333,7 @@ export default function ContactForm() {
           <div className="space-y-5">
             {/* Direct email */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-3">
-              <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+              <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400">
                 Direct contact
               </h3>
               <a
@@ -339,9 +347,7 @@ export default function ContactForm() {
                   <p className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {SITE_EMAILS.hello}
                   </p>
-                  <p className="text-[10px] text-slate-400">
-                    General enquiries
-                  </p>
+                  <p className="text-xs text-slate-400">General enquiries</p>
                 </div>
                 <ArrowRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 ml-auto group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all" />
               </a>
@@ -356,7 +362,7 @@ export default function ContactForm() {
                   <p className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                     {SITE_EMAILS.privacy}
                   </p>
-                  <p className="text-[10px] text-slate-400">
+                  <p className="text-xs text-slate-400">
                     Privacy & data questions
                   </p>
                 </div>
@@ -384,7 +390,7 @@ export default function ContactForm() {
             {/* FAQ */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
               <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
                   Quick answers
                 </p>
               </div>
@@ -417,7 +423,7 @@ export default function ContactForm() {
               <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800">
                 <Link
                   href="/about"
-                  className="flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                  className="flex items-center gap-1 text-[13px] font-semibold text-blue-600 dark:text-blue-400 hover:underline"
                 >
                   Read how our tools work
                   <ExternalLink className="w-3 h-3" />

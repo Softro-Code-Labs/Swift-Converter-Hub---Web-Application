@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileStack, Zap, Shield, ArrowLeftRight } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import YamlJsonTool from '@/features/data/yaml-json/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'YAML to JSON Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/data/yaml-json',
+  title: 'YAML to JSON Converter - and JSON to YAML Online',
   description:
-    'Convert YAML to JSON or JSON to YAML instantly in your browser. Supports multi-document YAML, Kubernetes manifests, Docker Compose, CI configs, and API specs - no server, no upload, 100% private.',
+    'Convert YAML to JSON or JSON to YAML for configs, Kubernetes files and OpenAPI specs, with syntax errors shown by line. Free and private.',
   keywords: [
     'yaml to json converter',
     'json to yaml converter',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'yaml validator online free',
     'convert ci config to json',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/data/yaml-json`,
-  },
-  openGraph: {
-    title:
-      'YAML ↔ JSON Converter - Kubernetes, Docker & CI Configs | Data Studio',
-    description:
-      'Convert YAML to JSON or JSON to YAML. Multi-document, sort keys, custom indent - instant, private, no server.',
-    url: `${SITE_URL}/data/yaml-json`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -128,7 +118,10 @@ export default function YamlJsonPage() {
           { name: 'Data Studio', path: '/data' },
           { name: 'YAML to JSON Converter', path: '/data/yaml-json' },
         ]}
-        badges={[{ label: 'YAML', color: 'rose' }, { label: 'JSON', color: 'amber' }]}
+        badges={[
+          { label: 'YAML', color: 'rose' },
+          { label: 'JSON', color: 'amber' },
+        ]}
         title="Convert YAML to JSON (and Back)"
         description="Convert YAML - including multi-document Kubernetes manifests, Docker Compose files, and CI configs - to JSON, or JSON back to clean YAML."
         features={[
@@ -139,7 +132,7 @@ export default function YamlJsonPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <YamlJsonTool />
       </div>
 

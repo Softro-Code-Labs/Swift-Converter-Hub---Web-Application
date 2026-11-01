@@ -38,7 +38,7 @@ export function CategoryBadge({ category, small }: CategoryBadgeProps) {
     <span
       className={`inline-flex items-center font-bold rounded-md
       ${STYLES[category]}
-      ${small ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-1.5 py-0.5'}
+      ${small ? 'text-[10px] px-1 py-0.5' : 'text-xs px-1.5 py-0.5'}
     `}
     >
       {LABELS[category]}

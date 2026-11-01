@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Table2, Zap, Shield, ArrowLeftRight } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import CsvJsonTool from '@/features/data/csv-json/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'CSV to JSON Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/data/csv-json',
+  title: 'CSV to JSON Converter - and JSON to CSV Online',
   description:
-    'Convert CSV to JSON or JSON to CSV instantly in your browser. Supports custom delimiters, header rows, pretty printing, and auto type coercion - no server, no upload, 100% private.',
+    'Convert CSV to JSON or JSON to CSV with header detection, custom delimiters and a table preview. Handles large files instantly, free and private.',
   keywords: [
     'csv to json converter',
     'json to csv converter',
@@ -34,18 +35,7 @@ export const metadata: Metadata = {
     'custom delimiter csv converter',
     'csv to json with headers',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/data/csv-json`,
-  },
-  openGraph: {
-    title:
-      'CSV ↔ JSON Converter - Instant Bidirectional Conversion | Data Studio',
-    description:
-      'Paste CSV, get JSON. Paste JSON, get CSV. Custom delimiters, header toggle, pretty print - instant, private, no server.',
-    url: `${SITE_URL}/data/csv-json`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -68,7 +58,7 @@ const STEPS = [
 const FAQS = [
   {
     q: 'Does it handle values that contain commas or line breaks?',
-    a: "Yes - the parser follows standard CSV quoting rules: a field wrapped in double quotes can safely contain commas, line breaks, and even the delimiter itself, and a literal double quote inside a quoted field is written as two consecutive quotes (\"\"), which the parser correctly unescapes.",
+    a: 'Yes - the parser follows standard CSV quoting rules: a field wrapped in double quotes can safely contain commas, line breaks, and even the delimiter itself, and a literal double quote inside a quoted field is written as two consecutive quotes (""), which the parser correctly unescapes.',
   },
   {
     q: 'What does "auto type coercion" mean?',
@@ -76,7 +66,7 @@ const FAQS = [
   },
   {
     q: 'Can I use a delimiter other than a comma?',
-    a: "Yes - semicolon and tab are built in as presets (common for European-locale spreadsheet exports and TSV files respectively), and you can also specify any custom delimiter string.",
+    a: 'Yes - semicolon and tab are built in as presets (common for European-locale spreadsheet exports and TSV files respectively), and you can also specify any custom delimiter string.',
   },
   {
     q: 'What happens if my CSV rows have different numbers of columns?',
@@ -121,7 +111,10 @@ export default function CsvJsonPage() {
           { name: 'Data Studio', path: '/data' },
           { name: 'CSV to JSON Converter', path: '/data/csv-json' },
         ]}
-        badges={[{ label: 'CSV', color: 'blue' }, { label: 'JSON', color: 'amber' }]}
+        badges={[
+          { label: 'CSV', color: 'blue' },
+          { label: 'JSON', color: 'amber' },
+        ]}
         title="Convert CSV to JSON (and Back)"
         description="Paste CSV, get JSON - or paste JSON, get CSV. Custom delimiters, header-row detection, pretty printing, and automatic type coercion, all in your browser."
         features={[
@@ -132,7 +125,7 @@ export default function CsvJsonPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <CsvJsonTool />
       </div>
 

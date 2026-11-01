@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileCode, Zap, Shield, Table } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import MarkdownPreviewTool from '@/features/character/markdown-preview/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Markdown Preview',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/markdown-preview',
+  title: 'Markdown Editor & Live Preview Online',
   description:
-    'Write Markdown and see it rendered live. Supports GitHub Flavoured Markdown - tables, code blocks, strikethrough, task lists. Export to .md or .html. 100% private, runs in your browser.',
+    'Write Markdown and see it rendered as you type, with a formatting toolbar and HTML export. Great for READMEs and docs. Free and private.',
   keywords: [
     'markdown preview online',
     'live markdown editor',
@@ -34,17 +35,7 @@ export const metadata: Metadata = {
     'live md to html converter',
     'readme markdown viewer online',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/markdown-preview`,
-  },
-  openGraph: {
-    title: 'Markdown Preview - Live GFM Renderer | Character Studio',
-    description:
-      'Split view, fullscreen, export to .md or .html - instant, private, no server.',
-    url: `${SITE_URL}/character/markdown-preview`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -94,7 +85,7 @@ export default function MarkdownPreviewPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Markdown Preview', path: '/character/markdown-preview' },
           ]),
           softwareApplicationJsonLd({
@@ -117,7 +108,7 @@ export default function MarkdownPreviewPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Markdown Preview', path: '/character/markdown-preview' },
         ]}
         badges={[{ label: 'MARKDOWN', color: 'cyan' }]}
@@ -131,7 +122,7 @@ export default function MarkdownPreviewPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <MarkdownPreviewTool />
       </div>
 
@@ -141,7 +132,7 @@ export default function MarkdownPreviewPage() {
         title="How the preview is rendered"
         accentColor="bg-emerald-500"
         paragraphs={[
-          'Your Markdown is parsed with marked, a fast Markdown compiler configured with GitHub Flavoured Markdown extensions enabled and single newlines treated as line breaks. The resulting HTML is then passed through DOMPurify, a dedicated sanitizer, before being injected into the preview pane - stripping any scripts or unsafe attributes so the preview is safe to use even with Markdown from a source you don\'t fully trust.',
+          "Your Markdown is parsed with marked, a fast Markdown compiler configured with GitHub Flavoured Markdown extensions enabled and single newlines treated as line breaks. The resulting HTML is then passed through DOMPurify, a dedicated sanitizer, before being injected into the preview pane - stripping any scripts or unsafe attributes so the preview is safe to use even with Markdown from a source you don't fully trust.",
         ]}
       />
 

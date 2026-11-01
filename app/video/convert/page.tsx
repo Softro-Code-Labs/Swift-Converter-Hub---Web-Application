@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import VideoFormatsClient from './VideoFormatsClient';
 import {
@@ -6,11 +5,13 @@ import {
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Video Format Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/video/convert',
+  title: 'Video Converter - MP4, WebM, MOV, MKV & AVI',
   description:
-    'Convert between MP4, WEBM, MOV, AVI, MKV, M4V, 3GP, FLV, TS, WMV, OGV and MPG instantly in your browser. Batch convert and download - no uploads, no account, powered by WebAssembly.',
+    'Convert videos between MP4, WebM, MOV, MKV, AVI and more, in batches. Free and private - videos are converted in your browser and never uploaded.',
   keywords: [
     'video format converter online',
     'convert video formats free',
@@ -25,15 +26,7 @@ export const metadata: Metadata = {
     'video codec converter free',
     'convert video no signup',
   ],
-  alternates: { canonical: `${SITE_URL}/video/convert` },
-  openGraph: {
-    title: 'Video Format Converter | Video Studio',
-    description:
-      'Convert between 12 video formats - MP4, WEBM, MOV, AVI, MKV, M4V, 3GP, FLV, TS, WMV, OGV, MPG - instant, private, no server.',
-    url: `${SITE_URL}/video/convert`,
-    type: 'website',
-  },
-};
+});
 
 export default function VideoFormatsPage() {
   return (

@@ -94,7 +94,7 @@ export const EncodeTab = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-5">
+    <div className="grid grid-cols-1 @3xl:grid-cols-[260px_1fr] gap-5">
       {/* Preview column */}
       <div className="space-y-3">
         <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl p-3 flex items-center justify-center">
@@ -110,7 +110,7 @@ export const EncodeTab = () => {
             {file.name}
           </p>
           {encodeResult && (
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-400">
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
               <span>{encodeResult.originalSize}</span>
               {encodeResult.dimensions && (
                 <span>
@@ -174,7 +174,7 @@ export const EncodeTab = () => {
             </div>
 
             {/* Stats bar */}
-            <div className="flex items-center gap-3 text-[10px] text-slate-400">
+            <div className="flex items-center gap-3 text-xs text-slate-400">
               <span>{encodeResult.encodedSize} encoded</span>
               <span>·</span>
               <span>~33% larger than binary</span>
@@ -185,11 +185,11 @@ export const EncodeTab = () => {
               <textarea
                 readOnly
                 value={getOutputText()}
-                className="w-full h-64 p-3 text-[11px] font-mono bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full h-64 p-3 text-[13px] font-mono bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               />
               <button
                 onClick={copyToClipboard}
-                className="absolute top-2 right-2 flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[10px] font-bold text-slate-600 dark:text-slate-400 hover:border-blue-300 transition-all shadow-sm"
+                className="absolute top-2 right-2 flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-blue-300 transition-all shadow-sm"
               >
                 {copied ? (
                   <Check className="w-3 h-3 text-emerald-500" />

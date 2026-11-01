@@ -20,6 +20,19 @@ function groupString(str: string, size: number): string {
   return result.join('');
 }
 
+const BASE_RULES: Record<number, string> = {
+  2: 'Binary numbers only use the digits 0 and 1.',
+  8: 'Octal numbers only use the digits 0 to 7.',
+  10: 'Decimal numbers only use the digits 0 to 9.',
+  16: 'Hexadecimal numbers use 0 to 9 and A to F.',
+};
+
+/** Explain why a value isn't valid in the chosen base. */
+function invalidMessage(input: string, base: number): string {
+  const shown = input.length > 24 ? `${input.slice(0, 24)}…` : input;
+  return `"${shown}" isn't a valid base-${base} number. ${BASE_RULES[base] ?? ''}`.trim();
+}
+
 export function useBaseConverter(
   rawInput: string,
   activeBase: Base,
@@ -58,10 +71,11 @@ export function useBaseConverter(
       const inputUpper = absStr.toUpperCase();
       if (reparsed !== inputUpper && activeBase !== 10) {
         // Contains invalid characters for this base
-        return { ...empty, error: `Invalid character for base ${activeBase}` };
+        return { ...empty, error: invalidMessage(absStr, activeBase) };
       }
 
-      if (isNaN(Number(value))) return { ...empty, error: 'Invalid number' };
+      if (isNaN(Number(value)))
+        return { ...empty, error: invalidMessage(absStr, activeBase) };
 
       const abs = isNegative ? -value : value;
       const prefix = isNegative ? '-' : '';
@@ -87,7 +101,7 @@ export function useBaseConverter(
         error: null,
       };
     } catch {
-      return { ...empty, error: 'Invalid input' };
+      return { ...empty, error: invalidMessage(rawInput.trim(), activeBase) };
     }
   }, [rawInput, activeBase, grouped]);
 }

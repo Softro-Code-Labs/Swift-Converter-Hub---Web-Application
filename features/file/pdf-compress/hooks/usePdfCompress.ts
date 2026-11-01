@@ -1,5 +1,7 @@
 'use client';
 
+import { formatBytes } from '@/features/shared/lib/format';
+
 import { useState, useCallback } from 'react';
 import {
   PDFDocument,
@@ -15,12 +17,6 @@ import type {
   CompressProgress,
 } from '../types/pdfCompress';
 import { PRESETS } from '../types/pdfCompress';
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-}
 
 // --- Image recompression ---------------------------------------------------
 //

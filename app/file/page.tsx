@@ -1,16 +1,18 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import DocumentSuiteClient from './DocumentSuiteClient';
 import {
   JsonLd,
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
+  studioToolsJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Document Suite - Free Online PDF Tools',
+export const metadata: Metadata = pageMetadata({
+  path: '/file',
+  title: 'Free Online PDF Tools - Merge, Split & Compress PDF',
   description:
-    'Merge, split, and compress PDF files, convert Word and Excel to PDF, or turn a PDF back into an editable Word document. All processing happens in your browser - no uploads required.',
+    'Merge, split, compress, rotate and watermark PDFs, and convert images, Word and Excel to PDF. Free, no sign-up - documents never leave your device.',
   keywords: [
     'document suite online free',
     'pdf tools browser free',
@@ -27,15 +29,7 @@ export const metadata: Metadata = {
     'pdf to word converter online',
     'convert pdf to editable word document',
   ],
-  alternates: { canonical: `${SITE_URL}/file` },
-  openGraph: {
-    title: 'Document Suite - Free Online PDF Tools',
-    description:
-      'Merge, split, compress, and convert PDFs to and from Word - entirely in your browser.',
-    url: `${SITE_URL}/file`,
-    type: 'website',
-  },
-};
+});
 
 export default function DocumentSuitePage() {
   return (
@@ -46,6 +40,7 @@ export default function DocumentSuitePage() {
             { name: 'Home', path: '/' },
             { name: 'Document Suite', path: '/file' },
           ]),
+          studioToolsJsonLd('file'),
           softwareApplicationJsonLd({
             name: 'Document Suite',
             description:

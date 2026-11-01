@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileText, Zap, Shield, Heading } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
 } from '@/features/shared/components/page-sections';
 import PdfToWordTool from '@/features/file/pdf-to-word/components';
 import { PDF_TO_WORD_FAQS } from '@/features/file/pdf-to-word/config/faqs';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'PDF to Word Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/file/pdf-to-word',
+  title: 'PDF to Word Converter - Editable DOCX Online',
   description:
-    'Convert a PDF to an editable Word (.docx) document instantly in your browser. Automatic paragraph and heading detection, no uploads, no account, 100% private.',
+    'Convert a PDF into an editable Word document with headings and paragraphs detected. Free and private - the PDF is converted in your browser.',
   keywords: [
     'pdf to word converter',
     'convert pdf to word online free',
@@ -35,17 +36,7 @@ export const metadata: Metadata = {
     'extract text from pdf to word',
     'pdf to microsoft word converter',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/file/pdf-to-word`,
-  },
-  openGraph: {
-    title: 'PDF to Word Converter - Editable .docx, No Upload | Document Suite',
-    description:
-      'Reflow a PDF into an editable Word document with automatic heading and paragraph detection - instant, private, no server.',
-    url: `${SITE_URL}/file/pdf-to-word`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -109,7 +100,7 @@ export default function PdfToWordPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <PdfToWordTool />
       </div>
 

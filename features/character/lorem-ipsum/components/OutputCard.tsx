@@ -33,7 +33,7 @@ export function OutputCard({ text }: OutputCardProps) {
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
       {/* Output header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900">
-        <div className="flex items-center gap-3 text-[10px] text-slate-400 tabular-nums">
+        <div className="flex items-center gap-3 text-xs text-slate-400 tabular-nums">
           <span>{wordCount.toLocaleString()} words</span>
           <span>·</span>
           <span>{charCount.toLocaleString()} characters</span>
@@ -41,7 +41,7 @@ export function OutputCard({ text }: OutputCardProps) {
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px] font-bold text-slate-500 hover:border-orange-300 hover:text-orange-600 dark:hover:border-orange-700 dark:hover:text-orange-400 cursor-pointer transition-all"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-500 hover:border-blue-300 hover:text-blue-600 dark:hover:border-blue-700 dark:hover:text-blue-400 cursor-pointer transition-all"
           >
             {copied ? (
               <>
@@ -55,7 +55,7 @@ export function OutputCard({ text }: OutputCardProps) {
           </button>
           <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px] font-bold text-slate-500 hover:border-orange-300 hover:text-orange-600 dark:hover:border-orange-700 dark:hover:text-orange-400 cursor-pointer transition-all"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-500 hover:border-blue-300 hover:text-blue-600 dark:hover:border-blue-700 dark:hover:text-blue-400 cursor-pointer transition-all"
           >
             <Download className="w-3 h-3" /> .txt
           </button>

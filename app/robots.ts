@@ -34,13 +34,16 @@ export default function robots(): MetadataRoute.Robots {
           '/file/',
           '/data/',
           '/character/',
+          '/blog',
           '/about',
           '/contact',
           '/privacy',
           '/terms',
           '/llms.txt',
         ],
-        disallow: ['/api/', '/_next/', '/admin/', '*.json$'],
+        // /_next/ (CSS + JS) must stay crawlable so search engines can render
+        // pages the way visitors see them.
+        disallow: ['/api/', '/admin/', '*.json$'],
       },
       {
         // AI training crawlers - blocked entirely. Each has a separate,
@@ -68,14 +71,14 @@ export default function robots(): MetadataRoute.Robots {
         // SEO audit tools - allow but rate limit via crawl-delay
         userAgent: ['AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot'],
         allow: ['/'],
-        disallow: ['/api/', '/_next/'],
+        disallow: ['/api/'],
         crawlDelay: 10,
       },
       {
         // All other bots
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/admin/'],
+        disallow: ['/api/', '/admin/'],
       },
     ],
 

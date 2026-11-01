@@ -1,12 +1,11 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { Combine, Shield, Zap, ListOrdered } from 'lucide-react';
 import MergeTool from '@/features/audio/merge/components';
 import {
   StepList,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/shared/components/page-sections';
 import {
   JsonLd,
@@ -14,11 +13,13 @@ import {
   faqPageJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Merge Audio Files Online',
+export const metadata: Metadata = pageMetadata({
+  path: '/audio/merge',
+  title: 'Merge Audio Files Online - Join MP3 & WAV',
   description:
-    'Combine multiple MP3, WAV, OGG, FLAC, AAC, M4A, OPUS or other audio files into one, in any order you choose. No uploads, 100% browser-based.',
+    'Join several audio files into one track in any order, even with mixed formats like MP3, WAV and M4A. Free, fast and private - files stay on your device.',
   keywords: [
     'merge audio files online',
     'combine mp3 files free',
@@ -33,27 +34,31 @@ export const metadata: Metadata = {
     'stitch audio clips together',
     'merge podcast segments online',
   ],
-  alternates: { canonical: `${SITE_URL}/audio/merge` },
-  openGraph: {
-    title: 'Merge Audio Files Online | Audio Studio',
-    description:
-      'Combine multiple audio files into one, in any order - fully processed in your browser.',
-    url: `${SITE_URL}/audio/merge`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
-  { icon: ListOrdered, label: 'Reorder freely', desc: 'Arrange files before merging' },
-  { icon: Combine, label: 'Mixed formats OK', desc: 'MP3 + WAV + M4A together' },
+  {
+    icon: ListOrdered,
+    label: 'Reorder freely',
+    desc: 'Arrange files before merging',
+  },
+  {
+    icon: Combine,
+    label: 'Mixed formats OK',
+    desc: 'MP3 + WAV + M4A together',
+  },
   { icon: Zap, label: 'Up to 15 files', desc: 'Merge into one output' },
-  { icon: Shield, label: '100% private', desc: 'Files never leave your browser' },
+  {
+    icon: Shield,
+    label: '100% private',
+    desc: 'Files never leave your browser',
+  },
 ];
 
 const MERGE_FAQS = [
   {
     q: 'Can I merge files that are in different formats?',
-    a: "Yes - you can combine an MP3, a WAV, and an M4A into a single output file. Each input is decoded and re-encoded into your chosen output format so they play back as one continuous, consistent track.",
+    a: 'Yes - you can combine an MP3, a WAV, and an M4A into a single output file. Each input is decoded and re-encoded into your chosen output format so they play back as one continuous, consistent track.',
   },
   {
     q: 'Does merging re-encode my audio?',
@@ -89,56 +94,20 @@ export default function AudioMergePage() {
           faqPageJsonLd(MERGE_FAQS),
         ]}
       />
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <span>›</span>
-          <Link
-            href="/audio"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Audio Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            Merge Audio
-          </span>
-        </nav>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Audio Studio', path: '/audio' },
+          { name: 'Merge Audio', path: '/audio/merge' },
+        ]}
+        title={'Merge Audio Files Online'}
+        description={
+          'Combine multiple audio files into one, in any order you choose - even if they started in different formats.'
+        }
+        features={FEATURES}
+      />
 
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-black">
-              MERGE
-            </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Merge Audio Files Online
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Combine multiple audio files into one, in any order you
-              choose - even if they started in different formats.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <MergeTool />
       </div>
 

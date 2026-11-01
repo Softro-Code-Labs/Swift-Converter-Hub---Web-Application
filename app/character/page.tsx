@@ -1,16 +1,18 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import CharacterStudioClient from './CharacterStudioClient';
 import {
   JsonLd,
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
+  studioToolsJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Character Studio - Free Online Text Tools',
+export const metadata: Metadata = pageMetadata({
+  path: '/character',
+  title: 'Free Online Text Tools - Word Counter, Case & Regex',
   description:
-    'Word counter, case converter, find & replace, Markdown preview, and regex tester - all running locally in your browser. Zero server uploads, 100% private.',
+    'Twelve free text tools: word counter, case converter, text diff, regex tester, find and replace, hash generator and more. Instant and private.',
   keywords: [
     'text case converter online',
     'case converter online',
@@ -25,15 +27,7 @@ export const metadata: Metadata = {
     'no signup text tools',
     'developer text tools online',
   ],
-  alternates: { canonical: `${SITE_URL}/character` },
-  openGraph: {
-    title: 'Character Studio - Free Online Text Tools',
-    description:
-      'Case conversion, word counting, regex testing - all in your browser.',
-    url: `${SITE_URL}/character`,
-    type: 'website',
-  },
-};
+});
 
 export default function CharacterStudioPage() {
   return (
@@ -42,10 +36,11 @@ export default function CharacterStudioPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
           ]),
+          studioToolsJsonLd('character'),
           softwareApplicationJsonLd({
-            name: 'Character Studio',
+            name: 'Text Studio',
             description:
               'Word counter, case converter, find & replace, Markdown preview, and regex tester - all running locally in your browser.',
             path: '/character',

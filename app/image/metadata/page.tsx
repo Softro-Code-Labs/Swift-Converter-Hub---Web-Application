@@ -1,12 +1,11 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { FileSearch, MapPin, Camera, Shield } from 'lucide-react';
 import MetadataTool from '@/features/image/metadata/components';
 import {
   InfoCardGrid,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/image/shared/components/page-sections';
 import {
   JsonLd,
@@ -14,11 +13,13 @@ import {
   softwareApplicationJsonLd,
   faqPageJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'EXIF Metadata Viewer',
+export const metadata: Metadata = pageMetadata({
+  path: '/image/metadata',
+  title: 'EXIF Viewer - See Photo Metadata & GPS Location',
   description:
-    'View camera settings, GPS location, and embedded metadata from your photos. See exposure, lens, and date info without uploading anything anywhere.',
+    'View EXIF data in photos: camera, lens, ISO, shutter speed, date taken and GPS location on a map. Export to JSON. Free and private - nothing is uploaded.',
   keywords: [
     'exif viewer online',
     'photo metadata viewer',
@@ -33,15 +34,7 @@ export const metadata: Metadata = {
     'camera settings from photo',
     'jpeg exif data extractor',
   ],
-  alternates: { canonical: `${SITE_URL}/image/metadata` },
-  openGraph: {
-    title: 'EXIF Metadata Viewer - Free Online Photo Info Tool | Image Studio',
-    description:
-      'See camera, GPS and exposure data hidden in your photos, fully private.',
-    url: `${SITE_URL}/image/metadata`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
   {
@@ -138,57 +131,20 @@ export default function MetadataPage() {
           faqPageJsonLd(METADATA_FAQS),
         ]}
       />
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <span>›</span>
-          <Link
-            href="/image"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Image Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            EXIF Metadata Viewer
-          </span>
-        </nav>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Image Studio', path: '/image' },
+          { name: 'EXIF Metadata Viewer', path: '/image/metadata' },
+        ]}
+        title={'EXIF Metadata Viewer'}
+        description={
+          "See exactly what's hidden in your photos - camera model, exposure settings, date taken, and GPS location - without uploading anything anywhere."
+        }
+        features={FEATURES}
+      />
 
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-cyan-100 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 text-xs font-black">
-              METADATA
-            </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              EXIF Metadata Viewer
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              See exactly what&apos;s hidden in your photos - camera model, exposure
-              settings, date taken, and GPS location - without uploading
-              anything anywhere.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <MetadataTool />
       </div>
 

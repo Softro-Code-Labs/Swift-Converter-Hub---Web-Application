@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Type, Zap, Shield, RefreshCw } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import CaseConverterTool from '@/features/character/case-converter/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Case Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/case-converter',
+  title: 'Case Converter - UPPERCASE, lowercase & Title Case',
   description:
-    'Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, PascalCase, and more - instantly in your browser. No server, 100% private.',
+    'Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, kebab-case and more in one click. Free and instant.',
   keywords: [
     'case converter online',
     'text case converter',
@@ -35,17 +36,7 @@ export const metadata: Metadata = {
     'alternating case converter',
     'text transform tool free',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/case-converter`,
-  },
-  openGraph: {
-    title: 'Case Converter - 12 Case Formats Instantly | Character Studio',
-    description:
-      'UPPERCASE, camelCase, snake_case, Title Case and 8 more - instant, private, no server.',
-    url: `${SITE_URL}/character/case-converter`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -87,7 +78,7 @@ const FAQS = [
   },
   {
     q: 'Can I convert a camelCase variable name to snake_case?',
-    a: "Yes. The converter detects word boundaries in camelCase and PascalCase (it inserts a break wherever a lowercase letter is immediately followed by an uppercase one) as well as spaces, hyphens, underscores and dots - so myVariableName, my-variable-name and my_variable_name all convert the same way, in either direction.",
+    a: 'Yes. The converter detects word boundaries in camelCase and PascalCase (it inserts a break wherever a lowercase letter is immediately followed by an uppercase one) as well as spaces, hyphens, underscores and dots - so myVariableName, my-variable-name and my_variable_name all convert the same way, in either direction.',
   },
   {
     q: 'What is the difference between CONSTANT_CASE and snake_case?',
@@ -110,7 +101,7 @@ export default function CaseConverterPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Case Converter', path: '/character/case-converter' },
           ]),
           softwareApplicationJsonLd({
@@ -132,7 +123,7 @@ export default function CaseConverterPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Case Converter', path: '/character/case-converter' },
         ]}
         badges={[{ label: 'CASE', color: 'blue' }]}
@@ -146,7 +137,7 @@ export default function CaseConverterPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <CaseConverterTool />
       </div>
 

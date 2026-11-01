@@ -22,6 +22,18 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
+      // Versioned AI runtime and model for the background remover: cache for
+      // a year so they're only ever downloaded once. Change the version in
+      // the path (not the file) when updating them.
+      ...['/ort/:path*', '/models/:path*'].map((source) => ({
+        source,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      })),
       {
         source: '/:path*',
         headers: [

@@ -65,13 +65,13 @@ export function EditorPane({ value, onChange }: EditorPaneProps) {
     <div className="flex flex-col h-full">
       {/* Pane header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100 dark:border-slate-800 shrink-0">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        <span className="text-xs font-bold text-slate-400 dark:text-slate-500">
           Markdown
         </span>
         <div className="flex items-center gap-2">
           <button
             onClick={handlePaste}
-            className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer transition-colors"
+            className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors"
           >
             <ClipboardPaste className="w-3 h-3" /> Paste
           </button>
@@ -80,7 +80,7 @@ export function EditorPane({ value, onChange }: EditorPaneProps) {
               <span className="text-slate-200 dark:text-slate-700">|</span>
               <button
                 onClick={() => onChange('')}
-                className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
+                className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
               >
                 <Trash2 className="w-3 h-3" /> Clear
               </button>

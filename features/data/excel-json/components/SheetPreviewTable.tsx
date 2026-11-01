@@ -24,7 +24,7 @@ export function SheetPreviewTable({
 
   return (
     <div className="overflow-auto rounded-xl border border-slate-200 dark:border-slate-700 max-h-52">
-      <table className="w-full text-[10px] font-mono border-collapse min-w-max">
+      <table className="w-full text-xs font-mono border-collapse min-w-max">
         <thead>
           <tr className="bg-emerald-50 dark:bg-emerald-950/30 border-b border-slate-200 dark:border-slate-700">
             {headers.map((h, i) => (

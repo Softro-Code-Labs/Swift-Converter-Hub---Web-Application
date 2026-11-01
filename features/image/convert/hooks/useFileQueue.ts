@@ -11,6 +11,7 @@ export const useFileQueue = (sourceExtension: string) => {
   const [invalidFileDetails, setInvalidFileDetails] = useState<{
     name: string;
     type: string;
+    file?: File;
   }>({ name: '', type: '' });
 
   const sourceLabel = sourceExtension.toUpperCase();
@@ -32,6 +33,7 @@ export const useFileQueue = (sourceExtension: string) => {
           setInvalidFileDetails({
             name: file.name,
             type: ext.toUpperCase() || 'UNKNOWN',
+            file,
           });
           foundInvalid = true;
         }

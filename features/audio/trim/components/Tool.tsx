@@ -38,7 +38,7 @@ function TimeField({
   return (
     <div className="flex-1 space-y-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+        <span className="text-xs font-bold text-slate-400 dark:text-slate-500">
           {label}
         </span>
         <span className="text-xs font-bold text-slate-700 dark:text-slate-300 tabular-nums">
@@ -57,7 +57,7 @@ function TimeField({
       <button
         type="button"
         onClick={onUseCurrent}
-        className="flex items-center gap-1 text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors"
+        className="flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors"
       >
         <Play className="w-2.5 h-2.5" />
         Use current position
@@ -113,14 +113,14 @@ export default function AudioTrimTool() {
                 <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">
                   {state.file.name}
                 </p>
-                <span className="text-[10px] text-slate-400 shrink-0">
+                <span className="text-xs text-slate-400 shrink-0">
                   {formatBytes(state.file.size)} ·{' '}
                   {formatDuration(state.duration)}
                 </span>
               </div>
               <button
                 onClick={handleReset}
-                className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors shrink-0"
+                className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer transition-colors shrink-0"
               >
                 Change file
               </button>
@@ -143,7 +143,7 @@ export default function AudioTrimTool() {
             />
 
             {/* Start/end controls */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col @xl:flex-row gap-4">
               <TimeField
                 label="Start"
                 seconds={state.startTime}
@@ -180,7 +180,7 @@ export default function AudioTrimTool() {
               />
             </div>
 
-            <p className="text-[11px] text-slate-400 dark:text-slate-500">
+            <p className="text-[13px] text-slate-400 dark:text-slate-500">
               Selected: {formatDuration(state.endTime - state.startTime)} of{' '}
               {formatDuration(state.duration)}
             </p>
@@ -230,7 +230,7 @@ export default function AudioTrimTool() {
                 </p>
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 cursor-pointer transition-colors"
+                  className="flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 cursor-pointer transition-colors"
                 >
                   <RotateCcw className="w-3 h-3" />
                   Trim another

@@ -44,3 +44,4 @@ next-env.d.ts
 # Generated WASM binaries
 public/magick.wasm
 public/ffmpeg/
+public/ort/

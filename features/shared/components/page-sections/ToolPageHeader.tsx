@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import type { LucideIcon } from 'lucide-react';
+import { ChevronRight, ShieldCheck, type LucideIcon } from 'lucide-react';
+import { getStudio, toolForPath } from '@/config/tools';
+import { STUDIO_ACCENT } from '@/config/studio-theme';
+import { cn } from '@/lib/utils';
 
 interface Breadcrumb {
   name: string;
@@ -19,103 +22,104 @@ interface FeaturePill {
 interface ToolPageHeaderProps {
   /** Full breadcrumb chain including the current page - the last item renders as plain text. */
   breadcrumbs: Breadcrumb[];
-  badges: Badge[];
+  /** Kept for compatibility; the tool's icon now identifies the tool instead. */
+  badges?: Badge[];
   title: string;
   description: string;
-  features: FeaturePill[];
+  features?: FeaturePill[];
+  /** Optional element shown under the description (e.g. format chips). */
+  children?: React.ReactNode;
 }
 
-const BADGE_CLASSES: Record<string, string> = {
-  blue: 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300',
-  purple:
-    'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300',
-  emerald:
-    'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300',
-  rose: 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300',
-  amber:
-    'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300',
-  cyan: 'bg-cyan-100 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300',
-  teal: 'bg-teal-100 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300',
-};
-
+/**
+ * The one header used by every tool page: breadcrumb trail, tool identity
+ * (icon in the studio's colour), what the tool does, and what you can count
+ * on. Studio and icon are looked up from the tool registry by URL.
+ */
 export function ToolPageHeader({
   breadcrumbs,
-  badges,
   title,
   description,
-  features,
+  features = [],
+  children,
 }: ToolPageHeaderProps) {
   const linked = breadcrumbs.slice(0, -1);
   const current = breadcrumbs[breadcrumbs.length - 1];
+  const tool = toolForPath(current.path);
+  const accent = tool ? STUDIO_ACCENT[tool.studio] : STUDIO_ACCENT.image;
+  const Icon = tool?.icon;
+  const studio = tool ? getStudio(tool.studio) : undefined;
+
+  // Drop "100% private"-style pills: privacy is stated once, consistently.
+  const shown = features.filter(
+    (f) => !/private|privacy|never leave|no upload|stay/i.test(f.label),
+  );
 
   return (
-    <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-      <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-        {linked.map((crumb) => (
-          <span key={crumb.path} className="flex items-center gap-1.5">
-            <Link
-              href={crumb.path}
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              {crumb.name}
-            </Link>
-            <span>›</span>
-          </span>
-        ))}
-        <span className="text-slate-600 dark:text-slate-300 font-medium">
-          {current.name}
-        </span>
+    <header className="border-b border-slate-200 px-5 pb-6 pt-5 sm:px-8 sm:pt-6 dark:border-slate-800">
+      <nav aria-label="Breadcrumb" className="mb-5">
+        <ol className="flex flex-wrap items-center gap-1 text-[13px] text-slate-500 dark:text-slate-400">
+          {linked.map((crumb) => (
+            <li key={crumb.path} className="flex items-center gap-1">
+              <Link
+                href={crumb.path}
+                className="rounded hover:text-slate-900 hover:underline underline-offset-4 dark:hover:text-white"
+              >
+                {crumb.name === 'Character Studio' && studio
+                  ? studio.name
+                  : crumb.name}
+              </Link>
+              <ChevronRight
+                className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600"
+                aria-hidden
+              />
+            </li>
+          ))}
+          <li
+            aria-current="page"
+            className="font-medium text-slate-700 dark:text-slate-200"
+          >
+            {current.name}
+          </li>
+        </ol>
       </nav>
 
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-        <div className="space-y-2 max-w-xl">
-          <div className="flex items-center gap-2 flex-wrap">
-            {badges.map((badge, i) => (
-              <span
-                key={badge.label}
-                className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-black ${BADGE_CLASSES[badge.color ?? 'blue']}`}
-              >
-                {i > 0 && (
-                  <span className="mr-2 text-slate-300 dark:text-slate-600 font-normal">
-                    +
-                  </span>
-                )}
-                {badge.label}
-              </span>
-            ))}
-          </div>
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+      <div className="flex items-start gap-4">
+        {Icon && (
+          <span
+            className={cn(
+              'hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:flex',
+              accent.tile,
+            )}
+          >
+            <Icon className="h-6 w-6" aria-hidden />
+          </span>
+        )}
+        <div className="min-w-0 max-w-2xl">
+          <h1 className="text-[1.75rem] font-bold leading-tight text-slate-900 sm:text-[2rem] dark:text-white">
             {title}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+          <p className="mt-2 text-[15px] leading-relaxed text-slate-600 sm:text-base dark:text-slate-400">
             {description}
           </p>
-        </div>
-
-        <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-          {features.map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-            >
-              <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-              <span className="font-semibold">{label}</span>
-            </div>
-          ))}
+          {children}
+          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-slate-600 dark:text-slate-400">
+            <li className="flex items-center gap-1.5 font-medium text-emerald-700 dark:text-emerald-400">
+              <ShieldCheck className="h-4 w-4" aria-hidden />
+              Runs on your device - nothing is uploaded
+            </li>
+            {shown.map(({ icon: FIcon, label }) => (
+              <li key={label} className="flex items-center gap-1.5">
+                <FIcon
+                  className="h-4 w-4 text-slate-400 dark:text-slate-500"
+                  aria-hidden
+                />
+                {label}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      <div className="flex sm:hidden gap-2 mt-4 overflow-x-auto pb-1">
-        {features.map(({ icon: Icon, label }) => (
-          <div
-            key={label}
-            className="flex items-center gap-1.5 shrink-0 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-full text-[10px] font-semibold text-slate-600 dark:text-slate-400"
-          >
-            <Icon className="w-3 h-3 text-blue-500" />
-            {label}
-          </div>
-        ))}
-      </div>
-    </div>
+    </header>
   );
 }

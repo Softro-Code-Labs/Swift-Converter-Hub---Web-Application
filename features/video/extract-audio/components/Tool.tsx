@@ -1,5 +1,7 @@
 'use client';
 
+import { BatchSummary } from '@/features/shared/components/BatchSummary';
+
 import { useState } from 'react';
 import { useFFmpegEngine } from '@/features/shared/hooks/useFFmpegEngine';
 import { useExtractAudioFileQueue } from '../hooks/useExtractAudioFileQueue';
@@ -8,7 +10,10 @@ import {
   AUDIO_FORMATS,
   getFormatByExtension,
 } from '@/features/audio/shared/config/formats';
-import { BITRATE_PRESETS, BitratePresetId } from '@/features/audio/convert/types/converter';
+import {
+  BITRATE_PRESETS,
+  BitratePresetId,
+} from '@/features/audio/convert/types/converter';
 import { BitrateSelector } from '@/features/audio/shared/components/BitrateSelector';
 import {
   EngineStatusBar,
@@ -26,8 +31,10 @@ export default function ExtractAudioTool() {
   const [targetExt, setTargetExt] = useState('mp3');
   const targetFormat = getFormatByExtension(targetExt) ?? AUDIO_FORMATS[0];
 
-  const [bitratePreset, setBitratePreset] = useState<BitratePresetId>('standard');
-  const bitrateKbps = BITRATE_PRESETS.find((p) => p.id === bitratePreset)?.kbps ?? 192;
+  const [bitratePreset, setBitratePreset] =
+    useState<BitratePresetId>('standard');
+  const bitrateKbps =
+    BITRATE_PRESETS.find((p) => p.id === bitratePreset)?.kbps ?? 192;
 
   const { isFFmpegLoaded, acquireEngine, releaseEngine } = useFFmpegEngine();
 
@@ -43,16 +50,21 @@ export default function ExtractAudioTool() {
     maxFiles,
   } = useExtractAudioFileQueue();
 
-  const { isProcessingAll, isZipping, extractAll, downloadAll, downloadSingle } =
-    useExtractAudio(
-      files,
-      updateFile,
-      targetFormat,
-      bitrateKbps,
-      acquireEngine,
-      releaseEngine,
-      isFFmpegLoaded,
-    );
+  const {
+    isProcessingAll,
+    isZipping,
+    extractAll,
+    downloadAll,
+    downloadSingle,
+  } = useExtractAudio(
+    files,
+    updateFile,
+    targetFormat,
+    bitrateKbps,
+    acquireEngine,
+    releaseEngine,
+    isFFmpegLoaded,
+  );
 
   const successCount = files.filter((f) => f.status === 'success').length;
   const errorCount = files.filter((f) => f.status === 'error').length;
@@ -67,18 +79,12 @@ export default function ExtractAudioTool() {
       />
 
       {files.length > 0 && (
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            { label: 'Queued', value: idleCount, color: 'text-slate-600 dark:text-slate-300', bg: 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700' },
-            { label: 'Extracted', value: successCount, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800/50' },
-            { label: 'Failed', value: errorCount, color: 'text-red-500 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50' },
-          ].map(({ label, value, color, bg }) => (
-            <div key={label} className={`${bg} border rounded-xl px-3 py-2 text-center`}>
-              <p className={`text-lg font-black ${color}`}>{value}</p>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">{label}</p>
-            </div>
-          ))}
-        </div>
+        <BatchSummary
+          waiting={idleCount}
+          done={successCount}
+          failed={errorCount}
+          doneLabel="extracted"
+        />
       )}
 
       <OutputFormatSelector
@@ -88,7 +94,11 @@ export default function ExtractAudioTool() {
       />
 
       {targetFormat.kind === 'lossy' && (
-        <BitrateSelector value={bitratePreset} onChange={setBitratePreset} disabled={isProcessingAll} />
+        <BitrateSelector
+          value={bitratePreset}
+          onChange={setBitratePreset}
+          disabled={isProcessingAll}
+        />
       )}
 
       {files.length < maxFiles && (

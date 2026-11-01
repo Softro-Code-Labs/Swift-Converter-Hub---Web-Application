@@ -1,12 +1,11 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { Minimize2, Shield, Zap, TrendingDown } from 'lucide-react';
 import CompressTool from '@/features/audio/compress/components';
 import {
   StepList,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/shared/components/page-sections';
 import {
   JsonLd,
@@ -14,11 +13,13 @@ import {
   faqPageJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Compress Audio Files',
+export const metadata: Metadata = pageMetadata({
+  path: '/audio/compress',
+  title: 'Compress Audio Online - Reduce MP3 & WAV Size',
   description:
-    'Shrink audio file size by re-encoding at a lower bitrate - MP3, WAV, OGG, FLAC, AAC, M4A, OPUS and more. Batch compress up to 20 files, 100% browser-based, no uploads.',
+    'Shrink MP3, WAV, M4A and other audio files by re-encoding at a lower bitrate. Presets or custom settings, batch up to 20 files. Free, no upload.',
   keywords: [
     'compress audio online',
     'reduce audio file size',
@@ -34,21 +35,25 @@ export const metadata: Metadata = {
     'reduce podcast file size',
     'audio compressor no signup',
   ],
-  alternates: { canonical: `${SITE_URL}/audio/compress` },
-  openGraph: {
-    title: 'Compress Audio Files Online | Audio Studio',
-    description:
-      'Reduce audio file size without a big quality hit - fully processed in your browser.',
-    url: `${SITE_URL}/audio/compress`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
-  { icon: Minimize2, label: 'Adjustable bitrate', desc: 'Low, standard, or high' },
-  { icon: TrendingDown, label: 'Live size preview', desc: 'See the new size per file' },
+  {
+    icon: Minimize2,
+    label: 'Adjustable bitrate',
+    desc: 'Low, standard, or high',
+  },
+  {
+    icon: TrendingDown,
+    label: 'Live size preview',
+    desc: 'See the new size per file',
+  },
   { icon: Zap, label: 'Batch processing', desc: 'Compress up to 20 at once' },
-  { icon: Shield, label: '100% private', desc: 'Files never leave your browser' },
+  {
+    icon: Shield,
+    label: '100% private',
+    desc: 'Files never leave your browser',
+  },
 ];
 
 const COMPRESS_FAQS = [
@@ -58,7 +63,7 @@ const COMPRESS_FAQS = [
   },
   {
     q: 'How much smaller will my file get?',
-    a: "It depends on the source. Going from an uncompressed WAV to a 192kbps MP3 typically saves 80-90%. Re-encoding an already-compressed MP3 at a lower bitrate saves less, and re-encoding a lossy file repeatedly compounds quality loss - compress from the original source when you can.",
+    a: 'It depends on the source. Going from an uncompressed WAV to a 192kbps MP3 typically saves 80-90%. Re-encoding an already-compressed MP3 at a lower bitrate saves less, and re-encoding a lossy file repeatedly compounds quality loss - compress from the original source when you can.',
   },
   {
     q: 'Is there a quality loss?',
@@ -90,57 +95,20 @@ export default function AudioCompressPage() {
           faqPageJsonLd(COMPRESS_FAQS),
         ]}
       />
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <span>›</span>
-          <Link
-            href="/audio"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Audio Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            Compress Audio
-          </span>
-        </nav>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Audio Studio', path: '/audio' },
+          { name: 'Compress Audio', path: '/audio/compress' },
+        ]}
+        title={'Compress Audio Files'}
+        description={
+          'Shrink audio file size by re-encoding at a lower bitrate - batch process up to 20 files, all processed locally in your browser.'
+        }
+        features={FEATURES}
+      />
 
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-xs font-black">
-              COMPRESS
-            </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Compress Audio Files
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Shrink audio file size by re-encoding at a lower bitrate -
-              batch process up to 20 files, all processed locally in your
-              browser.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <CompressTool />
       </div>
 
@@ -170,8 +138,8 @@ export default function AudioCompressPage() {
         title="How the compression works"
         accentColor="bg-emerald-500"
         paragraphs={[
-          "Compression re-encodes the audio at the bitrate you choose, using FFmpeg compiled to WebAssembly - the same encoders (libmp3lame, libopus, etc.) used by desktop tools, just running inside your browser tab instead of on a server.",
-          'Lossless sources (WAV, FLAC) are handled differently: WAV is converted to MP3 since there\'s no smaller-but-lossless WAV variant, while FLAC gets its own maximum lossless compression level rather than being converted to a lossy format.',
+          'Compression re-encodes the audio at the bitrate you choose, using FFmpeg compiled to WebAssembly - the same encoders (libmp3lame, libopus, etc.) used by desktop tools, just running inside your browser tab instead of on a server.',
+          "Lossless sources (WAV, FLAC) are handled differently: WAV is converted to MP3 since there's no smaller-but-lossless WAV variant, while FLAC gets its own maximum lossless compression level rather than being converted to a lossy format.",
         ]}
       />
 

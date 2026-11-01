@@ -1,17 +1,20 @@
 import {
-  Database,
-  FileText,
-  ImageIcon,
-  AudioLines,
-  Type,
-  Clapperboard,
-  Shield,
-  Zap,
-  Globe,
   ArrowRight,
-  Sparkles,
+  MonitorSmartphone,
+  WifiOff,
+  Download,
+  Gauge,
 } from 'lucide-react';
 import Link from 'next/link';
+import {
+  POPULAR_TOOLS,
+  STUDIOS,
+  TOOL_COUNT,
+  getStudioTools,
+  getStudio,
+} from '@/config/tools';
+import { STUDIO_ACCENT } from '@/config/studio-theme';
+import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { SITE_URL } from '@/config/site';
 import HeroDropZone from '@/components/home/HeroDropZone';
@@ -21,18 +24,19 @@ import {
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Free Online File Converter - Image, Audio, Video, PDF & Data Tools',
-  description:
-    'Convert images, audio, video, PDFs, and data files entirely in your browser. 150+ image formats, no uploads, no accounts, no limits - powered by WebAssembly for complete privacy.',
+export const metadata: Metadata = pageMetadata({
+  path: '/',
+  title: 'Free Online File Converter - No Upload | Swift Converter Hub',
+  description: `Convert, compress and edit images, PDFs, audio, video and data files free in your browser. ${TOOL_COUNT} tools, no upload, no sign-up - files stay on your device.`,
+  absoluteTitle: true,
+  ogTitle: 'Convert files without uploading them',
+  ogImage: '/og-image.png',
   keywords: [
-    // brand
     'swift converter hub',
     'swift converter hub online',
     'swift converter hub free',
-
-    // core value proposition
     'free online file converter',
     'file converter no upload',
     'browser based file converter',
@@ -44,165 +48,30 @@ export const metadata: Metadata = {
     'no signup file converter',
     'unlimited free file converter',
     'secure file conversion online',
-    'gdpr compliant file converter',
-
-    // category entry points
-    'image audio video converter',
-    'all in one file converter',
-    'convert image audio video pdf',
-    'online image converter free',
-    'online audio converter free',
-    'online video converter free',
-    'online pdf converter free',
-    'online data format converter',
-    'text and string tools online',
-
-    // high-intent long tail
-    'convert heic to jpg online',
-    'convert mp4 to mp3 online',
-    'convert pdf to word online',
-    'convert csv to json online',
-    'compress image without losing quality',
-    'compress video file size online',
   ],
-  alternates: { canonical: SITE_URL },
-  openGraph: {
-    title: 'Swift Converter Hub - Free Online File Converter',
-    description:
-      'Convert images, audio, video, PDFs, and data files entirely in your browser. No uploads, no accounts, no limits.',
-    url: SITE_URL,
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Swift Converter Hub - Free Online File Converter',
-    description:
-      'Convert images, audio, video, PDFs, and data files entirely in your browser. No uploads, no accounts, no limits.',
-  },
-};
+});
 
-const STUDIOS = [
+const STEPS = [
   {
-    icon: ImageIcon,
-    label: 'Image Studio',
-    href: '/image',
-    desc: 'Convert, compress and edit WebP, PNG, JPEG, HEIC and 150+ formats.',
-    accent: 'blue',
-    tools: ['Format Convert', 'Batch Convert', 'Crop & Resize', 'Compress'],
+    icon: MonitorSmartphone,
+    title: 'The tool loads into your browser',
+    desc: 'Opening a tool downloads its engine (ImageMagick, FFmpeg or a PDF library) into this tab, once.',
   },
   {
-    icon: AudioLines,
-    label: 'Audio Studio',
-    href: '/audio',
-    desc: 'Transcode MP3, WAV, FLAC and M4A with bitrate and quality control.',
-    accent: 'emerald',
-    tools: ['MP3 Convert', 'WAV to FLAC', 'Bitrate Adjust', 'Trim Audio'],
+    icon: Gauge,
+    title: 'Your device does the work',
+    desc: 'Files are read from your disk straight into the tab’s memory and processed there, at your computer’s speed.',
   },
   {
-    icon: Clapperboard,
-    label: 'Video Studio',
-    href: '/video',
-    desc: 'Transcode MP4, WebM and AVI. Clip, compress and convert in seconds.',
-    accent: 'purple',
-    tools: ['MP4 Convert', 'GIF Export', 'Compress Video', 'Clip Trim'],
+    icon: Download,
+    title: 'The result saves back to your device',
+    desc: 'Downloads come from the tab itself. There is no server copy to delete, because there never was one.',
   },
-  {
-    icon: FileText,
-    label: 'Document Suite',
-    href: '/file',
-    desc: 'Generate and convert PDFs, Word documents and Excel spreadsheets.',
-    accent: 'cyan',
-    tools: ['PDF Convert', 'Word to PDF', 'Merge PDF', 'Excel Tools'],
-  },
-  {
-    icon: Database,
-    label: 'Data Studio',
-    href: '/data',
-    desc: 'Parse and convert JSON, CSV, XML and structured data formats.',
-    accent: 'amber',
-    tools: ['JSON to CSV', 'XML Parse', 'CSV Convert', 'Format Data'],
-  },
-  {
-    icon: Type,
-    label: 'Character Studio',
-    href: '/character',
-    desc: 'Transform text, apply encoding changes and regex operations.',
-    accent: 'rose',
-    tools: ['Case Convert', 'Base64 Encode', 'URL Encode', 'Markdown'],
-  },
-];
-
-const ACCENT = {
-  blue: {
-    bg: 'bg-blue-50 dark:bg-blue-950/40',
-    glow: 'bg-blue-500/15 dark:bg-blue-500/20',
-    icon: 'text-blue-600 dark:text-blue-400',
-    iconHover: 'group-hover:bg-blue-600 group-hover:text-white',
-    border: 'hover:border-blue-300 dark:hover:border-blue-700',
-    pill: 'bg-blue-50/80 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40',
-  },
-  emerald: {
-    bg: 'bg-emerald-50 dark:bg-emerald-950/40',
-    glow: 'bg-emerald-500/15 dark:bg-emerald-500/20',
-    icon: 'text-emerald-600 dark:text-emerald-400',
-    iconHover: 'group-hover:bg-emerald-600 group-hover:text-white',
-    border: 'hover:border-emerald-300 dark:hover:border-emerald-700',
-    pill: 'bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40',
-  },
-  purple: {
-    bg: 'bg-purple-50 dark:bg-purple-950/40',
-    glow: 'bg-purple-500/15 dark:bg-purple-500/20',
-    icon: 'text-purple-600 dark:text-purple-400',
-    iconHover: 'group-hover:bg-purple-600 group-hover:text-white',
-    border: 'hover:border-purple-300 dark:hover:border-purple-700',
-    pill: 'bg-purple-50/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-100 dark:border-purple-900/40',
-  },
-  cyan: {
-    bg: 'bg-cyan-50 dark:bg-cyan-950/40',
-    glow: 'bg-cyan-500/15 dark:bg-cyan-500/20',
-    icon: 'text-cyan-600 dark:text-cyan-400',
-    iconHover: 'group-hover:bg-cyan-600 group-hover:text-white',
-    border: 'hover:border-cyan-300 dark:hover:border-cyan-700',
-    pill: 'bg-cyan-50/80 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-900/40',
-  },
-  amber: {
-    bg: 'bg-amber-50 dark:bg-amber-950/40',
-    glow: 'bg-amber-500/15 dark:bg-amber-500/20',
-    icon: 'text-amber-600 dark:text-amber-400',
-    iconHover: 'group-hover:bg-amber-600 group-hover:text-white',
-    border: 'hover:border-amber-300 dark:hover:border-amber-700',
-    pill: 'bg-amber-50/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900/40',
-  },
-  rose: {
-    bg: 'bg-rose-50 dark:bg-rose-950/40',
-    glow: 'bg-rose-500/15 dark:bg-rose-500/20',
-    icon: 'text-rose-600 dark:text-rose-400',
-    iconHover: 'group-hover:bg-rose-600 group-hover:text-white',
-    border: 'hover:border-rose-300 dark:hover:border-rose-700',
-    pill: 'bg-rose-50/80 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-100 dark:border-rose-900/40',
-  },
-} as const;
-
-const TRUST = [
-  {
-    icon: Shield,
-    label: 'Zero uploads',
-    desc: 'Files never leave your device',
-  },
-  { icon: Zap, label: 'Instant processing', desc: 'Powered by WebAssembly' },
-  { icon: Globe, label: 'Works offline', desc: 'No internet after page load' },
-];
-
-const STATS = [
-  { value: '150+', label: 'Image formats' },
-  { value: '100%', label: 'Browser-side' },
-  { value: '0', label: 'Server uploads' },
-  { value: '6', label: 'Studio tools' },
 ];
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+    <main className="flex-1">
       <HomeTour />
       <JsonLd
         data={[
@@ -221,190 +90,235 @@ export default function HomePage() {
             itemListElement: STUDIOS.map((studio, index) => ({
               '@type': 'ListItem',
               position: index + 1,
-              name: studio.label,
+              name: studio.name,
               url: `${SITE_URL}${studio.href}`,
             })),
           },
         ]}
       />
-      {/* -- Hero ------------------------------------------------------------ */}
-      <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-          {/* Badge */}
-          <div className="flex justify-center mb-6">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-xs font-bold text-blue-700 dark:text-blue-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              100% private · browser-side processing
-              <Sparkles className="w-3 h-3" />
-            </span>
-          </div>
 
-          {/* Headline */}
-          <div className="text-center space-y-4 max-w-3xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              Convert anything.{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                Privately.
-              </span>
+      {/* -- Hero: the drop zone is the product ------------------------------ */}
+      <section className="border-b border-slate-200 bg-[radial-gradient(ellipse_at_top_right,var(--color-blue-50),transparent_60%)] dark:border-slate-800 dark:bg-[radial-gradient(ellipse_at_top_right,color-mix(in_oklch,var(--color-blue-950)_55%,transparent),transparent_60%)]">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14 lg:px-8 lg:py-20">
+          <div className="max-w-xl">
+            <h1 className="[text-wrap:pretty] text-[2.6rem] font-bold leading-[1.04] text-slate-900 sm:text-[3.25rem] xl:text-[3.75rem] dark:text-white">
+              Convert files without uploading them.
             </h1>
-            <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
-              A complete file conversion toolkit that runs entirely in your
-              browser. Images, audio, video, documents, data - no uploads, no
-              accounts, no limits.
+            <p className="mt-5 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+              {TOOL_COUNT} free tools for images, audio, video, PDFs, data and
+              text. Everything runs inside this browser tab, so your files never
+              leave your device.
             </p>
+            <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-slate-700 dark:text-slate-300">
+              <li className="flex items-center gap-2">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+                  aria-hidden
+                />
+                No sign-up
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+                  aria-hidden
+                />
+                No file-size caps
+              </li>
+              <li className="flex items-center gap-2">
+                <WifiOff
+                  className="h-4 w-4 text-emerald-600 dark:text-emerald-400"
+                  aria-hidden
+                />
+                Keeps working offline
+              </li>
+            </ul>
           </div>
-
-          {/* Drop zone - primary action: recognizes the file, routes to the right studio */}
           <HeroDropZone />
-
-          {/* CTA row */}
-          <div className="flex items-center justify-center gap-3 mt-5 text-xs text-slate-400 dark:text-slate-500">
-            <span className="h-px flex-1 max-w-16 bg-slate-200 dark:bg-slate-800" />
-            or
-            <span className="h-px flex-1 max-w-16 bg-slate-200 dark:bg-slate-800" />
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
-            <Link
-              href="/image"
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white text-sm font-bold rounded-xl transition-all shadow-sm shadow-blue-500/20"
-            >
-              <ImageIcon className="w-4 h-4" />
-              Start with Image Studio
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="#studios"
-              className="flex items-center gap-2 px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold rounded-xl transition-all"
-            >
-              Browse all tools
-            </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-12">
-            {STATS.map(({ value, label }) => (
-              <div
-                key={label}
-                className="text-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800"
-              >
-                <p className="text-2xl font-black text-slate-900 dark:text-white">
-                  {value}
-                </p>
-                <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium mt-0.5">
-                  {label}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* -- Trust strip ----------------------------------------------------- */}
-      <section className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10">
-            {TRUST.map(({ icon: Icon, label, desc }) => (
-              <div key={label} className="flex items-center gap-2.5">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
-                  <Icon className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                    {label}
-                  </p>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500">
-                    {desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* -- Popular ---------------------------------------------------------- */}
+      <section className="mx-auto max-w-7xl px-4 pt-14 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          Most used
+        </h2>
+        <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {POPULAR_TOOLS.slice(0, 8).map((tool) => {
+            const accent = STUDIO_ACCENT[tool.studio];
+            const Icon = tool.icon;
+            return (
+              <li key={tool.id}>
+                <Link
+                  href={tool.href}
+                  className={cn(
+                    'group flex h-full items-center gap-3 rounded-xl border border-slate-200 bg-white p-3.5 transition-colors dark:border-slate-800 dark:bg-slate-900',
+                    accent.hoverBorder,
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg',
+                      accent.tile,
+                    )}
+                  >
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-[15px] font-semibold text-slate-900 dark:text-white">
+                      {tool.title}
+                    </span>
+                    <span className="block truncate text-[13px] text-slate-500 dark:text-slate-400">
+                      {getStudio(tool.studio).name}
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
-      {/* -- Studios --------------------------------------------------------- */}
+      {/* -- Full directory --------------------------------------------------- */}
       <section
         id="studios"
-        className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14"
+        className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8"
       >
-        <div className="flex items-center gap-2 mb-8">
-          <span className="w-1 h-5 rounded-full bg-blue-500 inline-block" />
-          <h2 className="text-lg font-black text-slate-900 dark:text-white">
-            All Studios
-          </h2>
-          <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
-            {STUDIOS.length} tools
-          </span>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+              Every tool, by file type
+            </h2>
+            <p className="mt-1.5 text-[15px] text-slate-600 dark:text-slate-400">
+              Six studios, {TOOL_COUNT} tools. Pick a studio to see what each
+              tool does.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-slate-800 dark:bg-slate-800">
           {STUDIOS.map((studio) => {
+            const accent = STUDIO_ACCENT[studio.id];
             const Icon = studio.icon;
-            const a = ACCENT[studio.accent as keyof typeof ACCENT];
+            const tools = getStudioTools(studio.id);
             return (
-              <Link
-                key={studio.label}
-                href={studio.href}
-                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border-2 border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-none transition-all duration-300 ${a.border}`}
+              <div
+                key={studio.id}
+                className="flex flex-col bg-white p-6 dark:bg-slate-900"
               >
-                <div>
-                  {/* Card Header: Icon + Arrow CTA */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${a.bg} ${a.icon} ${a.iconHover} group-hover:scale-105 group-hover:shadow-sm transition-all duration-300`}
-                    >
-                      <Icon className="w-6 h-6 transition-transform duration-300 group-hover:rotate-3" />
-                    </div>
-
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 group-hover:bg-slate-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900 transition-all duration-300">
-                      <ArrowRight className="w-4 h-4 -translate-x-0.5 group-hover:translate-x-0 transition-transform duration-300" />
-                    </div>
-                  </div>
-
-                  {/* Title & Description */}
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors mb-1.5">
-                    {studio.label}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {studio.desc}
-                  </p>
-                </div>
-
-                {/* Feature Tools Pills */}
-                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
-                  <div className="flex flex-wrap gap-1.5">
-                    {studio.tools.map((tool) => (
-                      <span
-                        key={tool}
-                        className={`text-[10px] font-medium px-2.5 py-1 rounded-md transition-transform duration-200 group-hover:scale-[1.02] ${a.pill}`}
+                <Link
+                  href={studio.href}
+                  className="group flex items-start gap-3.5"
+                >
+                  <span
+                    className={cn(
+                      'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
+                      accent.tile,
+                    )}
+                  >
+                    <Icon className="h-[22px] w-[22px]" aria-hidden />
+                  </span>
+                  <span>
+                    <span className="flex items-center gap-1.5 font-display text-lg font-bold text-slate-900 dark:text-white">
+                      {studio.name}
+                      <ArrowRight
+                        className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                        aria-hidden
+                      />
+                    </span>
+                    <span className="block text-sm text-slate-500 dark:text-slate-400">
+                      {studio.handles}
+                    </span>
+                  </span>
+                </Link>
+                <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-1">
+                  {tools.map((tool) => (
+                    <li key={tool.id} className="min-w-0">
+                      <Link
+                        href={tool.href}
+                        className="-mx-1.5 block truncate rounded-md px-1.5 py-1 text-[14.5px] text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
                       >
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Link>
+                        {tool.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             );
           })}
         </div>
       </section>
 
-      {/* -- Bottom CTA ------------------------------------------------------ */}
-      <section className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center space-y-4">
-          <h2 className="text-xl font-black text-slate-900 dark:text-white">
-            Ready to convert?
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-            All tools are free, private, and require no sign-up. Your files
-            never leave your browser.
-          </p>
+      {/* -- How it stays private --------------------------------------------- */}
+      <section className="border-y border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/50">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16 lg:px-8">
+          <div>
+            <h2 className="text-3xl font-bold leading-tight text-slate-900 dark:text-white">
+              How your files stay on your device
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
+              Most online converters upload your file, process it on their
+              server and send it back. Here, the converter comes to your file
+              instead.
+            </p>
+            <div className="mt-6 rounded-xl border border-dashed border-slate-300 p-4 text-sm leading-relaxed text-slate-600 dark:border-slate-700 dark:text-slate-400">
+              <p className="font-semibold text-slate-900 dark:text-white">
+                Check it yourself
+              </p>
+              Open your browser’s developer tools, switch to the Network tab and
+              convert a file. You won’t see your file go anywhere. You can even
+              turn off Wi-Fi once a tool has loaded.
+            </div>
+          </div>
+          <ol className="space-y-8 lg:pt-1">
+            {STEPS.map(({ icon: Icon, title, desc }, i) => (
+              <li key={title} className="flex gap-4">
+                <span className="relative flex flex-col items-center">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 font-display text-base font-bold text-white dark:bg-white dark:text-slate-900">
+                    {i + 1}
+                  </span>
+                  {i < STEPS.length - 1 && (
+                    <span
+                      className="absolute top-12 h-[calc(100%+0.5rem)] w-px bg-slate-200 dark:bg-slate-700"
+                      aria-hidden
+                    />
+                  )}
+                </span>
+                <div className="pt-1.5">
+                  <h3 className="flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-white">
+                    <Icon
+                      className="h-[18px] w-[18px] text-slate-400"
+                      aria-hidden
+                    />
+                    {title}
+                  </h3>
+                  <p className="mt-1 max-w-xl text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
+                    {desc}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* -- Closing ---------------------------------------------------------- */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-start justify-between gap-6 rounded-3xl bg-slate-900 p-8 sm:flex-row sm:items-center sm:p-10 dark:bg-slate-800/70">
+          <div>
+            <h2 className="text-2xl font-bold text-white">
+              Missing a tool you need?
+            </h2>
+            <p className="mt-1.5 text-[15px] text-slate-300">
+              Tell us which file you’re stuck with. New tools are added
+              regularly.
+            </p>
+          </div>
           <Link
-            href="/image"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all mt-2"
+            href="/contact"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-[15px] font-semibold text-slate-900 hover:bg-slate-100"
           >
-            Get started free
-            <ArrowRight className="w-4 h-4" />
+            Suggest a tool
+            <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
       </section>
