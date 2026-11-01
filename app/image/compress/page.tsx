@@ -1,6 +1,4 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { Minimize2, Shield, Zap, TrendingDown } from 'lucide-react';
 import CompressTool from '@/features/image/compress/components';
 import {
@@ -8,6 +6,7 @@ import {
   InfoCardGrid,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/image/shared/components/page-sections';
 import {
   JsonLd,
@@ -16,11 +15,13 @@ import {
   faqPageJsonLd,
   howToJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Compress Images',
+export const metadata: Metadata = pageMetadata({
+  path: '/image/compress',
+  title: 'Compress Images Online - Reduce JPG, PNG & WebP Size',
   description:
-    'Shrink image file size without losing visual quality. Adjustable quality presets, metadata stripping, and batch compression. 100% browser-based, no uploads.',
+    'Make JPG, PNG and WebP images smaller without visible quality loss. Batch compress up to 20 images and see the savings. Free, no upload, no watermark.',
   keywords: [
     'compress image online',
     'reduce image file size',
@@ -35,15 +36,7 @@ export const metadata: Metadata = {
     'lossless image compressor free',
     'reduce jpg size online',
   ],
-  alternates: { canonical: `${SITE_URL}/image/compress` },
-  openGraph: {
-    title: 'Compress Images Online - Free Image Optimizer | Image Studio',
-    description:
-      'Reduce file size without losing quality - fully processed in your browser.',
-    url: `${SITE_URL}/image/compress`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
   {
@@ -147,62 +140,28 @@ export default function CompressPage() {
             name: 'How to compress an image online',
             description:
               'Reduce image file size with adjustable quality presets - all processed locally in your browser.',
-            steps: COMPRESS_STEPS.map((s) => ({ title: s.title, desc: s.desc })),
+            steps: COMPRESS_STEPS.map((s) => ({
+              title: s.title,
+              desc: s.desc,
+            })),
           }),
           faqPageJsonLd(COMPRESS_FAQS),
         ]}
       />
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <span>›</span>
-          <Link
-            href="/image"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Image Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            Compress & Optimize
-          </span>
-        </nav>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Image Studio', path: '/image' },
+          { name: 'Compress & Optimize', path: '/image/compress' },
+        ]}
+        title={'Compress & Optimize Images'}
+        description={
+          'Reduce image file size with adjustable quality presets, metadata stripping, and live before/after savings - all processed locally in your browser.'
+        }
+        features={FEATURES}
+      />
 
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-xs font-black">
-              COMPRESS
-            </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Compress & Optimize Images
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Reduce image file size with adjustable quality presets, metadata
-              stripping, and live before/after savings - all processed locally
-              in your browser.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <CompressTool />
       </div>
 

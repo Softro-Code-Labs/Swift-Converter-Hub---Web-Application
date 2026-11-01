@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileArchive, Zap, Shield, Image as ImageIcon } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import PdfCompressTool from '@/features/file/pdf-compress/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Compress PDF',
+export const metadata: Metadata = pageMetadata({
+  path: '/file/pdf-compress',
+  title: 'Compress PDF Online - Reduce PDF File Size Free',
   description:
-    'Reduce PDF file size by recompressing embedded photos and scans, plus stripping metadata, annotations, and bookmarks - three compression levels, all in your browser. No server, no upload, 100% private.',
+    'Make a PDF small enough to email. Choose light, balanced or maximum compression and compare sizes before downloading. Free, private, no upload.',
   keywords: [
     'compress pdf online free',
     'reduce pdf size browser',
@@ -36,20 +37,8 @@ export const metadata: Metadata = {
     'pdf size optimizer free',
     'compress pdf with images',
     'compress scanned pdf online',
-    'reduce pdf photo size',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/file/pdf-compress`,
-  },
-  openGraph: {
-    title:
-      'Compress PDF - Recompresses Images, Three Levels | Document Suite',
-    description:
-      'Light, balanced, or maximum compression - recompresses embedded JPEG photos/scans and strips metadata. Instant size comparison, nothing uploaded.',
-    url: `${SITE_URL}/file/pdf-compress`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -154,7 +143,7 @@ export default function PdfCompressPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <PdfCompressTool />
       </div>
 

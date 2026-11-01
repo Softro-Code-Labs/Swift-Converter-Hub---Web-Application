@@ -145,6 +145,12 @@ export const MediaPreview = forwardRef<MediaPreviewHandle, MediaPreviewProps>(
     const [state, setState] = useState<PlayState>('idle');
     const [playableUrl, setPlayableUrl] = useState<string | null>(null);
     const ownedUrlsRef = useRef<string[]>([]);
+    // The engine is read through a ref so that it finishing loading doesn't
+    // restart the preview (which revoked the URL mid-load and flickered).
+    const engineRef = useRef({ ffmpeg, isFFmpegLoaded });
+    useEffect(() => {
+      engineRef.current = { ffmpeg, isFFmpegLoaded };
+    }, [ffmpeg, isFFmpegLoaded]);
 
     // `resolvedTheme` is undefined during SSR/first paint, so the player's
     // color scheme is pinned to 'default' until we know the real theme -
@@ -193,16 +199,17 @@ export const MediaPreview = forwardRef<MediaPreviewHandle, MediaPreviewProps>(
         // Native playback failed - fall back to an FFmpeg-generated preview.
         // Wait for the shared engine if it hasn't finished loading yet.
         setState('transcoding');
-        while (!isFFmpegLoaded && !cancelled) {
+        while (!engineRef.current.isFFmpegLoaded && !cancelled) {
           await new Promise((r) => setTimeout(r, 200));
         }
-        if (cancelled || !ffmpeg) return;
+        const engine = engineRef.current.ffmpeg;
+        if (cancelled || !engine) return;
 
         try {
           const sourceBlob = file ?? (await (await fetch(originalUrl)).blob());
           const ext = file ? getFileExtension(file.name) : (srcExt ?? '');
           const previewBlob = await transcodePreview(
-            ffmpeg,
+            engine,
             sourceBlob,
             kind,
             ext,
@@ -219,11 +226,16 @@ export const MediaPreview = forwardRef<MediaPreviewHandle, MediaPreviewProps>(
 
       return () => {
         cancelled = true;
-        ownedUrlsRef.current.forEach((u) => URL.revokeObjectURL(u));
+        // Free the URLs a moment later: a playback probe started by this run
+        // may still be reading the file, and revoking immediately makes it
+        // fail with "file not found" (most visible with React's dev-mode
+        // double mount). Memory is reclaimed either way.
+        const stale = ownedUrlsRef.current;
         ownedUrlsRef.current = [];
+        setTimeout(() => stale.forEach((u) => URL.revokeObjectURL(u)), 4000);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [file, src, kind, isFFmpegLoaded]);
+    }, [file, src, kind]);
 
     if (state === 'idle') return null;
 

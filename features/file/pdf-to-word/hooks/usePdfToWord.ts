@@ -1,5 +1,7 @@
 'use client';
 
+import { formatBytes } from '@/features/shared/lib/format';
+
 import { useState, useCallback } from 'react';
 import type { PDFPageProxy } from 'pdfjs-dist';
 import type {
@@ -8,12 +10,6 @@ import type {
   ExtractedLine,
   ExtractedPage,
 } from '../types/pdfToWord';
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-}
 
 // --- Text extraction ------------------------------------------------------
 //

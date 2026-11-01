@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { ArrowDownAZ, Zap, Shield, Layers3 } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import TextSorterTool from '@/features/character/text-sorter/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Text Sorter & Deduplicator',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/text-sorter',
+  title: 'Sort Lines & Remove Duplicates Online',
   description:
-    'Sort lines A-Z, Z-A, by length, or numerically. Shuffle, reverse, remove duplicates, strip blank lines, and trim whitespace - instantly in your browser. No server, 100% private.',
+    'Sort lines alphabetically, by length or randomly, and remove duplicate or empty lines. Free online text sorter that runs instantly in your browser.',
   keywords: [
     'text sorter online',
     'sort lines online',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'reverse line order tool',
     'trim whitespace from text online',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/text-sorter`,
-  },
-  openGraph: {
-    title:
-      'Text Sorter & Deduplicator - Sort, Filter & Transform Lines | Character Studio',
-    description:
-      'Sort A–Z, by length, numerically, shuffle, deduplicate, remove blanks - stack operations and see results instantly, no server.',
-    url: `${SITE_URL}/character/text-sorter`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -87,8 +77,8 @@ const FAQS = [
     a: "It uses JavaScript's locale-aware string comparison rather than raw character codes, so accented letters (like é or ü) sort into a sensible position relative to their unaccented equivalents instead of being pushed to the end.",
   },
   {
-    q: 'How does numeric sort handle lines that aren\'t plain numbers?',
-    a: 'It extracts the first number it finds in each line (ignoring surrounding text and currency symbols, for example) and sorts by that. Lines with no number at all are treated as sorting last, so they don\'t end up scattered throughout a numerically sorted list.',
+    q: "How does numeric sort handle lines that aren't plain numbers?",
+    a: "It extracts the first number it finds in each line (ignoring surrounding text and currency symbols, for example) and sorts by that. Lines with no number at all are treated as sorting last, so they don't end up scattered throughout a numerically sorted list.",
   },
   {
     q: 'Is deduplication case-sensitive?',
@@ -107,8 +97,11 @@ export default function TextSorterPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
-            { name: 'Text Sorter & Deduplicator', path: '/character/text-sorter' },
+            { name: 'Text Studio', path: '/character' },
+            {
+              name: 'Text Sorter & Deduplicator',
+              path: '/character/text-sorter',
+            },
           ]),
           softwareApplicationJsonLd({
             name: 'Text Sorter & Deduplicator',
@@ -130,8 +123,11 @@ export default function TextSorterPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
-          { name: 'Text Sorter & Deduplicator', path: '/character/text-sorter' },
+          { name: 'Text Studio', path: '/character' },
+          {
+            name: 'Text Sorter & Deduplicator',
+            path: '/character/text-sorter',
+          },
         ]}
         badges={[{ label: 'SORT & CLEAN', color: 'emerald' }]}
         title="Sort & Deduplicate Lines of Text"
@@ -144,7 +140,7 @@ export default function TextSorterPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <TextSorterTool />
       </div>
 

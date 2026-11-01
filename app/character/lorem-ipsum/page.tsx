@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileText, Zap, Shield, Shuffle } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import LoremIpsumTool from '@/features/character/lorem-ipsum/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Lorem Ipsum Generator',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/lorem-ipsum',
+  title: 'Lorem Ipsum Generator - Placeholder Text',
   description:
-    'Generate classic Lorem Ipsum or random English placeholder text by words, sentences, or paragraphs - instantly in your browser. No server, 100% private.',
+    'Generate lorem ipsum placeholder text by paragraphs, sentences or words, in classic Latin or random English. Copy or download. Free and instant.',
   keywords: [
     'lorem ipsum generator',
     'lorem ipsum online',
@@ -34,18 +35,7 @@ export const metadata: Metadata = {
     'placeholder copy generator',
     'ipsum text generator free',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/lorem-ipsum`,
-  },
-  openGraph: {
-    title:
-      'Lorem Ipsum Generator - Classic & Random Placeholder Text | Character Studio',
-    description:
-      'Paragraphs, sentences, or words - classic Latin or random English, instant copy and download, no server.',
-    url: `${SITE_URL}/character/lorem-ipsum`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -95,7 +85,7 @@ export default function LoremIpsumPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Lorem Ipsum Generator', path: '/character/lorem-ipsum' },
           ]),
           softwareApplicationJsonLd({
@@ -118,7 +108,7 @@ export default function LoremIpsumPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Lorem Ipsum Generator', path: '/character/lorem-ipsum' },
         ]}
         badges={[{ label: 'PLACEHOLDER TEXT', color: 'amber' }]}
@@ -132,7 +122,7 @@ export default function LoremIpsumPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <LoremIpsumTool />
       </div>
 

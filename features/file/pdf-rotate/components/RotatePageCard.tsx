@@ -7,93 +7,93 @@ interface RotatePageCardProps {
   onRotateCcw: () => void;
 }
 
+/** One page: click the thumbnail (or the ↻ button) to turn it clockwise.
+ *  Controls are always visible so they work on touch screens and by keyboard. */
 export function RotatePageCard({
   page,
   onRotateCw,
   onRotateCcw,
 }: RotatePageCardProps) {
   const isRotated = page.currentRotation !== 0;
+  const quarter = page.currentRotation === 90 || page.currentRotation === 270;
+  const n = page.pageIndex + 1;
 
   return (
     <div
-      className={`group flex flex-col rounded-xl border-2 overflow-hidden transition-all duration-150
-      ${
+      className={`flex flex-col overflow-hidden rounded-xl border-2 transition-colors ${
         isRotated
-          ? 'border-purple-400 dark:border-purple-600 shadow-sm shadow-purple-500/20'
-          : 'border-slate-200 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-700'
+          ? 'border-blue-500 dark:border-blue-400'
+          : 'border-slate-200 dark:border-slate-700'
       }`}
     >
-      {/* Thumbnail with rotation applied via CSS transform */}
-      <div
-        className="relative bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden"
-        style={{ aspectRatio: '3/4' }}
+      <button
+        type="button"
+        onClick={onRotateCw}
+        disabled={!page.loaded}
+        aria-label={`Rotate page ${n} clockwise${isRotated ? ` (now ${page.currentRotation}°)` : ''}`}
+        className="relative flex aspect-[3/4] items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-800"
       >
         {!page.loaded ? (
-          <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
         ) : page.thumbUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={page.thumbUrl}
-            alt={`Page ${page.pageIndex + 1}`}
-            className="transition-transform duration-300 object-contain"
+            alt=""
+            className="object-contain transition-transform duration-300"
             style={{
               transform: `rotate(${page.currentRotation}deg)`,
-              maxWidth:
-                page.currentRotation === 90 || page.currentRotation === 270
-                  ? '75%'
-                  : '100%',
-              maxHeight:
-                page.currentRotation === 90 || page.currentRotation === 270
-                  ? '75%'
-                  : '100%',
+              maxWidth: quarter ? '75%' : '100%',
+              maxHeight: quarter ? '75%' : '100%',
             }}
           />
         ) : (
-          <div
-            className="flex items-center justify-center transition-transform duration-300"
+          <FileText
+            className="h-6 w-6 text-slate-400 transition-transform duration-300"
             style={{ transform: `rotate(${page.currentRotation}deg)` }}
-          >
-            <FileText className="w-6 h-6 text-slate-400" />
-          </div>
+          />
         )}
-
-        {/* Rotation badge */}
         {isRotated && (
-          <div className="absolute top-1 right-1 px-1.5 py-0.5 bg-purple-500 text-white text-[9px] font-bold rounded-md">
+          <span className="absolute right-1 top-1 rounded-md bg-blue-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
             {page.currentRotation}°
-          </div>
+          </span>
         )}
-      </div>
+      </button>
 
-      {/* Page number + controls */}
       <div
-        className={`flex items-center justify-between px-2 py-1.5 transition-colors
-        ${
+        className={`flex items-center justify-between px-1.5 py-1 ${
           isRotated
-            ? 'bg-purple-50 dark:bg-purple-950/30'
+            ? 'bg-blue-50 dark:bg-blue-500/10'
             : 'bg-slate-50 dark:bg-slate-800'
         }`}
       >
         <span
-          className={`text-[9px] font-bold tabular-nums
-          ${isRotated ? 'text-purple-600 dark:text-purple-400' : 'text-slate-500 dark:text-slate-400'}`}
+          className={`pl-1 text-xs font-semibold tabular-nums ${
+            isRotated
+              ? 'text-blue-700 dark:text-blue-300'
+              : 'text-slate-600 dark:text-slate-400'
+          }`}
         >
-          {page.pageIndex + 1}
+          {n}
         </span>
-        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center">
           <button
+            type="button"
             onClick={onRotateCcw}
+            aria-label={`Rotate page ${n} counter-clockwise`}
             title="Rotate 90° counter-clockwise"
-            className="flex h-5 w-5 items-center justify-center rounded text-slate-400 hover:text-purple-600 hover:bg-purple-100 dark:hover:bg-purple-950/40 cursor-pointer transition-all"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-slate-600 hover:bg-white hover:text-blue-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-blue-300"
           >
-            <RotateCcw className="w-3 h-3" />
+            <RotateCcw className="h-3.5 w-3.5" />
           </button>
           <button
+            type="button"
             onClick={onRotateCw}
+            aria-label={`Rotate page ${n} clockwise`}
             title="Rotate 90° clockwise"
-            className="flex h-5 w-5 items-center justify-center rounded text-slate-400 hover:text-purple-600 hover:bg-purple-100 dark:hover:bg-purple-950/40 cursor-pointer transition-all"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-slate-600 hover:bg-white hover:text-blue-700 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-blue-300"
           >
-            <RotateCw className="w-3 h-3" />
+            <RotateCw className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>

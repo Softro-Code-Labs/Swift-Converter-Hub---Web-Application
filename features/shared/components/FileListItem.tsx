@@ -16,6 +16,7 @@ import {
 } from '@/features/shared/types/mediaFile';
 import { formatBytes, formatDuration } from '@/features/shared/lib/format';
 import { MediaPreview } from './MediaPreview';
+import { AcceleratedBadge } from './AcceleratedBadge';
 
 interface FileListItemProps<TFormat extends MediaFormatLike = MediaFormatLike> {
   item: MediaFileItem<TFormat>;
@@ -95,22 +96,23 @@ export const FileListItem = <
             {item.file.name}
           </p>
           <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-            <span className="text-[10px] text-slate-400 dark:text-slate-500">
+            <span className="text-xs text-slate-400 dark:text-slate-500">
               {formatBytes(item.file.size)}
             </span>
             {item.duration !== undefined && (
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="text-xs text-slate-400 dark:text-slate-500">
                 · {formatDuration(item.duration)}
               </span>
             )}
             {item.outputSize && (
               <>
-                <span className="text-[10px] text-slate-300 dark:text-slate-700">
+                <span className="text-xs text-slate-300 dark:text-slate-700">
                   →
                 </span>
-                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md">
+                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md">
                   {item.outputSize}
                 </span>
+                {item.accelerated && <AcceleratedBadge />}
               </>
             )}
           </div>
@@ -119,14 +121,14 @@ export const FileListItem = <
         {/* -- Status + actions -------------------------------------------- */}
         <div className="shrink-0 flex items-center gap-1.5">
           {item.status === 'idle' && (
-            <span className="flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg">
+            <span className="flex items-center gap-1 text-xs font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg">
               <Clock className="w-3 h-3" />
               Ready
             </span>
           )}
 
           {item.status === 'processing' && (
-            <span className="flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-1 rounded-lg tabular-nums">
+            <span className="flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-1 rounded-lg tabular-nums">
               <Loader2 className="w-3 h-3 animate-spin" />
               {item.progress
                 ? `${Math.round(item.progress * 100)}%`
@@ -137,7 +139,7 @@ export const FileListItem = <
           {item.status === 'success' && (
             <button
               onClick={() => onDownload(item)}
-              className="flex items-center gap-1.5 text-[10px] font-bold bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-2.5 py-1.5 rounded-lg cursor-pointer transition-all"
+              className="flex items-center gap-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-2.5 py-1.5 rounded-lg cursor-pointer transition-all"
             >
               <Download className="w-3 h-3" />
               Download
@@ -146,7 +148,7 @@ export const FileListItem = <
 
           {item.status === 'error' && (
             <span
-              className="flex items-center gap-1 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/30 px-2 py-1 rounded-lg"
+              className="flex items-center gap-1 text-xs font-bold text-red-500 bg-red-50 dark:bg-red-950/30 px-2 py-1 rounded-lg"
               title={item.errorMessage}
             >
               <XCircle className="w-3 h-3" />
@@ -158,7 +160,7 @@ export const FileListItem = <
             disabled={isConvertingAll}
             onClick={() => onRemove(item.id)}
             aria-label="Remove file"
-            className="p-1.5 text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg disabled:opacity-30 cursor-pointer transition-all"
+            className="p-2 text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg disabled:opacity-30 cursor-pointer transition-all"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -190,7 +192,7 @@ export const FileListItem = <
       )}
 
       {item.status === 'error' && item.errorMessage && (
-        <p className="text-[10px] text-red-500 dark:text-red-400 leading-relaxed">
+        <p className="text-xs text-red-500 dark:text-red-400 leading-relaxed">
           {item.errorMessage}
         </p>
       )}

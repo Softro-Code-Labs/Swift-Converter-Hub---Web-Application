@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { RotateCw, Zap, Shield, Grid3x3 } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import PdfRotateTool from '@/features/file/pdf-rotate/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'PDF Page Rotator',
+export const metadata: Metadata = pageMetadata({
+  path: '/file/pdf-rotate',
+  title: 'Rotate PDF Pages Online - Fix Sideways Pages',
   description:
-    'Rotate individual PDF pages or all pages at once - 90°, 180°, or 270°. Visual page grid with live rotation preview. No server, no upload, 100% private. Powered by pdf-lib.',
+    'Rotate single pages or the whole PDF by 90, 180 or 270 degrees and save it. Free, no watermark - files are processed in your browser, never uploaded.',
   keywords: [
     'rotate pdf pages online',
     'pdf page rotator free',
@@ -34,17 +35,7 @@ export const metadata: Metadata = {
     'pdf landscape to portrait',
     'pdf rotate tool free',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/file/pdf-rotate`,
-  },
-  openGraph: {
-    title: 'PDF Page Rotator - Rotate Individual or All Pages | Document Suite',
-    description:
-      'Visual page grid - hover to rotate individual pages or rotate all at once. 90°, 180°, 270° support. Nothing uploaded.',
-    url: `${SITE_URL}/file/pdf-rotate`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -131,7 +122,7 @@ export default function PdfRotatePage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <PdfRotateTool />
       </div>
 

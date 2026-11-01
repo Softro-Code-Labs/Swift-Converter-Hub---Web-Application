@@ -27,9 +27,7 @@ describe('md5', () => {
 
   it('hashes alphanumerics spanning multiple 512-bit blocks', () => {
     expect(
-      md5(
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-      ),
+      md5('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'),
     ).toBe('d174ab98d277d9f5a5611c2c9f419d9f');
   });
 

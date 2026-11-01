@@ -1,16 +1,18 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import ImageStudioClient from './ImageStudioClient';
 import {
   JsonLd,
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
+  studioToolsJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Image Studio - Free Online Image Tools',
+export const metadata: Metadata = pageMetadata({
+  path: '/image',
+  title: 'Free Online Image Tools - Convert, Compress & Crop',
   description:
-    'Convert, crop, compress, adjust, and inspect images entirely in your browser. 150+ formats supported, zero uploads, no account required - a complete free image toolkit powered by WebAssembly.',
+    'Convert, compress, crop, resize and edit images free in your browser. Works with JPG, PNG, WebP, HEIC, AVIF and 150+ formats. No upload, no sign-up.',
   keywords: [
     'image studio online free',
     'free online image tools',
@@ -25,15 +27,7 @@ export const metadata: Metadata = {
     'batch photo processing online',
     'image editing suite free',
   ],
-  alternates: { canonical: `${SITE_URL}/image` },
-  openGraph: {
-    title: 'Image Studio - Free Browser-Based Image Tools',
-    description:
-      'Convert, crop, compress, and adjust images entirely in your browser. 150+ formats, zero uploads.',
-    url: `${SITE_URL}/image`,
-    type: 'website',
-  },
-};
+});
 
 export default function ImageStudioPage() {
   return (
@@ -44,6 +38,7 @@ export default function ImageStudioPage() {
             { name: 'Home', path: '/' },
             { name: 'Image Studio', path: '/image' },
           ]),
+          studioToolsJsonLd('image'),
           softwareApplicationJsonLd({
             name: 'Image Studio',
             description:

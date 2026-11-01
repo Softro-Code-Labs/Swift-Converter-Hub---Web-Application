@@ -30,11 +30,11 @@ export function RangeInput({ value, onChange, pageCount }: RangeInputProps) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        <label className="text-xs font-bold text-slate-400 dark:text-slate-500">
           Page range
         </label>
         {pages > 0 && !error && (
-          <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 tabular-nums">
+          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 tabular-nums">
             ~{pages} pages selected
           </span>
         )}
@@ -52,12 +52,12 @@ export function RangeInput({ value, onChange, pageCount }: RangeInputProps) {
           }`}
       />
       {error && (
-        <div className="flex items-center gap-1.5 text-[10px] text-red-500 font-semibold">
+        <div className="flex items-center gap-1.5 text-xs text-red-500 font-semibold">
           <AlertCircle className="w-3 h-3" />
           {error}
         </div>
       )}
-      <p className="text-[10px] text-slate-400 dark:text-slate-500">
+      <p className="text-xs text-slate-400 dark:text-slate-500">
         Use commas to separate pages or ranges:{' '}
         <code className="font-mono bg-slate-100 dark:bg-slate-800 px-1 rounded">
           1-3, 5, 8-10

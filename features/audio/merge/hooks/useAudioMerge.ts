@@ -17,7 +17,10 @@ import { MergeFileItem, MergeStatus } from '../types/merge';
 
 const MAX_FILES = 15;
 
-export const useAudioMerge = (ffmpeg: FFmpeg | null, isFFmpegLoaded: boolean) => {
+export const useAudioMerge = (
+  ffmpeg: FFmpeg | null,
+  isFFmpegLoaded: boolean,
+) => {
   const [items, setItems] = useState<MergeFileItem[]>([]);
   const [status, setStatus] = useState<MergeStatus>('idle');
   const [progress, setProgress] = useState(0);
@@ -44,7 +47,10 @@ export const useAudioMerge = (ffmpeg: FFmpeg | null, isFFmpegLoaded: boolean) =>
         const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
         if (!getFormatByExtension(ext)) {
           if (!foundInvalid) {
-            setInvalidFileDetails({ name: file.name, type: ext.toUpperCase() || 'UNKNOWN' });
+            setInvalidFileDetails({
+              name: file.name,
+              type: ext.toUpperCase() || 'UNKNOWN',
+            });
             foundInvalid = true;
           }
           continue;
@@ -118,7 +124,8 @@ export const useAudioMerge = (ffmpeg: FFmpeg | null, isFFmpegLoaded: boolean) =>
       try {
         // Write every input file to the virtual filesystem first.
         for (let i = 0; i < items.length; i++) {
-          const ext = items[i].file.name.split('.').pop()?.toLowerCase() ?? 'bin';
+          const ext =
+            items[i].file.name.split('.').pop()?.toLowerCase() ?? 'bin';
           const path = `merge_input_${i}.${ext}`;
           await ffmpeg.writeFile(path, await fetchFile(items[i].file));
           inputPaths.push(path);

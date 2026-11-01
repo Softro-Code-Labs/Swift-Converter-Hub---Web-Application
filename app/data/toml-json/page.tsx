@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Settings2, Zap, Shield, ArrowLeftRight } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import TomlJsonTool from '@/features/data/toml-json/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'TOML to JSON Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/data/toml-json',
+  title: 'TOML to JSON Converter - and JSON to TOML',
   description:
-    'Convert TOML to JSON or JSON to TOML instantly in your browser. Supports Cargo.toml, pyproject.toml, config.toml and any TOML config file - no server, no upload, 100% private.',
+    'Convert TOML to JSON or JSON to TOML for Cargo.toml, pyproject.toml and other configs, with clear error messages. Free, instant and private.',
   keywords: [
     'toml to json converter',
     'json to toml converter',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'toml config converter online',
     'rust config file converter',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/data/toml-json`,
-  },
-  openGraph: {
-    title:
-      'TOML ↔ JSON Converter - Cargo.toml, pyproject.toml & More | Data Studio',
-    description:
-      'Convert TOML to JSON or JSON to TOML. Cargo.toml, pyproject.toml, config files - instant, private, no server.',
-    url: `${SITE_URL}/data/toml-json`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -75,15 +65,15 @@ const USE_CASE_CARDS = [
 const FAQS = [
   {
     q: 'Are TOML dates and datetimes preserved correctly?',
-    a: "Yes - TOML has native date, time, and datetime types (unlike JSON, which has none), and this tool preserves them through the round trip: a TOML datetime converts to an ISO 8601 string in JSON, and converting that JSON back to TOML restores it as a proper TOML datetime rather than a plain string.",
+    a: 'Yes - TOML has native date, time, and datetime types (unlike JSON, which has none), and this tool preserves them through the round trip: a TOML datetime converts to an ISO 8601 string in JSON, and converting that JSON back to TOML restores it as a proper TOML datetime rather than a plain string.',
   },
   {
     q: 'How do TOML tables and arrays of tables map to JSON?',
-    a: 'A TOML table ([section]) becomes a nested JSON object, and an array of tables ([[section]]) becomes a JSON array of objects - the same nesting relationship, just expressed with TOML\'s bracket syntax instead of JSON\'s braces.',
+    a: "A TOML table ([section]) becomes a nested JSON object, and an array of tables ([[section]]) becomes a JSON array of objects - the same nesting relationship, just expressed with TOML's bracket syntax instead of JSON's braces.",
   },
   {
     q: 'Can I convert JSON back into a valid TOML config file?',
-    a: "Yes - conversion works in both directions, and the JSON to TOML direction produces syntactically valid TOML you can drop straight into a Cargo.toml, pyproject.toml, or similar config file, keys sorted alphabetically if you enable that option.",
+    a: 'Yes - conversion works in both directions, and the JSON to TOML direction produces syntactically valid TOML you can drop straight into a Cargo.toml, pyproject.toml, or similar config file, keys sorted alphabetically if you enable that option.',
   },
   {
     q: 'What TOML version does this support?',
@@ -127,7 +117,10 @@ export default function TomlJsonPage() {
           { name: 'Data Studio', path: '/data' },
           { name: 'TOML to JSON Converter', path: '/data/toml-json' },
         ]}
-        badges={[{ label: 'TOML', color: 'purple' }, { label: 'JSON', color: 'amber' }]}
+        badges={[
+          { label: 'TOML', color: 'purple' },
+          { label: 'JSON', color: 'amber' },
+        ]}
         title="Convert TOML to JSON (and Back)"
         description="Convert TOML config files - Cargo.toml, pyproject.toml, and more - to JSON, or JSON back to valid TOML, entirely in your browser."
         features={[
@@ -138,7 +131,7 @@ export default function TomlJsonPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <TomlJsonTool />
       </div>
 
@@ -155,7 +148,7 @@ export default function TomlJsonPage() {
         title="How the conversion works"
         accentColor="bg-emerald-500"
         paragraphs={[
-          'Both directions are powered by @iarna/toml, a spec-compliant TOML v1.0.0 parser and serializer. TOML tables become nested JSON objects, arrays of tables become JSON arrays of objects, and TOML\'s native date/time types are converted to ISO 8601 strings - a small extra step re-detects those ISO strings when converting back to TOML, so a round trip through JSON and back doesn\'t downgrade a real datetime into a plain string.',
+          "Both directions are powered by @iarna/toml, a spec-compliant TOML v1.0.0 parser and serializer. TOML tables become nested JSON objects, arrays of tables become JSON arrays of objects, and TOML's native date/time types are converted to ISO 8601 strings - a small extra step re-detects those ISO strings when converting back to TOML, so a round trip through JSON and back doesn't downgrade a real datetime into a plain string.",
         ]}
       />
 

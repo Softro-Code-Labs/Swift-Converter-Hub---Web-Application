@@ -116,6 +116,73 @@ export const getConversionHref = (source: string, target: string): string =>
 
 // --- FFmpeg codec mapping ----------------------------------------------------
 
+/**
+ * VP8 settings for WebM output. `-deadline good -cpu-used 5` makes libvpx
+ * about 4-5x faster than its default (`good`, cpu-used 0) at the same file
+ * size. libvpx's default is tuned for offline mastering, which is far too
+ * slow for a single-threaded WebAssembly encoder in a browser tab.
+ */
+const VP8_ARGS = [
+  '-c:v',
+  'libvpx',
+  '-crf',
+  '10',
+  '-b:v',
+  '1M',
+  '-deadline',
+  'good',
+  '-cpu-used',
+  '5',
+];
+
+// --- Stream copy (remux) -----------------------------------------------------
+
+/** Codecs (FFmpeg names) each container can hold without re-encoding. */
+const REMUX_CODECS: Record<string, { video: string[]; audio: string[] }> = {
+  // MP4/MOV: only codecs QuickTime, iPhones and editors reliably open.
+  mp4: { video: ['h264', 'hevc'], audio: ['aac', 'mp3'] },
+  m4v: { video: ['h264', 'hevc'], audio: ['aac'] },
+  mov: {
+    video: ['h264', 'hevc', 'prores'],
+    audio: ['aac', 'mp3', 'alac', 'pcm_s16le'],
+  },
+  mkv: {
+    video: ['h264', 'hevc', 'vp8', 'vp9', 'av1', 'mpeg4'],
+    audio: ['aac', 'mp3', 'opus', 'vorbis', 'flac', 'ac3', 'eac3', 'pcm_s16le'],
+  },
+  webm: { video: ['vp8', 'vp9', 'av1'], audio: ['opus', 'vorbis'] },
+};
+
+/**
+ * True when the source's streams can go into the target container as they
+ * are - no re-encode, so the "conversion" takes seconds instead of minutes
+ * and loses no quality (e.g. an H.264/AAC .mov to .mp4).
+ */
+export function canRemux(
+  target: string,
+  codecs: { video: string | null; audio: string | null; audioStreams: number },
+): boolean {
+  const rule = REMUX_CODECS[target];
+  if (!rule || !codecs.video || !rule.video.includes(codecs.video))
+    return false;
+  if (codecs.audioStreams > 1) return false; // keep it simple: one soundtrack
+  return !codecs.audio || rule.audio.includes(codecs.audio);
+}
+
+/** FFmpeg args for a stream-copy remux into `target`. */
+export function getRemuxArgs(
+  target: string,
+  videoCodec: string | null,
+): string[] {
+  const args = ['-map', '0:v:0', '-map', '0:a:0?', '-c', 'copy'];
+  if (target === 'mp4' || target === 'm4v' || target === 'mov') {
+    // hvc1 tag: needed for HEVC to play in Safari / QuickTime.
+    if (videoCodec === 'hevc') args.push('-tag:v', 'hvc1');
+    args.push('-movflags', '+faststart');
+  }
+  return args;
+}
+
 export function getFFmpegArgsForTarget(target: string): string[] {
   switch (target) {
     case 'mp4':
@@ -139,16 +206,7 @@ export function getFFmpegArgsForTarget(target: string): string[] {
         'yuv420p', // widest playback compatibility
       ];
     case 'webm':
-      return [
-        '-c:v',
-        'libvpx',
-        '-crf',
-        '10',
-        '-b:v',
-        '1M',
-        '-c:a',
-        'libvorbis',
-      ];
+      return [...VP8_ARGS, '-c:a', 'libvorbis'];
     case 'mov':
       return [
         '-c:v',
@@ -318,7 +376,7 @@ export function getVideoCodecArgsForContainer(ext: string): string[] {
         'yuv420p',
       ];
     case 'webm':
-      return ['-c:v', 'libvpx', '-crf', '10', '-b:v', '1M'];
+      return VP8_ARGS;
     case 'avi':
       return ['-c:v', 'mpeg4', '-q:v', '5'];
     case 'wmv':
@@ -475,6 +533,35 @@ export interface CustomEncodeOptions {
   fps?: number | null;
   mode?: CustomEncodeMode;
   targetBitrateKbps?: number;
+}
+
+/**
+ * Explicit bitrates for encoders that have no CRF mode (the hardware /
+ * WebCodecs path). Uses the same size budget as getCompressArgs: the
+ * user's target in bitrate mode, otherwise the preset's ceiling relative to
+ * the source. Returns null when the source bitrate is unknown (no safe
+ * budget can be set - FFmpeg's CRF mode handles that case).
+ */
+export function getCompressBitrates(
+  preset: QualityPreset,
+  sourceBitrateKbps?: number,
+  customOptions?: CustomEncodeOptions,
+): { videoKbps: number; audioKbps: number } | null {
+  if (customOptions?.mode === 'bitrate' && customOptions.targetBitrateKbps) {
+    return {
+      videoKbps: customOptions.targetBitrateKbps,
+      audioKbps: preset.audioKbps,
+    };
+  }
+  if (!sourceBitrateKbps || !Number.isFinite(sourceBitrateKbps)) return null;
+  const targetTotalKbps = Math.max(
+    preset.minVideoKbps + preset.audioKbps,
+    sourceBitrateKbps * preset.bitrateRatio,
+  );
+  return {
+    videoKbps: Math.round(targetTotalKbps - preset.audioKbps),
+    audioKbps: preset.audioKbps,
+  };
 }
 
 /**

@@ -1,7 +1,4 @@
-'use client';
-
-import { useState } from 'react';
-import { Sparkles, ChevronDown } from 'lucide-react';
+import { GuideSection } from './Section';
 
 interface TechnicalNoteProps {
   title: string;
@@ -10,63 +7,46 @@ interface TechnicalNoteProps {
   collapsible?: boolean;
 }
 
-const ACCENT_ICON: Record<string, string> = {
-  'bg-blue-500': 'text-blue-500 dark:text-blue-400',
-  'bg-purple-500': 'text-purple-500 dark:text-purple-400',
-  'bg-amber-500': 'text-amber-500 dark:text-amber-400',
-  'bg-emerald-500': 'text-emerald-500 dark:text-emerald-400',
-};
-
+/** Background reading for the curious. Collapsed by default when long, so
+ *  it never pushes the FAQ out of reach. */
 export const TechnicalNote = ({
   title,
   paragraphs,
-  accentColor = 'bg-emerald-500',
-  collapsible = false,
+  collapsible,
 }: TechnicalNoteProps) => {
-  const [isOpen, setIsOpen] = useState(!collapsible);
-  const iconColor = ACCENT_ICON[accentColor] ?? ACCENT_ICON['bg-emerald-500'];
+  const collapse = collapsible ?? paragraphs.join(' ').length > 700;
+
+  const body = (
+    <div className="max-w-3xl space-y-3">
+      {paragraphs.map((p, i) => (
+        <p
+          key={i}
+          className="text-[15px] leading-relaxed text-slate-600 dark:text-slate-400"
+        >
+          {p}
+        </p>
+      ))}
+    </div>
+  );
+
+  if (!collapse) return <GuideSection title={title}>{body}</GuideSection>;
 
   return (
-    <div className="px-6 pb-8 border-t border-slate-100 dark:border-slate-800 pt-6">
-      <div className="relative bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-5 overflow-hidden border border-slate-100 dark:border-slate-800/60">
-        {/* Subtle decorative accent */}
-        <div
-          className={`absolute -top-8 -right-8 w-24 h-24 rounded-full ${accentColor} opacity-[0.06] blur-2xl`}
-        />
-
-        <button
-          onClick={() => collapsible && setIsOpen((p) => !p)}
-          className={`relative w-full flex items-center justify-between gap-3 ${collapsible ? 'cursor-pointer' : 'cursor-default'}`}
-          disabled={!collapsible}
-        >
-          <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-            <span
-              className={`flex items-center justify-center w-6 h-6 rounded-lg ${accentColor} bg-opacity-10 dark:bg-opacity-20`}
-            >
-              <Sparkles className={`w-3.5 h-3.5 text-white/60`} />
-            </span>
+    <section className="border-t border-slate-200 px-5 py-8 sm:px-8 dark:border-slate-800">
+      <details className="group">
+        <summary className="flex list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
             {title}
           </h2>
-          {collapsible && (
-            <ChevronDown
-              className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? `rotate-180 ${iconColor}` : ''}`}
-            />
-          )}
-        </button>
-
-        {isOpen && (
-          <div className="relative space-y-2.5 mt-3">
-            {paragraphs.map((p, i) => (
-              <p
-                key={i}
-                className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed"
-              >
-                {p}
-              </p>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+          <span className="text-sm font-medium text-slate-500 group-open:hidden dark:text-slate-400">
+            Read more
+          </span>
+          <span className="hidden text-sm font-medium text-slate-500 group-open:inline dark:text-slate-400">
+            Show less
+          </span>
+        </summary>
+        <div className="mt-4">{body}</div>
+      </details>
+    </section>
   );
 };

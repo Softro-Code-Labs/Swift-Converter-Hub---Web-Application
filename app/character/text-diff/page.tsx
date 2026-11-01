@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { GitCompare, Zap, Shield, Columns2 } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import TextDiffTool from '@/features/character/text-diff/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Text Diff Viewer',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/text-diff',
+  title: 'Text Compare - Find Differences Between Two Texts',
   description:
-    'Compare two texts side-by-side or in unified view and see exactly what changed - added, removed, and unchanged lines highlighted instantly. No server, 100% private.',
+    'Compare two texts side by side and see exactly what was added, removed or changed, line by line. Free, instant, and your text stays in your browser.',
   keywords: [
     'text diff online',
     'text compare tool',
@@ -34,18 +35,7 @@ export const metadata: Metadata = {
     'compare code changes online',
     'diff viewer online free',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/text-diff`,
-  },
-  openGraph: {
-    title:
-      'Text Diff Viewer - Compare Any Two Texts Instantly | Character Studio',
-    description:
-      'Side-by-side and unified diff with live highlighting, line numbers, and change stats - instant, private, no server.',
-    url: `${SITE_URL}/character/text-diff`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -68,7 +58,7 @@ const STEPS = [
 const FAQS = [
   {
     q: 'What algorithm computes the differences?',
-    a: "The Myers diff algorithm - the same core approach behind the diff command-line tool and most version-control systems - which finds the shortest edit script (the minimum number of line insertions and deletions) needed to turn the first text into the second.",
+    a: 'The Myers diff algorithm - the same core approach behind the diff command-line tool and most version-control systems - which finds the shortest edit script (the minimum number of line insertions and deletions) needed to turn the first text into the second.',
   },
   {
     q: "What's the difference between side-by-side and unified view?",
@@ -76,7 +66,7 @@ const FAQS = [
   },
   {
     q: 'Does it compare word by word or line by line?',
-    a: "Line by line. Each line of the original and revised text is treated as a single unit for comparison, so a line with even a single character changed is shown as one removed line and one added line, rather than highlighting just the changed word within it.",
+    a: 'Line by line. Each line of the original and revised text is treated as a single unit for comparison, so a line with even a single character changed is shown as one removed line and one added line, rather than highlighting just the changed word within it.',
   },
   {
     q: 'Is the comparison case-sensitive?',
@@ -95,7 +85,7 @@ export default function TextDiffPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Text Diff Viewer', path: '/character/text-diff' },
           ]),
           softwareApplicationJsonLd({
@@ -118,7 +108,7 @@ export default function TextDiffPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Text Diff Viewer', path: '/character/text-diff' },
         ]}
         badges={[{ label: 'DIFF', color: 'teal' }]}
@@ -132,7 +122,7 @@ export default function TextDiffPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <TextDiffTool />
       </div>
 
@@ -142,7 +132,7 @@ export default function TextDiffPage() {
         title="How the diff is calculated"
         accentColor="bg-emerald-500"
         paragraphs={[
-          "Both texts are split into lines and compared using the Myers diff algorithm, implemented directly in JavaScript with no external dependency. It finds the shortest possible sequence of line insertions and deletions that transforms the original into the revised version - the same underlying approach used by the Unix diff utility and by Git when it shows you what changed in a commit.",
+          'Both texts are split into lines and compared using the Myers diff algorithm, implemented directly in JavaScript with no external dependency. It finds the shortest possible sequence of line insertions and deletions that transforms the original into the revised version - the same underlying approach used by the Unix diff utility and by Git when it shows you what changed in a commit.',
           'The result is rendered as a sequence of equal, insert, and delete operations, which the interface then turns into highlighted lines and running added/removed/unchanged counts.',
         ]}
       />

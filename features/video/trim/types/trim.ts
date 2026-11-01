@@ -10,4 +10,6 @@ export interface VideoTrimState {
   outputUrl?: string;
   outputSize?: string;
   errorMessage?: string;
+  /** Processed by the device's hardware video engine (WebCodecs). */
+  accelerated?: boolean;
 }

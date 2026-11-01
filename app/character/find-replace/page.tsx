@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Search, Zap, Shield, Replace } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import FindReplaceTool from '@/features/character/find-replace/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Find & Replace',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/find-replace',
+  title: 'Find and Replace Text Online - with Regex',
   description:
-    'Find and replace text with live match highlighting. Supports plain text and regular expressions with case-sensitive, whole-word, and regex modes - all in your browser, 100% private.',
+    'Find and replace words or phrases across any text, with case matching, whole words and regular expressions. Free, instant, and private.',
   keywords: [
     'find and replace online',
     'text find replace tool',
@@ -34,17 +35,7 @@ export const metadata: Metadata = {
     'regex substitution tool',
     'search and replace text online',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/find-replace`,
-  },
-  openGraph: {
-    title: 'Find & Replace - Live Regex & Plain Text | Character Studio',
-    description:
-      'Live match highlighting, plain text or regex, replace one or all - instant, private, no server.',
-    url: `${SITE_URL}/character/find-replace`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -94,7 +85,7 @@ export default function FindReplacePage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Find & Replace', path: '/character/find-replace' },
           ]),
           softwareApplicationJsonLd({
@@ -117,7 +108,7 @@ export default function FindReplacePage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Find & Replace', path: '/character/find-replace' },
         ]}
         badges={[{ label: 'FIND & REPLACE', color: 'blue' }]}
@@ -131,7 +122,7 @@ export default function FindReplacePage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <FindReplaceTool />
       </div>
 
@@ -142,7 +133,7 @@ export default function FindReplacePage() {
         accentColor="bg-emerald-500"
         paragraphs={[
           'Plain text mode escapes every regular-expression special character in your search term before compiling it, so a literal search for "1.5" only matches the exact string "1.5" instead of "1" followed by any character followed by "5". Regex mode skips that escaping step and compiles your input directly, giving full access to groups, character classes, and quantifiers.',
-          'Whole-word matching wraps the compiled pattern with \\b boundary anchors, and the global flag ensures every occurrence in the text is found rather than stopping at the first one - all handled by the same RegExp engine built into your browser\'s JavaScript runtime.',
+          "Whole-word matching wraps the compiled pattern with \\b boundary anchors, and the global flag ensures every occurrence in the text is found rather than stopping at the first one - all handled by the same RegExp engine built into your browser's JavaScript runtime.",
         ]}
       />
 

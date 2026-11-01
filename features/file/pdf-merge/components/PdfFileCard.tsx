@@ -46,13 +46,13 @@ export function PdfFileCard({
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      className="group flex items-center gap-3 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl transition-all hover:border-cyan-300 dark:hover:border-cyan-700 hover:shadow-sm cursor-grab active:cursor-grabbing active:opacity-70 active:scale-[0.99]"
+      className="group flex items-center gap-3 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl transition-all hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm cursor-grab active:cursor-grabbing active:opacity-70 active:scale-[0.99]"
     >
       {/* Drag handle */}
       <GripVertical className="w-4 h-4 text-slate-300 dark:text-slate-600 shrink-0 group-hover:text-slate-400 transition-colors" />
 
       {/* Order badge */}
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 text-[10px] font-black">
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold">
         {index + 1}
       </span>
 
@@ -79,7 +79,7 @@ export function PdfFileCard({
         <p className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate">
           {item.name}
         </p>
-        <div className="flex items-center gap-2 text-[10px] text-slate-400 tabular-nums">
+        <div className="flex items-center gap-2 text-xs text-slate-400 tabular-nums">
           <span>{item.sizeLabel}</span>
           {item.pageCount !== null && !item.error && (
             <>
@@ -98,7 +98,7 @@ export function PdfFileCard({
         <button
           onClick={() => index > 0 && onReorder(index, index - 1)}
           disabled={index === 0}
-          className="text-slate-300 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-20 cursor-pointer transition-colors text-[10px] leading-none"
+          className="text-slate-300 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-20 cursor-pointer transition-colors text-xs leading-none"
           title="Move up"
         >
           ▲
@@ -106,7 +106,7 @@ export function PdfFileCard({
         <button
           onClick={() => index < total - 1 && onReorder(index, index + 1)}
           disabled={index === total - 1}
-          className="text-slate-300 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-20 cursor-pointer transition-colors text-[10px] leading-none"
+          className="text-slate-300 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-20 cursor-pointer transition-colors text-xs leading-none"
           title="Move down"
         >
           ▼

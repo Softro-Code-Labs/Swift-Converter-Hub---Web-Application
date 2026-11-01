@@ -1,8 +1,12 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { ArrowRight, Shield, Zap, Globe, Package } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import {
+  ToolPageHeader,
+  RelatedConversions,
+} from '@/features/shared/components/page-sections';
 import BaseAudioConverter from '@/features/audio/convert/components';
 import {
   getFormatByExtension,
@@ -50,33 +54,27 @@ export async function generateMetadata({
   const route = getConversionRoute(source, target);
   const isCurated =
     HIGH_TRAFFIC_PAIRS.has(conversion) || MEDIUM_TRAFFIC_PAIRS.has(conversion);
-  return {
-    title: route.title,
-    description: route.description,
-    keywords: route.keywords,
-    alternates: {
-      canonical: `${SITE_URL}/audio/convert/${conversion}`,
-    },
-    openGraph: {
-      title: route.title,
-      description: route.description,
-      url: `${SITE_URL}/audio/convert/${conversion}`,
-      type: 'website',
-    },
-    // Keep only the curated, hand-reviewed pairs indexable; the long tail of
-    // auto-generated pairs stays usable but out of the search/ad index.
-    robots: isCurated
-      ? { index: true, follow: true }
-      : { index: false, follow: true },
-  };
+  const S = source.toUpperCase();
+  const T = target.toUpperCase();
+  // Curated pairs keep their hand-written description; templated pairs get
+  // one that says what the page does and why it is different.
+  const description =
+    route.description &&
+    route.description.length >= 110 &&
+    route.description.length <= 160
+      ? route.description
+      : `Convert ${S} to ${T} free in your browser. Choose the bitrate, batch up to 20 files and download as a ZIP. No upload, no sign-up needed.`;
+  return pageMetadata({
+    path: `/audio/convert/${conversion}`,
+    title: `Convert ${S} to ${T} Online - Free, No Upload`,
+    description,
+    keywords: route.keywords.slice(0, 14),
+    ogTitle: `${S} to ${T} Converter`,
+    // Keep only the curated, hand-reviewed pairs indexable; the long tail
+    // stays usable and crawlable but out of the search index.
+    noindex: !isCurated,
+  });
 }
-
-const TRUST_PILLS = [
-  { icon: Shield, label: 'No uploads - 100% private' },
-  { icon: Zap, label: 'Instant browser processing' },
-  { icon: Globe, label: 'Works offline' },
-  { icon: Package, label: 'Batch + ZIP download' },
-];
 
 export default async function AudioConversionPage({ params }: PageProps) {
   const { conversion } = await params;
@@ -129,64 +127,35 @@ export default async function AudioConversionPage({ params }: PageProps) {
     return (
       <div className="space-y-0">
         <JsonLd data={[breadcrumbJsonLd(breadcrumbItems)]} />
-        <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-          <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-            <Link
-              href="/"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Home
-            </Link>
-            <ArrowRight className="w-3 h-3" />
-            <Link
-              href="/audio"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Audio Studio
-            </Link>
-            <ArrowRight className="w-3 h-3" />
-            <Link
-              href="/audio/convert"
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Format Converter
-            </Link>
-            <ArrowRight className="w-3 h-3" />
-            <span className="text-slate-600 dark:text-slate-300 font-medium">
-              {sourceFormat.label} to {targetFormat.label}
-            </span>
-          </nav>
-
-          <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-bold">
+        <ToolPageHeader
+          breadcrumbs={breadcrumbItems}
+          title={`${sourceFormat.label} to ${targetFormat.label} Converter`}
+          description={`Turn ${sourceFormat.label} files into ${targetFormat.label}. Add one file or a whole batch.`}
+        >
+          <p className="mt-4 flex items-center gap-2 text-sm font-semibold">
+            <span className="rounded-md bg-slate-100 px-2 py-1 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
               {sourceFormat.label}
             </span>
-            <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+            <ArrowRight className="h-4 w-4 text-slate-400" aria-hidden />
+            <span className="rounded-md bg-blue-100 px-2 py-1 text-blue-800 dark:bg-blue-500/15 dark:text-blue-200">
               {targetFormat.label}
             </span>
-          </div>
-          <h1 className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
-            {sourceFormat.label} to {targetFormat.label} Converter
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Converts entirely in your browser - files are never uploaded.
           </p>
-        </div>
+        </ToolPageHeader>
 
-        <div className="px-6 py-6">
+        <div className="@container px-5 py-6 sm:px-8 sm:py-8">
           <BaseAudioConverter
             sourceFormat={sourceFormat}
             targetFormat={targetFormat}
           />
         </div>
 
-        <div className="px-6 pb-8">
+        <div className="px-5 pb-8 sm:px-8">
           <Link
             href="/audio/convert"
-            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-sm font-semibold text-blue-700 underline-offset-4 hover:underline dark:text-blue-300"
           >
-            Browse all audio conversions →
+            See all audio conversions
           </Link>
         </div>
       </div>
@@ -207,84 +176,24 @@ export default async function AudioConversionPage({ params }: PageProps) {
         ]}
       />
       {/* Hero */}
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <ArrowRight className="w-3 h-3" />
-          <Link
-            href="/audio"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Audio Studio
-          </Link>
-          <ArrowRight className="w-3 h-3" />
-          <Link
-            href="/audio/convert"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Format Converter
-          </Link>
-          <ArrowRight className="w-3 h-3" />
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            {sourceFormat.label} to {targetFormat.label}
+      <ToolPageHeader
+        breadcrumbs={breadcrumbItems}
+        title={`Convert ${sourceFormat.label} to ${targetFormat.label} Online`}
+        description={route.description}
+      >
+        <p className="mt-4 flex items-center gap-2 text-sm font-semibold">
+          <span className="rounded-md bg-slate-100 px-2 py-1 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+            {sourceFormat.label}
           </span>
-        </nav>
-
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-bold">
-                {sourceFormat.label}
-              </span>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-              <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
-                {targetFormat.label}
-              </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500 hidden sm:inline">
-                · Free online converter
-              </span>
-            </div>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
-              Convert {sourceFormat.label} to {targetFormat.label} Online
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              {route.description}
-            </p>
-          </div>
-
-          <div className="hidden sm:flex flex-col gap-1.5 shrink-0">
-            {TRUST_PILLS.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex sm:hidden items-center gap-2 mt-4 overflow-x-auto pb-1">
-          {TRUST_PILLS.map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="flex items-center gap-1.5 shrink-0 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-full text-[10px] font-medium text-slate-600 dark:text-slate-400"
-            >
-              <Icon className="w-3 h-3 text-emerald-500" />
-              {label}
-            </div>
-          ))}
-        </div>
-      </div>
+          <ArrowRight className="h-4 w-4 text-slate-400" aria-hidden />
+          <span className="rounded-md bg-blue-100 px-2 py-1 text-blue-800 dark:bg-blue-500/15 dark:text-blue-200">
+            {targetFormat.label}
+          </span>
+        </p>
+      </ToolPageHeader>
 
       {/* Converter */}
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <BaseAudioConverter
           sourceFormat={sourceFormat}
           targetFormat={targetFormat}
@@ -292,7 +201,7 @@ export default async function AudioConversionPage({ params }: PageProps) {
       </div>
 
       {/* Steps */}
-      <div className="px-6 pb-6">
+      <div className="border-t border-slate-200 px-5 py-8 sm:px-8 dark:border-slate-800">
         <StepList
           variant="boxed"
           accentColor="bg-blue-500"
@@ -306,13 +215,21 @@ export default async function AudioConversionPage({ params }: PageProps) {
       </div>
 
       {/* Features */}
-      <div className="px-6 pb-2 border-t border-slate-100 dark:border-slate-800 pt-6">
+      <div className="border-t border-slate-200 px-5 py-8 sm:px-8 dark:border-slate-800">
         <FeatureGrid
           title="Why use this converter"
           accentColor="bg-emerald-500"
           items={route.features}
         />
       </div>
+
+      <RelatedConversions
+        base="/audio/convert"
+        source={sourceExt}
+        target={targetExt}
+        curated={new Set([...HIGH_TRAFFIC_PAIRS, ...MEDIUM_TRAFFIC_PAIRS])}
+        label={(ext) => getFormatByExtension(ext)?.label ?? ext.toUpperCase()}
+      />
 
       <FaqAccordion
         title="Frequently asked questions"

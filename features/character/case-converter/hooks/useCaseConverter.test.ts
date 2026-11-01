@@ -92,4 +92,9 @@ describe('convertCase', () => {
     // @ts-expect-error - intentionally invalid case id to test the fallback
     expect(convertCase('Hello', 'not-a-real-case')).toBe('Hello');
   });
+  it('splits acronyms from the following word', () => {
+    expect(convertCase('XMLHttpRequest', 'camel')).toBe('xmlHttpRequest');
+    expect(convertCase('parseJSONData', 'snake')).toBe('parse_json_data');
+    expect(convertCase('version2Beta', 'kebab')).toBe('version2-beta');
+  });
 });

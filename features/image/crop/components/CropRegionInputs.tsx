@@ -30,7 +30,7 @@ export const CropRegionInputs = ({
   onQuickSize,
 }: CropRegionInputsProps) => (
   <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
-    <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+    <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
       Crop region (px)
     </p>
 
@@ -42,7 +42,7 @@ export const CropRegionInputs = ({
         { field: 'height' as const, label: 'Height' },
       ].map(({ field, label }) => (
         <div key={field} className="space-y-1">
-          <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+          <label className="text-xs font-bold text-slate-400 dark:text-slate-500">
             {label}
           </label>
           <input
@@ -58,7 +58,7 @@ export const CropRegionInputs = ({
     </div>
 
     <div className="space-y-1 pt-1">
-      <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+      <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
         Quick sizes
       </p>
       <div className="flex flex-wrap gap-1">
@@ -70,7 +70,7 @@ export const CropRegionInputs = ({
             <button
               key={p.label}
               onClick={() => onQuickSize(p.w, p.h)}
-              className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md border transition-all
+              className={`text-[11px] font-bold px-1.5 py-0.5 rounded-md border transition-all
                 ${
                   isActive
                     ? 'bg-blue-100 dark:bg-blue-950/50 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'

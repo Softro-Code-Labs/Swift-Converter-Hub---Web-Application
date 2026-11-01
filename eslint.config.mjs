@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     // Generated/vendored assets copied into public/ at postinstall time
     // (scripts/copy-wasm.js, scripts/copy-ffmpeg.js) - not source code.
     'public/ffmpeg/**',
+    // ONNX Runtime Web, vendored for the background remover
+    'public/ort/**',
     'public/magick.wasm',
   ]),
   {

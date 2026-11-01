@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Link2, Zap, Shield, ListTree } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import UrlEncoderTool from '@/features/character/url-encoder/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'URL Encoder / Decoder',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/url-encoder',
+  title: 'URL Encoder / Decoder - Encode URLs Online',
   description:
-    'Encode or decode URL components using encodeURIComponent and encodeURI, and parse any URL into protocol, host, path, query params, and hash - instantly in your browser, 100% private.',
+    'Percent-encode or decode URLs and query strings, and break a URL into protocol, host, path and parameters. Free, instant, and private.',
   keywords: [
     'url encoder online',
     'url decoder online',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'query string parser online',
     'url parts breakdown tool',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/url-encoder`,
-  },
-  openGraph: {
-    title:
-      'URL Encoder / Decoder - Encode, Decode & Parse URLs | Character Studio',
-    description:
-      'encodeURIComponent, encodeURI, decode, and full URL parser with query param table - instant, private, no server.',
-    url: `${SITE_URL}/character/url-encoder`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -70,12 +60,12 @@ const MODE_CARDS = [
   {
     title: 'Component',
     meta: 'encodeURIComponent',
-    desc: 'Escapes everything except letters, digits, and - _ . ! ~ * \' ( ). Use for a single query value.',
+    desc: "Escapes everything except letters, digits, and - _ . ! ~ * ' ( ). Use for a single query value.",
   },
   {
     title: 'Full URL',
     meta: 'encodeURI',
-    desc: "Leaves URL-structural characters (: / ? # & =) untouched. Use for a complete URL.",
+    desc: 'Leaves URL-structural characters (: / ? # & =) untouched. Use for a complete URL.',
   },
   {
     title: 'Decode',
@@ -114,7 +104,7 @@ export default function UrlEncoderPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'URL Encoder / Decoder', path: '/character/url-encoder' },
           ]),
           softwareApplicationJsonLd({
@@ -137,7 +127,7 @@ export default function UrlEncoderPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'URL Encoder / Decoder', path: '/character/url-encoder' },
         ]}
         badges={[{ label: 'URL', color: 'blue' }]}
@@ -151,7 +141,7 @@ export default function UrlEncoderPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <UrlEncoderTool />
       </div>
 

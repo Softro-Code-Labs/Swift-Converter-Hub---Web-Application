@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Scissors, Zap, Shield, ListOrdered } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import PdfSplitTool from '@/features/file/pdf-split/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Split PDF Pages',
+export const metadata: Metadata = pageMetadata({
+  path: '/file/pdf-split',
+  title: 'Split PDF Online - Extract Pages from a PDF',
   description:
-    'Extract specific pages, split by custom ranges, or divide a PDF into equal parts - all in your browser. No server, no upload, 100% private. Powered by pdf-lib.',
+    'Pull out the pages you need or split a PDF by page range into separate files. Free, no watermark - your PDF is processed in your browser, never uploaded.',
   keywords: [
     'split pdf online free',
     'extract pdf pages browser',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'separate pdf pages free',
     'pdf splitter no signup',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/file/pdf-split`,
-  },
-  openGraph: {
-    title:
-      'Split PDF Pages - Extract, Range Split & Equal Parts | Document Suite',
-    description:
-      'Click pages to extract, define named ranges, or split every N pages - all in your browser, nothing uploaded.',
-    url: `${SITE_URL}/file/pdf-split`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -148,7 +138,7 @@ export default function PdfSplitPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <PdfSplitTool />
       </div>
 

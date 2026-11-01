@@ -1,7 +1,10 @@
 'use client';
 
+import { formatBytes } from '@/features/shared/lib/format';
+
 import { useState, useCallback } from 'react';
 import { PDFDocument, rgb, degrees, StandardFonts } from 'pdf-lib';
+import { originForCenter } from '../lib/rotation';
 import type {
   WatermarkConfig,
   WatermarkResult,
@@ -13,12 +16,6 @@ import {
   DEFAULT_TEXT_CONFIG,
   DEFAULT_IMAGE_CONFIG,
 } from '../types/pdfWatermark';
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
-}
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const clean = hex.replace('#', '');
@@ -86,15 +83,27 @@ async function applyTextWatermark(
       textHeight,
     );
 
+    // Visible height of capital letters, used to centre the text optically.
+    const capHeight =
+      font.heightAtSize(config.fontSize, { descender: false }) * 0.72;
     for (const { x, y } of positions) {
+      // Rotate around the middle of the text, matching the preview.
+      // The preview (canvas) measures angles clockwise; PDF counter-clockwise.
+      const o = originForCenter(
+        x + textWidth / 2,
+        y + textHeight / 2,
+        textWidth,
+        capHeight,
+        -config.angle,
+      );
       page.drawText(config.text, {
-        x: config.position === 'center' ? width / 2 : x,
-        y: config.position === 'center' ? height / 2 : y + textHeight / 2,
+        x: o.x,
+        y: o.y,
         font,
         size: config.fontSize,
         color: rgb(r, g, b),
         opacity: config.opacity,
-        rotate: degrees(config.angle),
+        rotate: degrees(-config.angle),
         xSkew: degrees(0),
         ySkew: degrees(0),
       });
@@ -139,13 +148,21 @@ async function applyImageWatermark(
     );
 
     for (const { x, y } of positions) {
+      // The preview (canvas) measures angles clockwise; PDF counter-clockwise.
+      const o = originForCenter(
+        x + wmWidth / 2,
+        y + wmHeight / 2,
+        wmWidth,
+        wmHeight,
+        -config.angle,
+      );
       page.drawImage(embeddedImage, {
-        x: config.position === 'center' ? width / 2 - wmWidth / 2 : x,
-        y: config.position === 'center' ? height / 2 - wmHeight / 2 : y,
+        x: o.x,
+        y: o.y,
         width: wmWidth,
         height: wmHeight,
         opacity: config.opacity,
-        rotate: degrees(config.angle),
+        rotate: degrees(-config.angle),
       });
     }
   }

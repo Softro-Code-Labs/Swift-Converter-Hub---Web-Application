@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Binary, Zap, Shield, KeyRound } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import Base64TextTool from '@/features/data/base64-text/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Base64 Text Encoder / Decoder',
+export const metadata: Metadata = pageMetadata({
+  path: '/data/base64-text',
+  title: 'Base64 Encode & Decode Online - with JWT Decoder',
   description:
-    'Encode plain text to Base64 or decode Base64 strings instantly in your browser. Supports standard and URL-safe Base64, Unicode, and automatic JWT token inspection - no server, no upload, 100% private.',
+    'Encode text to Base64 or decode Base64 to text, with URL-safe mode and a JWT inspector. Full Unicode support. Free and private, runs in your browser.',
   keywords: [
     'base64 encoder online',
     'base64 decoder online',
@@ -34,17 +35,7 @@ export const metadata: Metadata = {
     'unicode base64 converter',
     'decode jwt token online',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/data/base64-text`,
-  },
-  openGraph: {
-    title: 'Base64 Text Encoder / Decoder - With JWT Inspector | Data Studio',
-    description:
-      'Encode text, decode Base64, inspect JWT tokens - URL-safe support, Unicode, expiry detection, instant, no server.',
-    url: `${SITE_URL}/data/base64-text`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -67,7 +58,7 @@ const STEPS = [
 const FAQS = [
   {
     q: 'What is the difference between standard and URL-safe Base64?',
-    a: "Standard Base64 uses + and / in its alphabet and pads the output with = characters. Those symbols have special meaning inside a URL or a filename, so URL-safe Base64 (used in JWTs and many web APIs) replaces + with -, / with _, and drops the trailing = padding entirely.",
+    a: 'Standard Base64 uses + and / in its alphabet and pads the output with = characters. Those symbols have special meaning inside a URL or a filename, so URL-safe Base64 (used in JWTs and many web APIs) replaces + with -, / with _, and drops the trailing = padding entirely.',
   },
   {
     q: 'Does this decode and verify JWT signatures?',
@@ -79,7 +70,7 @@ const FAQS = [
   },
   {
     q: 'Why did decoding fail with an error?',
-    a: "Base64 decoding fails if the input contains characters outside its alphabet, or has incorrect padding for its length. This usually means the string was truncated when copied, or is actually URL-safe Base64 being decoded in standard mode (or vice versa) - try toggling the URL-safe option.",
+    a: 'Base64 decoding fails if the input contains characters outside its alphabet, or has incorrect padding for its length. This usually means the string was truncated when copied, or is actually URL-safe Base64 being decoded in standard mode (or vice versa) - try toggling the URL-safe option.',
   },
   {
     q: 'Is my text or token uploaded anywhere?',
@@ -95,7 +86,10 @@ export default function Base64TextPage() {
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
             { name: 'Data Studio', path: '/data' },
-            { name: 'Base64 Text Encoder / Decoder', path: '/data/base64-text' },
+            {
+              name: 'Base64 Text Encoder / Decoder',
+              path: '/data/base64-text',
+            },
           ]),
           softwareApplicationJsonLd({
             name: 'Base64 Text Encoder / Decoder',
@@ -131,7 +125,7 @@ export default function Base64TextPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <Base64TextTool />
       </div>
 

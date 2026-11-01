@@ -1,10 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import Link from 'next/link';
+import { useEffect, useState, useCallback } from 'react';
 import {
-  ArrowLeft,
-  FileCheck,
   Copy,
   Check,
   Download,
@@ -24,6 +21,14 @@ export default function MarkdownPreviewTool() {
   const [markdown, setMarkdown] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [fullscreen, setFullscreen] = useState(false);
+
+  // Escape leaves fullscreen.
+  useEffect(() => {
+    if (!fullscreen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setFullscreen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [fullscreen]);
   const [copied, setCopied] = useState(false);
 
   const { html, stats } = useMarkdownRenderer(markdown);
@@ -142,7 +147,7 @@ ${html}
 
         {/* Stats */}
         {!isEmpty && (
-          <div className="ml-auto flex items-center gap-3 text-[10px] font-semibold text-slate-400 tabular-nums">
+          <div className="ml-auto flex items-center gap-3 text-xs font-semibold text-slate-400 tabular-nums">
             <span>{stats.words} words</span>
             <span>·</span>
             <span>{stats.lines} lines</span>
@@ -155,7 +160,7 @@ ${html}
         <button
           onClick={() => setFullscreen((v) => !v)}
           title={fullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-          className="ml-auto flex items-center p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 cursor-pointer transition-all"
+          className="ml-auto flex items-center p-1.5 rounded-lg text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 cursor-pointer transition-all"
         >
           {fullscreen ? (
             <X className="w-3.5 h-3.5" />
@@ -197,73 +202,36 @@ ${html}
         />
       )}
 
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Back nav */}
-          <Link
-            href="/character"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group mb-8"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            Character Studio
-          </Link>
+      <div className="space-y-5">
+        {/* Main editor */}
+        {editorArea}
 
-          {/* Header */}
-          <div className="flex items-start gap-4 mb-8">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
-              <FileCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                Markdown Preview
-              </h1>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-                GFM rendering - split view, fullscreen, export to .md or .html
-              </p>
-            </div>
+        {/* Markdown cheatsheet */}
+        {isEmpty && (
+          <div className="mt-6 grid grid-cols-2 @xl:grid-cols-4 gap-3">
+            {[
+              { syntax: '# Heading', desc: 'H1 - H6 with #' },
+              { syntax: '**bold**', desc: 'Bold text' },
+              { syntax: '*italic*', desc: 'Italic text' },
+              { syntax: '`code`', desc: 'Inline code' },
+              { syntax: '> quote', desc: 'Blockquote' },
+              { syntax: '- item', desc: 'Unordered list' },
+              { syntax: '[text](url)', desc: 'Hyperlink' },
+              { syntax: '```lang', desc: 'Code block' },
+            ].map(({ syntax, desc }) => (
+              <div
+                key={syntax}
+                className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl"
+              >
+                <code className="text-[13px] font-mono text-emerald-600 dark:text-emerald-400 font-bold block mb-1">
+                  {syntax}
+                </code>
+                <span className="text-xs text-slate-400">{desc}</span>
+              </div>
+            ))}
           </div>
-
-          {/* Main editor */}
-          {editorArea}
-
-          {/* Markdown cheatsheet */}
-          {isEmpty && (
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { syntax: '# Heading', desc: 'H1 - H6 with #' },
-                { syntax: '**bold**', desc: 'Bold text' },
-                { syntax: '*italic*', desc: 'Italic text' },
-                { syntax: '`code`', desc: 'Inline code' },
-                { syntax: '> quote', desc: 'Blockquote' },
-                { syntax: '- item', desc: 'Unordered list' },
-                { syntax: '[text](url)', desc: 'Hyperlink' },
-                { syntax: '```lang', desc: 'Code block' },
-              ].map(({ syntax, desc }) => (
-                <div
-                  key={syntax}
-                  className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl"
-                >
-                  <code className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold block mb-1">
-                    {syntax}
-                  </code>
-                  <span className="text-[10px] text-slate-400">{desc}</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Live indicator */}
-          <div className="mt-6 flex items-center gap-1.5">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-            </span>
-            <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-              Renders as you type - your markdown never leaves this page
-            </p>
-          </div>
-        </div>
-      </main>
+        )}
+      </div>
 
       {/* Markdown prose styles injected globally */}
       <style>{`

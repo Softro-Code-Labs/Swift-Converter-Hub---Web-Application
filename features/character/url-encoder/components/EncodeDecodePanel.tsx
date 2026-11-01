@@ -51,10 +51,8 @@ export function EncodeDecodePanel() {
     <div className="space-y-5">
       {/* Mode selector */}
       <div className="space-y-2">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-          Mode
-        </label>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <label className="text-xs font-bold text-slate-400">Mode</label>
+        <div className="grid grid-cols-1 @xl:grid-cols-3 gap-2">
           {MODES.map(({ id, label, desc }) => (
             <button
               key={id}
@@ -62,12 +60,12 @@ export function EncodeDecodePanel() {
               className={`flex flex-col gap-1 p-3 rounded-xl border text-left cursor-pointer transition-all
                 ${
                   mode === id
-                    ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950/40'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-indigo-300 dark:hover:border-indigo-700'
+                    ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-700'
                 }`}
             >
               <span
-                className={`text-xs font-black font-mono
+                className={`text-xs font-bold font-mono
                 ${
                   mode === id
                     ? 'text-indigo-700 dark:text-indigo-300'
@@ -76,7 +74,7 @@ export function EncodeDecodePanel() {
               >
                 {label}
               </span>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500 leading-relaxed">
+              <span className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
                 {desc}
               </span>
             </button>
@@ -87,13 +85,13 @@ export function EncodeDecodePanel() {
       {/* Input */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          <label className="text-xs font-bold text-slate-400">
             {mode === 'decode' ? 'Encoded string' : 'Plain text'}
           </label>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePaste}
-              className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors"
+              className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors"
             >
               <ClipboardPaste className="w-3 h-3" /> Paste
             </button>
@@ -102,7 +100,7 @@ export function EncodeDecodePanel() {
                 <span className="text-slate-200 dark:text-slate-700">|</span>
                 <button
                   onClick={() => setInput('')}
-                  className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
+                  className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-red-500 cursor-pointer transition-colors"
                 >
                   <Trash2 className="w-3 h-3" /> Clear
                 </button>
@@ -122,7 +120,7 @@ export function EncodeDecodePanel() {
           }
           spellCheck={false}
           rows={5}
-          className="w-full resize-none rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-5 py-4 text-sm font-mono text-slate-800 dark:text-slate-200 placeholder:text-slate-300 dark:placeholder:text-slate-600 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-400/30 transition-all"
+          className="w-full resize-none rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-5 py-4 text-sm font-mono text-slate-800 dark:text-slate-200 placeholder:text-slate-300 dark:placeholder:text-slate-600 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-400/30 transition-all"
         />
       </div>
 
@@ -137,7 +135,7 @@ export function EncodeDecodePanel() {
       {input && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <label className="text-xs font-bold text-slate-400">
               {mode === 'decode' ? 'Decoded' : 'Encoded'}
               {result.changed && (
                 <span className="ml-2 font-normal normal-case text-indigo-400">
@@ -148,7 +146,7 @@ export function EncodeDecodePanel() {
             {!isError && result.output && (
               <button
                 onClick={handleCopy}
-                className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors"
+                className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors"
               >
                 {copied ? (
                   <>
@@ -186,7 +184,7 @@ export function EncodeDecodePanel() {
             </p>
           </div>
           {!isError && !result.changed && input && (
-            <p className="text-[10px] text-slate-400 italic px-1">
+            <p className="text-xs text-slate-400 italic px-1">
               No characters needed encoding - output is identical to input.
             </p>
           )}

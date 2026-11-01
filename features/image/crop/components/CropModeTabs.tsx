@@ -15,7 +15,7 @@ const MODE_TABS: { id: CropMode; icon: typeof Crop; label: string }[] = [
 export const CropModeTabs = ({ mode, onChange }: CropModeTabsProps) => (
   <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
     <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
-      <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+      <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
         Mode
       </p>
     </div>
@@ -32,7 +32,7 @@ export const CropModeTabs = ({ mode, onChange }: CropModeTabsProps) => (
             }`}
         >
           <Icon className="w-4 h-4" />
-          <span className="text-[9px] font-bold leading-tight">{label}</span>
+          <span className="text-[11px] font-bold leading-tight">{label}</span>
         </button>
       ))}
     </div>

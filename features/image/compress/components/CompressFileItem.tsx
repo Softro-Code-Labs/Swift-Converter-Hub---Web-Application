@@ -74,19 +74,19 @@ export const CompressFileItemRow = ({
           {item.file.name}
         </p>
         <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-          <span className="text-[10px] text-slate-400">
+          <span className="text-xs text-slate-400">
             {formatBytes(item.originalSize)}
           </span>
           {item.compressedSize !== undefined && (
             <>
-              <span className="text-[10px] text-slate-300 dark:text-slate-700">
+              <span className="text-xs text-slate-300 dark:text-slate-700">
                 →
               </span>
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md">
+              <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-md">
                 {formatBytes(item.compressedSize)}
               </span>
               {item.savings !== undefined && item.savings > 0 && (
-                <span className="flex items-center gap-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="flex items-center gap-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                   <TrendingDown className="w-3 h-3" />
                   {item.savings}%
                 </span>
@@ -99,32 +99,33 @@ export const CompressFileItemRow = ({
       {/* Actions */}
       <div className="shrink-0 flex items-center gap-1.5">
         {item.status === 'idle' && (
-          <span className="flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg">
+          <span className="flex items-center gap-1 text-xs font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg">
             <Clock className="w-3 h-3" /> Ready
           </span>
         )}
         {item.status === 'processing' && (
-          <span className="flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-1 rounded-lg">
+          <span className="flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-1 rounded-lg">
             <Loader2 className="w-3 h-3 animate-spin" /> Compressing
           </span>
         )}
         {item.status === 'success' && (
           <button
             onClick={() => onDownload(item)}
-            className="flex items-center gap-1.5 text-[10px] font-bold bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-2.5 py-1.5 rounded-lg transition-all"
+            className="flex items-center gap-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white px-2.5 py-1.5 rounded-lg transition-all"
           >
             <Download className="w-3 h-3" /> Download
           </button>
         )}
         {item.status === 'error' && (
-          <span className="flex items-center gap-1 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/30 px-2 py-1 rounded-lg">
+          <span className="flex items-center gap-1 text-xs font-bold text-red-500 bg-red-50 dark:bg-red-950/30 px-2 py-1 rounded-lg">
             <XCircle className="w-3 h-3" /> Failed
           </span>
         )}
         <button
           disabled={isProcessing}
           onClick={() => onRemove(item.id)}
-          className="p-1.5 text-slate-300 dark:text-slate-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg disabled:opacity-30 transition-all"
+          aria-label="Remove file"
+          className="p-2 text-slate-500 dark:text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg disabled:opacity-30 transition-all"
         >
           <Trash2 className="w-3.5 h-3.5" />
         </button>

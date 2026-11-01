@@ -40,13 +40,13 @@ export const AdjustmentSliders = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+        <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
           Manual adjustments
         </p>
         {hasChanges && (
           <button
             onClick={() => onChange({ ...DEFAULT_ADJUSTMENTS })}
-            className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-red-500 transition-colors"
+            className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-red-500 transition-colors"
           >
             <RotateCcw className="w-3 h-3" /> Reset
           </button>

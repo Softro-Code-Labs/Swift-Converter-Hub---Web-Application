@@ -1,4 +1,5 @@
 import { SITE_NAME, SITE_URL } from '@/config/site';
+import { getStudio, getStudioTools, type StudioId } from '@/config/tools';
 
 /**
  * Reusable helpers for creating JSON-LD structured data.
@@ -86,6 +87,33 @@ export function websiteJsonLd(): JsonLdValue {
       name: SITE_NAME,
       url: SITE_URL,
     },
+    // Lets search engines offer a site search box; /?q= opens the tool
+    // search with that query (see components/shell/CommandMenu.tsx).
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+}
+
+/** ItemList of every tool in a studio, for studio hub pages. */
+export function studioToolsJsonLd(studioId: StudioId): JsonLdValue {
+  const studio = getStudio(studioId);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${studio.name} tools`,
+    itemListElement: getStudioTools(studioId).map((tool, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: tool.title,
+      description: tool.desc,
+      url: `${SITE_URL}${tool.href}`,
+    })),
   };
 }
 
@@ -125,9 +153,45 @@ export function howToJsonLd(params: {
 }
 
 /**
- * SoftwareApplication schema for a studio/tool page. `path` is
- * site-relative, e.g. '/image/convert/jpg-to-png'.
+ * BlogPosting schema for articles/guides. `path` is site-relative,
+ * e.g. '/blog/best-image-format-for-web'. Dates are ISO 8601 strings
+ * (YYYY-MM-DD) - only pass real publish/update dates, never invented ones.
  */
+export function articleJsonLd(params: {
+  title: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified?: string;
+}): JsonLdValue {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: params.title,
+    description: params.description,
+    url: `${SITE_URL}${params.path}`,
+    datePublished: params.datePublished,
+    dateModified: params.dateModified ?? params.datePublished,
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo-icon.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}${params.path}`,
+    },
+  };
+}
 export function softwareApplicationJsonLd(params: {
   name: string;
   description: string;
@@ -142,6 +206,8 @@ export function softwareApplicationJsonLd(params: {
     url: `${SITE_URL}${params.path}`,
     applicationCategory: params.category ?? 'MultimediaApplication',
     operatingSystem: 'Any (runs in browser)',
+    browserRequirements: 'Requires a modern browser with WebAssembly',
+    isAccessibleForFree: true,
     offers: {
       '@type': 'Offer',
       price: '0',

@@ -1,5 +1,6 @@
 import { AlertTriangle, X, FileX, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { setFileHandoff } from '@/features/shared/lib/fileHandoff';
 import { AlertDialog, AlertDialogContent } from '@/components/ui/alert-dialog';
 
 interface UnsupportedFormatDialogProps {
@@ -19,6 +20,9 @@ interface UnsupportedFormatDialogProps {
   /** Optional callback for a "Try a different file" secondary action that
    * reopens the original tool's file picker */
   onTryAnother?: () => void;
+  /** A better tool for this exact file, e.g. "Convert WebP to JPG instead".
+   *  When `file` is given it is handed over so the user doesn't pick it again. */
+  alternative?: { label: string; href: string; file?: File };
 }
 
 export const UnsupportedFormatDialog = ({
@@ -32,6 +36,7 @@ export const UnsupportedFormatDialog = ({
   converterHref = '/image/convert',
   converterCtaLabel = 'Go to Format Converter',
   onTryAnother,
+  alternative,
 }: UnsupportedFormatDialogProps) => (
   <AlertDialog open={open} onOpenChange={onOpenChange}>
     <AlertDialogContent className="p-0 max-w-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden">
@@ -65,20 +70,20 @@ export const UnsupportedFormatDialog = ({
             <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">
               {fileName}
             </p>
-            <p className="text-[10px] text-red-500 dark:text-red-400 font-bold uppercase mt-0.5">
+            <p className="text-xs text-red-500 dark:text-red-400 font-bold uppercase mt-0.5">
               .{fileExtension} - not supported
             </p>
           </div>
         </div>
         <div className="p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl space-y-2">
-          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
             Supported formats
           </p>
           <div className="flex flex-wrap gap-1.5">
             {supportedFormats.map((fmt) => (
               <span
                 key={fmt}
-                className="text-[10px] font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md"
+                className="text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md"
               >
                 {fmt}
               </span>
@@ -88,7 +93,20 @@ export const UnsupportedFormatDialog = ({
       </div>
 
       <div className="px-6 pb-6 flex flex-col gap-2">
-        {showConverterCta && (
+        {alternative && (
+          <Link
+            href={alternative.href}
+            onClick={() => {
+              if (alternative.file)
+                setFileHandoff([alternative.file], alternative.href);
+              onOpenChange(false);
+            }}
+            className="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-colors"
+          >
+            {alternative.label} <ArrowRight className="w-4 h-4" />
+          </Link>
+        )}
+        {showConverterCta && !alternative && (
           <Link
             href={converterHref}
             onClick={() => onOpenChange(false)}
@@ -104,7 +122,7 @@ export const UnsupportedFormatDialog = ({
           }}
           className={`w-full py-2.5 text-sm font-semibold rounded-xl transition-all
             ${
-              showConverterCta
+              showConverterCta || alternative
                 ? 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                 : 'bg-blue-600 hover:bg-blue-700 text-white'
             }`}

@@ -1,6 +1,4 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { AudioLines, Shield, Zap, FileAudio } from 'lucide-react';
 import ExtractAudioTool from '@/features/video/extract-audio/components';
 import { AUDIO_FORMATS } from '@/features/audio/shared/config/formats';
@@ -8,6 +6,7 @@ import {
   StepList,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/shared/components/page-sections';
 import {
   JsonLd,
@@ -15,11 +14,13 @@ import {
   faqPageJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Extract Audio from Video',
+export const metadata: Metadata = pageMetadata({
+  path: '/video/extract-audio',
+  title: 'Extract Audio from Video - MP4 to MP3 Online',
   description:
-    'Pull the audio track out of MP4, WEBM, MOV, AVI, MKV and other video files and save it as MP3, WAV, OGG, FLAC, AAC, M4A, OPUS and more. Batch process, no uploads, 100% browser-based.',
+    'Save the soundtrack of any video as MP3, WAV, M4A or another format. Works with MP4, MOV, WebM and MKV. Free and private - nothing is uploaded.',
   keywords: [
     'extract audio from video online',
     'video to mp3 converter free',
@@ -34,15 +35,7 @@ export const metadata: Metadata = {
     'video audio track saver',
     'podcast audio extractor free',
   ],
-  alternates: { canonical: `${SITE_URL}/video/extract-audio` },
-  openGraph: {
-    title: 'Extract Audio from Video | Video Studio',
-    description:
-      'Pull the audio track out of any video file and save it as MP3, WAV, and more - fully processed in your browser.',
-    url: `${SITE_URL}/video/extract-audio`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
   {
@@ -50,9 +43,21 @@ const FEATURES = [
     label: `${AUDIO_FORMATS.length} audio formats`,
     desc: AUDIO_FORMATS.map((f) => f.label).join(', '),
   },
-  { icon: AudioLines, label: 'Adjustable bitrate', desc: 'Control quality vs. file size' },
-  { icon: Zap, label: 'Batch processing', desc: 'Extract from up to 5 videos at once' },
-  { icon: Shield, label: '100% private', desc: 'Files never leave your browser' },
+  {
+    icon: AudioLines,
+    label: 'Adjustable bitrate',
+    desc: 'Control quality vs. file size',
+  },
+  {
+    icon: Zap,
+    label: 'Batch processing',
+    desc: 'Extract from up to 5 videos at once',
+  },
+  {
+    icon: Shield,
+    label: '100% private',
+    desc: 'Files never leave your browser',
+  },
 ];
 
 const EXTRACT_FAQS = [
@@ -94,46 +99,20 @@ export default function ExtractAudioPage() {
           faqPageJsonLd(EXTRACT_FAQS),
         ]}
       />
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link href="/" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-            Home
-          </Link>
-          <span>›</span>
-          <Link href="/video" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-            Video Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">Extract Audio</span>
-        </nav>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Video Studio', path: '/video' },
+          { name: 'Extract Audio', path: '/video/extract-audio' },
+        ]}
+        title={'Extract Audio from Video'}
+        description={
+          'Pull the audio track out of any video file and save it as MP3, WAV, or another format - batch process up to 5 videos, fully in your browser.'
+        }
+        features={FEATURES}
+      />
 
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-black">
-              EXTRACT AUDIO
-            </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Extract Audio from Video
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Pull the audio track out of any video file and save it as
-              MP3, WAV, or another format - batch process up to 5 videos,
-              fully in your browser.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                <Icon className="w-3.5 h-3.5 text-purple-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <ExtractAudioTool />
       </div>
 
@@ -141,9 +120,21 @@ export default function ExtractAudioPage() {
         title="How it works"
         accentColor="bg-purple-500"
         steps={[
-          { step: '01', title: 'Upload video files', desc: 'Drop up to 5 files at once.' },
-          { step: '02', title: 'Pick an audio format', desc: 'MP3, WAV, OGG, FLAC, AAC, M4A, or OPUS.' },
-          { step: '03', title: 'Download the audio', desc: 'Individually, or as a ZIP bundle.' },
+          {
+            step: '01',
+            title: 'Upload video files',
+            desc: 'Drop up to 5 files at once.',
+          },
+          {
+            step: '02',
+            title: 'Pick an audio format',
+            desc: 'MP3, WAV, OGG, FLAC, AAC, M4A, or OPUS.',
+          },
+          {
+            step: '03',
+            title: 'Download the audio',
+            desc: 'Individually, or as a ZIP bundle.',
+          },
         ]}
       />
 
@@ -155,7 +146,11 @@ export default function ExtractAudioPage() {
         ]}
       />
 
-      <FaqAccordion title="Frequently asked questions" accentColor="bg-purple-500" items={EXTRACT_FAQS} />
+      <FaqAccordion
+        title="Frequently asked questions"
+        accentColor="bg-purple-500"
+        items={EXTRACT_FAQS}
+      />
     </div>
   );
 }

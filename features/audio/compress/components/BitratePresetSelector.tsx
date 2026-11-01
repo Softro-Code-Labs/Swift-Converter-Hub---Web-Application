@@ -23,10 +23,10 @@ export const BitratePresetSelector = ({
   disabled,
 }: BitratePresetSelectorProps) => (
   <div className="space-y-1.5">
-    <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+    <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
       Output quality
     </p>
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 @xl:grid-cols-4 gap-2">
       {[...BITRATE_PRESETS, CUSTOM_OPTION].map((preset) => (
         <button
           key={preset.id}
@@ -41,7 +41,7 @@ export const BitratePresetSelector = ({
             }`}
         >
           <span>{preset.label}</span>
-          <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 text-center">
+          <span className="text-xs font-medium text-slate-400 dark:text-slate-500 text-center">
             {'kbps' in preset ? `${preset.kbps} kbps` : preset.hint}
           </span>
         </button>

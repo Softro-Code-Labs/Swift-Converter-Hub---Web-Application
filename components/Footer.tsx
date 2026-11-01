@@ -1,207 +1,96 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { Shield, Zap, Globe, ArrowRight } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { useConsent } from '@/components/consent/ConsentContext';
+import { BrandMark } from '@/components/Navbar';
+import { POPULAR_TOOLS, STUDIOS } from '@/config/tools';
 
-const STUDIO_LINKS = [
-  {
-    label: 'Image Studio',
-    href: '/image',
-    color: 'hover:text-blue-600 dark:hover:text-blue-400',
-  },
-  {
-    label: 'Audio Studio',
-    href: '/audio',
-    color: 'hover:text-emerald-600 dark:hover:text-emerald-400',
-  },
-  {
-    label: 'Video Studio',
-    href: '/video',
-    color: 'hover:text-purple-600 dark:hover:text-purple-400',
-  },
-  {
-    label: 'Document Suite',
-    href: '/file',
-    color: 'hover:text-cyan-600 dark:hover:text-cyan-400',
-  },
-  {
-    label: 'Data Studio',
-    href: '/data',
-    color: 'hover:text-amber-600 dark:hover:text-amber-400',
-  },
-  {
-    label: 'Character Studio',
-    href: '/character',
-    color: 'hover:text-rose-600 dark:hover:text-rose-400',
-  },
-];
-
-const POPULAR_LINKS = [
-  { label: 'JPG to PNG', href: '/image/convert/jpg-to-png' },
-  { label: 'PNG to WebP', href: '/image/convert/png-to-webp' },
-  { label: 'HEIC to JPG', href: '/image/convert/heic-to-jpg' },
-  { label: 'JPG to ICO', href: '/image/convert/jpg-to-ico' },
-  { label: 'SVG to PNG', href: '/image/convert/svg-to-png' },
-];
-
-const LEGAL_LINKS = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms of Use', href: '/terms' },
-  { label: 'Contact', href: '/contact' },
+const COMPANY = [
   { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Privacy policy', href: '/privacy' },
+  { label: 'Terms of use', href: '/terms' },
 ];
 
-const TRUST_BADGES = [
-  {
-    icon: Shield,
-    label: 'No server uploads',
-    color:
-      'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 ring-emerald-200 dark:ring-emerald-800/50',
-  },
-  {
-    icon: Zap,
-    label: 'WebAssembly powered',
-    color:
-      'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 ring-blue-200 dark:ring-blue-800/50',
-  },
-  {
-    icon: Globe,
-    label: 'Works offline',
-    color:
-      'bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 ring-slate-200 dark:ring-slate-700',
-  },
-];
+function Column({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h2 className="font-sans text-sm font-semibold tracking-normal text-slate-900 dark:text-white">
+        {title}
+      </h2>
+      <ul className="mt-3 space-y-2">
+        {links.map((l) => (
+          <li key={l.href}>
+            <Link
+              href={l.href}
+              className="text-sm text-slate-600 hover:text-slate-900 hover:underline underline-offset-4 dark:text-slate-400 dark:hover:text-white"
+            >
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function Footer() {
   const year = new Date().getFullYear();
   const { reset } = useConsent();
 
   return (
-    <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* -- Main grid ------------------------------------------------- */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 py-12 border-b border-slate-100 dark:border-slate-800">
-          {/* Brand */}
-          <div className="col-span-2 sm:col-span-1 space-y-4">
+    <footer className="mt-auto border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/60">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="col-span-2 max-w-sm md:col-span-1">
             <Link
               href="/"
-              className="flex items-center gap-2 group focus:outline-none"
+              className="inline-block rounded-lg"
+              aria-label="Swift Converter Hub home"
             >
-              <div className="h-7 w-7 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                <Image
-                  src="/logo-icon.png"
-                  alt="Swift Converter Hub"
-                  width={16}
-                  height={16}
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-sm font-black text-slate-900 dark:text-white">
-                Swift{' '}
-                <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                  Converter Hub
-                </span>
-              </span>
+              <BrandMark size="sm" />
             </Link>
-            <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
-              A free, privacy-first file conversion toolkit. Everything runs in
-              your browser - nothing is ever uploaded.
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              Free file tools that run entirely in your browser. Your files are
+              processed on your own device and never uploaded.
             </p>
-            {/* Trust badges */}
-            <div className="space-y-1.5">
-              {TRUST_BADGES.map(({ icon: Icon, label, color }) => (
-                <span
-                  key={label}
-                  className={`inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-lg ring-1 ring-inset ${color} mr-1.5`}
-                >
-                  <Icon className="w-3 h-3" />
-                  {label}
-                </span>
-              ))}
-            </div>
+            <p className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-[13px] font-medium text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300">
+              <ShieldCheck className="h-4 w-4 shrink-0" aria-hidden />
+              No uploads, no accounts, no file limits
+            </p>
           </div>
 
-          {/* Studios */}
-          <div className="space-y-3">
-            <h3 className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-              Studios
-            </h3>
-            <ul className="space-y-2">
-              {STUDIO_LINKS.map(({ label, href, color }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className={`text-xs font-semibold text-slate-500 dark:text-slate-400 ${color} transition-colors inline-flex items-center gap-1 group`}
-                  >
-                    {label}
-                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Popular conversions */}
-          <div className="space-y-3">
-            <h3 className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-              Popular
-            </h3>
-            <ul className="space-y-2">
-              {POPULAR_LINKS.map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1 group"
-                  >
-                    {label}
-                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div className="space-y-3">
-            <h3 className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-              Company
-            </h3>
-            <ul className="space-y-2">
-              {LEGAL_LINKS.map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1 group"
-                  >
-                    {label}
-                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Column
+            title="Studios"
+            links={STUDIOS.map((s) => ({ label: s.name, href: s.href }))}
+          />
+          <Column
+            title="Popular tools"
+            links={POPULAR_TOOLS.slice(0, 7).map((t) => ({
+              label: t.title,
+              href: t.href,
+            }))}
+          />
+          <Column title="Company" links={COMPANY} />
         </div>
 
-        {/* -- Bottom bar ------------------------------------------------ */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-5 text-[11px] text-slate-400 dark:text-slate-500">
-          <p>© {year} SwiftConverterHub · All rights reserved</p>
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={reset}
-              className="font-medium hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors underline underline-offset-2"
-            >
-              Cookie preferences
-            </button>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-medium">
-                All systems operational · Zero server processing
-              </span>
-            </div>
-          </div>
+        <div className="flex flex-col gap-3 border-t border-slate-200 py-6 text-[13px] text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:text-slate-400">
+          <p>© {year} Swift Converter Hub</p>
+          <button
+            type="button"
+            onClick={reset}
+            className="self-start underline underline-offset-4 hover:text-slate-900 sm:self-auto dark:hover:text-white"
+          >
+            Cookie preferences
+          </button>
         </div>
       </div>
     </footer>

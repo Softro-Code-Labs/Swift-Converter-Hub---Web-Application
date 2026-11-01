@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Regex, Zap, Shield, ListTree } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import RegexTesterTool from '@/features/character/regex-tester/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Regex Tester',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/regex-tester',
+  title: 'Regex Tester - Test Regular Expressions Online',
   description:
-    'Test regular expressions live with match highlighting, capture group inspection, and flag controls (i, m, s, u). Powered by the JavaScript RegExp engine - instant, private, no server.',
+    'Test JavaScript regular expressions with live match highlighting, capture groups and flags, plus a quick reference. Free and instant in your browser.',
   keywords: [
     'regex tester online',
     'regular expression tester',
@@ -35,17 +36,7 @@ export const metadata: Metadata = {
     'test regular expression online free',
     'regex validator browser',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/regex-tester`,
-  },
-  openGraph: {
-    title: 'Regex Tester - Live Matching & Capture Groups | Character Studio',
-    description:
-      'Live highlights, capture group inspector, flag toggles, quick reference - instant, private, no server.',
-    url: `${SITE_URL}/character/regex-tester`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -67,9 +58,15 @@ const STEPS = [
 
 const FLAG_CARDS = [
   { title: 'i', desc: 'Case-insensitive matching' },
-  { title: 'm', desc: '^ and $ match at line boundaries, not just string start/end' },
+  {
+    title: 'm',
+    desc: '^ and $ match at line boundaries, not just string start/end',
+  },
   { title: 's', desc: 'Dot-all - . also matches newline characters' },
-  { title: 'u', desc: 'Full Unicode mode - correct handling of surrogate pairs' },
+  {
+    title: 'u',
+    desc: 'Full Unicode mode - correct handling of surrogate pairs',
+  },
 ];
 
 const FAQS = [
@@ -83,11 +80,11 @@ const FAQS = [
   },
   {
     q: 'Why is the "g" (global) flag always on?',
-    a: 'Without it, JavaScript\'s regex engine stops after the first match. This tool always searches globally so you can see every match in your test text at once, while still letting you toggle the other flags (i, m, s, u) that change how matching behaves.',
+    a: "Without it, JavaScript's regex engine stops after the first match. This tool always searches globally so you can see every match in your test text at once, while still letting you toggle the other flags (i, m, s, u) that change how matching behaves.",
   },
   {
-    q: "What happens if my pattern has a syntax error?",
-    a: "The tool attempts to compile your pattern as you type and surfaces the exact error message from the JavaScript engine (for example, an unterminated group or an invalid quantifier) instead of silently failing, so you can see exactly what needs fixing.",
+    q: 'What happens if my pattern has a syntax error?',
+    a: 'The tool attempts to compile your pattern as you type and surfaces the exact error message from the JavaScript engine (for example, an unterminated group or an invalid quantifier) instead of silently failing, so you can see exactly what needs fixing.',
   },
   {
     q: 'Is my test text or pattern sent anywhere?',
@@ -102,7 +99,7 @@ export default function RegexTesterPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Regex Tester', path: '/character/regex-tester' },
           ]),
           softwareApplicationJsonLd({
@@ -125,7 +122,7 @@ export default function RegexTesterPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Regex Tester', path: '/character/regex-tester' },
         ]}
         badges={[{ label: 'REGEX', color: 'rose' }]}
@@ -139,7 +136,7 @@ export default function RegexTesterPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <RegexTesterTool />
       </div>
 

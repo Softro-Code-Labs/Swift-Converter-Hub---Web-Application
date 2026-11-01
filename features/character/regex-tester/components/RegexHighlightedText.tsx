@@ -7,7 +7,7 @@ const MATCH_COLORS = [
   'bg-fuchsia-200 dark:bg-fuchsia-900/70 text-fuchsia-900 dark:text-fuchsia-100',
 ];
 
-const ACTIVE_COLOR = 'bg-purple-400 dark:bg-purple-500 text-white';
+const ACTIVE_COLOR = 'bg-blue-400 dark:bg-blue-500 text-white';
 
 interface RegexHighlightedTextProps {
   text: string;

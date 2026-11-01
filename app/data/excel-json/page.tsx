@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileSpreadsheet, Zap, Shield, Layers } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import ExcelJsonTool from '@/features/data/excel-json/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Excel to JSON Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/data/excel-json',
+  title: 'Excel to JSON Converter - XLSX to JSON Online',
   description:
-    'Convert Excel .xlsx, .xls, and .ods spreadsheets to JSON in your browser. Multi-sheet support, header row detection, date formatting, and empty cell control - no server, no upload, 100% private.',
+    'Turn Excel spreadsheets (.xlsx, .xls) into JSON. Pick a sheet, use the first row as keys, preview, and download. Free - files stay on your device.',
   keywords: [
     'excel to json converter',
     'xlsx to json converter',
@@ -35,17 +36,7 @@ export const metadata: Metadata = {
     'spreadsheet to json online',
     'convert ods to json',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/data/excel-json`,
-  },
-  openGraph: {
-    title: 'Excel to JSON Converter - Multi-Sheet .xlsx Parser | Data Studio',
-    description:
-      'Convert .xlsx workbooks to JSON with sheet picker, header detection, date formatting - parsed in your browser, nothing uploaded.',
-    url: `${SITE_URL}/data/excel-json`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -150,7 +141,7 @@ export default function ExcelJsonPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <ExcelJsonTool />
       </div>
 

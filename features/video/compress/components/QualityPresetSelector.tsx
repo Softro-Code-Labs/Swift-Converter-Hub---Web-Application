@@ -21,10 +21,10 @@ export const QualityPresetSelector = ({
   disabled,
 }: QualityPresetSelectorProps) => (
   <div className="space-y-1.5">
-    <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+    <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
       Output quality
     </p>
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 @xl:grid-cols-4 gap-2">
       {[...QUALITY_PRESETS, CUSTOM_OPTION].map((preset) => (
         <button
           key={preset.id}
@@ -34,12 +34,12 @@ export const QualityPresetSelector = ({
           className={`flex flex-col items-center gap-0.5 px-2 py-2.5 rounded-xl border text-xs font-bold cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed
             ${
               value === preset.id
-                ? 'border-purple-400 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400'
+                ? 'border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400'
                 : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
             }`}
         >
           <span>{preset.label}</span>
-          <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 text-center">
+          <span className="text-xs font-medium text-slate-400 dark:text-slate-500 text-center">
             {preset.hint}
           </span>
         </button>
