@@ -98,6 +98,11 @@ export function useRemoveBackground() {
         try {
           const bitmap = next.bitmap ?? (await decode(next.file));
           const r = await segment(bitmap);
+          setEngine((e) =>
+            e.kind === 'ready' && e.backend !== r.backend
+              ? { kind: 'ready', backend: r.backend }
+              : e,
+          );
           patch(next.id, {
             status: 'done',
             bitmap,

@@ -38,7 +38,7 @@ both served from this site and cached after the first use.
 - **Model:** IS-Net (DIS, Apache-2.0), stored with 8-bit weights. That
   shrinks it from 178 MB to 47 MB, and its masks still match the original
   at 99.8% IoU or better on the test photos.
-  - File: `public/models/isnet-general-use-w8-v1.onnx`, licence in
+  - File: `public/models/isnet-general-use-w8-v2.onnx`, licence in
     `NOTICE.txt`.
 - **Runtime:** ONNX Runtime Web 1.30.0 (MIT), self-hosted in
   `public/ort/1.30.0/`.
@@ -60,6 +60,19 @@ both served from this site and cached after the first use.
   orientation is respected.
 - Offered on the home page when an image is dropped.
 - Adds about 90 MB to `public/`. Every file is under GitHub's 100 MB limit.
+- **WebGPU fix (model v2):** on computers with a GPU, the first version
+  failed with "ceil_mode ... not yet implemented in the WebGPU MaxPool
+  kernel". Two changes fix it:
+  - The model's pooling layers now use explicit padding instead of
+    ceil_mode. The output is identical, checked bit for bit.
+  - The six single-channel output layers keep full-precision weights,
+    because WebGPU computed them wrongly from 8-bit weights.
+
+  Verified on a WebGPU device (SwiftShader): every stage of the model now
+  matches the CPU result. The worker also tests the GPU once at start-up
+  (45 s limit) and switches to the CPU if anything fails during
+  processing, so visitors never see a GPU error. The model file was
+  renamed to `-v2` so cached copies of v1 are replaced.
 
 ## New tool: Password Generator (`/character/password-generator`)
 
