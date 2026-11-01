@@ -15,8 +15,8 @@
  */
 
 const ORT_BASE = '/ort/1.30.0/';
-const MODEL_URL = '/models/isnet-general-use-w8-v1.onnx';
-const MODEL_CACHE = 'sch-models-v1';
+const MODEL_URL = '/models/isnet-general-use-w8-v2.onnx';
+const MODEL_CACHE = 'sch-models-v2';
 const SIZE = 1024; // IS-Net input resolution
 
 let session = null;
@@ -28,6 +28,10 @@ let initPromise = null;
 async function loadModel() {
   let cache = null;
   try {
+    // Drop copies of older model versions.
+    for (const key of await caches.keys()) {
+      if (key.startsWith('sch-models-') && key !== MODEL_CACHE) await caches.delete(key);
+    }
     cache = await caches.open(MODEL_CACHE);
     const hit = await cache.match(MODEL_URL);
     if (hit) return new Uint8Array(await hit.arrayBuffer());
@@ -77,6 +81,24 @@ async function hasWebGPU() {
   }
 }
 
+let modelBytes = null;
+
+async function createCpuSession() {
+  session = await ort.InferenceSession.create(modelBytes, {
+    graphOptimizationLevel: 'all',
+    executionProviders: ['wasm'],
+  });
+  backend = 'wasm';
+}
+
+/** One run on a blank image: compiles the GPU shaders up front and proves
+ *  every layer of the model works on this GPU before real images arrive. */
+async function warmUp() {
+  const input = new ort.Tensor('float32', new Float32Array(3 * SIZE * SIZE), [1, 3, SIZE, SIZE]);
+  const out = await session.run({ [session.inputNames[0]]: input });
+  for (const t of Object.values(out)) t.dispose?.();
+}
+
 async function init() {
   const gpu = await hasWebGPU();
   // The WebGPU build also contains the CPU backend; the CPU-only build is
@@ -86,26 +108,29 @@ async function init() {
   ort.env.wasm.numThreads = 1; // no SharedArrayBuffer without cross-origin isolation
   ort.env.logLevel = 'error';
 
-  const model = await loadModel();
-  const options = { graphOptimizationLevel: 'all' };
+  modelBytes = await loadModel();
   if (gpu) {
     try {
-      session = await ort.InferenceSession.create(model, {
-        ...options,
+      session = await ort.InferenceSession.create(modelBytes, {
+        graphOptimizationLevel: 'all',
         executionProviders: ['webgpu'],
       });
       backend = 'webgpu';
-    } catch {
-      session = null; // fall through to the CPU
+      // A broken driver can hang rather than fail - don't wait forever.
+      await Promise.race([
+        warmUp(),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('WebGPU warm-up timed out')), 45000),
+        ),
+      ]);
+    } catch (err) {
+      // Some GPUs/drivers don't support every operation: use the CPU.
+      console.warn('[remove-background] WebGPU unavailable, using CPU:', err);
+      session?.release?.();
+      session = null;
     }
   }
-  if (!session) {
-    session = await ort.InferenceSession.create(model, {
-      ...options,
-      executionProviders: ['wasm'],
-    });
-    backend = 'wasm';
-  }
+  if (!session) await createCpuSession();
   self.postMessage({ type: 'ready', backend });
 }
 
@@ -132,16 +157,32 @@ function preprocess(bitmap) {
   return input;
 }
 
-async function run(id, bitmap) {
-  const t0 = performance.now();
-  const input = preprocess(bitmap);
-  bitmap.close?.();
+async function infer(input) {
   const feeds = {
     [session.inputNames[0]]: new ort.Tensor('float32', input, [1, 3, SIZE, SIZE]),
   };
   const results = await session.run(feeds);
   const out = results[session.outputNames[0]];
-  const pred = await out.getData?.() ?? out.data;
+  const pred = Float32Array.from((await out.getData?.()) ?? out.data);
+  for (const t of Object.values(results)) t.dispose?.();
+  return pred;
+}
+
+async function run(id, bitmap) {
+  const t0 = performance.now();
+  const input = preprocess(bitmap);
+  bitmap.close?.();
+  let pred;
+  try {
+    pred = await infer(input);
+  } catch (err) {
+    if (backend !== 'webgpu') throw err;
+    // A GPU failure mid-way: switch to the CPU for good and try again.
+    console.warn('[remove-background] WebGPU run failed, using CPU:', err);
+    session?.release?.();
+    await createCpuSession();
+    pred = await infer(input);
+  }
   // Stretch to 0..255 the same way the reference implementation does.
   let min = Infinity;
   let max = -Infinity;
@@ -155,9 +196,8 @@ async function run(id, bitmap) {
   for (let i = 0; i < mask.length; i++) {
     mask[i] = Math.round(((pred[i] - min) / range) * 255);
   }
-  for (const t of Object.values(results)) t.dispose?.();
   self.postMessage(
-    { type: 'mask', id, mask, size: SIZE, ms: Math.round(performance.now() - t0) },
+    { type: 'mask', id, mask, size: SIZE, backend, ms: Math.round(performance.now() - t0) },
     [mask.buffer],
   );
 }
