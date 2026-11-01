@@ -15,7 +15,7 @@ export const BitrateSelector = ({
   disabled,
 }: BitrateSelectorProps) => (
   <div className="space-y-1.5">
-    <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+    <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
       Output quality
     </p>
     <div className="grid grid-cols-3 gap-2">
@@ -33,7 +33,7 @@ export const BitrateSelector = ({
             }`}
         >
           <span>{preset.label}</span>
-          <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500">
+          <span className="text-xs font-medium text-slate-400 dark:text-slate-500">
             {preset.kbps} kbps
           </span>
         </button>

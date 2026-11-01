@@ -35,7 +35,7 @@ export function DiffLineRow({ line, showLineNumbers }: DiffLineRowProps) {
     >
       {/* Prefix symbol */}
       <span
-        className={`select-none px-2 text-[11px] font-bold font-mono leading-7 shrink-0 w-5 text-center
+        className={`select-none px-2 text-[13px] font-bold font-mono leading-7 shrink-0 w-5 text-center
         ${LINE_NUM_STYLES[line.type]}`}
       >
         {isPlaceholder ? '' : PREFIX[line.type]}
@@ -44,7 +44,7 @@ export function DiffLineRow({ line, showLineNumbers }: DiffLineRowProps) {
       {/* Line number */}
       {showLineNumbers && (
         <span
-          className={`select-none px-2 text-[11px] font-mono leading-7 shrink-0 w-10 text-right border-r border-slate-100 dark:border-slate-800
+          className={`select-none px-2 text-[13px] font-mono leading-7 shrink-0 w-10 text-right border-r border-slate-100 dark:border-slate-800
           ${LINE_NUM_STYLES[line.type]}`}
         >
           {line.lineNumber ?? ''}

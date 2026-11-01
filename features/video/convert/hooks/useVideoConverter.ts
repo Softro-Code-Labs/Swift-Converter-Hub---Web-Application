@@ -1,3 +1,4 @@
+import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState } from 'react';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
@@ -6,10 +7,17 @@ import JSZip from 'jszip';
 import toast from 'react-hot-toast';
 import { VideoFileItem } from '@/features/video/shared/types/videoFile';
 import { VideoFormat, getFFmpegArgsForTarget } from '../config/formats';
+import { canRemux, getRemuxArgs } from '@/features/video/shared/config/formats';
+import {
+  FAST_TARGETS,
+  tryFastVideo,
+  type FastTarget,
+} from '@/features/video/shared/lib/fastVideo';
 import {
   runFFmpegWithProgress,
   runBatchWithEnginePool,
   cleanupFFmpegFiles,
+  readStreamCodecs,
 } from '@/features/shared/lib/ffmpegUtils';
 import {
   formatBytes,
@@ -18,9 +26,14 @@ import {
 } from '@/features/shared/lib/format';
 
 /**
- * Converts a batch of video files to a target format using FFmpeg (WASM),
- * with per-file progress, ZIP download of all results, and single-file
- * download.
+ * Converts a batch of video files to a target format, with per-file
+ * progress, ZIP download of all results, and single-file download.
+ *
+ * Fastest route first:
+ *  1. Hardware path (WebCodecs) for MP4/M4V/MOV/MKV/WebM - uses the
+ *     device's GPU/media engine, and copies streams when they already fit.
+ *  2. FFmpeg stream copy (remux) when the codecs fit the target container.
+ *  3. FFmpeg full re-encode (WASM, CPU) - always works.
  */
 export const useVideoConverter = (
   files: VideoFileItem[],
@@ -36,25 +49,53 @@ export const useVideoConverter = (
   const convertFile = async (
     item: VideoFileItem,
     engine: FFmpeg,
-  ): Promise<{ url: string; size: string }> => {
+  ): Promise<{ url: string; size: string; accelerated?: boolean }> => {
     const target = item.outputFormat ?? selectedTarget;
+    const ext = target.extension;
+
+    if (FAST_TARGETS.has(ext)) {
+      const fast = await tryFastVideo(item.file, {
+        target: ext as FastTarget,
+        onProgress: (ratio) => updateFile(item.id, { progress: ratio }),
+      });
+      if (fast) {
+        return {
+          url: URL.createObjectURL(fast),
+          size: formatBytes(fast.size),
+          accelerated: true,
+        };
+      }
+      updateFile(item.id, { progress: 0 });
+    }
+
     const sourceExt = getFileExtension(item.file.name) || 'bin';
     const inputPath = `vinput_${item.id}.${sourceExt}`;
-    const outputPath = `voutput_${item.id}.${target.extension}`;
+    const outputPath = `voutput_${item.id}.${ext}`;
 
     try {
       await engine.writeFile(inputPath, await fetchFile(item.file));
 
-      const args = [
-        '-i',
-        inputPath,
-        ...getFFmpegArgsForTarget(target.extension),
-        outputPath,
-      ];
-
-      const exitCode = await runFFmpegWithProgress(engine, args, (ratio) => {
+      const onProgress = (ratio: number) =>
         updateFile(item.id, { progress: ratio });
-      });
+
+      // Stream copy when the codecs already fit: seconds, and lossless.
+      let exitCode = 1;
+      const codecs = await readStreamCodecs(engine, inputPath);
+      if (canRemux(ext, codecs)) {
+        exitCode = await runFFmpegWithProgress(
+          engine,
+          ['-i', inputPath, ...getRemuxArgs(ext, codecs.video), outputPath],
+          onProgress,
+        );
+      }
+
+      if (exitCode !== 0) {
+        exitCode = await runFFmpegWithProgress(
+          engine,
+          ['-i', inputPath, ...getFFmpegArgsForTarget(ext), '-y', outputPath],
+          onProgress,
+        );
+      }
 
       if (exitCode !== 0) {
         throw new Error(
@@ -89,13 +130,18 @@ export const useVideoConverter = (
       acquireEngine,
       releaseEngine,
       async (item, engine) => {
-        updateFile(item.id, { status: 'processing', progress: 0 });
+        updateFile(item.id, {
+          status: 'processing',
+          progress: 0,
+          accelerated: undefined,
+        });
         try {
           const result = await convertFile(item, engine);
           updateFile(item.id, {
             status: 'success',
             convertedUrl: result.url,
             outputSize: result.size,
+            accelerated: result.accelerated,
             progress: 1,
           });
         } catch (err) {
@@ -127,7 +173,7 @@ export const useVideoConverter = (
           0,
           item.file.name.lastIndexOf('.'),
         );
-        zip.file(`${name}_converted.${ext}`, blob);
+        zip.file(uniqueZipName(zip, `${name}_converted.${ext}`), blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       saveAs(zipBlob, `converted_${ext}_batch.zip`);

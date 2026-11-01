@@ -1,5 +1,7 @@
 'use client';
 
+import { formatBytes } from '@/features/shared/lib/format';
+
 import { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import type {
@@ -8,12 +10,6 @@ import type {
   SplitMode,
   RangeGroup,
 } from '../types/pdfSplit';
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-}
 
 // Parse range string like "1-3, 5, 7-9" into 0-based indices
 export function parseRangeString(raw: string, maxPage: number): number[] {

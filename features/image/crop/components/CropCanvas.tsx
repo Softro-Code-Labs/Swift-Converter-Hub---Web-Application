@@ -331,7 +331,7 @@ export const CropCanvas = ({
       {/* Dimensions badge */}
       {displayW > 0 && (
         <div
-          className="absolute z-20 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md whitespace-nowrap pointer-events-none"
+          className="absolute z-20 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-md whitespace-nowrap pointer-events-none"
           style={{ left: dc.x, top: dc.y + dc.h + 6 }}
         >
           {naturalW} × {naturalH} px

@@ -1,106 +1,29 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { ADSENSE } from '@/lib/adsense';
+import { studioForPath, toolForPath } from '@/config/tools';
+import { RelatedTools, StudioToolRail } from '@/components/shell/StudioNav';
+import { rememberTool } from '@/components/shell/CommandMenu';
+import {
+  BELOW_SIDEBARS,
+  FixedAd,
+  ResponsiveAd,
+  SIDEBAR_RULES,
+  TOP_BANNER_RULES,
+} from './AdUnit';
 
-// --- Ad slot components -------------------------------------------------------
+/* ---------------------------------------------------------------------------
+   Studio frame. Wraps every page inside a studio:
 
-function AdLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-[9px] uppercase tracking-widest font-semibold text-slate-300 dark:text-slate-700 select-none text-center mb-1">
-      {children}
-    </p>
-  );
-}
-
-function AdSlot({
-  slot,
-  format,
-  style,
-  responsive = true,
-}: {
-  slot: string;
-  format: string;
-  style: React.CSSProperties;
-  responsive?: boolean;
-}) {
-  return (
-    <ins
-      className="adsbygoogle"
-      style={style}
-      data-ad-client={ADSENSE.PUBLISHER_ID}
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-full-width-responsive={responsive ? 'true' : 'false'}
-    />
-  );
-}
-
-function TopLeaderboard({ slot }: { slot: string }) {
-  return (
-    <div className="hidden sm:block lg:hidden w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-      <div className="max-w-[1640px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-center min-h-[106px]">
-        <div className="flex flex-col items-center gap-1 w-full max-w-[970px]">
-          <AdLabel>Advertisement</AdLabel>
-          <div className="w-full rounded-xl overflow-hidden bg-slate-100/50 dark:bg-slate-800/30 flex items-center justify-center min-h-[90px]">
-            <AdSlot
-              slot={slot}
-              format="horizontal"
-              style={{ display: 'block', width: '100%', height: '90px' }}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MobileBanner({ slot }: { slot: string }) {
-  return (
-    <div className="sm:hidden">
-      <AdLabel>Advertisement</AdLabel>
-      <div className="w-full rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[60px]">
-        <AdSlot
-          slot={slot}
-          format="banner"
-          style={{ display: 'block', width: '100%', height: '60px' }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function Sidebar({ slot }: { slot: string }) {
-  return (
-    <div>
-      <AdLabel>Advertisement</AdLabel>
-      <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[600px]">
-        <AdSlot
-          slot={slot}
-          format="vertical"
-          style={{ display: 'inline-block', width: '100%', height: '600px' }}
-          responsive={false}
-        />
-      </div>
-    </div>
-  );
-}
-
-function BottomAnchor({ slot }: { slot: string }) {
-  return (
-    <div className="lg:hidden">
-      <AdLabel>Advertisement</AdLabel>
-      <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[100px]">
-        <AdSlot
-          slot={slot}
-          format="autorelax"
-          style={{ display: 'block', width: '100%' }}
-        />
-      </div>
-    </div>
-  );
-}
+   - Studio hub (/image, /audio, ...): rendered full-width; the hub page owns
+     its layout.
+   - Tool pages: sticky tool rail -> tool workspace card -> related tools.
+     When ads are enabled: fixed-size sidebar ads either side of the tool
+     from 1024px, a standard banner above it and a responsive unit below it
+     on smaller screens. See components/ads/AdUnit.tsx for how units load.
+--------------------------------------------------------------------------- */
 
 // --- Layout -------------------------------------------------------------------
 
@@ -115,80 +38,91 @@ export default function StudioAdLayout({
   slots,
 }: StudioAdLayoutProps) {
   const pathname = usePathname();
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const resolvedSlots = { ...ADSENSE.SLOTS, ...slots };
 
+  const studio = studioForPath(pathname);
+  const tool = toolForPath(pathname);
+  const isHub = !!studio && pathname === studio.href;
+
+  // Remember tools for "Recently used" in search.
   useEffect(() => {
-    if (!ADSENSE.ADS_ENABLED) return;
+    if (tool) rememberTool(tool.id);
+  }, [tool]);
 
-    // Debounced so rapid route changes don't fire overlapping pushes.
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    timerRef.current = setTimeout(() => {
-      try {
-        if (typeof window === 'undefined' || !window.adsbygoogle) return;
-        const adsbygoogle = window.adsbygoogle;
-
-        const unfilled = document.querySelectorAll(
-          '.adsbygoogle:not([data-ad-status])',
-        );
-        if (unfilled.length === 0) return;
-
-        unfilled.forEach(() => adsbygoogle.push({}));
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn('[AdSense] Push failed:', err);
-        }
-      }
-    }, 300);
-
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [pathname]);
-
-  if (!ADSENSE.ADS_ENABLED) {
+  // Hub pages own their full-width layout.
+  if (isHub) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <main className="w-full min-w-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden">
-            {children}
-          </main>
-        </div>
-      </div>
+      <main className="flex-1">
+        {children}
+        {ADSENSE.ADS_ENABLED && (
+          <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+            <ResponsiveAd
+              slot={resolvedSlots.BOTTOM}
+              media="all"
+              instanceKey={pathname}
+            />
+          </div>
+        )}
+      </main>
     );
   }
 
+  const workspace = (
+    <div
+      key={pathname}
+      className="w-full min-w-0 animate-rise-in overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04)] dark:border-slate-800 dark:bg-slate-900"
+    >
+      {children}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
-      <TopLeaderboard slot={resolvedSlots.TOP} />
+    <div className="flex-1">
+      {studio && <StudioToolRail studio={studio} current={tool} />}
 
-      <div className="max-w-[1640px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr_180px] xl:grid-cols-[260px_1fr_260px] 2xl:grid-cols-[300px_1fr_300px] gap-6 items-start">
-          <aside
-            className="hidden lg:flex flex-col gap-4 sticky top-6"
-            aria-label="Advertisement"
-          >
-            <Sidebar slot={resolvedSlots.LEFT} />
-          </aside>
-
-          <div className="flex flex-col gap-6 min-w-0 w-full">
-            <MobileBanner slot={resolvedSlots.TOP} />
-            <main className="w-full min-w-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden">
-              {children}
+      {!ADSENSE.ADS_ENABLED ? (
+        <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          {workspace}
+          {studio && <RelatedTools studio={studio} current={tool} />}
+        </main>
+      ) : (
+        <div className="mx-auto max-w-[1640px] px-4 py-6 sm:px-6 lg:px-8">
+          {/* Below 1024px: one standard banner above the tool. */}
+          <FixedAd
+            slot={resolvedSlots.TOP}
+            rules={TOP_BANNER_RULES}
+            instanceKey={pathname}
+            className="mb-6"
+          />
+          {/* Ad columns have a fixed width equal to the ad (160px, or 300px
+              from 1536px), so they never shrink - the tool column flexes. */}
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[160px_minmax(0,1fr)_160px] 2xl:grid-cols-[300px_minmax(0,1fr)_300px]">
+            <div className="sticky top-[calc(var(--header-h)+4rem)] hidden lg:block">
+              <FixedAd
+                slot={resolvedSlots.LEFT}
+                rules={SIDEBAR_RULES}
+                instanceKey={pathname}
+              />
+            </div>
+            <main className="flex min-w-0 w-full flex-col gap-6">
+              {workspace}
+              <ResponsiveAd
+                slot={resolvedSlots.BOTTOM}
+                media={BELOW_SIDEBARS}
+                instanceKey={pathname}
+              />
+              {studio && <RelatedTools studio={studio} current={tool} />}
             </main>
-            <BottomAnchor slot={resolvedSlots.BOTTOM} />
+            <div className="sticky top-[calc(var(--header-h)+4rem)] hidden lg:block">
+              <FixedAd
+                slot={resolvedSlots.RIGHT}
+                rules={SIDEBAR_RULES}
+                instanceKey={pathname}
+              />
+            </div>
           </div>
-
-          <aside
-            className="hidden lg:flex flex-col gap-4 sticky top-6"
-            aria-label="Advertisement"
-          >
-            <Sidebar slot={resolvedSlots.RIGHT} />
-          </aside>
         </div>
-      </div>
+      )}
     </div>
   );
 }

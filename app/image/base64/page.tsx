@@ -1,12 +1,11 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { Binary, Code, Zap, Shield } from 'lucide-react';
 import Base64Tool from '@/features/image/base64/components/Tool';
 import {
   InfoCardGrid,
   TechnicalNote,
   FaqAccordion,
+  ToolPageHeader,
 } from '@/features/image/shared/components/page-sections';
 import {
   JsonLd,
@@ -14,11 +13,13 @@ import {
   softwareApplicationJsonLd,
   faqPageJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Image to Base64 Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/image/base64',
+  title: 'Image to Base64 Converter - Encode & Decode Online',
   description:
-    'Convert images to Base64 strings or decode Base64 back to images. Get raw text, Data URI, CSS, or HTML output. 100% browser-based, nothing uploaded.',
+    'Convert images to Base64 data URIs for HTML and CSS, or decode Base64 back to an image file. Raw, Data URI, CSS and <img> output. Free, runs in your browser.',
   keywords: [
     'image to base64',
     'convert image to base64 string',
@@ -33,15 +34,7 @@ export const metadata: Metadata = {
     'html embed image base64',
     'svg to base64 converter',
   ],
-  alternates: { canonical: `${SITE_URL}/image/base64` },
-  openGraph: {
-    title: 'Image to Base64 Converter - Free Online Tool | Image Studio',
-    description:
-      'Encode images to Base64 or decode back instantly, entirely in your browser.',
-    url: `${SITE_URL}/image/base64`,
-    type: 'website',
-  },
-};
+});
 
 const FEATURES = [
   { icon: Code, label: 'Multiple formats', desc: 'Raw, Data URI, CSS, HTML' },
@@ -124,57 +117,20 @@ export default function Base64Page() {
           faqPageJsonLd(BASE64_FAQS),
         ]}
       />
-      <div className="px-6 pt-6 pb-5 border-b border-slate-100 dark:border-slate-800">
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-5">
-          <Link
-            href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Home
-          </Link>
-          <span>›</span>
-          <Link
-            href="/image"
-            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            Image Studio
-          </Link>
-          <span>›</span>
-          <span className="text-slate-600 dark:text-slate-300 font-medium">
-            Image ↔ Base64
-          </span>
-        </nav>
+      <ToolPageHeader
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Image Studio', path: '/image' },
+          { name: 'Image to Base64 Converter', path: '/image/base64' },
+        ]}
+        title={'Image to Base64 Converter'}
+        description={
+          'Encode images into Base64 strings for embedding in code, or decode Base64 back into a downloadable image. Get output as raw text, Data URI, CSS, or HTML.'
+        }
+        features={FEATURES}
+      />
 
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs font-black">
-              BASE64
-            </span>
-            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Image to Base64 Converter
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Encode images into Base64 strings for embedding in code, or decode
-              Base64 back into a downloadable image. Get output as raw text,
-              Data URI, CSS, or HTML.
-            </p>
-          </div>
-
-          <div className="hidden sm:grid grid-cols-2 gap-2 shrink-0">
-            {FEATURES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400"
-              >
-                <Icon className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                <span className="font-semibold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <Base64Tool />
       </div>
 

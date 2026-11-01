@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { ScanEye, Zap, Shield, EyeOff } from 'lucide-react';
 import UnicodeInspectorTool from '@/features/character/unicode-inspector/components';
@@ -15,11 +14,13 @@ import {
   TechnicalNote,
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Unicode Inspector',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/unicode-inspector',
+  title: 'Unicode Character Inspector - Find Hidden Characters',
   description:
-    "Reveal every character's Unicode code point, name, category, and UTF-8 bytes. Detect invisible characters, zero-width spaces, smart quotes, and byte-order marks - instantly in your browser, 100% private.",
+    'See the Unicode code point, name and UTF-8 bytes of every character, and find zero-width spaces, smart quotes and other invisible characters.',
   keywords: [
     'unicode inspector online',
     'unicode character inspector',
@@ -34,18 +35,7 @@ export const metadata: Metadata = {
     'emoji unicode inspector',
     'special character analyzer online',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/unicode-inspector`,
-  },
-  openGraph: {
-    title:
-      'Unicode Inspector - Reveal Hidden Characters & Code Points | Character Studio',
-    description:
-      "Every character's code point, name, category and UTF-8 bytes - invisible chars, smart quotes and BOM detected instantly, nothing sent to any server.",
-    url: `${SITE_URL}/character/unicode-inspector`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -95,7 +85,7 @@ export default function UnicodeInspectorPage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Unicode Inspector', path: '/character/unicode-inspector' },
           ]),
           softwareApplicationJsonLd({
@@ -118,7 +108,7 @@ export default function UnicodeInspectorPage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Unicode Inspector', path: '/character/unicode-inspector' },
         ]}
         badges={[{ label: 'UNICODE', color: 'cyan' }]}
@@ -132,7 +122,7 @@ export default function UnicodeInspectorPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <UnicodeInspectorTool />
       </div>
 

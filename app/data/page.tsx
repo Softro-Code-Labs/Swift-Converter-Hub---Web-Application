@@ -1,16 +1,18 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import DataStudioClient from './DataStudioClient';
 import {
   JsonLd,
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
+  studioToolsJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Data Studio - Free Online Data Format Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/data',
+  title: 'Free Online Data Converters - JSON, CSV, XML & YAML',
   description:
-    'Convert between CSV, JSON, XML and YAML formats entirely in your browser. Parse Excel files, format JSON, and encode Base64 - no uploads required.',
+    'Convert between JSON, CSV, XML, YAML, TOML and Excel, and format or validate JSON. Fast with large files and fully private - nothing is uploaded.',
   keywords: [
     'data studio online free',
     'data format converter browser',
@@ -25,14 +27,7 @@ export const metadata: Metadata = {
     'no signup data tools',
     'api data format converter',
   ],
-  alternates: { canonical: `${SITE_URL}/data` },
-  openGraph: {
-    title: 'Data Studio - Free Online Data Format Converter',
-    description: 'Convert CSV, JSON, XML and YAML entirely in your browser.',
-    url: `${SITE_URL}/data`,
-    type: 'website',
-  },
-};
+});
 
 export default function DataStudioPage() {
   return (
@@ -43,6 +38,7 @@ export default function DataStudioPage() {
             { name: 'Home', path: '/' },
             { name: 'Data Studio', path: '/data' },
           ]),
+          studioToolsJsonLd('data'),
           softwareApplicationJsonLd({
             name: 'Data Studio',
             description:

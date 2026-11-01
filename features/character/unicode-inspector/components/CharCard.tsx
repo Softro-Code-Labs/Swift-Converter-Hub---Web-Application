@@ -15,10 +15,10 @@ function GlyphDisplay({ info }: { info: CharInfo }) {
   if (info.isInvisible || info.category === 'control') {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-0.5">
-        <span className="text-[9px] font-bold text-red-400 dark:text-red-500 leading-none">
+        <span className="text-[11px] font-bold text-red-400 dark:text-red-500 leading-none">
           {info.hex}
         </span>
-        <span className="text-[8px] text-red-300 dark:text-red-600 leading-none">
+        <span className="text-[10px] text-red-300 dark:text-red-600 leading-none">
           invisible
         </span>
       </div>
@@ -28,7 +28,7 @@ function GlyphDisplay({ info }: { info: CharInfo }) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-0.5">
         <span className="text-lg">␣</span>
-        <span className="text-[8px] text-teal-400 leading-none">space</span>
+        <span className="text-[10px] text-teal-400 leading-none">space</span>
       </div>
     );
   }
@@ -39,15 +39,41 @@ function GlyphDisplay({ info }: { info: CharInfo }) {
   );
 }
 
-export function CharCard({ info, highlight }: CharCardProps) {
+/**
+ * Copy button for one character. Rendered as a sibling of the selectable
+ * card (not inside it) so there is never a button nested in a button.
+ */
+export function CharCopyButton({
+  char,
+  label,
+}: {
+  char: string;
+  label: string;
+}) {
   const [copied, setCopied] = useState(false);
-
   const handleCopy = () => {
-    navigator.clipboard.writeText(info.char);
+    navigator.clipboard?.writeText(char).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 1200);
   };
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      aria-label={`Copy ${label}`}
+      title="Copy character"
+      className="rounded p-1 text-slate-400 opacity-60 transition hover:text-blue-600 group-hover:opacity-100 focus-visible:opacity-100 dark:hover:text-blue-300"
+    >
+      {copied ? (
+        <Check className="h-3.5 w-3.5 text-emerald-600" />
+      ) : (
+        <Copy className="h-3.5 w-3.5" />
+      )}
+    </button>
+  );
+}
 
+export function CharCard({ info, highlight }: CharCardProps) {
   const isProblematic = info.isInvisible || info.category === 'control';
 
   return (
@@ -58,7 +84,7 @@ export function CharCard({ info, highlight }: CharCardProps) {
             ? 'border-violet-400 ring-2 ring-violet-400/30 shadow-sm'
             : isProblematic
               ? 'border-red-200 dark:border-red-900/60 bg-red-50/40 dark:bg-red-950/10'
-              : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-violet-300 dark:hover:border-violet-700'
+              : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-700'
         }`}
     >
       {/* Glyph box */}
@@ -77,24 +103,13 @@ export function CharCard({ info, highlight }: CharCardProps) {
       <div className="px-2 py-1.5 space-y-1 flex-1">
         {/* Code point */}
         <div className="flex items-center justify-between gap-1">
-          <span className="text-[11px] font-black font-mono text-violet-600 dark:text-violet-400">
+          <span className="pr-6 text-[13px] font-bold font-mono text-violet-600 dark:text-violet-400">
             {info.hex}
           </span>
-          <button
-            onClick={handleCopy}
-            className="opacity-0 group-hover:opacity-100 p-0.5 rounded text-slate-300 hover:text-violet-500 cursor-pointer transition-all"
-            title="Copy character"
-          >
-            {copied ? (
-              <Check className="w-3 h-3 text-emerald-500" />
-            ) : (
-              <Copy className="w-3 h-3" />
-            )}
-          </button>
         </div>
 
         {/* Name */}
-        <p className="text-[9px] text-slate-500 dark:text-slate-400 leading-tight line-clamp-2 min-h-[24px]">
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight line-clamp-2 min-h-[24px]">
           {info.name}
         </p>
 

@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { Binary, Zap, Shield, Layers } from 'lucide-react';
 import {
@@ -16,11 +15,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import NumberBaseTool from '@/features/character/number-base/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Number Base Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/character/number-base',
+  title: 'Number Base Converter - Binary, Hex, Decimal',
   description:
-    'Convert numbers between binary, octal, decimal, and hexadecimal simultaneously as you type. Includes bit pattern visualiser, byte size, and common value reference - instant, private, no server.',
+    'Convert numbers between binary, octal, decimal and hexadecimal as you type, with a bit pattern view. Free, instant and private.',
   keywords: [
     'number base converter online',
     'binary decimal hex converter',
@@ -35,18 +36,7 @@ export const metadata: Metadata = {
     'byte size calculator online',
     'programmer number converter',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/character/number-base`,
-  },
-  openGraph: {
-    title:
-      'Number Base Converter - Binary, Octal, Decimal, Hex | Character Studio',
-    description:
-      'Edit any base and all four update live - with bit pattern display, byte size, and common value reference. Instant, private, no server.',
-    url: `${SITE_URL}/character/number-base`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -67,7 +57,11 @@ const STEPS = [
 ];
 
 const COMMON_VALUES = [
-  { title: '255', meta: 'FF · 11111111', desc: 'Max value of an unsigned byte' },
+  {
+    title: '255',
+    meta: 'FF · 11111111',
+    desc: 'Max value of an unsigned byte',
+  },
   { title: '256', meta: '100 · 100000000', desc: 'One byte overflow / 2⁸' },
   { title: '65535', meta: 'FFFF', desc: 'Max value of an unsigned 16-bit int' },
   {
@@ -107,7 +101,7 @@ export default function NumberBasePage() {
         data={[
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
-            { name: 'Character Studio', path: '/character' },
+            { name: 'Text Studio', path: '/character' },
             { name: 'Number Base Converter', path: '/character/number-base' },
           ]),
           softwareApplicationJsonLd({
@@ -130,7 +124,7 @@ export default function NumberBasePage() {
       <ToolPageHeader
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Character Studio', path: '/character' },
+          { name: 'Text Studio', path: '/character' },
           { name: 'Number Base Converter', path: '/character/number-base' },
         ]}
         badges={[{ label: 'BIN · OCT · DEC · HEX', color: 'blue' }]}
@@ -144,7 +138,7 @@ export default function NumberBasePage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <NumberBaseTool />
       </div>
 

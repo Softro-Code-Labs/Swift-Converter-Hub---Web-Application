@@ -11,9 +11,7 @@ describe('parseRangeString', () => {
   });
 
   it('parses a mix of single pages and ranges', () => {
-    expect(parseRangeString('1-3, 5, 7-9', 10)).toEqual([
-      0, 1, 2, 4, 6, 7, 8,
-    ]);
+    expect(parseRangeString('1-3, 5, 7-9', 10)).toEqual([0, 1, 2, 4, 6, 7, 8]);
   });
 
   it('handles a reversed range (e.g. "5-3")', () => {

@@ -1,9 +1,8 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { LaboratoryModules } from '@/components/LaboratoryModules';
+import { PageHeader } from '@/components/site/PageHeader';
+import { StudioDirectory } from '@/components/site/StudioDirectory';
 import {
-  ArrowLeft,
   ArrowRight,
   Shield,
   Zap,
@@ -12,11 +11,13 @@ import {
   Cpu,
   ServerOff,
 } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'About',
+export const metadata: Metadata = pageMetadata({
+  path: '/about',
+  title: 'About - Private, In-Browser File Conversion',
   description:
-    'Learn how Swift Converter Hub uses WebAssembly to convert files entirely in your browser with zero uploads and 100% data privacy.',
+    'Swift Converter Hub converts files in your browser with WebAssembly, so nothing is uploaded. Learn how it works and why your files stay on your device.',
   keywords: [
     'about swift converter hub',
     'how swift converter hub works',
@@ -31,15 +32,7 @@ export const metadata: Metadata = {
     'how browser file conversion works',
     'free privacy focused converter',
   ],
-  alternates: { canonical: `${SITE_URL}/about` },
-  openGraph: {
-    title: 'About Swift Converter Hub - Privacy-First Local File Converters',
-    description:
-      'How we built a browser-based image toolkit that never uploads your files.',
-    url: `${SITE_URL}/about`,
-    type: 'website',
-  },
-};
+});
 
 const PILLARS = [
   {
@@ -85,197 +78,121 @@ const HOW_IT_WORKS = [
   },
 ];
 
-const TRUST_BADGES = [
-  'GDPR compliant',
-  'No PHI ever transmitted',
-  'Zero server logging',
-  'Works offline',
-  'No account required',
-  'Open to all',
-];
-
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* -- Hero ------------------------------------------------------------ */}
-      <section className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-          {/* Breadcrumb */}
+    <main className="flex-1">
+      <PageHeader
+        title="Your files belong on your computer"
+        lead={
+          <>
+            Swift Converter Hub is built on one idea: converting a file should
+            not mean handing it to a stranger&apos;s server. Every tool here
+            runs in your browser, so your files stay where they are.
+          </>
+        }
+        width="max-w-5xl"
+      >
+        <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-8"
+            className="inline-flex h-11 items-center gap-2 rounded-xl bg-blue-600 px-5 text-[15px] font-semibold text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
           >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            Back to home
+            Convert a file
+            <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
-
-          <div className="max-w-2xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 text-xs font-bold text-blue-700 dark:text-blue-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              Privacy-first file conversion
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              Your files belong on{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                your computer
-              </span>
-            </h1>
-
-            <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed">
-              Swift Converter Hub was built on one principle: file conversion
-              tools should not require you to upload your personal files to a
-              stranger&apos;s server. Everything runs in your browser. Your data
-              never moves.
-            </p>
-
-            <div className="flex items-center gap-3 pt-2">
-              <Link
-                href="/image"
-                className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all active:scale-[0.98] group"
-              >
-                Try it now
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                No account needed
-              </div>
-            </div>
-          </div>
+          <span className="text-sm text-slate-500 dark:text-slate-400">
+            No account needed
+          </span>
         </div>
-      </section>
+      </PageHeader>
 
-      {/* -- Three pillars --------------------------------------------------- */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {PILLARS.map(({ icon: Icon, label, desc, color }) => (
-            <div
-              key={label}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-3"
-            >
-              <div
-                className={`flex h-10 w-10 items-center justify-center rounded-xl ${color}`}
-              >
-                <Icon className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white text-sm">
-                {label}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+      {/* -- Principles ------------------------------------------------------ */}
+      <section className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          What we hold to
+        </h2>
+        <dl className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-3">
+          {PILLARS.map(({ icon: Icon, label, desc }) => (
+            <div key={label}>
+              <dt className="flex items-center gap-2.5 text-lg font-semibold text-slate-900 dark:text-white">
+                <Icon
+                  className="h-5 w-5 text-blue-600 dark:text-blue-400"
+                  aria-hidden
+                />
+                {label
+                  .replace('100% Private', 'Private by design')
+                  .replace('Instant Processing', 'Fast')
+                  .replace('Always Free', 'Free for everyone')}
+              </dt>
+              <dd className="mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
                 {desc}
-              </p>
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       {/* -- How it works ---------------------------------------------------- */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
-          {/* Header */}
-          <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <span className="w-1 h-4 rounded-full bg-blue-500 inline-block" />
+      <section className="border-y border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/50">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
               How client-side processing works
             </h2>
-          </div>
-
-          {/* Steps */}
-          <div className="divide-y divide-slate-100 dark:divide-slate-800">
-            {HOW_IT_WORKS.map(({ icon: Icon, step, label, desc }) => (
-              <div key={step} className="flex items-start gap-5 px-6 py-5">
-                <div className="flex flex-col items-center gap-2 shrink-0">
-                  <span className="text-[10px] font-black text-slate-300 dark:text-slate-600">
-                    {step}
+            <ol className="mt-6 space-y-6">
+              {HOW_IT_WORKS.map(({ step, label, desc }, i) => (
+                <li key={step} className="flex gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 font-display text-sm font-bold text-white dark:bg-white dark:text-slate-900">
+                    {i + 1}
                   </span>
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                    <Icon className="w-4 h-4" />
+                  <div>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+                      {label}
+                    </h3>
+                    <p className="mt-1 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
+                      {desc}
+                    </p>
                   </div>
-                </div>
-                <div className="space-y-1 pt-1">
-                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    {label}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              </div>
-            ))}
+                </li>
+              ))}
+            </ol>
           </div>
 
-          {/* Trust badges */}
-          <div className="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2">
-            {TRUST_BADGES.map((badge) => (
-              <span
-                key={badge}
-                className="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full"
-              >
-                <span className="w-1 h-1 rounded-full bg-emerald-500" />
-                {badge}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* -- Technical detail ------------------------------------------------ */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-        <div className="bg-slate-900 dark:bg-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
-          <h2 className="text-base font-bold text-white">
-            What is WebAssembly?
-          </h2>
-          <p className="text-sm text-slate-300 leading-relaxed">
-            WebAssembly (WASM) is a binary instruction format that runs in your
-            browser at near-native speed. It&apos;s the same technology that
-            lets Figma, Google Earth and AutoCAD run in a browser tab. We use it
-            to run a professional-grade image processing engine directly in your
-            browser.
-          </p>
-          <p className="text-sm text-slate-400 leading-relaxed">
-            Because all computation happens locally, there is no server involved
-            in the conversion process. We don&apos;t log your files, we
-            don&apos;t store your files, and we can&apos;t access your files -
-            not because we promise not to, but because the architecture makes it
-            technically impossible.
-          </p>
-          <div className="pt-2 border-t border-slate-700">
-            <p className="text-xs text-slate-500 font-mono">
-              File path:{' '}
-              <span className="text-slate-400">
-                your device → browser memory → WASM engine → download
-              </span>
-              <span className="ml-3 text-slate-600">{'// no network hop'}</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* -- CTA + modules --------------------------------------------------- */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="space-y-6">
-          <div className="text-center space-y-2">
-            <h2 className="text-lg font-black text-slate-900 dark:text-white">
-              Ready to try it?
+          <div className="self-start rounded-2xl bg-slate-900 p-6 sm:p-8 dark:bg-slate-800">
+            <h2 className="text-xl font-bold text-white">
+              What is WebAssembly?
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Pick a tool and convert your first file in seconds - no setup
-              required.
+            <p className="mt-3 text-[15px] leading-relaxed text-slate-300">
+              WebAssembly (WASM) lets compiled programs run in a browser at
+              near-native speed. It&apos;s the same technology that lets Figma,
+              Google Earth and AutoCAD run in a tab. We use it to run
+              professional engines such as ImageMagick and FFmpeg on your
+              device.
+            </p>
+            <p className="mt-3 text-[15px] leading-relaxed text-slate-400">
+              Because all the work happens locally, no server is involved in
+              converting. We can&apos;t see your files - not because we promise
+              not to look, but because they never reach us.
+            </p>
+            <p className="mt-5 border-t border-slate-700 pt-4 text-sm text-slate-400">
+              Your file&apos;s journey: your device, browser memory, the engine,
+              your downloads folder. No network hop.
             </p>
           </div>
+        </div>
+      </section>
 
-          <LaboratoryModules title="Choose a studio" />
-
-          <div className="flex justify-center">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-sm font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors group"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-              Back to homepage
-            </Link>
-          </div>
+      {/* -- Studios --------------------------------------------------------- */}
+      <section className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          Try it with your own file
+        </h2>
+        <p className="mt-2 text-[15px] text-slate-600 dark:text-slate-400">
+          Pick a studio. Every tool is ready in seconds, with nothing to
+          install.
+        </p>
+        <div className="mt-6">
+          <StudioDirectory />
         </div>
       </section>
     </main>

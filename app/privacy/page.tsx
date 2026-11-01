@@ -1,20 +1,13 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
-import {
-  ArrowLeft,
-  Shield,
-  Eye,
-  BarChart2,
-  Globe,
-  Mail,
-  CheckCircle,
-} from 'lucide-react';
+import { LegalLayout } from '@/components/site/LegalLayout';
+import { Shield, Eye, BarChart2, Globe, Mail, CheckCircle } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: '/privacy',
   title: 'Privacy Policy',
   description:
-    'Swift Converter Hub processes all files locally in your browser. Read our full privacy policy on data handling, cookies, and why your files never touch our servers.',
+    'How Swift Converter Hub handles your data: files are processed in your browser and never uploaded. Details on analytics, ads, cookies and your choices.',
   keywords: [
     'swift converter hub privacy policy',
     'no upload file converter privacy',
@@ -28,15 +21,7 @@ export const metadata: Metadata = {
     'cookie policy file converter',
     'user data protection online tool',
   ],
-  alternates: { canonical: `${SITE_URL}/privacy` },
-  openGraph: {
-    title: 'Privacy Policy - Privacy-First Local File Converters',
-    description:
-      'Your files never leave your browser. Read our full privacy policy.',
-    url: `${SITE_URL}/privacy`,
-    type: 'website',
-  },
-};
+});
 
 const SECTIONS = [
   {
@@ -110,16 +95,15 @@ const SECTIONS = [
           either, only page views and general usage events.
         </p>
         <p className="mt-3">
-          We use <strong>Google Consent Mode v2</strong> to respect your
-          choice. Non-essential storage is set to &quot;denied&quot; by
-          default until consent is given. For visitors in the EEA, UK,
-          Switzerland, and applicable US states, consent for both
-          advertising (Google AdSense) and analytics (Google Analytics)
-          storage is collected through Google&apos;s own on-page consent
-          prompt, which is shown automatically where required and updates
-          these settings on our behalf - one Google tag reads this consent
-          state for both products. Our own cookie banner is separate and
-          only controls Microsoft Clarity.
+          We use <strong>Google Consent Mode v2</strong> to respect your choice.
+          Non-essential storage is set to &quot;denied&quot; by default until
+          consent is given. For visitors in the EEA, UK, Switzerland, and
+          applicable US states, consent for both advertising (Google AdSense)
+          and analytics (Google Analytics) storage is collected through
+          Google&apos;s own on-page consent prompt, which is shown automatically
+          where required and updates these settings on our behalf - one Google
+          tag reads this consent state for both products. Our own cookie banner
+          is separate and only controls Microsoft Clarity.
         </p>
         <p className="mt-3">
           We also use Microsoft Clarity (see &quot;What we collect&quot; above
@@ -176,104 +160,25 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* -- Header -------------------------------------------------------- */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-6"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            Back to home
-          </Link>
-
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-2xl font-black text-slate-900 dark:text-white">
-                Privacy Policy
-              </h1>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50">
-                Version 1.0
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
-              Last updated: June 2026
-            </p>
-          </div>
-
-          {/* Core promise banner */}
-          <div className="mt-6 flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 rounded-xl">
-            <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-bold text-blue-900 dark:text-blue-300">
-                Your files never leave your device
-              </p>
-              <p className="text-xs text-blue-700 dark:text-blue-400 mt-0.5 leading-relaxed">
-                All conversion happens locally in your browser using
-                WebAssembly. We have no servers that receive your files - this
-                is not a policy promise, it&apos;s an architectural fact.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* -- Content ------------------------------------------------------- */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-4">
-        {SECTIONS.map(({ id, icon: Icon, title, color, content }) => (
-          <div
-            key={id}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
-          >
-            {/* Section header */}
-            <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-slate-800">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${color}`}
-              >
-                <Icon className="w-4 h-4" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600">
-                  {id}
-                </span>
-                <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                  {title}
-                </h2>
-              </div>
-            </div>
-
-            {/* Section body */}
-            <div className="px-5 py-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {content}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* -- Footer -------------------------------------------------------- */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
-          <p className="text-xs text-slate-400 dark:text-slate-500">
-            © {new Date().getFullYear()} Swift Converter Hub
-          </p>
-          <div className="flex items-center gap-4 text-xs">
-            <Link
-              href="/terms"
-              className="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              href="/"
-              className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold group"
-            >
-              <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
-              Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    </main>
+    <LegalLayout
+      title="Privacy Policy"
+      meta="Version 1.0, last updated June 2026"
+      notice={
+        <>
+          <strong className="font-semibold">
+            Your files never leave your device.
+          </strong>{' '}
+          All conversion happens in your browser. We have no servers that
+          receive your files, so this isn&apos;t a promise we could break -
+          it&apos;s how the site is built.
+        </>
+      }
+      sections={SECTIONS.map(({ id, title, content }) => ({
+        id,
+        title,
+        content,
+      }))}
+      related={{ label: 'Terms of Service', href: '/terms' }}
+    />
   );
 }

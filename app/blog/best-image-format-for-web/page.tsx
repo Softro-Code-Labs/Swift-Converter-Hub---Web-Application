@@ -1,33 +1,30 @@
 import Link from 'next/link';
+import { PostList, formatPostDate } from '@/components/site/MorePosts';
 import type { Metadata } from 'next';
-import { Clock, Calendar } from 'lucide-react';
-import { SITE_URL } from '@/config/site';
 import { getBlogPost } from '@/config/blog';
 import {
   JsonLd,
   breadcrumbJsonLd,
   articleJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
 const post = getBlogPost('best-image-format-for-web')!;
 
-export const metadata: Metadata = {
-  title: `${post.title} | Swift Converter Hub`,
+export const metadata: Metadata = pageMetadata({
+  path: post.path,
+  title: post.title,
   description: post.description,
-  alternates: { canonical: `${SITE_URL}${post.path}` },
-  openGraph: {
-    title: post.title,
-    description: post.description,
-    url: `${SITE_URL}${post.path}`,
-    type: 'article',
-  },
-};
+  ogTitle: post.title,
+  type: 'article',
+});
 
-const p = 'text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-5';
+const p = 'text-[17px] text-slate-700 dark:text-slate-300 leading-[1.75] mb-5';
 const h2 =
-  'text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mt-10 mb-4';
-const h3 = 'text-lg font-bold text-slate-900 dark:text-white mt-6 mb-2';
-const ul = 'list-disc pl-5 space-y-2 mb-5 text-slate-600 dark:text-slate-400';
+  'text-2xl sm:text-[1.75rem] font-bold leading-tight text-slate-900 dark:text-white mt-12 mb-4';
+const h3 = 'text-xl font-semibold text-slate-900 dark:text-white mt-8 mb-2';
+const ul =
+  'list-disc pl-5 space-y-2.5 mb-6 text-[17px] leading-[1.7] text-slate-700 dark:text-slate-300 marker:text-slate-400';
 const table =
   'w-full text-sm border-collapse mb-6 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden';
 const th =
@@ -36,7 +33,7 @@ const td = 'px-4 py-2.5 border-b border-slate-100 dark:border-slate-800/60';
 
 export default function BestImageFormatPost() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <main className="flex-1">
       <JsonLd
         data={[
           breadcrumbJsonLd([
@@ -53,40 +50,42 @@ export default function BestImageFormatPost() {
         ]}
       />
 
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <article className="mx-auto max-w-[44rem] px-4 py-12 sm:px-6 sm:py-16">
         {/* -- Header ------------------------------------------------------ */}
-        <nav className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-6">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-8 text-[13px] text-slate-500 dark:text-slate-400"
+        >
           <Link
             href="/"
-            className="hover:text-blue-600 dark:hover:text-blue-400"
+            className="hover:text-slate-900 hover:underline underline-offset-4 dark:hover:text-white"
           >
             Home
           </Link>
-          <span>/</span>
+          <span
+            className="mx-1.5 text-slate-300 dark:text-slate-600"
+            aria-hidden
+          >
+            /
+          </span>
           <Link
             href="/blog"
-            className="hover:text-blue-600 dark:hover:text-blue-400"
+            className="hover:text-slate-900 hover:underline underline-offset-4 dark:hover:text-white"
           >
             Blog
           </Link>
         </nav>
 
-        <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 text-xs font-bold mb-4">
-          {post.category}
-        </span>
-
-        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight mb-4">
+        <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">
+          {post.category} guide,{' '}
+          <time dateTime={post.datePublished}>
+            {formatPostDate(post.datePublished)}
+          </time>
+          , {post.readTime}
+        </p>
+        <h1 className="mb-10 text-4xl font-bold leading-[1.1] text-slate-900 sm:text-[2.75rem] dark:text-white">
           {post.title}
         </h1>
-
-        <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-slate-500 mb-10">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5" /> September 10, 2026
-          </span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5" /> {post.readTime}
-          </span>
-        </div>
 
         {/* -- Body ---------------------------------------------------------- */}
         <p className={p}>
@@ -249,6 +248,10 @@ export default function BestImageFormatPost() {
           on generic percentages like the ones above.
         </p>
       </article>
+
+      <div className="mx-auto max-w-[44rem] border-t border-slate-200 px-4 pb-16 pt-10 sm:px-6 dark:border-slate-800">
+        <PostList current={post.slug} heading="Keep reading" />
+      </div>
     </main>
   );
 }

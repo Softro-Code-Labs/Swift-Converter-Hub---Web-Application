@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import AudioFormatsClient from './AudioFormatsClient';
 import {
@@ -6,11 +5,13 @@ import {
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Audio Format Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/audio/convert',
+  title: 'Audio Converter - MP3, WAV, FLAC, M4A, AAC & OGG',
   description:
-    'Convert between MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF, AC3, AU and MP2 instantly in your browser. Batch convert, adjust bitrate, and download - no uploads, no account, powered by WebAssembly.',
+    'Convert audio between MP3, WAV, FLAC, M4A, AAC, OGG, OPUS and more. Choose the bitrate and batch convert up to 20 files. Free, private, no upload.',
   keywords: [
     'audio format converter online',
     'convert audio formats free',
@@ -27,17 +28,7 @@ export const metadata: Metadata = {
     'ac3 to mp3 converter',
     'convert podcast audio format',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/audio/convert`,
-  },
-  openGraph: {
-    title: 'Audio Format Converter | Audio Studio',
-    description:
-      'Convert between 12 audio formats - MP3, WAV, OGG, FLAC, AAC, M4A, OPUS, WMA, AIFF, AC3, AU, MP2 - instant, private, no server.',
-    url: `${SITE_URL}/audio/convert`,
-    type: 'website',
-  },
-};
+});
 
 export default function AudioFormatsPage() {
   return (

@@ -16,6 +16,7 @@ import {
   MEDIUM_TRAFFIC_PAIRS as VIDEO_MEDIUM_TRAFFIC_PAIRS,
 } from '@/features/video/convert/config/formats';
 import { BLOG_POSTS } from '@/config/blog';
+import { getStudioTools, type StudioId } from '@/config/tools';
 
 const BASE_URL = SITE_URL;
 
@@ -28,66 +29,18 @@ const BASE_URL = SITE_URL;
 // 0.5  - Static info pages
 
 // --- Studio Tool Slugs --------------------------------------------------------
+// Derived from the tool registry (config/tools.ts) so a new tool is added to
+// the sitemap automatically.
 
-const IMAGE_STUDIO_SLUGS = new Set([
-  'convert',
-  'crop',
-  'compress',
-  'adjust',
-  'metadata',
-  'base64',
-]);
+const slugsFor = (studio: StudioId) =>
+  new Set(getStudioTools(studio).map((t) => t.href.split('/')[2]));
 
-const AUDIO_STUDIO_SLUGS = new Set([
-  'convert',
-  'trim',
-  'compress',
-  'volume',
-  'merge',
-]);
-
-const VIDEO_STUDIO_SLUGS = new Set([
-  'convert',
-  'trim',
-  'compress',
-  'extract-audio',
-  'to-gif',
-]);
-
-const DOCUMENT_STUDIO_SLUGS = new Set([
-  'pdf-merge',
-  'pdf-split',
-  'pdf-compress',
-  'pdf-rotate',
-  'office-to-pdf',
-  'pdf-to-word',
-  'pdf-watermark',
-]);
-
-const DATA_STUDIO_SLUGS = new Set([
-  'csv-json',
-  'json-xml',
-  'yaml-json',
-  'excel-json',
-  'toml-json',
-  'json-formatter',
-  'base64-text',
-]);
-
-const CHARACTER_STUDIO_SLUGS = new Set([
-  'word-counter',
-  'case-converter',
-  'find-replace',
-  'markdown-preview',
-  'regex-tester',
-  'text-diff',
-  'lorem-ipsum',
-  'text-sorter',
-  'url-encoder',
-  'hash-generator',
-  'unicode-inspector',
-  'number-base',
-]);
+const IMAGE_STUDIO_SLUGS = slugsFor('image');
+const AUDIO_STUDIO_SLUGS = slugsFor('audio');
+const VIDEO_STUDIO_SLUGS = slugsFor('video');
+const DOCUMENT_STUDIO_SLUGS = slugsFor('file');
+const DATA_STUDIO_SLUGS = slugsFor('data');
+const CHARACTER_STUDIO_SLUGS = slugsFor('character');
 
 // --- Sitemap ------------------------------------------------------------------
 
@@ -232,7 +185,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // -- Chargecter Studio Tool --------------------------------------------------
+  // -- Text Studio Tools --------------------------------------------------
 
   const characterStudioTools: MetadataRoute.Sitemap = Array.from(
     CHARACTER_STUDIO_SLUGS,

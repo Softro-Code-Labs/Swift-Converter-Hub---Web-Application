@@ -14,19 +14,19 @@ export function DiffStatsBar({ added, removed, unchanged }: DiffStatsBarProps) {
     <div className="flex items-center gap-4 flex-wrap">
       <div className="flex items-center gap-1.5">
         <Plus className="w-3 h-3 text-emerald-500" />
-        <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+        <span className="text-[13px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
           {added} added
         </span>
       </div>
       <div className="flex items-center gap-1.5">
         <Minus className="w-3 h-3 text-red-500" />
-        <span className="text-[11px] font-bold text-red-600 dark:text-red-400 tabular-nums">
+        <span className="text-[13px] font-bold text-red-600 dark:text-red-400 tabular-nums">
           {removed} removed
         </span>
       </div>
       <div className="flex items-center gap-1.5">
         <Equal className="w-3 h-3 text-slate-400" />
-        <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 tabular-nums">
+        <span className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tabular-nums">
           {unchanged} unchanged
         </span>
       </div>

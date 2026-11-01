@@ -4,78 +4,125 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ==========================================================================
+   Swift Converter Hub - design tokens
+   --------------------------------------------------------------------------
+   Two palettes are re-tuned here so every page (including the 40+ tool
+   components that use Tailwind's slate/blue utilities directly) shares one
+   look without touching each file:
+
+   - slate  -> "graphite": a quieter neutral with more contrast in the
+               mid-tones, so secondary text (slate-400/500) stays readable.
+   - blue   -> "cobalt": the brand colour. Slightly deeper and more saturated
+               than stock blue so primary actions stand out.
+   ========================================================================== */
+
+@theme {
+  /* Graphite neutrals */
+  --color-slate-50: oklch(0.984 0.003 260);
+  --color-slate-100: oklch(0.963 0.005 260);
+  --color-slate-200: oklch(0.92 0.008 260);
+  --color-slate-300: oklch(0.86 0.012 260);
+  --color-slate-400: oklch(0.63 0.018 260);
+  --color-slate-500: oklch(0.53 0.02 260);
+  --color-slate-600: oklch(0.44 0.02 260);
+  --color-slate-700: oklch(0.36 0.018 260);
+  --color-slate-800: oklch(0.275 0.014 260);
+  --color-slate-900: oklch(0.21 0.011 260);
+  --color-slate-950: oklch(0.16 0.009 260);
+
+  /* Cobalt - brand */
+  --color-blue-50: oklch(0.972 0.016 256);
+  --color-blue-100: oklch(0.94 0.036 256);
+  --color-blue-200: oklch(0.885 0.07 256);
+  --color-blue-300: oklch(0.8 0.115 256);
+  --color-blue-400: oklch(0.71 0.16 256);
+  --color-blue-500: oklch(0.61 0.205 256);
+  --color-blue-600: oklch(0.525 0.225 256);
+  --color-blue-700: oklch(0.455 0.205 256);
+  --color-blue-800: oklch(0.385 0.165 256);
+  --color-blue-900: oklch(0.32 0.125 256);
+  --color-blue-950: oklch(0.235 0.085 256);
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque Variable', var(--font-geist-sans),
+    ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: var(--color-slate-50);
+  --foreground: var(--color-slate-900);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: var(--color-slate-900);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: var(--color-slate-900);
+  --primary: var(--color-blue-600);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: var(--color-slate-100);
+  --secondary-foreground: var(--color-slate-900);
+  --muted: var(--color-slate-100);
+  --muted-foreground: var(--color-slate-500);
+  --accent: var(--color-slate-100);
+  --accent-foreground: var(--color-slate-900);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: var(--color-slate-200);
+  --input: var(--color-slate-200);
+  --ring: var(--color-blue-500);
+  --chart-1: var(--color-blue-500);
+  --chart-2: oklch(0.7 0.15 162);
+  --chart-3: oklch(0.77 0.16 70);
+  --chart-4: oklch(0.65 0.2 330);
+  --chart-5: oklch(0.7 0.12 215);
+  --radius: 0.75rem;
+  --sidebar: var(--color-slate-50);
+  --sidebar-foreground: var(--color-slate-900);
+  --sidebar-primary: var(--color-blue-600);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: var(--color-slate-100);
+  --sidebar-accent-foreground: var(--color-slate-900);
+  --sidebar-border: var(--color-slate-200);
+  --sidebar-ring: var(--color-blue-500);
+
+  /* Height of the sticky site header - used to offset sticky sub-nav. */
+  --header-h: 4rem;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: var(--color-slate-950);
+  --foreground: var(--color-slate-100);
+  --card: var(--color-slate-900);
+  --card-foreground: var(--color-slate-100);
+  --popover: var(--color-slate-900);
+  --popover-foreground: var(--color-slate-100);
+  --primary: var(--color-blue-400);
+  --primary-foreground: var(--color-slate-950);
+  --secondary: var(--color-slate-800);
+  --secondary-foreground: var(--color-slate-100);
+  --muted: var(--color-slate-800);
+  --muted-foreground: var(--color-slate-400);
+  --accent: var(--color-slate-800);
+  --accent-foreground: var(--color-slate-100);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: var(--color-blue-400);
+  --sidebar: var(--color-slate-900);
+  --sidebar-foreground: var(--color-slate-100);
+  --sidebar-primary: var(--color-blue-400);
+  --sidebar-primary-foreground: var(--color-slate-950);
+  --sidebar-accent: var(--color-slate-800);
+  --sidebar-accent-foreground: var(--color-slate-100);
+  --sidebar-border: oklch(1 0 0 / 9%);
+  --sidebar-ring: var(--color-blue-400);
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-heading: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -110,8 +157,203 @@
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-xl: calc(var(--radius) * 1.2);
+  --radius-2xl: calc(var(--radius) * 1.5);
+  --radius-3xl: calc(var(--radius) * 2);
   --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-feature-settings: 'ss01', 'cv11';
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One consistent, visible focus ring for keyboard users everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-blue-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .dark :focus-visible {
+    outline-color: var(--color-blue-400);
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline-offset: 0;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  summary {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-blue-600);
+    color: white;
+  }
+
+  /* Thin, theme-aware scrollbars inside tool panels. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-slate-300) transparent;
+  }
+  .dark * {
+    scrollbar-color: var(--color-slate-700) transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+
+/* Hide a horizontal scrollbar but keep the area scrollable (tool rail). */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Long-form reading: blog posts and legal pages. */
+@utility prose-site {
+  color: var(--color-slate-700);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+
+  .dark & {
+    color: var(--color-slate-300);
+  }
+
+  & > * + * {
+    margin-top: 1.1em;
+  }
+  & h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--color-slate-900);
+    margin-top: 2.2em;
+    margin-bottom: 0.4em;
+  }
+  & h3 {
+    font-size: 1.125rem;
+    line-height: 1.35;
+    font-weight: 650;
+    color: var(--color-slate-900);
+    margin-top: 1.8em;
+  }
+  .dark & h2,
+  .dark & h3 {
+    color: white;
+  }
+  & a {
+    color: var(--color-blue-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .dark & a {
+    color: var(--color-blue-300);
+  }
+  & ul,
+  & ol {
+    padding-left: 1.25em;
+  }
+  & ul {
+    list-style: disc;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & li + li {
+    margin-top: 0.4em;
+  }
+  & li::marker {
+    color: var(--color-slate-400);
+  }
+  & strong {
+    color: var(--color-slate-900);
+    font-weight: 650;
+  }
+  .dark & strong {
+    color: white;
+  }
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    padding: 0.1em 0.35em;
+    border-radius: 0.375rem;
+    background: var(--color-slate-100);
+  }
+  .dark & code {
+    background: var(--color-slate-800);
+  }
+}
+
+/* Entrance used once per page for the main content - not on every card. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility animate-rise-in {
+  animation: rise-in 0.45s var(--ease-out-quint) both;
+}
+
+/* AdSense: collapse a unit (and its "Advertisement" label) when Google
+   reports no ad was available. This CSS approach is the one Google
+   documents for unfilled ad units. */
+ins.adsbygoogle[data-ad-status='unfilled'] {
+  display: none !important;
+}
+.ad-frame:has(ins.adsbygoogle[data-ad-status='unfilled']) {
+  display: none;
 }

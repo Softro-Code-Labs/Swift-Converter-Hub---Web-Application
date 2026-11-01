@@ -59,16 +59,14 @@ export const ResizeControls = ({
 
   return (
     <div className="space-y-3">
-      <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+      <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
         Output size (px)
       </p>
 
       {/* Width / Height inputs */}
       <div className="flex items-center gap-2">
         <div className="flex-1 space-y-1">
-          <label className="text-[10px] text-slate-400 font-semibold">
-            Width
-          </label>
+          <label className="text-xs text-slate-400 font-semibold">Width</label>
           <input
             type="number"
             min={1}
@@ -101,9 +99,7 @@ export const ResizeControls = ({
         </button>
 
         <div className="flex-1 space-y-1">
-          <label className="text-[10px] text-slate-400 font-semibold">
-            Height
-          </label>
+          <label className="text-xs text-slate-400 font-semibold">Height</label>
           <input
             type="number"
             min={1}
@@ -121,7 +117,7 @@ export const ResizeControls = ({
           <button
             key={q.label}
             onClick={() => onChange({ ...dimensions, width: q.w, height: q.h })}
-            className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all
+            className={`text-xs font-bold px-2 py-1 rounded-lg border transition-all
               ${
                 dimensions.width === q.w && dimensions.height === q.h
                   ? 'bg-blue-100 dark:bg-blue-950/50 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'

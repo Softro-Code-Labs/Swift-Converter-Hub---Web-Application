@@ -17,4 +17,6 @@ export interface MediaFileItem<
   outputFormat?: TFormat;
   progress?: number; // 0-1, only meaningful while status === 'processing'
   errorMessage?: string;
+  /** Processed by the device's hardware video engine (WebCodecs). */
+  accelerated?: boolean;
 }

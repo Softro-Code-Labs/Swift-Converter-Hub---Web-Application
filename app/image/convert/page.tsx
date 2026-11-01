@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import ImageFormatsClient from './ImageFormatsClient';
 import {
@@ -6,11 +5,13 @@ import {
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
 } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Format Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/image/convert',
+  title: 'Image Converter - JPG, PNG, WebP, HEIC & 150+ Formats',
   description:
-    'Convert between 150+ image formats including JPG, PNG, WebP, AVIF, HEIC, SVG, TIFF and more - instantly in your browser. No uploads, no account, powered by WebAssembly.',
+    'Convert images between JPG, PNG, WebP, HEIC, AVIF, SVG, ICO and 150+ formats. Batch up to 20 files, free and private - images never leave your browser.',
   keywords: [
     'image format converter online',
     'convert image formats free',
@@ -24,17 +25,7 @@ export const metadata: Metadata = {
     'convert vector image format',
     'image format converter no signup',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/image/convert`,
-  },
-  openGraph: {
-    title: 'Image Format Converter - 150+ Formats | Image Studio',
-    description:
-      'Convert between JPG, PNG, WebP, AVIF, HEIC, SVG and 145+ more formats - instant, private, no server.',
-    url: `${SITE_URL}/image/convert`,
-    type: 'website',
-  },
-};
+});
 
 export default function ImageFormatsPage() {
   return (

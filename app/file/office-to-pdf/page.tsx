@@ -1,4 +1,3 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import { FileOutput, Zap, Shield, Printer } from 'lucide-react';
 import {
@@ -15,11 +14,13 @@ import {
   FaqAccordion,
 } from '@/features/shared/components/page-sections';
 import OfficeToPdfTool from '@/features/file/office-to-pdf/components';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Word / Excel to PDF Converter',
+export const metadata: Metadata = pageMetadata({
+  path: '/file/office-to-pdf',
+  title: 'Word to PDF & Excel to PDF Converter',
   description:
-    'Convert .docx and .xlsx files to PDF in your browser using the built-in print dialog. No server, no upload, 100% private - powered by Mammoth.js and SheetJS.',
+    'Convert Word (.docx) and Excel (.xlsx) files to PDF in your browser with formatting and tables kept. Free, no sign-up, and your documents stay private.',
   keywords: [
     'word to pdf converter online',
     'excel to pdf converter free',
@@ -34,17 +35,7 @@ export const metadata: Metadata = {
     'convert word document online free',
     'save docx as pdf browser',
   ],
-  alternates: {
-    canonical: `${SITE_URL}/file/office-to-pdf`,
-  },
-  openGraph: {
-    title: 'Word / Excel to PDF - Browser Print Conversion | Document Suite',
-    description:
-      'Convert .docx and .xlsx to PDF via browser print dialog - preview, then save as PDF. Nothing uploaded.',
-    url: `${SITE_URL}/file/office-to-pdf`,
-    type: 'website',
-  },
-};
+});
 
 const STEPS = [
   {
@@ -60,30 +51,30 @@ const STEPS = [
   {
     step: '03',
     title: 'Print to PDF',
-    desc: "Use your browser's print dialog and choose \"Save as PDF\" as the destination.",
+    desc: 'Use your browser\'s print dialog and choose "Save as PDF" as the destination.',
   },
 ];
 
 const FAQS = [
   {
     q: 'Why does this use the print dialog instead of directly generating a PDF file?',
-    a: "Generating a pixel-perfect PDF from a Word or Excel file normally needs the actual Word or Excel rendering engine, which isn't available in a browser. Instead, this tool converts your file into styled HTML and hands the job of producing the final PDF to your browser's own print engine - which every modern browser already does reliably via its \"Save as PDF\" print destination.",
+    a: 'Generating a pixel-perfect PDF from a Word or Excel file normally needs the actual Word or Excel rendering engine, which isn\'t available in a browser. Instead, this tool converts your file into styled HTML and hands the job of producing the final PDF to your browser\'s own print engine - which every modern browser already does reliably via its "Save as PDF" print destination.',
   },
   {
     q: 'Will my document look exactly like it does in Word or Excel?',
-    a: "Close, but not pixel-identical. Word documents keep headings, bold/italic, underline, strikethrough, and tables, since these map directly to HTML. Complex layouts - things like precise text boxes, custom page margins, or advanced Excel cell formatting - may render slightly differently than the original application would show them.",
+    a: 'Close, but not pixel-identical. Word documents keep headings, bold/italic, underline, strikethrough, and tables, since these map directly to HTML. Complex layouts - things like precise text boxes, custom page margins, or advanced Excel cell formatting - may render slightly differently than the original application would show them.',
   },
   {
     q: 'How are multiple Excel sheets handled?',
-    a: 'Every sheet in the workbook is converted to its own HTML table and included in the preview and print output, in the same order as in the original file, so a multi-sheet workbook doesn\'t lose any of its tabs.',
+    a: "Every sheet in the workbook is converted to its own HTML table and included in the preview and print output, in the same order as in the original file, so a multi-sheet workbook doesn't lose any of its tabs.",
   },
   {
     q: 'Why do I sometimes see a conversion warning?',
-    a: 'Word documents can use structures that don\'t have a clean HTML equivalent - certain nested tables, unusual field codes, or embedded objects, for example. When that happens, the tool surfaces a short warning describing what was simplified, rather than silently dropping content without telling you.',
+    a: "Word documents can use structures that don't have a clean HTML equivalent - certain nested tables, unusual field codes, or embedded objects, for example. When that happens, the tool surfaces a short warning describing what was simplified, rather than silently dropping content without telling you.",
   },
   {
     q: 'Is my document uploaded to a server?',
-    a: 'No. The .docx is parsed with Mammoth.js and the .xlsx with SheetJS, both running entirely in your browser - the file is never uploaded, and the final PDF is produced by your own browser\'s print function, not a remote service.',
+    a: "No. The .docx is parsed with Mammoth.js and the .xlsx with SheetJS, both running entirely in your browser - the file is never uploaded, and the final PDF is produced by your own browser's print function, not a remote service.",
   },
 ];
 
@@ -95,7 +86,10 @@ export default function OfficeToPdfPage() {
           breadcrumbJsonLd([
             { name: 'Home', path: '/' },
             { name: 'Document Suite', path: '/file' },
-            { name: 'Word / Excel to PDF Converter', path: '/file/office-to-pdf' },
+            {
+              name: 'Word / Excel to PDF Converter',
+              path: '/file/office-to-pdf',
+            },
           ]),
           softwareApplicationJsonLd({
             name: 'Word / Excel to PDF Converter',
@@ -118,7 +112,10 @@ export default function OfficeToPdfPage() {
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Document Suite', path: '/file' },
-          { name: 'Word / Excel to PDF Converter', path: '/file/office-to-pdf' },
+          {
+            name: 'Word / Excel to PDF Converter',
+            path: '/file/office-to-pdf',
+          },
         ]}
         badges={[{ label: 'DOCX / XLSX → PDF', color: 'blue' }]}
         title="Convert Word or Excel to PDF"
@@ -131,7 +128,7 @@ export default function OfficeToPdfPage() {
         ]}
       />
 
-      <div className="px-6 py-6">
+      <div className="@container px-5 py-6 sm:px-8 sm:py-8">
         <OfficeToPdfTool />
       </div>
 

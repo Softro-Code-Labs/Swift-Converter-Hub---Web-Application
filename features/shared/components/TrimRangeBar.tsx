@@ -49,7 +49,7 @@ export function TrimRangeBar({
   duration,
   onChange,
   onScrub,
-  accent = 'purple',
+  accent = 'blue',
 }: TrimRangeBarProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<DragState | null>(null);

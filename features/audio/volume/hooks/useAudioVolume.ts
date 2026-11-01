@@ -1,3 +1,4 @@
+import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState } from 'react';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
@@ -11,6 +12,7 @@ import {
 } from '@/features/audio/shared/config/formats';
 import {
   runFFmpegWithProgress,
+  readAudioSampleRate,
   runBatchWithEnginePool,
   cleanupFFmpegFiles,
 } from '@/features/shared/lib/ffmpegUtils';
@@ -44,13 +46,17 @@ export const useAudioVolume = (
     const inputPath = `input_${item.id}.${sourceExt}`;
     const outputPath = `output_${item.id}.${format.extension}`;
 
-    const filter =
-      settings.mode === 'normalize'
-        ? 'loudnorm'
-        : `volume=${(settings.percent / 100).toFixed(2)}`;
-
     try {
       await engine.writeFile(inputPath, await fetchFile(item.file));
+
+      // loudnorm works internally at 192 kHz, and without an explicit rate
+      // the output falls back to a default (often 48 kHz) instead of the
+      // original. Resample back to the source rate so only loudness changes.
+      let filter = `volume=${(settings.percent / 100).toFixed(2)}`;
+      if (settings.mode === 'normalize') {
+        const rate = await readAudioSampleRate(engine, inputPath);
+        filter = rate ? `loudnorm,aresample=${rate}` : 'loudnorm';
+      }
 
       const args = [
         '-i',
@@ -72,7 +78,8 @@ export const useAudioVolume = (
       }
 
       const data = await engine.readFile(outputPath);
-      const bytes = typeof data === 'string' ? new TextEncoder().encode(data) : data;
+      const bytes =
+        typeof data === 'string' ? new TextEncoder().encode(data) : data;
       const blob = new Blob([toStandaloneBuffer(bytes)], {
         type: format.mimeType,
       });
@@ -135,7 +142,7 @@ export const useAudioVolume = (
           item.file.name.lastIndexOf('.'),
         );
         const ext = item.file.name.split('.').pop() ?? 'mp3';
-        zip.file(`${name}_volume.${ext}`, blob);
+        zip.file(uniqueZipName(zip, `${name}_volume.${ext}`), blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       saveAs(zipBlob, 'volume_adjusted_batch.zip');

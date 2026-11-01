@@ -1,0 +1,17 @@
+isnet-general-use-w8-v1.onnx
+============================
+
+Background-removal model used by /image/remove-background. It runs entirely
+in the visitor's browser; images are never uploaded.
+
+Source model: IS-Net "isnet-general-use" from DIS (Dichotomous Image
+Segmentation), Xuebin Qin et al. - https://github.com/xuebinqin/DIS
+Licensed under the Apache License, Version 2.0:
+https://www.apache.org/licenses/LICENSE-2.0
+
+ONNX export as distributed by rembg (https://github.com/danielgatis/rembg).
+
+Modification: convolution weights stored as 8-bit integers with per-channel
+scales (DequantizeLinear), reducing the file from 178 MB to 47 MB.
+Computation still runs in 32-bit floating point. Measured mask agreement
+with the original model: 99.8% or better (IoU) on the test set used.

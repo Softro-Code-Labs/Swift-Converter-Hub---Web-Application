@@ -35,18 +35,18 @@ export const DecodeTab = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-5">
+    <div className="grid grid-cols-1 @3xl:grid-cols-[1fr_280px] gap-5">
       {/* Input column */}
       <div className="space-y-3">
         <div className="space-y-1.5">
-          <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+          <label className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
             Paste Base64 string
           </label>
           <textarea
             value={input}
             onChange={(e) => handlePaste(e.target.value)}
             placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA... or just the raw base64 string"
-            className={`w-full h-64 p-3 text-[11px] font-mono bg-slate-50 dark:bg-slate-900 border rounded-xl text-slate-700 dark:text-slate-300 resize-none focus:outline-none focus:ring-2 transition-all
+            className={`w-full h-64 p-3 text-[13px] font-mono bg-slate-50 dark:bg-slate-900 border rounded-xl text-slate-700 dark:text-slate-300 resize-none focus:outline-none focus:ring-2 transition-all
               ${
                 !isValid
                   ? 'border-red-300 dark:border-red-800 focus:ring-red-500/30'
@@ -55,8 +55,8 @@ export const DecodeTab = () => {
           />
           {!isValid && (
             <p className="flex items-center gap-1.5 text-xs text-red-500 dark:text-red-400">
-              <AlertCircle className="w-3.5 h-3.5" /> This doesn&apos;t look like
-              valid Base64
+              <AlertCircle className="w-3.5 h-3.5" /> This doesn&apos;t look
+              like valid Base64
             </p>
           )}
         </div>
@@ -85,7 +85,7 @@ export const DecodeTab = () => {
 
       {/* Result column */}
       <div className="space-y-3">
-        <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+        <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
           Preview
         </p>
         <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl p-3 flex items-center justify-center min-h-[200px]">
@@ -103,20 +103,20 @@ export const DecodeTab = () => {
 
         {decodeResult && (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 space-y-1.5">
-            <div className="flex justify-between text-[10px]">
+            <div className="flex justify-between text-xs">
               <span className="text-slate-400">Format</span>
               <span className="font-bold text-slate-700 dark:text-slate-300">
                 {decodeResult.mimeType}
               </span>
             </div>
-            <div className="flex justify-between text-[10px]">
+            <div className="flex justify-between text-xs">
               <span className="text-slate-400">Size</span>
               <span className="font-bold text-slate-700 dark:text-slate-300">
                 {decodeResult.size}
               </span>
             </div>
             {decodeResult.dimensions && (
-              <div className="flex justify-between text-[10px]">
+              <div className="flex justify-between text-xs">
                 <span className="text-slate-400">Dimensions</span>
                 <span className="font-bold text-slate-700 dark:text-slate-300">
                   {decodeResult.dimensions.width} ×{' '}

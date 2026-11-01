@@ -22,14 +22,14 @@ export function TypeSelector({ value, onChange }: TypeSelectorProps) {
           className={`flex flex-col items-center px-4 py-2 rounded-lg text-xs font-bold cursor-pointer transition-all
             ${
               value === opt.id
-                ? 'bg-white dark:bg-slate-700 text-orange-700 dark:text-orange-300 shadow-sm'
+                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
             }`}
         >
           {opt.label}
           <span
-            className={`text-[9px] font-normal mt-0.5
-            ${value === opt.id ? 'text-orange-400 dark:text-orange-500' : 'text-slate-300 dark:text-slate-600'}`}
+            className={`text-[11px] font-normal mt-0.5
+            ${value === opt.id ? 'text-blue-700 dark:text-blue-300' : 'text-slate-500 dark:text-slate-400'}`}
           >
             {opt.hint}
           </span>

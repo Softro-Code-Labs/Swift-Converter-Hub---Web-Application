@@ -30,7 +30,7 @@ export const AspectRatioSelector = ({
   onChange,
 }: AspectRatioSelectorProps) => (
   <div className="space-y-2">
-    <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+    <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">
       Aspect ratio
     </p>
     <div className="flex flex-wrap gap-2">
@@ -45,8 +45,8 @@ export const AspectRatioSelector = ({
                 : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:border-blue-300 dark:hover:border-blue-700'
             }`}
         >
-          <span className="text-xs font-black">{preset.label}</span>
-          <span className="text-[9px] text-slate-400 dark:text-slate-500">
+          <span className="text-xs font-bold">{preset.label}</span>
+          <span className="text-[11px] text-slate-400 dark:text-slate-500">
             {preset.desc}
           </span>
         </button>

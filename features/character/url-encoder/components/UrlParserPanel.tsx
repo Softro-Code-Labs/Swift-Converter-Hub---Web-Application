@@ -23,7 +23,7 @@ function CopyableRow({ label, value, mono, accent }: CopyableRowProps) {
 
   return (
     <div className="flex items-start gap-3 py-2.5 border-b border-slate-100 dark:border-slate-800 last:border-0 group">
-      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 w-20 shrink-0 pt-0.5">
+      <span className="text-xs font-bold text-slate-400 dark:text-slate-500 w-20 shrink-0 pt-0.5">
         {label}
       </span>
       <span
@@ -36,7 +36,7 @@ function CopyableRow({ label, value, mono, accent }: CopyableRowProps) {
       </span>
       <button
         onClick={handleCopy}
-        className="opacity-0 group-hover:opacity-100 shrink-0 p-1 rounded text-slate-400 hover:text-indigo-600 transition-all"
+        className="opacity-0 group-hover:opacity-100 shrink-0 p-1 rounded text-slate-400 hover:text-blue-600 transition-all"
         title="Copy"
       >
         {copied ? (
@@ -67,13 +67,13 @@ export function UrlParserPanel() {
       {/* Input */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          <label className="text-xs font-bold text-slate-400">
             URL to parse
           </label>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePaste}
-              className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               <ClipboardPaste className="w-3 h-3" /> Paste
             </button>
@@ -82,7 +82,7 @@ export function UrlParserPanel() {
                 <span className="text-slate-200 dark:text-slate-700">|</span>
                 <button
                   onClick={() => setInput('')}
-                  className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-red-500 transition-colors"
+                  className="flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-red-500 transition-colors"
                 >
                   <Trash2 className="w-3 h-3" /> Clear
                 </button>
@@ -100,12 +100,12 @@ export function UrlParserPanel() {
               parsed.error && input
                 ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/10 focus:ring-red-400/30'
                 : parsed.isValid
-                  ? 'border-indigo-200 dark:border-indigo-800 bg-white dark:bg-slate-900 focus:ring-indigo-400/30'
-                  : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:ring-indigo-400/30'
+                  ? 'border-indigo-200 dark:border-indigo-800 bg-white dark:bg-slate-900 focus:ring-blue-400/30'
+                  : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:ring-blue-400/30'
             }`}
         />
         {parsed.error && input && (
-          <p className="text-[11px] text-red-500 font-mono px-1">
+          <p className="text-[13px] text-red-500 font-mono px-1">
             {parsed.error}
           </p>
         )}
@@ -135,7 +135,7 @@ export function UrlParserPanel() {
           {/* Query params table */}
           {parsed.params.length > 0 && (
             <div className="space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 flex items-center gap-2">
+              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 flex items-center gap-2">
                 <span className="w-1 h-2.5 rounded-full bg-indigo-400 inline-block" />
                 Query params
                 <span className="font-normal normal-case text-slate-300 dark:text-slate-600">
@@ -143,7 +143,7 @@ export function UrlParserPanel() {
                 </span>
               </p>
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
-                <div className="grid grid-cols-[1fr_1fr_auto] text-[9px] font-bold uppercase tracking-widest text-slate-400 px-4 py-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
+                <div className="grid grid-cols-[1fr_1fr_auto] text-[11px] font-bold text-slate-400 px-4 py-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
                   <span>Key</span>
                   <span>Value</span>
                   <span />
@@ -194,7 +194,7 @@ function ParamRow({
       </span>
       <button
         onClick={handleCopy}
-        className="opacity-0 group-hover:opacity-100 p-1 rounded text-slate-400 hover:text-indigo-600 transition-all"
+        className="opacity-0 group-hover:opacity-100 p-1 rounded text-slate-400 hover:text-blue-600 transition-all"
         title="Copy key=value"
       >
         {copied ? (

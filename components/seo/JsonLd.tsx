@@ -1,4 +1,5 @@
 import { SITE_NAME, SITE_URL } from '@/config/site';
+import { getStudio, getStudioTools, type StudioId } from '@/config/tools';
 
 /**
  * Reusable helpers for creating JSON-LD structured data.
@@ -86,6 +87,33 @@ export function websiteJsonLd(): JsonLdValue {
       name: SITE_NAME,
       url: SITE_URL,
     },
+    // Lets search engines offer a site search box; /?q= opens the tool
+    // search with that query (see components/shell/CommandMenu.tsx).
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+}
+
+/** ItemList of every tool in a studio, for studio hub pages. */
+export function studioToolsJsonLd(studioId: StudioId): JsonLdValue {
+  const studio = getStudio(studioId);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${studio.name} tools`,
+    itemListElement: getStudioTools(studioId).map((tool, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: tool.title,
+      description: tool.desc,
+      url: `${SITE_URL}${tool.href}`,
+    })),
   };
 }
 
@@ -178,6 +206,8 @@ export function softwareApplicationJsonLd(params: {
     url: `${SITE_URL}${params.path}`,
     applicationCategory: params.category ?? 'MultimediaApplication',
     operatingSystem: 'Any (runs in browser)',
+    browserRequirements: 'Requires a modern browser with WebAssembly',
+    isAccessibleForFree: true,
     offers: {
       '@type': 'Offer',
       price: '0',

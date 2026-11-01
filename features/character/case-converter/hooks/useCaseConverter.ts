@@ -8,7 +8,9 @@ function toWords(text: string): string[] {
   return (
     text
       // insert space before uppercase letters in camel/pascal
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+      // split acronyms from the next word: XMLHttp -> XML Http
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
       // replace separators with spaces
       .replace(/[-_.\s]+/g, ' ')
       .trim()

@@ -1,3 +1,4 @@
+import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState, useCallback } from 'react';
 import { ImageMagick, MagickFormat } from '@imagemagick/magick-wasm';
 import { CompressFileItem, CompressOptions } from '../types/compress';
@@ -163,7 +164,7 @@ export const useCompressEngine = () => {
           item.file.name.lastIndexOf('.'),
         );
         const ext = item.file.name.split('.').pop();
-        zip.file(`${base}_compressed.${ext}`, blob);
+        zip.file(uniqueZipName(zip, `${base}_compressed.${ext}`), blob);
       }
       const zipBlob = await zip.generateAsync({ type: 'blob' });
       saveAs(zipBlob, 'compressed_images.zip');

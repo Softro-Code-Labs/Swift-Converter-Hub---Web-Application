@@ -8,6 +8,11 @@ import {
 } from '@/features/video/shared/config/formats';
 import { getVideoMetadata } from '@/features/video/shared/lib/videoUtils';
 import {
+  FAST_TARGETS,
+  tryFastVideo,
+  type FastTarget,
+} from '@/features/video/shared/lib/fastVideo';
+import {
   runFFmpegWithProgress,
   cleanupFFmpegFiles,
   probeMediaWithFFmpeg,
@@ -90,7 +95,37 @@ export const useVideoTrim = (
       return;
     }
 
-    setState((prev) => ({ ...prev, status: 'processing', progress: 0 }));
+    setState((prev) => ({
+      ...prev,
+      status: 'processing',
+      progress: 0,
+      accelerated: undefined,
+    }));
+
+    // Hardware path first (WebCodecs). Video is re-encoded so the cut is
+    // frame-accurate (see the keyframe note below); audio is copied.
+    if (FAST_TARGETS.has(ext)) {
+      const fast = await tryFastVideo(state.file, {
+        target: ext as FastTarget,
+        trim: { start: state.startTime, end: state.endTime },
+        forceTranscode: true,
+        onProgress: (ratio) =>
+          setState((prev) => ({ ...prev, progress: ratio })),
+      });
+      if (fast) {
+        setState((prev) => ({
+          ...prev,
+          status: 'success',
+          outputUrl: URL.createObjectURL(fast),
+          outputSize: formatBytes(fast.size),
+          accelerated: true,
+          progress: 1,
+        }));
+        toast.success('Trimmed!');
+        return;
+      }
+      setState((prev) => ({ ...prev, progress: 0 }));
+    }
 
     const inputPath = `vtrim_input.${ext}`;
     const outputPath = `vtrim_output.${ext}`;
@@ -110,11 +145,17 @@ export const useVideoTrim = (
       // Re-encoding the video stream builds a proper keyframe at the true
       // cut point, so there's nothing missing to freeze on. Audio stays a
       // fast lossless copy since it never had this problem.
+      //
+      // -ss goes BEFORE -i (input seeking): FFmpeg jumps straight to the
+      // nearest keyframe instead of decoding everything before the start
+      // point. Because the video is re-encoded, the cut is still exact to
+      // the frame - but a trim near the end of a long video no longer has
+      // to decode the whole first part just to throw it away.
       const args = [
-        '-i',
-        inputPath,
         '-ss',
         state.startTime.toFixed(3),
+        '-i',
+        inputPath,
         '-t',
         durationSec.toFixed(3),
         ...getVideoCodecArgsForContainer(ext),

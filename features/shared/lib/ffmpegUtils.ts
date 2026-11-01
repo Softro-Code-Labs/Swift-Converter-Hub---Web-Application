@@ -139,3 +139,65 @@ export async function probeMediaWithFFmpeg(
     height: dimsMatch ? Number(dimsMatch[2]) : undefined,
   };
 }
+
+/**
+ * Read the sample rate (Hz) of the first audio stream of a file already
+ * written to FFmpeg's virtual file system. Returns null if none is found.
+ */
+export async function readAudioSampleRate(
+  ffmpeg: FFmpeg,
+  inputPath: string,
+): Promise<number | null> {
+  let log = '';
+  const handleLog = ({ message }: { message: string }) => {
+    log += message + '\n';
+  };
+  ffmpeg.on('log', handleLog);
+  try {
+    // Exits non-zero ("no output file") by design - we only want the header.
+    await ffmpeg.exec(['-hide_banner', '-i', inputPath]);
+  } finally {
+    ffmpeg.off('log', handleLog);
+  }
+  const m = log.match(/Audio:[^\n]*?(\d{4,6}) Hz/);
+  return m ? Number(m[1]) : null;
+}
+
+export interface StreamCodecs {
+  video: string | null;
+  audio: string | null;
+  /** Number of audio streams, so a remux never silently drops one. */
+  audioStreams: number;
+}
+
+/**
+ * Read the codec names (FFmpeg's names, e.g. "h264", "aac") of the first
+ * video and audio streams of a file already in FFmpeg's file system.
+ */
+export async function readStreamCodecs(
+  ffmpeg: FFmpeg,
+  inputPath: string,
+): Promise<StreamCodecs> {
+  let log = '';
+  const handleLog = ({ message }: { message: string }) => {
+    log += message + '\n';
+  };
+  ffmpeg.on('log', handleLog);
+  try {
+    await ffmpeg.exec(['-hide_banner', '-i', inputPath]);
+  } finally {
+    ffmpeg.off('log', handleLog);
+  }
+  // Skip attached cover art ("Video: mjpeg ... (attached pic)").
+  const videoLine = log
+    .split('\n')
+    .find((l) => /Stream #.*Video:/.test(l) && !/attached pic/.test(l));
+  const audioLines = log.split('\n').filter((l) => /Stream #.*Audio:/.test(l));
+  const codecOf = (line?: string) =>
+    line?.match(/(?:Video|Audio):\s*([a-z0-9_]+)/i)?.[1]?.toLowerCase() ?? null;
+  return {
+    video: codecOf(videoLine),
+    audio: codecOf(audioLines[0]),
+    audioStreams: audioLines.length,
+  };
+}

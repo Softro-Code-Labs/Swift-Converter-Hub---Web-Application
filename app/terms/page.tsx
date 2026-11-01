@@ -1,8 +1,6 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { LegalLayout } from '@/components/site/LegalLayout';
 import {
-  ArrowLeft,
   FileCheck,
   Cpu,
   UserCheck,
@@ -11,11 +9,13 @@ import {
   Scale,
   RefreshCw,
 } from 'lucide-react';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: '/terms',
   title: 'Terms of Service',
   description:
-    'Review the Terms of Service for Swift Converter Hub, including usage guidelines, intellectual property rights, and liability limitations for our free file conversion toolkit.',
+    "The plain-language terms for using Swift Converter Hub's free, in-browser file conversion tools.",
   keywords: [
     'swift converter hub terms of service',
     'swift converter hub terms and conditions',
@@ -28,15 +28,7 @@ export const metadata: Metadata = {
     'free tool terms and conditions',
     'converter software license terms',
   ],
-  alternates: { canonical: `${SITE_URL}/terms` },
-  openGraph: {
-    title: 'Terms of Service - Privacy-First File Convertors',
-    description:
-      'Usage guidelines and liability terms for our free image tools.',
-    url: `${SITE_URL}/terms`,
-    type: 'website',
-  },
-};
+});
 
 const SECTIONS = [
   {
@@ -124,8 +116,8 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          The service is provided &quot;as is&quot; without any warranty of any kind. We
-          do not guarantee that:
+          The service is provided &quot;as is&quot; without any warranty of any
+          kind. We do not guarantee that:
         </p>
         <ul className="mt-3 space-y-2">
           {[
@@ -167,8 +159,8 @@ const SECTIONS = [
     color: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
     content: (
       <p>
-        We may update these terms from time to time. We&apos;ll update the date at
-        the top of this page when we do. Continued use of the service after
+        We may update these terms from time to time. We&apos;ll update the date
+        at the top of this page when we do. Continued use of the service after
         changes means you accept the updated terms.
       </p>
     ),
@@ -176,102 +168,29 @@ const SECTIONS = [
 ];
 
 export default function TermsPage() {
-  const year = new Date().getFullYear();
-
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 selection:bg-blue-500 selection:text-white">
-      {/* -- Header -------------------------------------------------------- */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group mb-6"
+    <LegalLayout
+      title="Terms of Service"
+      meta="Version 1.0, effective June 2026"
+      lead={
+        <>
+          These terms govern your use of Swift Converter Hub, in plain language.
+          Questions? Email{' '}
+          <a
+            href="mailto:support@swiftconverterhub.com"
+            className="font-medium text-slate-900 underline underline-offset-4 dark:text-white"
           >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            Back to home
-          </Link>
-
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-2xl font-black text-slate-900 dark:text-white">
-                Terms of Service
-              </h1>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                v1.0
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
-              Effective: June 2026
-            </p>
-          </div>
-
-          <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
-            These terms govern your use of Swift Converter Hub. They&apos;re written
-            in plain language - no legal jargon. If you have questions, reach
-            out at{' '}
-            <a
-              href="mailto:support@swiftconverterhub.com"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              support@swiftconverterhub.com
-            </a>
-            .
-          </p>
-        </div>
-      </div>
-
-      {/* -- Sections ------------------------------------------------------ */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-4">
-        {SECTIONS.map(({ id, icon: Icon, title, color, content }) => (
-          <div
-            key={id}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
-          >
-            <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-slate-800">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${color}`}
-              >
-                <Icon className="w-4 h-4" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600">
-                  {id}
-                </span>
-                <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                  {title}
-                </h2>
-              </div>
-            </div>
-            <div className="px-5 py-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {content}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* -- Footer -------------------------------------------------------- */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
-          <p className="text-xs text-slate-400 dark:text-slate-500">
-            © {year} Swift Converter Hub · All rights reserved
-          </p>
-          <div className="flex items-center gap-4 text-xs">
-            <Link
-              href="/privacy"
-              className="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/"
-              className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold group"
-            >
-              <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
-              Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    </main>
+            support@swiftconverterhub.com
+          </a>
+          .
+        </>
+      }
+      sections={SECTIONS.map(({ id, title, content }) => ({
+        id,
+        title,
+        content,
+      }))}
+      related={{ label: 'Privacy Policy', href: '/privacy' }}
+    />
   );
 }

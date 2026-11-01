@@ -37,7 +37,7 @@ export const MetadataSection = ({
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const copyValue = (key: string, value: string) => {
-    navigator.clipboard.writeText(value);
+    navigator.clipboard?.writeText(value).catch(() => {});
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 1500);
   };
@@ -50,40 +50,41 @@ export const MetadataSection = ({
         >
           <Icon className="w-3.5 h-3.5" />
         </div>
-        <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+        <p className="text-sm font-semibold text-slate-900 dark:text-white">
           {category.title}
         </p>
-        <span className="text-[10px] text-slate-400 ml-auto">
+        <span className="text-xs text-slate-400 ml-auto">
           {category.fields.length}
         </span>
       </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-800">
+      <dl className="divide-y divide-slate-100 dark:divide-slate-800">
         {category.fields.map((field) => (
           <div
             key={field.key}
-            className="flex items-center justify-between gap-3 px-4 py-2.5 group"
+            className="group grid grid-cols-[minmax(6rem,40%)_1fr_auto] items-start gap-3 px-4 py-2.5"
           >
-            <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0">
+            <dt className="text-[13px] text-slate-500 dark:text-slate-400">
               {field.label}
-            </span>
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate text-right">
-                {field.value}
-              </span>
-              <button
-                onClick={() => copyValue(field.key, field.value)}
-                className="opacity-0 group-hover:opacity-100 shrink-0 p-1 text-slate-300 hover:text-blue-500 transition-all"
-              >
-                {copiedKey === field.key ? (
-                  <Check className="w-3 h-3 text-emerald-500" />
-                ) : (
-                  <Copy className="w-3 h-3" />
-                )}
-              </button>
-            </div>
+            </dt>
+            <dd className="min-w-0 break-words text-[13px] font-semibold text-slate-900 dark:text-slate-100">
+              {field.value}
+            </dd>
+            <button
+              type="button"
+              onClick={() => copyValue(field.key, field.value)}
+              aria-label={`Copy ${field.label}`}
+              title="Copy"
+              className="-my-1 rounded p-1 text-slate-400 opacity-60 transition hover:text-blue-600 group-hover:opacity-100 focus-visible:opacity-100 dark:hover:text-blue-300"
+            >
+              {copiedKey === field.key ? (
+                <Check className="h-3.5 w-3.5 text-emerald-600" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </button>
           </div>
         ))}
-      </div>
+      </dl>
     </div>
   );
 };

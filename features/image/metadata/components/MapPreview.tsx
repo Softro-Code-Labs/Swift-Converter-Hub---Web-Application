@@ -29,15 +29,13 @@ export const MapPreview = ({ gps }: { gps: GpsCoordinates }) => {
       <div className="px-4 py-3 space-y-2">
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div>
-            <p className="text-[10px] text-slate-400 font-semibold">Latitude</p>
+            <p className="text-xs text-slate-400 font-semibold">Latitude</p>
             <p className="font-bold text-slate-800 dark:text-slate-200">
               {gps.latitude.toFixed(6)}
             </p>
           </div>
           <div>
-            <p className="text-[10px] text-slate-400 font-semibold">
-              Longitude
-            </p>
+            <p className="text-xs text-slate-400 font-semibold">Longitude</p>
             <p className="font-bold text-slate-800 dark:text-slate-200">
               {gps.longitude.toFixed(6)}
             </p>

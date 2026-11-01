@@ -37,7 +37,7 @@ export function ModeTab({ value, onChange }: ModeTabProps) {
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold cursor-pointer transition-all
             ${
               value === id
-                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-sm'
+                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
             }`}
         >

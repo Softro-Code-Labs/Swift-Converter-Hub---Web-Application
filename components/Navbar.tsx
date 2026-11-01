@@ -1,388 +1,386 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { ChevronDown, Menu, Search, X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
-import StudioSpotlight from './StudioSpotlight';
+import CommandMenu, {
+  openCommandMenu,
+  useShortcutLabel,
+} from './shell/CommandMenu';
 import {
-  ChevronDown,
-  Menu,
-  X,
-  ImageIcon,
-  FileText,
-  AudioLines,
-  Clapperboard,
-  Database,
-  Type,
-  Info,
-  ArrowRight,
-  Mail,
-  BookOpen,
-} from 'lucide-react';
+  STUDIOS,
+  TOOL_COUNT,
+  getStudioTools,
+  studioForPath,
+} from '@/config/tools';
+import { STUDIO_ACCENT } from '@/config/studio-theme';
+import { cn } from '@/lib/utils';
+import { LogoMark } from '@/components/brand/LogoMark';
 
-export const STUDIOS = [
-  {
-    name: 'Image Studio',
-    href: '/image',
-    icon: ImageIcon,
-    color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
-    dot: 'bg-blue-500',
-    desc: 'Convert WebP, PNG, JPEG and 150+ formats.',
-    hook: 'Convert 150+ image formats',
-  },
-  {
-    name: 'Audio Studio',
-    href: '/audio',
-    icon: AudioLines,
-    color:
-      'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400',
-    dot: 'bg-emerald-500',
-    desc: 'Transcode MP3, WAV, FLAC and more.',
-    hook: 'Transcode MP3, WAV & FLAC',
-  },
-  {
-    name: 'Video Studio',
-    href: '/video',
-    icon: Clapperboard,
-    color:
-      'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400',
-    dot: 'bg-purple-500',
-    desc: 'Convert MP4, WebM, clip and compress.',
-    hook: 'Compress & clip MP4 video',
-  },
-  {
-    name: 'Document Suite',
-    href: '/file',
-    icon: FileText,
-    color: 'bg-cyan-100 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400',
-    dot: 'bg-cyan-500',
-    desc: 'PDF, Word, Excel and document tools.',
-    hook: 'Merge, split & convert PDFs',
-  },
-  {
-    name: 'Data Studio',
-    href: '/data',
-    icon: Database,
-    color:
-      'bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400',
-    dot: 'bg-amber-500',
-    desc: 'JSON, CSV, XML conversion and parsing.',
-    hook: 'Convert JSON, CSV & XML',
-  },
-  {
-    name: 'Character Studio',
-    href: '/character',
-    icon: Type,
-    color: 'bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400',
-    dot: 'bg-rose-500',
-    desc: 'Text encoding, case and regex tools.',
-    hook: 'Text case, regex & hashing',
-  },
+const PAGES = [
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ];
+
+export function BrandMark({ size = 'md' }: { size?: 'sm' | 'md' }) {
+  return (
+    <span className="flex items-center gap-2.5">
+      <LogoMark size={size === 'sm' ? 26 : 30} />
+      <span
+        className={cn(
+          'font-display tracking-tight text-slate-900 dark:text-white',
+          size === 'sm' ? 'text-[15px]' : 'text-[17px]',
+        )}
+      >
+        <span className="font-extrabold">Swift</span>{' '}
+        <span className="font-semibold text-slate-600 dark:text-slate-300">
+          Converter Hub
+        </span>
+      </span>
+    </span>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropOpen, setDropOpen] = useState(false);
-  const dropRef = useRef<HTMLDivElement>(null);
+  const shortcut = useShortcutLabel();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const currentStudio = studioForPath(pathname);
 
-  // Close the mobile menu/dropdown on navigation. Adjusted directly during
-  // render (rather than in an effect) to avoid an extra post-navigation
-  // render pass - see https://react.dev/learn/you-might-not-need-an-effect
+  // Close menus on navigation (adjusted during render, no extra effect pass).
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
-    setMobileOpen(false);
-    setDropOpen(false);
+    setMenuOpen(false);
+    setDrawerOpen(false);
   }
 
-  // Close dropdown on outside click
+  // Close the tools menu on outside click / Escape.
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
-        setDropOpen(false);
-      }
+    if (!menuOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node))
+        setMenuOpen(false);
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
+    const onKey = (e: KeyboardEvent) =>
+      e.key === 'Escape' && setMenuOpen(false);
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [menuOpen]);
 
-  const isStudioActive = STUDIOS.some((s) => pathname.startsWith(s.href));
+  // Lock page scroll while the mobile drawer is open; Escape closes it.
+  useEffect(() => {
+    document.body.style.overflow = drawerOpen ? 'hidden' : '';
+    if (!drawerOpen) return;
+    const onKey = (e: KeyboardEvent) =>
+      e.key === 'Escape' && setDrawerOpen(false);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [drawerOpen]);
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex h-15 items-center justify-between gap-4 py-3">
-          {/* -- Logo ------------------------------------------------------ */}
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 shrink-0 group focus:outline-none"
-          >
-            <div className="relative h-8 w-8 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-sm group-hover:border-blue-400 dark:group-hover:border-blue-500 transition-all duration-200">
-              <Image
-                src="/logo-icon.png"
-                alt="Swift Converter Hub"
-                width={20}
-                height={20}
-                className="object-contain group-hover:scale-110 transition-transform duration-300"
-                priority
-              />
-            </div>
-            <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white tracking-tight">
-              Swift{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                Converter Hub
-              </span>
-            </span>
-          </Link>
+    <>
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/85 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/85">
+        <div ref={menuRef} className="relative">
+          <div className="mx-auto flex h-[var(--header-h)] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+            <Link
+              href="/"
+              className="shrink-0 rounded-lg"
+              aria-label="Swift Converter Hub home"
+            >
+              <BrandMark />
+            </Link>
 
-          {/* Spotlight, always visible, centered in the bar on desktop */}
-          <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <StudioSpotlight />
-          </div>
-
-          {/* -- Desktop nav ----------------------------------------------- */}
-          <div className="hidden md:flex items-center gap-1">
-            {/* Studios dropdown */}
-            <div className="relative" ref={dropRef}>
+            {/* Desktop navigation */}
+            <nav
+              className="ml-6 hidden items-center gap-1 md:flex"
+              aria-label="Main"
+            >
               <button
-                onClick={() => setDropOpen((p) => !p)}
+                type="button"
                 data-tour="studios-nav"
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold cursor-pointer transition-all
-                  ${
-                    isStudioActive || dropOpen
-                      ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
-                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                  }`}
-                aria-expanded={dropOpen}
-                aria-haspopup="true"
+                onClick={() => setMenuOpen((o) => !o)}
+                aria-expanded={menuOpen}
+                aria-controls="tools-menu"
+                className={cn(
+                  'flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-medium transition-colors',
+                  menuOpen || currentStudio
+                    ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white'
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white',
+                )}
               >
-                Studios
+                All tools
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${dropOpen ? 'rotate-180' : ''}`}
+                  className={cn(
+                    'h-4 w-4 transition-transform duration-200',
+                    menuOpen && 'rotate-180',
+                  )}
+                  aria-hidden
                 />
               </button>
+              {PAGES.slice(0, 2).map((p) => (
+                <Link
+                  key={p.href}
+                  href={p.href}
+                  aria-current={isActive(p.href) ? 'page' : undefined}
+                  className={cn(
+                    'flex h-9 items-center rounded-lg px-3 text-sm font-medium transition-colors',
+                    isActive(p.href)
+                      ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white',
+                  )}
+                >
+                  {p.label}
+                </Link>
+              ))}
+            </nav>
 
-              {dropOpen && (
-                <div className="absolute left-[-30vh] top-full mt-2 w-[520px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-3 z-50">
-                  {/* Header */}
-                  <div className="px-2 py-1.5 mb-2 border-b border-slate-100 dark:border-slate-800">
-                    <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                      Processing Studios
-                    </p>
-                  </div>
+            <div className="ml-auto flex items-center gap-2">
+              {/* Search trigger - full field on desktop, icon on mobile */}
+              <button
+                type="button"
+                data-tour="search"
+                onClick={() => openCommandMenu()}
+                className="hidden h-9 w-64 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 pl-3 pr-1.5 text-sm text-slate-500 transition-colors hover:border-slate-300 hover:bg-white sm:flex lg:w-72 dark:border-slate-700/80 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-600"
+              >
+                <Search className="h-4 w-4" aria-hidden />
+                <span className="flex-1 text-left">
+                  Search {TOOL_COUNT} tools…
+                </span>
+                {shortcut && (
+                  <kbd className="rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-sans text-[11px] font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
+                    {shortcut}
+                  </kbd>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => openCommandMenu()}
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 sm:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+                aria-label="Search tools"
+              >
+                <Search className="h-[18px] w-[18px]" />
+              </button>
 
-                  {/* Grid */}
-                  <div className="grid grid-cols-2 gap-1">
-                    {STUDIOS.map((studio) => {
-                      const Icon = studio.icon;
-                      const active = pathname.startsWith(studio.href);
-                      return (
-                        <Link
-                          key={studio.name}
-                          href={studio.href}
-                          className={`flex items-start gap-3 p-3 rounded-xl transition-all group/item
-                            ${
-                              active
-                                ? 'bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50'
-                                : 'hover:bg-slate-50 dark:hover:bg-slate-800/60 border border-transparent'
-                            }`}
-                        >
-                          <div
-                            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${studio.color}`}
-                          >
-                            <Icon className="w-4 h-4" />
-                          </div>
-                          <div className="min-w-0">
-                            <p
-                              className={`text-xs font-bold ${active ? 'text-blue-600 dark:text-blue-400' : 'text-slate-800 dark:text-slate-200 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400'}`}
-                            >
-                              {studio.name}
-                            </p>
-                            <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-relaxed mt-0.5">
-                              {studio.desc}
-                            </p>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
+              <ThemeToggle />
 
-                  {/* Footer */}
-                  <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 px-2">
-                    <Link
-                      href="/"
-                      className="flex items-center justify-between text-[11px] font-semibold text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                    >
-                      <span>View all tools on homepage</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                </div>
-              )}
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 md:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+                aria-label="Open menu"
+                aria-expanded={drawerOpen}
+              >
+                <Menu className="h-5 w-5" />
+              </button>
             </div>
-
-            {/* Blog, About & Contact */}
-            <Link
-              href="/blog"
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
-                ${
-                  pathname === '/blog' || pathname?.startsWith('/blog/')
-                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                }`}
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              Blog
-            </Link>
-
-            <Link
-              href="/about"
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
-                ${
-                  pathname === '/about'
-                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                }`}
-            >
-              <Info className="w-3.5 h-3.5" />
-              About
-            </Link>
-
-            <Link
-              href="/contact"
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all
-                ${
-                  pathname === '/contact'
-                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                }`}
-            >
-              <Mail className="w-3.5 h-3.5" />
-              Contact
-            </Link>
-
-            <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1" />
-            <ThemeToggle />
           </div>
 
-          {/* -- Mobile controls ------------------------------------------- */}
-          <div className="flex md:hidden items-center gap-2">
-            <ThemeToggle />
-            <button
-              onClick={() => setMobileOpen((p) => !p)}
-              className="flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all"
-              aria-label="Toggle menu"
-              aria-expanded={mobileOpen}
+          {/* Desktop "All tools" directory */}
+          {menuOpen && (
+            <div
+              id="tools-menu"
+              className="absolute inset-x-0 top-full hidden border-b border-slate-200 bg-white shadow-xl shadow-slate-900/5 md:block dark:border-slate-800 dark:bg-slate-900 animate-in fade-in-0 slide-in-from-top-1 duration-150"
             >
-              {mobileOpen ? (
-                <X className="w-4 h-4" />
-              ) : (
-                <Menu className="w-4 h-4" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Spotlight, always visible, own row under the bar on mobile/tablet */}
-        <div className="lg:hidden flex justify-center pb-2.5 -mt-0.5">
-          <StudioSpotlight />
-        </div>
-      </div>
-
-      {/* -- Mobile menu --------------------------------------------------- */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 max-h-[calc(100vh-100px)] overflow-y-auto">
-          <div className="px-4 py-4 space-y-4">
-            {/* Studios */}
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1 mb-2">
-                Studios
-              </p>
-              <div className="space-y-1">
+              <div className="mx-auto grid max-w-7xl grid-cols-3 gap-x-8 gap-y-7 px-8 py-7 xl:grid-cols-6 xl:gap-x-6">
                 {STUDIOS.map((studio) => {
+                  const accent = STUDIO_ACCENT[studio.id];
                   const Icon = studio.icon;
-                  const active = pathname.startsWith(studio.href);
                   return (
-                    <Link
-                      key={studio.name}
-                      href={studio.href}
-                      className={`flex items-center gap-3 p-3 rounded-xl border transition-all
-                        ${
-                          active
-                            ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400'
-                            : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-300'
-                        }`}
-                    >
-                      <div
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${studio.color}`}
+                    <div key={studio.id} className="min-w-0">
+                      <Link
+                        href={studio.href}
+                        className="group mb-2.5 flex items-center gap-2.5 rounded-lg"
                       >
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold">{studio.name}</p>
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500">
-                          {studio.desc}
-                        </p>
-                      </div>
-                    </Link>
+                        <span
+                          className={cn(
+                            'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg',
+                            accent.tile,
+                          )}
+                        >
+                          <Icon className="h-4 w-4" aria-hidden />
+                        </span>
+                        <span className="text-sm font-semibold text-slate-900 group-hover:underline dark:text-white">
+                          {studio.name}
+                        </span>
+                      </Link>
+                      <ul className="space-y-0.5">
+                        {getStudioTools(studio.id).map((tool) => (
+                          <li key={tool.id}>
+                            <Link
+                              href={tool.href}
+                              aria-current={
+                                isActive(tool.href) ? 'page' : undefined
+                              }
+                              className={cn(
+                                '-mx-2 block truncate rounded-md px-2 py-1 text-[13.5px] transition-colors',
+                                isActive(tool.href)
+                                  ? cn('font-medium', accent.soft, accent.text)
+                                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white',
+                              )}
+                            >
+                              {tool.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   );
                 })}
               </div>
+              <div className="border-t border-slate-100 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/40">
+                <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-3 text-[13px] text-slate-500 dark:text-slate-400">
+                  <span>
+                    Every tool runs in your browser. Files are never uploaded.
+                  </span>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      openCommandMenu();
+                    }}
+                    className="font-medium text-slate-700 hover:underline dark:text-slate-200"
+                  >
+                    Search all tools
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* Mobile drawer */}
+      {drawerOpen && (
+        <div
+          className="fixed inset-0 z-[80] md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
+          <div
+            className="absolute inset-0 bg-slate-950/40 animate-in fade-in-0"
+            onClick={() => setDrawerOpen(false)}
+          />
+          <div className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col bg-white shadow-2xl dark:bg-slate-900 animate-in slide-in-from-right duration-200">
+            <div className="flex h-[var(--header-h)] shrink-0 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-800">
+              <BrandMark size="sm" />
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                aria-label="Close menu"
+                autoFocus
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
-            {/* Blog, About & Contact */}
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-              <Link
-                href="/blog"
-                className={`flex items-center gap-3 p-3 rounded-xl border transition-all
-                  ${
-                    pathname === '/blog' || pathname?.startsWith('/blog/')
-                      ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                  }`}
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <button
+                onClick={() => {
+                  setDrawerOpen(false);
+                  openCommandMenu();
+                }}
+                className="mb-4 flex h-11 w-full items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[15px] text-slate-500 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-400"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500">
-                  <BookOpen className="w-4 h-4" />
-                </div>
-                <span className="text-xs font-bold">Blog</span>
-              </Link>
+                <Search className="h-4 w-4" />
+                Search {TOOL_COUNT} tools…
+              </button>
 
-              <Link
-                href="/about"
-                className={`flex items-center gap-3 p-3 rounded-xl border transition-all
-                  ${
-                    pathname === '/about'
-                      ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                  }`}
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500">
-                  <Info className="w-4 h-4" />
-                </div>
-                <span className="text-xs font-bold">About</span>
-              </Link>
+              <div className="space-y-1">
+                {STUDIOS.map((studio) => {
+                  const accent = STUDIO_ACCENT[studio.id];
+                  const Icon = studio.icon;
+                  const here = currentStudio?.id === studio.id;
+                  return (
+                    <details
+                      key={studio.id}
+                      open={here}
+                      className="group rounded-xl"
+                    >
+                      <summary className="flex list-none items-center gap-3 rounded-xl px-2 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 [&::-webkit-details-marker]:hidden">
+                        <span
+                          className={cn(
+                            'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg',
+                            accent.tile,
+                          )}
+                        >
+                          <Icon className="h-[18px] w-[18px]" aria-hidden />
+                        </span>
+                        <span className="flex-1">
+                          <span className="block text-[15px] font-semibold text-slate-900 dark:text-white">
+                            {studio.name}
+                          </span>
+                          <span className="block text-[13px] text-slate-500 dark:text-slate-400">
+                            {getStudioTools(studio.id).length} tools
+                          </span>
+                        </span>
+                        <ChevronDown className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+                      </summary>
+                      <ul className="mb-2 ml-[1.625rem] border-l border-slate-200 pl-4 dark:border-slate-700">
+                        <li>
+                          <Link
+                            href={studio.href}
+                            className="block py-2 text-[15px] font-medium text-slate-900 dark:text-white"
+                          >
+                            Overview
+                          </Link>
+                        </li>
+                        {getStudioTools(studio.id).map((tool) => (
+                          <li key={tool.id}>
+                            <Link
+                              href={tool.href}
+                              aria-current={
+                                isActive(tool.href) ? 'page' : undefined
+                              }
+                              className={cn(
+                                'block py-2 text-[15px]',
+                                isActive(tool.href)
+                                  ? cn('font-semibold', accent.text)
+                                  : 'text-slate-600 dark:text-slate-300',
+                              )}
+                            >
+                              {tool.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  );
+                })}
+              </div>
 
-              <Link
-                href="/contact"
-                className={`flex items-center gap-3 p-3 rounded-xl border transition-all
-                  ${
-                    pathname === '/contact'
-                      ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-600 dark:text-slate-400'
-                  }`}
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <span className="text-xs font-bold">Contact</span>
-              </Link>
+              <div className="mt-4 border-t border-slate-200 pt-4 dark:border-slate-800">
+                {PAGES.map((p) => (
+                  <Link
+                    key={p.href}
+                    href={p.href}
+                    className="block rounded-lg px-2 py-2.5 text-[15px] font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/60"
+                  >
+                    {p.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       )}
-    </nav>
+
+      <CommandMenu />
+    </>
   );
 }

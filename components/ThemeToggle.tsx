@@ -8,48 +8,41 @@ const emptySubscribe = () => () => {};
 
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  // Client-only mount flag, without an effect: resolvedTheme is unknown
-  // during SSR, so this renders a neutral placeholder until hydrated.
+  // resolvedTheme is unknown during SSR; render a same-size placeholder.
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
     () => false,
   );
 
-  const isDark = resolvedTheme === 'dark';
+  if (!mounted) return <div className="h-9 w-9" aria-hidden />;
 
-  if (!mounted) {
-    return (
-      <div className="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800" />
-    );
-  }
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <button
       type="button"
       data-tour="theme-toggle"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="relative flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 transition-all duration-200 active:scale-90 cursor-pointer overflow-hidden"
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      title={isDark ? 'Light theme' : 'Dark theme'}
+      className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
     >
-      {/* Sun icon */}
       <Sun
-        className={`absolute w-4 h-4 text-amber-500 transition-all duration-300
-          ${
-            isDark
-              ? 'opacity-0 scale-50 rotate-90'
-              : 'opacity-100 scale-100 rotate-0'
-          }`}
+        className={`absolute h-[18px] w-[18px] transition-all duration-300 ${
+          isDark
+            ? 'rotate-90 scale-50 opacity-0'
+            : 'rotate-0 scale-100 opacity-100'
+        }`}
+        aria-hidden
       />
-
-      {/* Moon icon */}
       <Moon
-        className={`absolute w-4 h-4 text-blue-400 transition-all duration-300
-          ${
-            isDark
-              ? 'opacity-100 scale-100 rotate-0'
-              : 'opacity-0 scale-50 -rotate-90'
-          }`}
+        className={`absolute h-[18px] w-[18px] transition-all duration-300 ${
+          isDark
+            ? 'rotate-0 scale-100 opacity-100'
+            : '-rotate-90 scale-50 opacity-0'
+        }`}
+        aria-hidden
       />
     </button>
   );

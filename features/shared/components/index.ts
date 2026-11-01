@@ -8,3 +8,7 @@ export { UnsupportedFormatDialog } from './UnsupportedFormatDialog';
 export { TrimRangeBar } from './TrimRangeBar';
 export { MediaPreview } from './MediaPreview';
 export type { MediaPreviewHandle } from './MediaPreview';
+export { DropZoneSurface } from './DropZoneSurface';
+export { BatchSummary } from './BatchSummary';
+export { Switch } from './Switch';
+export { AcceleratedBadge } from './AcceleratedBadge';

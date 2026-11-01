@@ -1,11 +1,12 @@
-import { SITE_URL } from '@/config/site';
 import { Metadata } from 'next';
 import ContactForm from '@/features/contact/components/ContactForm';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Contact',
+export const metadata: Metadata = pageMetadata({
+  path: '/contact',
+  title: 'Contact Us - Report a Bug or Suggest a Tool',
   description:
-    'Get in touch with the Swift Converter Hub team. Report bugs, suggest features, or ask questions about our privacy-first file conversion tools.',
+    'Report a bug, suggest a new tool or ask a question about Swift Converter Hub. We usually reply within one or two business days.',
   keywords: [
     'contact swift converter hub',
     'swift converter hub support',
@@ -18,14 +19,7 @@ export const metadata: Metadata = {
     'submit feature request tool',
     'report file converter issue',
   ],
-  alternates: { canonical: `${SITE_URL}/contact` },
-  openGraph: {
-    title: 'Contact Swift Converter Hub - Privacy-First Local File Converters',
-    description: 'Reach out with bugs, feature requests, or privacy questions.',
-    url: `${SITE_URL}/contact`,
-    type: 'website',
-  },
-};
+});
 
 export default function ContactPage() {
   return <ContactForm />;

@@ -24,10 +24,10 @@ export function BitPattern({ binary, bits }: BitPatternProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        <p className="text-xs font-bold text-slate-400 dark:text-slate-500">
           Bit pattern
         </p>
-        <span className="text-[10px] font-bold text-lime-600 dark:text-lime-400">
+        <span className="text-xs font-bold text-lime-600 dark:text-lime-400">
           {width}-bit · {bits} significant bit{bits !== 1 ? 's' : ''}
         </span>
       </div>
@@ -46,7 +46,7 @@ export function BitPattern({ binary, bits }: BitPatternProps) {
                   className={`relative flex flex-col items-center`}
                 >
                   <div
-                    className={`w-6 h-6 rounded-sm flex items-center justify-center text-[11px] font-black font-mono transition-colors
+                    className={`w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-bold font-mono transition-colors
                     ${
                       bit === '1'
                         ? 'bg-lime-400 dark:bg-lime-500 text-slate-900'
@@ -67,7 +67,7 @@ export function BitPattern({ binary, bits }: BitPatternProps) {
       </div>
 
       {/* Byte labels */}
-      <div className="flex flex-wrap gap-1 text-[9px] font-bold text-slate-300 dark:text-slate-600 font-mono">
+      <div className="flex flex-wrap gap-1 text-[11px] font-bold text-slate-300 dark:text-slate-600 font-mono">
         {Array.from({ length: width / 8 }, (_, i) => {
           const byteIndex = width / 8 - 1 - i;
           return (
