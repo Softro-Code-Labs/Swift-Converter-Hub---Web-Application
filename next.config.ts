@@ -22,10 +22,11 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
-      // Versioned AI runtime and model for the background remover: cache for
-      // a year so they're only ever downloaded once. Change the version in
-      // the path (not the file) when updating them.
-      ...['/ort/:path*', '/models/:path*'].map((source) => ({
+      // Versioned AI runtime and model for the background remover, and the
+      // OCR engine and language data: cache for a year so they're only ever
+      // downloaded once. Change the version in the path (not the file) when
+      // updating them.
+      ...['/ort/:path*', '/models/:path*', '/tesseract/:path*'].map((source) => ({
         source,
         headers: [
           {

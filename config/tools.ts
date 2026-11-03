@@ -103,14 +103,14 @@ export const STUDIOS: Studio[] = [
     icon: ImageIcon,
     tagline: 'Convert, compress, crop and inspect images',
     description:
-      'Convert between 150+ image formats, shrink file sizes, crop and resize, adjust colours, remove backgrounds with on-device AI and read EXIF data. Everything runs inside this tab.',
+      'Convert between 150+ image formats, shrink file sizes, crop and resize, adjust colours, remove backgrounds with on-device AI, pull text out with OCR and read EXIF data. Everything runs inside this tab.',
     handles: 'JPG, PNG, WebP, HEIC, AVIF, SVG and 150+ more',
     engine: 'ImageMagick compiled to WebAssembly',
     groups: [
       {
         id: 'convert',
         label: 'Convert & encode',
-        desc: 'Change formats or turn images into Base64',
+        desc: 'Change formats, extract text or turn images into Base64',
       },
       {
         id: 'edit',
@@ -271,6 +271,27 @@ export const TOOLS: Tool[] = [
     icon: Binary,
     group: 'convert',
     keywords: ['base64', 'data uri', 'encode', 'decode', 'embed'],
+  },
+  {
+    id: 'image-ocr',
+    studio: 'image',
+    name: 'Image to text (OCR)',
+    title: 'Image to Text (OCR)',
+    desc: 'Pull the text out of photos, scans and screenshots in 15 languages.',
+    href: '/image/to-text',
+    icon: ScanText,
+    group: 'convert',
+    keywords: [
+      'ocr',
+      'image to text',
+      'extract text',
+      'screenshot',
+      'scan',
+      'copy text',
+      'recognize',
+      'sinhala',
+      'tamil',
+    ],
   },
   {
     id: 'image-crop',
