@@ -22,7 +22,7 @@ function buildLlmsTxt(): string {
   );
   lines.push('');
   lines.push(
-    `${SITE_NAME} is not a wrapper around a cloud API. Conversions run locally in the visitor's own browser tab using WebAssembly ports of established engines (ImageMagick, FFmpeg), an on-device AI model for background removal, plus native browser/JS libraries for PDF, spreadsheet, and text processing. This is stated here directly because it materially changes the privacy and reliability characteristics visitors should expect compared to typical "upload and convert" web tools.`,
+    `${SITE_NAME} is not a wrapper around a cloud API. Conversions run locally in the visitor's own browser tab using WebAssembly ports of established engines (ImageMagick, FFmpeg), an on-device AI model for background removal, the Tesseract OCR engine for reading text in images, plus native browser/JS libraries for PDF, spreadsheet, and text processing. This is stated here directly because it materially changes the privacy and reliability characteristics visitors should expect compared to typical "upload and convert" web tools.`,
   );
   lines.push('');
 
@@ -41,6 +41,9 @@ function buildLlmsTxt(): string {
   );
   lines.push(
     `- [Background remover](${SITE_URL}/image/remove-background): Remove photo backgrounds with an AI model (IS-Net) that runs on the visitor's device via ONNX Runtime Web and WebGPU - transparent PNG, colour, blur or custom backgrounds, no upload.`,
+  );
+  lines.push(
+    `- [Image to text (OCR)](${SITE_URL}/image/to-text): Extract printed text from photos, scans and screenshots in 15 languages (including Sinhala, Tamil, Hindi, Arabic, Chinese and Japanese) with the Tesseract engine running as WebAssembly in the visitor's browser - no upload.`,
   );
   lines.push(
     `- [EXIF metadata viewer](${SITE_URL}/image/metadata): Inspect and strip camera/GPS metadata embedded in photos.`,
