@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     'public/ffmpeg/**',
     // ONNX Runtime Web, vendored for the background remover
     'public/ort/**',
+    // Tesseract.js worker + cores, vendored for the OCR tool
+    'public/tesseract/**',
     'public/magick.wasm',
   ]),
   {
