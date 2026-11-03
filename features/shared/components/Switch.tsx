@@ -37,7 +37,9 @@ export function Switch({
       >
         <span
           className={cn(
-            'absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform',
+            // left-0: without it the knob's static position follows the
+            // button's centred text, pushing it off the track.
+            'absolute top-0.5 left-0 h-4 w-4 rounded-full bg-white shadow transition-transform',
             checked ? 'translate-x-[18px]' : 'translate-x-0.5',
           )}
         />
