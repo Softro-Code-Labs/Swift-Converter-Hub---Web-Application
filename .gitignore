@@ -46,6 +46,3 @@ public/magick.wasm
 public/ffmpeg/
 public/ort/
 public/tesseract/
-
-#Others
-/showcase
