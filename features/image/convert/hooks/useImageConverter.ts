@@ -18,7 +18,7 @@ import {
   getTiffOrientation,
 } from '@/features/image/shared/utils/rawPreview';
 import { FileItem } from '@/features/image/convert/types/converter';
-import { formatBytes } from '../../shared/utils/bytes';
+import { formatBytes } from '@/features/shared/lib/format';
 import { getFileExtension } from '@/features/shared/lib/format';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
