@@ -1,3 +1,4 @@
+import { toStandaloneBuffer } from '@/features/shared/lib/format';
 import { useState, useCallback } from 'react';
 import {
   ImageMagick,
@@ -10,12 +11,6 @@ import {
   formatBytes,
 } from '../types/adjust';
 import toast from 'react-hot-toast';
-
-const toBuffer = (bytes: Uint8Array): ArrayBuffer => {
-  const buf = new ArrayBuffer(bytes.byteLength);
-  new Uint8Array(buf).set(bytes);
-  return buf;
-};
 
 export const useAdjustEngine = () => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -97,7 +92,7 @@ export const useAdjustEngine = () => {
                   : `image/${outputFormat}`;
 
               image.write(magickFormat, (outputBytes) => {
-                const blob = new Blob([toBuffer(new Uint8Array(outputBytes))], {
+                const blob = new Blob([toStandaloneBuffer(new Uint8Array(outputBytes))], {
                   type: mimeType,
                 });
                 setResult({

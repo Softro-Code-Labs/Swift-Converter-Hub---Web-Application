@@ -1,3 +1,4 @@
+import { toStandaloneBuffer } from '@/features/shared/lib/format';
 import { uniqueZipName } from '@/features/shared/lib/zipName';
 import { useState, useCallback } from 'react';
 import { ImageMagick, MagickFormat } from '@imagemagick/magick-wasm';
@@ -15,12 +16,6 @@ const FORMAT_MAP: Record<string, MagickFormat> = {
   bmp: MagickFormat.Bmp,
   tiff: MagickFormat.Tiff,
   avif: MagickFormat.Avif,
-};
-
-const toBuffer = (bytes: Uint8Array): ArrayBuffer => {
-  const buf = new ArrayBuffer(bytes.byteLength);
-  new Uint8Array(buf).set(bytes);
-  return buf;
 };
 
 export const useCompressEngine = () => {
@@ -96,7 +91,7 @@ export const useCompressEngine = () => {
           image.quality = options.quality;
 
           image.write(magickFormat, (outputBytes) => {
-            const blob = new Blob([toBuffer(new Uint8Array(outputBytes))], {
+            const blob = new Blob([toStandaloneBuffer(new Uint8Array(outputBytes))], {
               type: mimeType,
             });
             resolve({ url: URL.createObjectURL(blob), size: blob.size });
