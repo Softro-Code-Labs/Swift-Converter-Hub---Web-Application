@@ -5,7 +5,7 @@ import {
   MagickGeometry,
 } from '@imagemagick/magick-wasm';
 import { CropRegion, ResizeDimensions, ProcessedResult } from '../types/crop';
-import { formatBytes } from '../../shared/utils/bytes';
+import { formatBytes } from '@/features/shared/lib/format';
 import toast from 'react-hot-toast';
 
 /** Crops and/or resizes an image via ImageMagick (WASM) and produces a downloadable result. */

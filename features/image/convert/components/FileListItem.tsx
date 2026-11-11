@@ -9,7 +9,7 @@ import {
   Image as ImageIcon,
 } from 'lucide-react';
 import { FileItem } from '@/features/image/convert/types/converter';
-import { formatBytes } from '../../shared/utils/bytes';
+import { formatBytes } from '@/features/shared/lib/format';
 
 interface FileListItemProps {
   item: FileItem;

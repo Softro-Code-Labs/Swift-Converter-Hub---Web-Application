@@ -93,7 +93,7 @@ There is **no database and no file storage**, because no files ever arrive.
 ### Why the numbers hold up
 
 - **Tested with real files.** Every tool was run end to end with real photos, recordings, videos, PDFs and spreadsheets, and the outputs were checked with professional tools.
-- **About 30 unit test files** cover the tricky parts: PDF layout, watermark rotation, password randomness, format tables, ZIP file names.
+- **219 unit tests in 22 files** cover the tricky parts: PDF layout, watermark rotation, password randomness, format tables, ZIP file names.
 - **Every change is checked automatically** before it reaches `main`: lint, type-check, tests and a full build.
 
 ---

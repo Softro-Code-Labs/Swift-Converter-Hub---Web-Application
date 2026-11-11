@@ -19,13 +19,7 @@ export interface DecodeResult {
   dimensions: { width: number; height: number } | null;
 }
 
-export const formatBytes = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-};
+export { formatBytes } from '@/features/shared/lib/format';
 
 // Detect MIME type from a base64 string's magic bytes (when no data: prefix present)
 export const detectMimeFromBase64 = (base64: string): string => {
