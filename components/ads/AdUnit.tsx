@@ -162,6 +162,45 @@ export function ResponsiveAd({
   );
 }
 
+/**
+ * Google's in-article unit (native "fluid" format that sits between
+ * paragraphs). Its height adapts to the ad, so `minHeight` only reserves
+ * a typical amount of space to limit layout shift while it loads.
+ */
+export function InArticleAd({
+  slot,
+  instanceKey,
+  minHeight = 200,
+  className,
+}: {
+  slot: string;
+  instanceKey: string;
+  minHeight?: number;
+  className?: string;
+}) {
+  // Same client-only gate as the other units: no ad markup on the server.
+  const rule = useMatchingRule(ALWAYS);
+  const band = useMatchingRule(WIDTH_BANDS);
+  if (!ADSENSE.ADS_ENABLED || !rule) return null;
+  const id = `${slot}-in-article-${band?.size[0] ?? 0}-${instanceKey}`;
+  return (
+    <Frame height={minHeight} className={cn('w-full', className)}>
+      <ins
+        key={id}
+        className="adsbygoogle"
+        style={{ display: 'block', width: '100%', textAlign: 'center' }}
+        data-ad-layout="in-article"
+        data-ad-format="fluid"
+        data-ad-client={ADSENSE.PUBLISHER_ID}
+        data-ad-slot={slot}
+      />
+      <PushOnMount key={`push-${id}`} id={id} />
+    </Frame>
+  );
+}
+
+const ALWAYS: SizeRule[] = [{ media: 'all', size: [0, 0] }];
+
 // --- Standard placements ------------------------------------------------------
 
 /** Width bands for re-requesting responsive units (size[0] = band id). */

@@ -1,4 +1,5 @@
 import { SITE_URL, SITE_NAME } from '@/config/site';
+import { BLOG_POSTS } from '@/config/blog';
 
 /**
  * llms.txt - https://llmstxt.org
@@ -183,6 +184,13 @@ function buildLlmsTxt(): string {
   );
   lines.push('');
 
+  // Generated from config/blog.ts so new posts are listed automatically.
+  lines.push('## Guides');
+  for (const post of BLOG_POSTS) {
+    lines.push(`- [${post.title}](${SITE_URL}${post.path}): ${post.description}`);
+  }
+  lines.push('');
+
   lines.push('## Optional');
   lines.push(
     `- [About](${SITE_URL}/about): What ${SITE_NAME} is, why it exists, and how the browser-based/WebAssembly processing model works.`,
@@ -192,6 +200,7 @@ function buildLlmsTxt(): string {
   );
   lines.push(`- [Terms of use](${SITE_URL}/terms)`);
   lines.push(`- [Contact](${SITE_URL}/contact)`);
+  lines.push(`- [Blog RSS feed](${SITE_URL}/blog/feed.xml): New guides as they are published.`);
 
   return lines.join('\n') + '\n';
 }

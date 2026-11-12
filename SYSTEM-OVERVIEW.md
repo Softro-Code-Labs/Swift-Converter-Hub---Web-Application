@@ -68,19 +68,84 @@ Drop file → load the engine (first time only, then cached) → process inside 
 
 ## How it fits together
 
+The work is split into two halves. The **server only delivers things** (pages and engine files). The **browser does all the work** on the files.
+
 ```mermaid
-flowchart LR
-  V["Visitor's browser<br/>(all file work happens here)"] --> W["Website<br/>(Next.js)"]
-  W -- "pages, engines, AI model" --> V
-  V -- "contact form only" --> A["/api/contact"]
-  A --> E["Email<br/>(Resend)"]
+flowchart TB
+  subgraph SERVER["Website server"]
+    direction LR
+    PAGES["~190 pages<br/>home · studio hubs · tools<br/>format pairs · blog"]
+    ASSETS["Self-hosted engine files<br/>WASM · AI model · OCR data<br/>cached for 1 year"]
+    SEO["SEO routes<br/>share images · sitemap<br/>robots · llms.txt"]
+    PAGES ~~~ ASSETS ~~~ SEO
+  end
+
+  subgraph BROWSER["Visitor's browser"]
+    direction TB
+    subgraph UI["① Interface"]
+      direction LR
+      FILE(["📄 Visitor drops<br/>a file"])
+      REG["Tool registry<br/>config/tools.ts<br/>6 studios · 46 tools"]
+      SHELL["Navigation<br/>menus · ⌘K search<br/>studio tabs"]
+      TOOL["Tool page<br/>React component + hook<br/>queue · progress · preview"]
+      FILE --> SHELL
+      REG --> SHELL
+      SHELL -- "file passed<br/>in memory" --> TOOL
+    end
+
+    subgraph ENGINES["② Engines"]
+      direction LR
+      IMG["ImageMagick<br/>images<br/>150+ formats"]
+      FF["FFmpeg pool<br/>audio & video<br/>up to 6 at once"]
+      WC["WebCodecs<br/>video on the<br/>graphics chip"]
+      AI["ONNX Runtime<br/>AI cut-outs<br/>WebGPU or CPU"]
+      OCR["Tesseract<br/>OCR<br/>15 languages"]
+      DOC["pdf-lib · PDF.js<br/>docx · SheetJS<br/>documents & data"]
+      IMG ~~~ FF ~~~ WC ~~~ AI ~~~ OCR ~~~ DOC
+    end
+
+    OUT["③ Result · built in the tab · download or ZIP"]
+
+    UI --> ENGINES --> OUT
+  end
+
+  subgraph CONTACT["Contact form"]
+    direction LR
+    API["/api/contact<br/>validation · rate limit"] --> MAIL["Resend<br/>email to the team"]
+  end
+
+  EXT["Ads & analytics<br/>only after consent"]
+
+  SERVER == "pages and engine files" ==> BROWSER
+  BROWSER -- "a message, never a file" --> CONTACT
+  BROWSER -.-> EXT
 ```
 
-- **Website (Next.js):** the pages, the 1200×630 share images for every page, the sitemap, and one small endpoint for the contact form.
-- **The visitor's browser:** does all the converting, using engines the website serves itself (no outside CDNs).
-- **Email (Resend):** delivers contact form messages to the team.
+| Layer | What it does |
+|---|---|
+| **① Interface** | Every menu, the search, the studio hubs and the tool tabs are built from one list, `config/tools.ts`. A file dropped on the home page is passed to the chosen tool in memory, never saved. |
+| **② Engines** | Real programs compiled to run in the browser. Each loads only when a tool needs it, runs in a background worker so the page never freezes, and stays cached afterwards. |
+| **③ Result** | The output file is built inside the tab and saved straight to the visitor's device. A batch of files comes as one ZIP. |
+| **Website server** | Serves pages, branded share images, the sitemap and the engine files. Its only endpoint that accepts data is the contact form. |
 
 There is **no database and no file storage**, because no files ever arrive.
+
+### Fastest route first
+
+Each engine tries the quickest option the device supports and quietly steps down if it isn't available, so every visitor gets a result.
+
+```mermaid
+flowchart LR
+  subgraph VIDEO["Video tools"]
+    direction LR
+    V1["① Lossless copy<br/>seconds, no quality loss"] -- "format doesn't fit" --> V2["② Graphics chip<br/>WebCodecs"]
+    V2 -- "not supported" --> V3["③ FFmpeg<br/>WebAssembly"]
+  end
+  subgraph AIBG["AI background removal"]
+    direction LR
+    A1["① Graphics chip<br/>WebGPU · ~1 s"] -- "unavailable or fails" --> A2["② Processor<br/>WebAssembly · ~15 s"]
+  end
+```
 
 ### Why visitors can trust it
 

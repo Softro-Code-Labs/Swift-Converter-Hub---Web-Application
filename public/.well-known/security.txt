@@ -1,0 +1,9 @@
+# Security contact for Swift Converter Hub (RFC 9116).
+# Found a vulnerability? Please email us and allow time to fix it before
+# sharing details publicly. Note that files are processed in the visitor's
+# browser and are never uploaded, so there is no user file storage to attack.
+
+Contact: mailto:support@swiftconverterhub.com
+Expires: 2027-11-12T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.swiftconverterhub.com/.well-known/security.txt
