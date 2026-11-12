@@ -64,7 +64,15 @@ export function pageMetadata(seo: PageSeo): Metadata {
     title: seo.absoluteTitle ? { absolute: seo.title } : seo.title,
     description: seo.description,
     ...(seo.keywords?.length ? { keywords: seo.keywords } : {}),
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      // Lets feed readers find the blog's RSS feed from any page.
+      types: {
+        'application/rss+xml': [
+          { url: `${SITE_URL}/blog/feed.xml`, title: `${SITE_NAME} Blog` },
+        ],
+      },
+    },
     openGraph: {
       type: seo.type ?? 'website',
       url,

@@ -17,6 +17,17 @@ export const SITE_URL: string = (
 
 export const SITE_NAME = 'Swift Converter Hub';
 
+/**
+ * When the tool, studio and home pages last changed in a meaningful way.
+ * Used as `lastmod` in the sitemap. Bump it when you change page content
+ * (not for every deploy) - search engines trust lastmod only when it moves
+ * with real changes. Blog posts use their own dates from config/blog.ts.
+ */
+export const SITE_CONTENT_UPDATED = '2026-11-12';
+
+/** Privacy policy and terms ("Version 1.0, June 2026"). Month precision. */
+export const LEGAL_UPDATED = '2026-06';
+
 export const SITE_EMAILS = {
   support: 'support@swiftconverterhub.com',
   privacy: 'privacy@swiftconverterhub.com',

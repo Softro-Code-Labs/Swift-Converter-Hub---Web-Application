@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/config/site';
+import { LEGAL_UPDATED, SITE_CONTENT_UPDATED, SITE_URL } from '@/config/site';
 import { MetadataRoute } from 'next';
 import {
   ALL_CONVERSION_PAIRS,
@@ -45,86 +45,88 @@ const CHARACTER_STUDIO_SLUGS = slugsFor('character');
 // --- Sitemap ------------------------------------------------------------------
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
+  // Real change dates, not the build time - see SITE_CONTENT_UPDATED.
+  const updated = SITE_CONTENT_UPDATED;
+  const newestPost = BLOG_POSTS.map((p) => p.datePublished).sort().at(-1) ?? updated;
 
   // -- Static pages ------------------------------------------------------------
 
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
       url: `${BASE_URL}/image`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/audio`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/video`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/file`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/data`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/character`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/blog`,
-      lastModified: now,
+      lastModified: newestPost,
       changeFrequency: 'weekly',
       priority: 0.7,
     },
     ...BLOG_POSTS.map((post) => ({
       url: `${BASE_URL}${post.path}`,
-      lastModified: new Date(post.datePublished),
+      lastModified: post.datePublished,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
     {
       url: `${BASE_URL}/about`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
       url: `${BASE_URL}/contact`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
     {
       url: `${BASE_URL}/privacy`,
-      lastModified: now,
+      lastModified: LEGAL_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
       url: `${BASE_URL}/terms`,
-      lastModified: now,
+      lastModified: LEGAL_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
@@ -136,7 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     IMAGE_STUDIO_SLUGS,
   ).map((slug) => ({
     url: `${BASE_URL}/image/${slug}`,
-    lastModified: now,
+    lastModified: updated,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
@@ -147,7 +149,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     AUDIO_STUDIO_SLUGS,
   ).map((slug) => ({
     url: `${BASE_URL}/audio/${slug}`,
-    lastModified: now,
+    lastModified: updated,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
@@ -158,7 +160,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     VIDEO_STUDIO_SLUGS,
   ).map((slug) => ({
     url: `${BASE_URL}/video/${slug}`,
-    lastModified: now,
+    lastModified: updated,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
@@ -169,7 +171,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     DOCUMENT_STUDIO_SLUGS,
   ).map((slug) => ({
     url: `${BASE_URL}/file/${slug}`,
-    lastModified: now,
+    lastModified: updated,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
@@ -180,7 +182,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     DATA_STUDIO_SLUGS,
   ).map((slug) => ({
     url: `${BASE_URL}/data/${slug}`,
-    lastModified: now,
+    lastModified: updated,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
@@ -191,7 +193,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     CHARACTER_STUDIO_SLUGS,
   ).map((slug) => ({
     url: `${BASE_URL}/character/${slug}`,
-    lastModified: now,
+    lastModified: updated,
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
@@ -214,7 +216,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     imageConversionRoutes.push({
       url: `${BASE_URL}/image/convert/${key}`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: isHigh ? 'weekly' : isMedium ? 'monthly' : 'yearly',
       priority: isHigh ? 0.8 : isMedium ? 0.7 : 0.6,
     });
@@ -232,7 +234,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     audioConversionRoutes.push({
       url: `${BASE_URL}/audio/convert/${key}`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: isHigh ? 'weekly' : 'monthly',
       priority: isHigh ? 0.8 : 0.7,
     });
@@ -250,7 +252,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     videoConversionRoutes.push({
       url: `${BASE_URL}/video/convert/${key}`,
-      lastModified: now,
+      lastModified: updated,
       changeFrequency: isHigh ? 'weekly' : 'monthly',
       priority: isHigh ? 0.8 : 0.7,
     });

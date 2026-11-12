@@ -19,6 +19,30 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: 'remove-background-without-uploading',
+    path: '/blog/remove-background-without-uploading',
+    title: 'How to Remove a Background From a Photo Without Uploading It',
+    description:
+      'How AI background removal works, why it can now run on your own device in about a second, and how to get clean, natural-looking cut-outs every time.',
+    excerpt:
+      'AI cut-outs no longer need a server. Here is how on-device background removal works, and how to get edges that do not look pasted on.',
+    category: 'Image',
+    readTime: '7 min read',
+    datePublished: '2026-11-12',
+  },
+  {
+    slug: 'mp4-vs-mov-vs-webm-vs-mkv',
+    path: '/blog/mp4-vs-mov-vs-webm-vs-mkv',
+    title: 'MP4 vs MOV vs WebM vs MKV: Which Video Format Should You Use?',
+    description:
+      'Containers versus codecs explained simply, which video format to pick for phones, the web and editing, and how to convert in seconds without losing quality.',
+    excerpt:
+      'The file extension is only the box. Learn what is inside it, and why some conversions take seconds while others take minutes.',
+    category: 'Video',
+    readTime: '8 min read',
+    datePublished: '2026-11-12',
+  },
+  {
     slug: 'best-image-format-for-web',
     path: '/blog/best-image-format-for-web',
     title: 'Best Image Format for the Web in 2026: WebP vs AVIF vs PNG vs JPEG',

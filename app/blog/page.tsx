@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/blog',
   title: 'Blog - Guides to File Formats & Compression',
   description:
-    'Plain-language guides to image formats, PDF compression and how browser-based file conversion works, from the team behind Swift Converter Hub.',
+    'Plain-language guides to image and video formats, PDF compression, on-device AI and how browser-based file conversion works, from the team behind Swift Converter Hub.',
 });
 
 export default function BlogIndexPage() {
@@ -23,7 +23,7 @@ export default function BlogIndexPage() {
 
       <PageHeader
         title="Blog"
-        lead="Plain-language write-ups on file formats, compression and how browser-based conversion works."
+        lead="Plain-language guides to file formats, compression, on-device AI and how browser-based conversion works - with interactive examples."
       />
       <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
         <PostList />
