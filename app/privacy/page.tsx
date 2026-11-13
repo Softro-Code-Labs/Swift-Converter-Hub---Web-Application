@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { LegalLayout } from '@/components/site/LegalLayout';
 import { Shield, Eye, BarChart2, Globe, Mail, CheckCircle } from 'lucide-react';
 import { pageMetadata } from '@/lib/seo';
+import { SITE_OPERATOR } from '@/config/site';
 
 export const metadata: Metadata = pageMetadata({
   path: '/privacy',
@@ -53,6 +54,12 @@ const SECTIONS = [
           </a>{' '}
           for how Microsoft handles this data.
         </p>
+        <p className="mt-3">
+          If you send us a message through the contact form, we receive the
+          name, email address and message you enter so we can reply. It is
+          delivered to our team by email (through our email provider, Resend)
+          and is used only to answer you.
+        </p>
       </>
     ),
   },
@@ -65,7 +72,7 @@ const SECTIONS = [
     content: (
       <ul className="space-y-2">
         {[
-          'The content, pixels, or text of any file you upload',
+          'The content, pixels, or text of any file you process',
           'File names or metadata of files you process',
           'Any personal or identifying information from your files',
           'Your conversion history or output files',
@@ -87,12 +94,67 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          To keep our tools free, we show ads through Google AdSense. Google may
-          use cookies to show relevant ads based on your general browsing
-          activity. These cookies cannot access your files or conversion data in
-          any way. We also use Google Analytics to understand traffic and usage
-          patterns across the site - it never sees the content of your files
-          either, only page views and general usage events.
+          To keep our tools free, we show ads through Google AdSense. These
+          cookies cannot access your files or conversion data in any way.
+        </p>
+        <ul className="mt-3 list-disc space-y-2 pl-5">
+          <li>
+            Third-party vendors, including Google, use cookies to serve ads
+            based on your prior visits to this website or other websites.
+          </li>
+          <li>
+            Google&apos;s use of advertising cookies enables it and its partners
+            to serve ads to you based on your visit to this site and/or other
+            sites on the Internet.
+          </li>
+          <li>
+            You may opt out of personalised advertising by visiting{' '}
+            <a
+              href="https://adssettings.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Google Ads Settings
+            </a>
+            . You can also opt out of some third-party vendors&apos; use of
+            cookies for personalised advertising at{' '}
+            <a
+              href="https://www.aboutads.info/choices/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              aboutads.info
+            </a>{' '}
+            or, in Europe,{' '}
+            <a
+              href="https://www.youronlinechoices.eu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              youronlinechoices.eu
+            </a>
+            .
+          </li>
+        </ul>
+        <p className="mt-3">
+          Learn more about{' '}
+          <a
+            href="https://policies.google.com/technologies/partner-sites"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            how Google uses information from sites that use its services
+          </a>
+          .
+        </p>
+        <p className="mt-3">
+          We also use Google Analytics to understand traffic and usage patterns
+          across the site. It never sees the content of your files either - only
+          page views and general usage events.
         </p>
         <p className="mt-3">
           We use <strong>Google Consent Mode v2</strong> to respect your choice.
@@ -108,9 +170,8 @@ const SECTIONS = [
         <p className="mt-3">
           We also use Microsoft Clarity (see &quot;What we collect&quot; above
           for what it records), which stays disabled until you opt in. You can
-          block ads using any standard browser extension without affecting the
-          functionality of our conversion tools, and you can change your consent
-          preferences at any time using the link in the footer.
+          change your consent preferences at any time using the link in the
+          footer.
         </p>
       </>
     ),
@@ -124,15 +185,16 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          Because we never store your personal data or files, there is nothing
-          to request deletion of. Our architecture makes data breaches involving
-          your files technically impossible - there is no database of your
-          content to breach.
+          We never receive or store the files you process, so there is no copy
+          of your files on our side to access, export or delete. Messages sent
+          through the contact form are kept only as long as needed to reply;
+          you can ask us to delete them at any time.
         </p>
         <p className="mt-3">
-          Our service is designed to comply with GDPR (EU), CCPA (California),
-          and HIPAA data safety principles. If you have questions about your
-          rights, contact us at the address below.
+          We aim to respect your rights under data-protection laws such as the
+          GDPR (EU and UK) and the CCPA (California), including the rights to
+          access and delete personal data we hold about you. If you have
+          questions about your rights, contact us at the address below.
         </p>
       </>
     ),
@@ -145,7 +207,9 @@ const SECTIONS = [
     content: (
       <>
         <p>
-          Questions about this policy or how your data is handled? Reach us at:
+          Swift Converter Hub is owned and operated by {SITE_OPERATOR.name},
+          which is responsible for this policy. Questions about this policy or
+          how your data is handled? Reach us at:
         </p>
         <a
           href="mailto:privacy@swiftconverterhub.com"
@@ -162,7 +226,7 @@ export default function PrivacyPage() {
   return (
     <LegalLayout
       title="Privacy Policy"
-      meta="Version 1.0, last updated June 2026"
+      meta="Version 1.1, last updated November 2026"
       notice={
         <>
           <strong className="font-semibold">

@@ -12,6 +12,7 @@ import {
   ServerOff,
 } from 'lucide-react';
 import { pageMetadata } from '@/lib/seo';
+import { SITE_EMAILS, SITE_OPERATOR } from '@/config/site';
 
 export const metadata: Metadata = pageMetadata({
   path: '/about',
@@ -130,6 +131,45 @@ export default function AboutPage() {
             </div>
           ))}
         </dl>
+      </section>
+
+      {/* -- Who runs it ------------------------------------------------------- */}
+      <section className="mx-auto max-w-5xl px-4 pb-14 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          Who runs Swift Converter Hub
+        </h2>
+        <p className="mt-4 max-w-3xl text-[16px] leading-relaxed text-slate-600 dark:text-slate-400">
+          Swift Converter Hub is a free product built, owned and operated by{' '}
+          <a
+            href={SITE_OPERATOR.url}
+            target="_blank"
+            rel="noopener"
+            className="font-semibold text-slate-900 underline underline-offset-4 hover:text-blue-700 dark:text-white dark:hover:text-blue-300"
+          >
+            {SITE_OPERATOR.name}
+          </a>
+          , a software company based in {SITE_OPERATOR.country}. We design and
+          maintain every tool, write the guides on our blog and
+          answer every message ourselves. The site is funded by advertising, so
+          the tools stay free for everyone, with no sign-up.
+        </p>
+        <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-slate-600 dark:text-slate-400">
+          Questions, bug reports or ideas for a new tool? Use the{' '}
+          <Link
+            href="/contact"
+            className="font-semibold text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
+          >
+            contact page
+          </Link>{' '}
+          or email{' '}
+          <a
+            href={`mailto:${SITE_EMAILS.support}`}
+            className="font-semibold text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
+          >
+            {SITE_EMAILS.support}
+          </a>
+          .
+        </p>
       </section>
 
       {/* -- How it works ---------------------------------------------------- */}

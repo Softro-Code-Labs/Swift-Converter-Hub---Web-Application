@@ -1,4 +1,4 @@
-import { LEGAL_UPDATED, SITE_CONTENT_UPDATED, SITE_URL } from '@/config/site';
+import { LEGAL_UPDATED, PRIVACY_UPDATED, SITE_CONTENT_UPDATED, SITE_URL } from '@/config/site';
 import { MetadataRoute } from 'next';
 import {
   ALL_CONVERSION_PAIRS,
@@ -120,7 +120,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${BASE_URL}/privacy`,
-      lastModified: LEGAL_UPDATED,
+      lastModified: PRIVACY_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.3,
     },

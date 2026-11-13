@@ -5,6 +5,7 @@ import { ShieldCheck } from 'lucide-react';
 import { useConsent } from '@/components/consent/ConsentContext';
 import { BrandMark } from '@/components/Navbar';
 import { POPULAR_TOOLS, STUDIOS } from '@/config/tools';
+import { SITE_OPERATOR } from '@/config/site';
 
 const COMPANY = [
   { label: 'About', href: '/about' },
@@ -83,7 +84,17 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-3 border-t border-slate-200 py-6 text-[13px] text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:text-slate-400">
-          <p>© {year} Swift Converter Hub</p>
+          <p>
+            © {year} Swift Converter Hub · A free product by{' '}
+            <a
+              href={SITE_OPERATOR.url}
+              target="_blank"
+              rel="noopener"
+              className="underline-offset-4 hover:text-slate-900 hover:underline dark:hover:text-white"
+            >
+              {SITE_OPERATOR.name}
+            </a>
+          </p>
           <button
             type="button"
             onClick={reset}

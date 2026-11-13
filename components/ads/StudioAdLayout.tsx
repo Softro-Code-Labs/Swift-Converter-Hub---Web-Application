@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { ADSENSE } from '@/lib/adsense';
+import { isAdEligiblePath } from '@/lib/adEligibility';
 import { studioForPath, toolForPath } from '@/config/tools';
 import { RelatedTools, StudioToolRail } from '@/components/shell/StudioNav';
 import { rememberTool } from '@/components/shell/CommandMenu';
@@ -43,6 +44,8 @@ export default function StudioAdLayout({
   const studio = studioForPath(pathname);
   const tool = toolForPath(pathname);
   const isHub = !!studio && pathname === studio.href;
+  // No ads on templated format-pair pages (AdSense policy) - see lib/adEligibility.ts.
+  const showAds = ADSENSE.ADS_ENABLED && isAdEligiblePath(pathname);
 
   // Remember tools for "Recently used" in search.
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function StudioAdLayout({
     return (
       <main className="flex-1">
         {children}
-        {ADSENSE.ADS_ENABLED && (
+        {showAds && (
           <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
             <ResponsiveAd
               slot={resolvedSlots.BOTTOM}
@@ -80,7 +83,7 @@ export default function StudioAdLayout({
     <div className="flex-1">
       {studio && <StudioToolRail studio={studio} current={tool} />}
 
-      {!ADSENSE.ADS_ENABLED ? (
+      {!showAds ? (
         <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
           {workspace}
           {studio && <RelatedTools studio={studio} current={tool} />}

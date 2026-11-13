@@ -1,4 +1,4 @@
-import { SITE_NAME, SITE_URL } from '@/config/site';
+import { SITE_NAME, SITE_OPERATOR, SITE_URL } from '@/config/site';
 import { getStudio, getStudioTools, type StudioId } from '@/config/tools';
 
 /**
@@ -64,6 +64,15 @@ export function organizationJsonLd(): JsonLdValue {
     logo: `${SITE_URL}/logo-icon.png`,
     description:
       'Swift Converter Hub builds free, browser-based file conversion tools for images, audio, video, PDFs, structured data, and text - all processed locally via WebAssembly, with no file ever uploaded to a server.',
+    parentOrganization: {
+      '@type': 'Organization',
+      name: SITE_OPERATOR.name,
+      url: SITE_OPERATOR.url,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: SITE_OPERATOR.countryCode,
+      },
+    },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
