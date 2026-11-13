@@ -30,58 +30,7 @@ export const ALL_CONVERSION_PAIRS = AUDIO_FORMATS.flatMap((source) =>
   ),
 );
 
-export const HIGH_TRAFFIC_PAIRS = new Set([
-  'mp3-to-wav',
-  'wav-to-mp3',
-  'mp3-to-ogg',
-  'ogg-to-mp3',
-  'mp3-to-flac',
-  'flac-to-mp3',
-  'mp3-to-aac',
-  'aac-to-mp3',
-  'mp3-to-m4a',
-  'm4a-to-mp3',
-  'wav-to-flac',
-  'flac-to-wav',
-  'm4a-to-wav',
-  'wav-to-m4a',
-  'aac-to-wav',
-  'ogg-to-wav',
-  'wav-to-ogg',
-  'm4a-to-aac',
-  'mp3-to-opus',
-  'opus-to-mp3',
-]);
-
-// Pre-rendered (and kept indexable) at build time alongside HIGH_TRAFFIC_PAIRS,
-// but ranked a notch below it - see app/audio/convert/[conversion]/page.tsx
-// and app/sitemap.ts.
-export const MEDIUM_TRAFFIC_PAIRS = new Set([
-  'wma-to-mp3',
-  'mp3-to-wma',
-  'wma-to-wav',
-  'wav-to-wma',
-  'aiff-to-mp3',
-  'mp3-to-aiff',
-  'aiff-to-wav',
-  'wav-to-aiff',
-  'aiff-to-flac',
-  'ac3-to-mp3',
-  'mp3-to-ac3',
-  'ac3-to-wav',
-  'au-to-mp3',
-  'au-to-wav',
-  'mp2-to-mp3',
-  'mp3-to-mp2',
-  'm4a-to-flac',
-  'flac-to-m4a',
-  'ogg-to-flac',
-  'flac-to-ogg',
-  'opus-to-wav',
-  'wav-to-opus',
-  'aac-to-flac',
-  'flac-to-aac',
-]);
+export { HIGH_TRAFFIC_PAIRS, MEDIUM_TRAFFIC_PAIRS } from './curatedPairs';
 
 const DEFAULT_FEATURES = (source: string, target: string) => {
   const sourceFmt = getFormatByExtension(source.toLowerCase());

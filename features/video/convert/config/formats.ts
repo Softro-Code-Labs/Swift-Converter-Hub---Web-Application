@@ -34,42 +34,7 @@ export const ALL_CONVERSION_PAIRS = VIDEO_FORMATS.flatMap((source) =>
 );
 
 // Pre-rendered at build time via generateStaticParams
-export const HIGH_TRAFFIC_PAIRS = new Set([
-  'mov-to-mp4',
-  'mp4-to-mov',
-  'webm-to-mp4',
-  'mp4-to-webm',
-  'avi-to-mp4',
-  'mp4-to-avi',
-  'mkv-to-mp4',
-  'mp4-to-mkv',
-  'mov-to-webm',
-  'webm-to-mov',
-]);
-
-// Pre-rendered (and kept indexable) alongside HIGH_TRAFFIC_PAIRS, but ranked
-// a notch below it - see app/video/convert/[conversion]/page.tsx and
-// app/sitemap.ts.
-export const MEDIUM_TRAFFIC_PAIRS = new Set([
-  'mp4-to-m4v',
-  'm4v-to-mp4',
-  'mp4-to-3gp',
-  '3gp-to-mp4',
-  'mp4-to-flv',
-  'flv-to-mp4',
-  'mp4-to-ts',
-  'ts-to-mp4',
-  'mp4-to-wmv',
-  'wmv-to-mp4',
-  'mp4-to-ogv',
-  'ogv-to-mp4',
-  'mp4-to-mpg',
-  'mpg-to-mp4',
-  'webm-to-mkv',
-  'mkv-to-webm',
-  'mov-to-mkv',
-  'mkv-to-mov',
-]);
+export { HIGH_TRAFFIC_PAIRS, MEDIUM_TRAFFIC_PAIRS } from './curatedPairs';
 
 const DEFAULT_FEATURES = (source: string, target: string) => [
   {

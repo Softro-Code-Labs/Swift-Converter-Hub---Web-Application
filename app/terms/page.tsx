@@ -8,8 +8,10 @@ import {
   AlertTriangle,
   Scale,
   RefreshCw,
+  Landmark,
 } from 'lucide-react';
 import { pageMetadata } from '@/lib/seo';
+import { SITE_OPERATOR } from '@/config/site';
 
 export const metadata: Metadata = pageMetadata({
   path: '/terms',
@@ -38,9 +40,11 @@ const SECTIONS = [
     color: 'bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400',
     content: (
       <p>
-        By using Swift Converter Hub you agree to these terms. If you don&apos;t
-        agree, please stop using the service. These terms apply to all tools and
-        pages on swiftconverterhub.com.
+        Swift Converter Hub is owned and operated by {SITE_OPERATOR.name}
+        (&quot;we&quot;, &quot;us&quot;). By using Swift Converter Hub you
+        agree to these terms. If you don&apos;t agree, please stop using the
+        service. These terms apply to all tools and pages on
+        swiftconverterhub.com.
       </p>
     ),
   },
@@ -165,13 +169,26 @@ const SECTIONS = [
       </p>
     ),
   },
+  {
+    id: '8',
+    icon: Landmark,
+    title: 'Governing law',
+    color: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400',
+    content: (
+      <p>
+        These terms are governed by the laws of {SITE_OPERATOR.country}, where{' '}
+        {SITE_OPERATOR.name} is based. Nothing in these terms takes away any
+        consumer rights you have under the laws of the country where you live.
+      </p>
+    ),
+  },
 ];
 
 export default function TermsPage() {
   return (
     <LegalLayout
       title="Terms of Service"
-      meta="Version 1.0, effective June 2026"
+      meta="Version 1.1, effective November 2026"
       lead={
         <>
           These terms govern your use of Swift Converter Hub, in plain language.

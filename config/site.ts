@@ -18,6 +18,19 @@ export const SITE_URL: string = (
 export const SITE_NAME = 'Swift Converter Hub';
 
 /**
+ * Who owns and runs the site. Shown on About, Terms, Privacy, the footer and
+ * in structured data - ad networks and visitors expect a site to say clearly
+ * who operates it.
+ */
+export const SITE_OPERATOR = {
+  name: 'Softro Code Labs',
+  url: 'https://www.softrocodelabs.com',
+  country: 'Sri Lanka',
+  /** ISO 3166-1 alpha-2 code, for structured data. */
+  countryCode: 'LK',
+} as const;
+
+/**
  * When the tool, studio and home pages last changed in a meaningful way.
  * Used as `lastmod` in the sitemap. Bump it when you change page content
  * (not for every deploy) - search engines trust lastmod only when it moves
@@ -25,8 +38,11 @@ export const SITE_NAME = 'Swift Converter Hub';
  */
 export const SITE_CONTENT_UPDATED = '2026-11-12';
 
-/** Privacy policy and terms ("Version 1.0, June 2026"). Month precision. */
-export const LEGAL_UPDATED = '2026-06';
+/** Terms of use ("Version 1.1, effective November 2026"). Month precision. */
+export const LEGAL_UPDATED = '2026-11';
+
+/** Privacy policy ("Version 1.1, last updated November 2026"). Month precision. */
+export const PRIVACY_UPDATED = '2026-11';
 
 export const SITE_EMAILS = {
   support: 'support@swiftconverterhub.com',
