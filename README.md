@@ -13,11 +13,12 @@ Live at **[swiftconverterhub.com](https://www.swiftconverterhub.com)**
 ## Get it running
 
 ```bash
-npm install          # also copies the engines into public/ (see below)
-npm run dev          # http://localhost:3000
+cp .env.example .env.local   # then fill in RESEND_API_KEY
+npm install                  # also copies the engines into public/ (see below)
+npm run dev                  # http://localhost:3000
 ```
 
-You need a `.env.local` file first (see [Settings](#settings-environment-variables)). Never commit `.env` files.
+[`.env.example`](.env.example) lists every setting with a short explanation (see also [Settings](#settings-environment-variables)). Never commit `.env.local` or any file with real secrets.
 
 | Command | What it does |
 |---|---|
